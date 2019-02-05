@@ -48,6 +48,71 @@
 
 
 
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -67,16 +132,257 @@
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="import1.html"><a href="import1.html"><i class="fa fa-check"></i><b>2</b> Import Data - 1</a></li>
-<li class="chapter" data-level="3" data-path="import2.html"><a href="import2.html"><i class="fa fa-check"></i><b>3</b> Import Data - 2</a></li>
-<li class="chapter" data-level="4" data-path="dplyr1.html"><a href="dplyr1.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling - 1</a></li>
-<li class="chapter" data-level="5" data-path="dplyr2.html"><a href="dplyr2.html"><i class="fa fa-check"></i><b>5</b> Data Wrangling - 2</a></li>
-<li class="chapter" data-level="6" data-path="dplyr3.html"><a href="dplyr3.html"><i class="fa fa-check"></i><b>6</b> Data Wrangling - 3</a></li>
-<li class="chapter" data-level="7" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>7</b> Pipes</a></li>
-<li class="chapter" data-level="8" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>8</b> tibbles</a></li>
-<li class="chapter" data-level="9" data-path="stringr.html"><a href="stringr.html"><i class="fa fa-check"></i><b>9</b> Handling String Data</a></li>
-<li class="chapter" data-level="10" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>10</b> Working with Date &amp; Time</a></li>
-<li class="chapter" data-level="11" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>11</b> Categorical Data Analysis</a></li>
+<li class="chapter" data-level="2" data-path="import1.html"><a href="import1.html"><i class="fa fa-check"></i><b>2</b> Import Data - 1</a><ul>
+<li class="chapter" data-level="2.1" data-path="import1.html"><a href="import1.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="import1.html"><a href="import1.html#delimiters"><i class="fa fa-check"></i><b>2.2</b> Delimiters</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="import1.html"><a href="import1.html#comma-separated-values"><i class="fa fa-check"></i><b>2.2.1</b> Comma Separated Values</a></li>
+<li class="chapter" data-level="2.2.2" data-path="import1.html"><a href="import1.html#semi-colon-separated-values"><i class="fa fa-check"></i><b>2.2.2</b> Semi Colon Separated Values</a></li>
+<li class="chapter" data-level="2.2.3" data-path="import1.html"><a href="import1.html#space-separated-values"><i class="fa fa-check"></i><b>2.2.3</b> Space Separated Values</a></li>
+<li class="chapter" data-level="2.2.4" data-path="import1.html"><a href="import1.html#tab-separated-values"><i class="fa fa-check"></i><b>2.2.4</b> Tab Separated Values</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="import1.html"><a href="import1.html#read-data"><i class="fa fa-check"></i><b>2.3</b> Read Data</a></li>
+<li class="chapter" data-level="2.4" data-path="import1.html"><a href="import1.html#column-names"><i class="fa fa-check"></i><b>2.4</b> Column Names</a></li>
+<li class="chapter" data-level="2.5" data-path="import1.html"><a href="import1.html#skip-lines"><i class="fa fa-check"></i><b>2.5</b> Skip Lines</a></li>
+<li class="chapter" data-level="2.6" data-path="import1.html"><a href="import1.html#maximum-lines"><i class="fa fa-check"></i><b>2.6</b> Maximum Lines</a></li>
+<li class="chapter" data-level="2.7" data-path="import1.html"><a href="import1.html#column-types"><i class="fa fa-check"></i><b>2.7</b> Column Types</a></li>
+<li class="chapter" data-level="2.8" data-path="import1.html"><a href="import1.html#select-columns"><i class="fa fa-check"></i><b>2.8</b> Select Columns</a></li>
+<li class="chapter" data-level="2.9" data-path="import1.html"><a href="import1.html#summary"><i class="fa fa-check"></i><b>2.9</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="import2.html"><a href="import2.html"><i class="fa fa-check"></i><b>3</b> Import Data - 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="import2.html"><a href="import2.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="import2.html"><a href="import2.html#list-sheets"><i class="fa fa-check"></i><b>3.2</b> List Sheets</a></li>
+<li class="chapter" data-level="3.3" data-path="import2.html"><a href="import2.html#read-sheet"><i class="fa fa-check"></i><b>3.3</b> Read Sheet</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="import2.html"><a href="import2.html#case-1-specify-the-sheet-number"><i class="fa fa-check"></i><b>3.3.1</b> Case 1: Specify the sheet number</a></li>
+<li class="chapter" data-level="3.3.2" data-path="import2.html"><a href="import2.html#case-2-specify-the-sheet-name"><i class="fa fa-check"></i><b>3.3.2</b> Case 2: Specify the sheet name</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="import2.html"><a href="import2.html#read-specific-cells"><i class="fa fa-check"></i><b>3.4</b> Read Specific Cells</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="import2.html"><a href="import2.html#method-1"><i class="fa fa-check"></i><b>3.4.1</b> Method 1</a></li>
+<li class="chapter" data-level="3.4.2" data-path="import2.html"><a href="import2.html#method-2"><i class="fa fa-check"></i><b>3.4.2</b> Method 2</a></li>
+<li class="chapter" data-level="3.4.3" data-path="import2.html"><a href="import2.html#method-3"><i class="fa fa-check"></i><b>3.4.3</b> Method 3</a></li>
+<li class="chapter" data-level="3.4.4" data-path="import2.html"><a href="import2.html#method-1-1"><i class="fa fa-check"></i><b>3.4.4</b> Method 1</a></li>
+<li class="chapter" data-level="3.4.5" data-path="import2.html"><a href="import2.html#method-2-1"><i class="fa fa-check"></i><b>3.4.5</b> Method 2</a></li>
+<li class="chapter" data-level="3.4.6" data-path="import2.html"><a href="import2.html#method-3-1"><i class="fa fa-check"></i><b>3.4.6</b> Method 3</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="import2.html"><a href="import2.html#read-specific-rows"><i class="fa fa-check"></i><b>3.5</b> Read Specific Rows</a></li>
+<li class="chapter" data-level="3.6" data-path="import2.html"><a href="import2.html#read-single-column"><i class="fa fa-check"></i><b>3.6</b> Read Single Column</a></li>
+<li class="chapter" data-level="3.7" data-path="import2.html"><a href="import2.html#read-multiple-columns"><i class="fa fa-check"></i><b>3.7</b> Read Multiple Columns</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="import2.html"><a href="import2.html#summary-1"><i class="fa fa-check"></i><b>3.7.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="import2.html"><a href="import2.html#statistical-softwares"><i class="fa fa-check"></i><b>3.8</b> Statistical Softwares</a><ul>
+<li class="chapter" data-level="3.8.1" data-path="import2.html"><a href="import2.html#stata"><i class="fa fa-check"></i><b>3.8.1</b> STATA</a></li>
+<li class="chapter" data-level="3.8.2" data-path="import2.html"><a href="import2.html#spss"><i class="fa fa-check"></i><b>3.8.2</b> SPSS</a></li>
+<li class="chapter" data-level="3.8.3" data-path="import2.html"><a href="import2.html#sas"><i class="fa fa-check"></i><b>3.8.3</b> SAS</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="import2.html"><a href="import2.html#summary-2"><i class="fa fa-check"></i><b>3.9</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dplyr1.html"><a href="dplyr1.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling - 1</a><ul>
+<li class="chapter" data-level="4.1" data-path="dplyr1.html"><a href="dplyr1.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="dplyr1.html"><a href="dplyr1.html#dplyr-verbs"><i class="fa fa-check"></i><b>4.2</b> dplyr Verbs</a></li>
+<li class="chapter" data-level="4.3" data-path="dplyr1.html"><a href="dplyr1.html#data"><i class="fa fa-check"></i><b>4.3</b> Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="dplyr1.html"><a href="dplyr1.html#data-dictionary"><i class="fa fa-check"></i><b>4.3.1</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="dplyr1.html"><a href="dplyr1.html#case-study"><i class="fa fa-check"></i><b>4.4</b> Case Study</a></li>
+<li class="chapter" data-level="4.5" data-path="dplyr1.html"><a href="dplyr1.html#average-order-value"><i class="fa fa-check"></i><b>4.5</b> Average Order Value</a></li>
+<li class="chapter" data-level="4.6" data-path="dplyr1.html"><a href="dplyr1.html#aov-by-devices"><i class="fa fa-check"></i><b>4.6</b> AOV by Devices</a></li>
+<li class="chapter" data-level="4.7" data-path="dplyr1.html"><a href="dplyr1.html#syntax"><i class="fa fa-check"></i><b>4.7</b> Syntax</a></li>
+<li class="chapter" data-level="4.8" data-path="dplyr1.html"><a href="dplyr1.html#filter-rows"><i class="fa fa-check"></i><b>4.8</b> Filter Rows</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-1"><i class="fa fa-check"></i><b>4.8.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="dplyr1.html"><a href="dplyr1.html#select-columns-1"><i class="fa fa-check"></i><b>4.9</b> Select Columns</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-2"><i class="fa fa-check"></i><b>4.9.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="dplyr1.html"><a href="dplyr1.html#grouping-data"><i class="fa fa-check"></i><b>4.10</b> Grouping Data</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-3"><i class="fa fa-check"></i><b>4.10.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="dplyr1.html"><a href="dplyr1.html#summarise-data"><i class="fa fa-check"></i><b>4.11</b> Summarise Data</a><ul>
+<li class="chapter" data-level="4.11.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-4"><i class="fa fa-check"></i><b>4.11.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.12" data-path="dplyr1.html"><a href="dplyr1.html#create-columns"><i class="fa fa-check"></i><b>4.12</b> Create Columns</a><ul>
+<li class="chapter" data-level="4.12.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-5"><i class="fa fa-check"></i><b>4.12.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="dplyr1.html"><a href="dplyr1.html#arrange-data"><i class="fa fa-check"></i><b>4.13</b> Arrange Data</a><ul>
+<li class="chapter" data-level="4.13.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-6"><i class="fa fa-check"></i><b>4.13.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.14" data-path="dplyr1.html"><a href="dplyr1.html#aov-by-devices-1"><i class="fa fa-check"></i><b>4.14</b> AOV by Devices</a></li>
+<li class="chapter" data-level="4.15" data-path="dplyr1.html"><a href="dplyr1.html#your-turn"><i class="fa fa-check"></i><b>4.15</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dplyr2.html"><a href="dplyr2.html"><i class="fa fa-check"></i><b>5</b> Data Wrangling - 2</a><ul>
+<li class="chapter" data-level="5.1" data-path="dplyr2.html"><a href="dplyr2.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="dplyr2.html"><a href="dplyr2.html#case-study-7"><i class="fa fa-check"></i><b>5.2</b> Case Study</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="dplyr2.html"><a href="dplyr2.html#data-orders"><i class="fa fa-check"></i><b>5.2.1</b> Data: Orders</a></li>
+<li class="chapter" data-level="5.2.2" data-path="dplyr2.html"><a href="dplyr2.html#data-customers"><i class="fa fa-check"></i><b>5.2.2</b> Data: Customers</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="dplyr2.html"><a href="dplyr2.html#example-data"><i class="fa fa-check"></i><b>5.3</b> Example Data</a></li>
+<li class="chapter" data-level="5.4" data-path="dplyr2.html"><a href="dplyr2.html#inner-join"><i class="fa fa-check"></i><b>5.4</b> Inner Join</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-placed-orders-and-their-order-details"><i class="fa fa-check"></i><b>5.4.1</b> Case Study: Details of customers who have placed orders and their order details</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="dplyr2.html"><a href="dplyr2.html#left-join"><i class="fa fa-check"></i><b>5.5</b> Left Join</a></li>
+<li class="chapter" data-level="5.6" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-and-their-orders-irrespective-of-whether-a-customer-has"><i class="fa fa-check"></i><b>5.6</b> Case Study: Details of customers and their orders irrespective of whether a customer has</a></li>
+<li class="chapter" data-level="5.7" data-path="dplyr2.html"><a href="dplyr2.html#right-join"><i class="fa fa-check"></i><b>5.7</b> Right Join</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-customer-details-for-each-order"><i class="fa fa-check"></i><b>5.7.1</b> Case Study: Customer details for each order</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="dplyr2.html"><a href="dplyr2.html#semi-join"><i class="fa fa-check"></i><b>5.8</b> Semi Join</a><ul>
+<li class="chapter" data-level="5.8.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-placed-orders"><i class="fa fa-check"></i><b>5.8.1</b> Case Study: Details of customers who have placed orders</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="dplyr2.html"><a href="dplyr2.html#anti-join"><i class="fa fa-check"></i><b>5.9</b> Anti Join</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-not-placed-orders"><i class="fa fa-check"></i><b>5.9.1</b> Case Study: Details of customers who have not placed orders</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="dplyr2.html"><a href="dplyr2.html#full-join"><i class="fa fa-check"></i><b>5.10</b> Full Join</a><ul>
+<li class="chapter" data-level="5.10.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-all-customers-and-all-orders"><i class="fa fa-check"></i><b>5.10.1</b> Case Study: Details of all customers and all orders</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="dplyr3.html"><a href="dplyr3.html"><i class="fa fa-check"></i><b>6</b> Data Wrangling - 3</a><ul>
+<li class="chapter" data-level="6.1" data-path="dplyr3.html"><a href="dplyr3.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.2" data-path="dplyr3.html"><a href="dplyr3.html#case-study-8"><i class="fa fa-check"></i><b>6.2</b> Case Study</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="dplyr3.html"><a href="dplyr3.html#data-1"><i class="fa fa-check"></i><b>6.2.1</b> Data</a></li>
+<li class="chapter" data-level="6.2.2" data-path="dplyr3.html"><a href="dplyr3.html#data-dictionary-1"><i class="fa fa-check"></i><b>6.2.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="dplyr3.html"><a href="dplyr3.html#data-sanitization"><i class="fa fa-check"></i><b>6.3</b> Data Sanitization</a></li>
+<li class="chapter" data-level="6.4" data-path="dplyr3.html"><a href="dplyr3.html#rename-columns"><i class="fa fa-check"></i><b>6.4</b> Rename Columns</a></li>
+<li class="chapter" data-level="6.5" data-path="dplyr3.html"><a href="dplyr3.html#data-tabulation"><i class="fa fa-check"></i><b>6.5</b> Data Tabulation</a></li>
+<li class="chapter" data-level="6.6" data-path="dplyr3.html"><a href="dplyr3.html#sampling-data"><i class="fa fa-check"></i><b>6.6</b> Sampling Data</a></li>
+<li class="chapter" data-level="6.7" data-path="dplyr3.html"><a href="dplyr3.html#data-extraction"><i class="fa fa-check"></i><b>6.7</b> Data Extraction</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="dplyr3.html"><a href="dplyr3.html#sample-data"><i class="fa fa-check"></i><b>6.7.1</b> Sample Data</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="dplyr3.html"><a href="dplyr3.html#between"><i class="fa fa-check"></i><b>6.8</b> Between</a></li>
+<li class="chapter" data-level="6.9" data-path="dplyr3.html"><a href="dplyr3.html#case-when"><i class="fa fa-check"></i><b>6.9</b> Case When</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>7</b> Pipes</a><ul>
+<li class="chapter" data-level="7.1" data-path="pipes.html"><a href="pipes.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="pipes.html"><a href="pipes.html#pipes-1"><i class="fa fa-check"></i><b>7.2</b> Pipes</a></li>
+<li class="chapter" data-level="7.3" data-path="pipes.html"><a href="pipes.html#data-2"><i class="fa fa-check"></i><b>7.3</b> Data</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="pipes.html"><a href="pipes.html#data-dictionary-2"><i class="fa fa-check"></i><b>7.3.1</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="pipes.html"><a href="pipes.html#head"><i class="fa fa-check"></i><b>7.4</b> head()</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="pipes.html"><a href="pipes.html#using-pipe"><i class="fa fa-check"></i><b>7.4.1</b> Using Pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="pipes.html"><a href="pipes.html#square-root"><i class="fa fa-check"></i><b>7.5</b> Square Root</a></li>
+<li class="chapter" data-level="7.6" data-path="pipes.html"><a href="pipes.html#visualization"><i class="fa fa-check"></i><b>7.6</b> Visualization</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="pipes.html"><a href="pipes.html#using-pipe-1"><i class="fa fa-check"></i><b>7.6.1</b> Using pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="pipes.html"><a href="pipes.html#correlation"><i class="fa fa-check"></i><b>7.7</b> Correlation</a></li>
+<li class="chapter" data-level="7.8" data-path="pipes.html"><a href="pipes.html#regression"><i class="fa fa-check"></i><b>7.8</b> Regression</a><ul>
+<li class="chapter" data-level="7.8.1" data-path="pipes.html"><a href="pipes.html#using-pipe-2"><i class="fa fa-check"></i><b>7.8.1</b> Using pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="pipes.html"><a href="pipes.html#string-manipulation"><i class="fa fa-check"></i><b>7.9</b> String Manipulation</a></li>
+<li class="chapter" data-level="7.10" data-path="pipes.html"><a href="pipes.html#data-extraction-1"><i class="fa fa-check"></i><b>7.10</b> Data Extraction</a><ul>
+<li class="chapter" data-level="7.10.1" data-path="pipes.html"><a href="pipes.html#extract-column"><i class="fa fa-check"></i><b>7.10.1</b> Extract Column</a></li>
+<li class="chapter" data-level="7.10.2" data-path="pipes.html"><a href="pipes.html#extract-list-element"><i class="fa fa-check"></i><b>7.10.2</b> Extract List Element</a></li>
+</ul></li>
+<li class="chapter" data-level="7.11" data-path="pipes.html"><a href="pipes.html#arithmetic-operations"><i class="fa fa-check"></i><b>7.11</b> Arithmetic Operations</a><ul>
+<li class="chapter" data-level="7.11.1" data-path="pipes.html"><a href="pipes.html#addition"><i class="fa fa-check"></i><b>7.11.1</b> Addition</a></li>
+<li class="chapter" data-level="7.11.2" data-path="pipes.html"><a href="pipes.html#multiplication"><i class="fa fa-check"></i><b>7.11.2</b> Multiplication</a></li>
+<li class="chapter" data-level="7.11.3" data-path="pipes.html"><a href="pipes.html#division"><i class="fa fa-check"></i><b>7.11.3</b> Division</a></li>
+<li class="chapter" data-level="7.11.4" data-path="pipes.html"><a href="pipes.html#power"><i class="fa fa-check"></i><b>7.11.4</b> Power</a></li>
+</ul></li>
+<li class="chapter" data-level="7.12" data-path="pipes.html"><a href="pipes.html#logical-operators"><i class="fa fa-check"></i><b>7.12</b> Logical Operators</a><ul>
+<li class="chapter" data-level="7.12.1" data-path="pipes.html"><a href="pipes.html#greater-than"><i class="fa fa-check"></i><b>7.12.1</b> Greater Than</a></li>
+<li class="chapter" data-level="7.12.2" data-path="pipes.html"><a href="pipes.html#weakly-greater-than"><i class="fa fa-check"></i><b>7.12.2</b> Weakly Greater Than</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>8</b> tibbles</a><ul>
+<li class="chapter" data-level="8.1" data-path="tibbles.html"><a href="tibbles.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="tibbles.html"><a href="tibbles.html#creating-tibbles"><i class="fa fa-check"></i><b>8.2</b> Creating tibbles</a></li>
+<li class="chapter" data-level="8.3" data-path="tibbles.html"><a href="tibbles.html#tibble-features"><i class="fa fa-check"></i><b>8.3</b> tibble features</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="tibbles.html"><a href="tibbles.html#never-changes-inputs-types"><i class="fa fa-check"></i><b>8.3.1</b> never changes input’s types</a></li>
+<li class="chapter" data-level="8.3.2" data-path="tibbles.html"><a href="tibbles.html#never-adjusts-variable-names"><i class="fa fa-check"></i><b>8.3.2</b> never adjusts variable names</a></li>
+<li class="chapter" data-level="8.3.3" data-path="tibbles.html"><a href="tibbles.html#never-prints-all-rows"><i class="fa fa-check"></i><b>8.3.3</b> never prints all rows</a></li>
+<li class="chapter" data-level="8.3.4" data-path="tibbles.html"><a href="tibbles.html#never-recycles-vector-of-length-greater-than-1"><i class="fa fa-check"></i><b>8.3.4</b> never recycles vector of length greater than 1</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="tibbles.html"><a href="tibbles.html#membership-testing"><i class="fa fa-check"></i><b>8.4</b> Membership Testing</a></li>
+<li class="chapter" data-level="8.5" data-path="tibbles.html"><a href="tibbles.html#tribble"><i class="fa fa-check"></i><b>8.5</b> Tribble</a></li>
+<li class="chapter" data-level="8.6" data-path="tibbles.html"><a href="tibbles.html#column-names-1"><i class="fa fa-check"></i><b>8.6</b> Column Names</a></li>
+<li class="chapter" data-level="8.7" data-path="tibbles.html"><a href="tibbles.html#add-rows"><i class="fa fa-check"></i><b>8.7</b> Add Rows</a></li>
+<li class="chapter" data-level="8.8" data-path="tibbles.html"><a href="tibbles.html#add-columns"><i class="fa fa-check"></i><b>8.8</b> Add Columns</a></li>
+<li class="chapter" data-level="8.9" data-path="tibbles.html"><a href="tibbles.html#rownames"><i class="fa fa-check"></i><b>8.9</b> Rownames</a><ul>
+<li class="chapter" data-level="8.9.1" data-path="tibbles.html"><a href="tibbles.html#remove-rownames"><i class="fa fa-check"></i><b>8.9.1</b> Remove Rownames</a></li>
+<li class="chapter" data-level="8.9.2" data-path="tibbles.html"><a href="tibbles.html#rownames-to-column"><i class="fa fa-check"></i><b>8.9.2</b> Rownames to Column</a></li>
+<li class="chapter" data-level="8.9.3" data-path="tibbles.html"><a href="tibbles.html#column-to-rownames"><i class="fa fa-check"></i><b>8.9.3</b> Column to Rownames</a></li>
+</ul></li>
+<li class="chapter" data-level="8.10" data-path="tibbles.html"><a href="tibbles.html#glimpse"><i class="fa fa-check"></i><b>8.10</b> Glimpse</a></li>
+<li class="chapter" data-level="8.11" data-path="tibbles.html"><a href="tibbles.html#check-column"><i class="fa fa-check"></i><b>8.11</b> Check Column</a></li>
+<li class="chapter" data-level="8.12" data-path="tibbles.html"><a href="tibbles.html#summary-3"><i class="fa fa-check"></i><b>8.12</b> Summary</a><ul>
+<li class="chapter" data-level="8.12.1" data-path="tibbles.html"><a href="tibbles.html#creating-tibbles-1"><i class="fa fa-check"></i><b>8.12.1</b> Creating tibbles</a></li>
+<li class="chapter" data-level="8.12.2" data-path="tibbles.html"><a href="tibbles.html#modifying-tibbles"><i class="fa fa-check"></i><b>8.12.2</b> Modifying tibbles</a></li>
+<li class="chapter" data-level="8.12.3" data-path="tibbles.html"><a href="tibbles.html#testing-tibbles"><i class="fa fa-check"></i><b>8.12.3</b> Testing tibbles</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="stringr.html"><a href="stringr.html"><i class="fa fa-check"></i><b>9</b> Handling String Data</a><ul>
+<li class="chapter" data-level="9.1" data-path="stringr.html"><a href="stringr.html#introduction-7"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.2" data-path="stringr.html"><a href="stringr.html#case-study-9"><i class="fa fa-check"></i><b>9.2</b> Case Study</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="stringr.html"><a href="stringr.html#data-3"><i class="fa fa-check"></i><b>9.2.1</b> Data</a></li>
+<li class="chapter" data-level="9.2.2" data-path="stringr.html"><a href="stringr.html#data-dictionary-3"><i class="fa fa-check"></i><b>9.2.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="stringr.html"><a href="stringr.html#overview"><i class="fa fa-check"></i><b>9.3</b> Overview</a></li>
+<li class="chapter" data-level="9.4" data-path="stringr.html"><a href="stringr.html#extract-domain-name-from-email-ids"><i class="fa fa-check"></i><b>9.4</b> Extract domain name from email ids</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="stringr.html"><a href="stringr.html#steps"><i class="fa fa-check"></i><b>9.4.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="stringr.html"><a href="stringr.html#extract-domain-extension"><i class="fa fa-check"></i><b>9.5</b> Extract Domain Extension</a></li>
+<li class="chapter" data-level="9.6" data-path="stringr.html"><a href="stringr.html#extract-image-type-from-url"><i class="fa fa-check"></i><b>9.6</b> Extract image type from URL</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="stringr.html"><a href="stringr.html#steps-1"><i class="fa fa-check"></i><b>9.6.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="stringr.html"><a href="stringr.html#extract-image-dimesion-from-url"><i class="fa fa-check"></i><b>9.7</b> Extract Image Dimesion from URL</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="stringr.html"><a href="stringr.html#steps-2"><i class="fa fa-check"></i><b>9.7.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="stringr.html"><a href="stringr.html#extract-http-protocol-from-url"><i class="fa fa-check"></i><b>9.8</b> Extract HTTP Protocol from URL</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="stringr.html"><a href="stringr.html#steps-3"><i class="fa fa-check"></i><b>9.8.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="stringr.html"><a href="stringr.html#extract-file-type"><i class="fa fa-check"></i><b>9.9</b> Extract file type</a><ul>
+<li class="chapter" data-level="9.9.1" data-path="stringr.html"><a href="stringr.html#steps-4"><i class="fa fa-check"></i><b>9.9.1</b> Steps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>10</b> Working with Date &amp; Time</a><ul>
+<li class="chapter" data-level="10.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="lubridate.html"><a href="lubridate.html#quick-intro"><i class="fa fa-check"></i><b>10.2</b> Quick Intro</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lubridate.html"><a href="lubridate.html#origin"><i class="fa fa-check"></i><b>10.2.1</b> Origin</a></li>
+<li class="chapter" data-level="10.2.2" data-path="lubridate.html"><a href="lubridate.html#current-datetime"><i class="fa fa-check"></i><b>10.2.2</b> Current Date/Time</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>10.3</b> Case Study</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>10.3.1</b> Data</a></li>
+<li class="chapter" data-level="10.3.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>10.3.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="lubridate.html"><a href="lubridate.html#extract-date-month-year-from-due-date"><i class="fa fa-check"></i><b>10.4</b> Extract Date, Month &amp; Year from Due Date</a></li>
+<li class="chapter" data-level="10.5" data-path="lubridate.html"><a href="lubridate.html#compute-days-to-settle-invoice"><i class="fa fa-check"></i><b>10.5</b> Compute days to settle invoice</a></li>
+<li class="chapter" data-level="10.6" data-path="lubridate.html"><a href="lubridate.html#compute-days-over-due"><i class="fa fa-check"></i><b>10.6</b> Compute days over due</a></li>
+<li class="chapter" data-level="10.7" data-path="lubridate.html"><a href="lubridate.html#is-due-year-a-leap-year"><i class="fa fa-check"></i><b>10.7</b> Is due year a leap year?</a></li>
+<li class="chapter" data-level="10.8" data-path="lubridate.html"><a href="lubridate.html#if-due-day-is-february-29-is-it-a-leap-year"><i class="fa fa-check"></i><b>10.8</b> If due day is February 29, is it a leap year?</a></li>
+<li class="chapter" data-level="10.9" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>10.9</b> Shift Date</a></li>
+<li class="chapter" data-level="10.10" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>10.10</b> Interval</a></li>
+<li class="chapter" data-level="10.11" data-path="lubridate.html"><a href="lubridate.html#intervals-overlap"><i class="fa fa-check"></i><b>10.11</b> Intervals Overlap</a></li>
+<li class="chapter" data-level="10.12" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date"><i class="fa fa-check"></i><b>10.12</b> How many invoices were settled within due date?</a></li>
+<li class="chapter" data-level="10.13" data-path="lubridate.html"><a href="lubridate.html#shift-interval"><i class="fa fa-check"></i><b>10.13</b> Shift Interval</a></li>
+<li class="chapter" data-level="10.14" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>10.14</b> Within</a><ul>
+<li class="chapter" data-level="10.14.1" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date-1"><i class="fa fa-check"></i><b>10.14.1</b> How many invoices were settled within due date?</a></li>
+</ul></li>
+<li class="chapter" data-level="10.15" data-path="lubridate.html"><a href="lubridate.html#quarter"><i class="fa fa-check"></i><b>10.15</b> Quarter</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>11</b> Categorical Data Analysis</a><ul>
+<li class="chapter" data-level="11.1" data-path="forcats.html"><a href="forcats.html#introduction-9"><i class="fa fa-check"></i><b>11.1</b> Introduction</a></li>
+<li class="chapter" data-level="11.2" data-path="forcats.html"><a href="forcats.html#case-study-12"><i class="fa fa-check"></i><b>11.2</b> Case Study</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="forcats.html"><a href="forcats.html#data-5"><i class="fa fa-check"></i><b>11.2.1</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="forcats.html"><a href="forcats.html#tabulate-referrers"><i class="fa fa-check"></i><b>11.3</b> Tabulate Referrers</a></li>
+<li class="chapter" data-level="11.4" data-path="forcats.html"><a href="forcats.html#reorder-referrers"><i class="fa fa-check"></i><b>11.4</b> Reorder Referrers</a></li>
+<li class="chapter" data-level="11.5" data-path="forcats.html"><a href="forcats.html#plot-referrer-frequency-descending-order"><i class="fa fa-check"></i><b>11.5</b> Plot Referrer Frequency (Descending Order)</a></li>
+<li class="chapter" data-level="11.6" data-path="forcats.html"><a href="forcats.html#plot-referrer-frequency-ascending-order"><i class="fa fa-check"></i><b>11.6</b> Plot Referrer Frequency (Ascending Order)</a></li>
+<li class="chapter" data-level="11.7" data-path="forcats.html"><a href="forcats.html#case-study-2-1"><i class="fa fa-check"></i><b>11.7</b> Case Study 2</a><ul>
+<li class="chapter" data-level="11.7.1" data-path="forcats.html"><a href="forcats.html#data-6"><i class="fa fa-check"></i><b>11.7.1</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.8" data-path="forcats.html"><a href="forcats.html#tabulate-referrer"><i class="fa fa-check"></i><b>11.8</b> Tabulate Referrer</a></li>
+<li class="chapter" data-level="11.9" data-path="forcats.html"><a href="forcats.html#collapse-referrer-categories"><i class="fa fa-check"></i><b>11.9</b> Collapse Referrer Categories</a></li>
+<li class="chapter" data-level="11.10" data-path="forcats.html"><a href="forcats.html#lump-infrequent-referrer-types"><i class="fa fa-check"></i><b>11.10</b> Lump Infrequent Referrer Types</a></li>
+<li class="chapter" data-level="11.11" data-path="forcats.html"><a href="forcats.html#retain-top-3-referrers"><i class="fa fa-check"></i><b>11.11</b> Retain top 3 referrers</a></li>
+<li class="chapter" data-level="11.12" data-path="forcats.html"><a href="forcats.html#lump-referrer-types-with-less-than-10-traffic"><i class="fa fa-check"></i><b>11.12</b> Lump Referrer Types with less than 10% traffic</a></li>
+<li class="chapter" data-level="11.13" data-path="forcats.html"><a href="forcats.html#retain-3-referrer-types-with-lowest-traffic"><i class="fa fa-check"></i><b>11.13</b> Retain 3 Referrer Types with lowest traffic</a></li>
+<li class="chapter" data-level="11.14" data-path="forcats.html"><a href="forcats.html#retain-3-referrer-types-with-less-than-10-traffic"><i class="fa fa-check"></i><b>11.14</b> Retain 3 Referrer Types with less than 10% traffic</a></li>
+<li class="chapter" data-level="11.15" data-path="forcats.html"><a href="forcats.html#replace-levels"><i class="fa fa-check"></i><b>11.15</b> Replace Levels</a></li>
+<li class="chapter" data-level="11.16" data-path="forcats.html"><a href="forcats.html#drop-levels"><i class="fa fa-check"></i><b>11.16</b> Drop Levels</a></li>
+<li class="chapter" data-level="11.17" data-path="forcats.html"><a href="forcats.html#reorder-levels"><i class="fa fa-check"></i><b>11.17</b> Reorder Levels</a></li>
+<li class="chapter" data-level="11.18" data-path="forcats.html"><a href="forcats.html#case-study-3-1"><i class="fa fa-check"></i><b>11.18</b> Case Study 3</a><ul>
+<li class="chapter" data-level="11.18.1" data-path="forcats.html"><a href="forcats.html#data-7"><i class="fa fa-check"></i><b>11.18.1</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.19" data-path="forcats.html"><a href="forcats.html#shift-levels"><i class="fa fa-check"></i><b>11.19</b> Shift Levels</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -99,7 +405,324 @@
             <section class="normal" id="section-">
 <div id="dplyr3" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Data Wrangling - 3</h1>
+<div id="introduction-4" class="section level2">
+<h2><span class="header-section-number">6.1</span> Introduction</h2>
+<p>In this chapter, we will explore a set of helper functions in order to:</p>
+<ul>
+<li>extract unique rows</li>
+<li>rename columns</li>
+<li>sample data</li>
+<li>extract columns</li>
+<li>slice rows</li>
+<li>arrange rows</li>
+<li>compare tables</li>
+<li>extract/mutate data using predicate functions</li>
+<li>count observations for different levels of a variable</li>
+</ul>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb140-2" data-line-number="2"><span class="kw">library</span>(readr)</a></code></pre></div>
+</div>
+<div id="case-study-8" class="section level2">
+<h2><span class="header-section-number">6.2</span> Case Study</h2>
+<p>Let us look at a case study (e-commerce data) and see how we can use dplyr
+helper functions to answer questions we have about and to modify/transform the
+underlying data set.</p>
+<div id="data-1" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Data</h3>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb141-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb141-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(<span class="dt">device =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</a>
+<a class="sourceLine" id="cb141-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
+<a class="sourceLine" id="cb141-5" data-line-number="5">      <span class="dt">purchase =</span> <span class="kw">col_logical</span>(), <span class="dt">bouncers =</span> <span class="kw">col_logical</span>(), <span class="dt">duration =</span> <span class="kw">col_double</span>(),</a>
+<a class="sourceLine" id="cb141-6" data-line-number="6">      <span class="dt">n_visit =</span> <span class="kw">col_double</span>(), <span class="dt">n_pages =</span> <span class="kw">col_double</span>()</a>
+<a class="sourceLine" id="cb141-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb141-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb141-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb141-10" data-line-number="10">ecom</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 7
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 google   laptop TRUE          10       1      693 FALSE   
+##  2 yahoo    tablet TRUE           9       1      459 FALSE   
+##  3 direct   laptop TRUE           0       1      996 FALSE   
+##  4 bing     tablet FALSE          3      18      468 TRUE    
+##  5 yahoo    mobile TRUE           9       1      955 FALSE   
+##  6 yahoo    laptop FALSE          5       5      135 FALSE   
+##  7 yahoo    mobile TRUE          10       1       75 FALSE   
+##  8 direct   mobile TRUE          10       1      908 FALSE   
+##  9 bing     mobile FALSE          3      19      209 FALSE   
+## 10 google   mobile TRUE           6       1      208 FALSE   
+## # ... with 990 more rows</code></pre>
+</div>
+<div id="data-dictionary-1" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Data Dictionary</h3>
+<ul>
+<li>referrer: referrer website/search engine</li>
+<li>device: device used to visit the website</li>
+<li>bouncers: whether a visit bounced (exited from landing page)</li>
+<li>duration: time spent on the website (in seconds)</li>
+<li>purchase: whether visitor purchased</li>
+<li>n_visit: number of visits</li>
+<li>n_pages: number of pages visited/browsed</li>
+</ul>
+</div>
+</div>
+<div id="data-sanitization" class="section level2">
+<h2><span class="header-section-number">6.3</span> Data Sanitization</h2>
+<p>Let us ensure that the data is sanitized by checking the sources of traffic
+and devices used to visit the site. We will use <code>distinct</code> to examine the
+values in the <code>referrer</code> column</p>
+<p><img src="img/distinct_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" data-line-number="1"><span class="kw">distinct</span>(ecom, referrer)</a></code></pre></div>
+<pre><code>## # A tibble: 5 x 1
+##   referrer
+##   &lt;fct&gt;   
+## 1 google  
+## 2 yahoo   
+## 3 direct  
+## 4 bing    
+## 5 social</code></pre>
+<p>and the <code>device</code> column as well.</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="kw">distinct</span>(ecom, device)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 1
+##   device
+##   &lt;fct&gt; 
+## 1 laptop
+## 2 tablet
+## 3 mobile</code></pre>
+</div>
+<div id="rename-columns" class="section level2">
+<h2><span class="header-section-number">6.4</span> Rename Columns</h2>
+<p>Columns can be renamed using <code>rename()</code>.</p>
+<p><img src="img/rename_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">rename</span>(ecom, <span class="dt">time_on_site =</span> duration)</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 7
+##    referrer device bouncers n_visit n_pages time_on_site purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt; &lt;lgl&gt;   
+##  1 google   laptop TRUE          10       1          693 FALSE   
+##  2 yahoo    tablet TRUE           9       1          459 FALSE   
+##  3 direct   laptop TRUE           0       1          996 FALSE   
+##  4 bing     tablet FALSE          3      18          468 TRUE    
+##  5 yahoo    mobile TRUE           9       1          955 FALSE   
+##  6 yahoo    laptop FALSE          5       5          135 FALSE   
+##  7 yahoo    mobile TRUE          10       1           75 FALSE   
+##  8 direct   mobile TRUE          10       1          908 FALSE   
+##  9 bing     mobile FALSE          3      19          209 FALSE   
+## 10 google   mobile TRUE           6       1          208 FALSE   
+## # ... with 990 more rows</code></pre>
+</div>
+<div id="data-tabulation" class="section level2">
+<h2><span class="header-section-number">6.5</span> Data Tabulation</h2>
+<p>Let us now look at the proportion or share of visits driven by different sources
+of traffic.</p>
+<p><img src="img/tally_count.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb149-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb149-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   referrer     n
+##   &lt;fct&gt;    &lt;int&gt;
+## 1 bing       194
+## 2 direct     191
+## 3 social     200
+## 4 yahoo      207
+## 5 google     208</code></pre>
+<p>We would also like to know the number of bouncers driven by the different
+sources of traffic.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb151-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer, bouncers) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb151-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
+<pre><code>## # A tibble: 10 x 3
+## # Groups:   referrer [?]
+##    referrer bouncers     n
+##    &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
+##  1 bing     FALSE      104
+##  2 bing     TRUE        90
+##  3 direct   FALSE       98
+##  4 direct   TRUE        93
+##  5 social   FALSE       93
+##  6 social   TRUE       107
+##  7 yahoo    FALSE      110
+##  8 yahoo    TRUE        97
+##  9 google   FALSE      101
+## 10 google   TRUE       107</code></pre>
+<p>Let us look at how many conversions happen across different devices.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb153-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(device, purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb153-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb153-4" data-line-number="4"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+## # Groups:   device [3]
+##   device purchase     n
+##   &lt;fct&gt;  &lt;lgl&gt;    &lt;int&gt;
+## 1 laptop TRUE        31
+## 2 tablet TRUE        36
+## 3 mobile TRUE        36</code></pre>
+<p>Another way to extract the above information is by using <code>count</code></p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb155-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(referrer, purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb155-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   referrer purchase     n
+##   &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
+## 1 bing     TRUE        17
+## 2 direct   TRUE        25
+## 3 social   TRUE        20
+## 4 yahoo    TRUE        22
+## 5 google   TRUE        19</code></pre>
+</div>
+<div id="sampling-data" class="section level2">
+<h2><span class="header-section-number">6.6</span> Sampling Data</h2>
+<p>dplyr offers sampling functions which allow us to specify either the
+number or percentage of observations. <code>sample_n()</code> allows sampling a specific
+number of observations.</p>
+<p><img src="img/sample_frac_n.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1"><span class="kw">sample_n</span>(ecom, <span class="dv">700</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 700 x 7
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 bing     tablet FALSE          5       6      138 FALSE   
+##  2 bing     tablet FALSE          1       8      144 FALSE   
+##  3 social   mobile FALSE          5      16      272 TRUE    
+##  4 direct   mobile TRUE           2       1      501 FALSE   
+##  5 google   mobile FALSE          8      11      198 FALSE   
+##  6 yahoo    laptop TRUE           7       1      163 FALSE   
+##  7 direct   tablet FALSE         10      18      324 TRUE    
+##  8 direct   mobile FALSE          5      10      140 FALSE   
+##  9 direct   laptop FALSE          9      17      425 TRUE    
+## 10 direct   mobile FALSE         10      17      272 FALSE   
+## # ... with 690 more rows</code></pre>
+<p>We can combine the sampling functions with other dplyr functions as shown below
+where we sample observation after grouping them according to the source of
+traffic.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb159-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb159-3" data-line-number="3"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">100</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 500 x 7
+## # Groups:   referrer [5]
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 bing     tablet TRUE           0       1      985 FALSE   
+##  2 bing     mobile FALSE          1      12      168 FALSE   
+##  3 bing     laptop TRUE           7       1      362 FALSE   
+##  4 bing     mobile FALSE          3      19      209 FALSE   
+##  5 bing     tablet FALSE          1      19      361 TRUE    
+##  6 bing     mobile TRUE           1       1      905 FALSE   
+##  7 bing     laptop TRUE           0       1      897 FALSE   
+##  8 bing     tablet TRUE           3       1      134 FALSE   
+##  9 bing     mobile FALSE          9       3       78 FALSE   
+## 10 bing     tablet TRUE           1       1      406 FALSE   
+## # ... with 490 more rows</code></pre>
+<p><code>sample_frac()</code> allows a specific percentage of observations.</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="kw">sample_frac</span>(ecom, <span class="dt">size =</span> <span class="fl">0.7</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 700 x 7
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 yahoo    laptop TRUE           1       1       63 FALSE   
+##  2 bing     tablet FALSE          8      19      570 TRUE    
+##  3 google   laptop FALSE          3      20      460 FALSE   
+##  4 social   laptop TRUE           4       1      850 FALSE   
+##  5 yahoo    tablet FALSE          6       5      110 FALSE   
+##  6 bing     mobile FALSE          4       2       46 FALSE   
+##  7 bing     tablet FALSE          7       2       34 FALSE   
+##  8 social   tablet TRUE           7       1      811 FALSE   
+##  9 google   tablet FALSE          9       3       57 FALSE   
+## 10 direct   mobile FALSE          9      15      375 TRUE    
+## # ... with 690 more rows</code></pre>
+</div>
+<div id="data-extraction" class="section level2">
+<h2><span class="header-section-number">6.7</span> Data Extraction</h2>
+<p>In the first <a href="https://blog.aravindhebbali.com/2017/12/25/data-wrangling-with-dplyr-part-1/">chapter</a>,
+we had observed that dplyr verbs always returned a tibble. What if you want to
+extract a specific column or a bunch of rows but not as a tibble?</p>
+<p>Use <code>pull</code> to extract columns either by name or position. It will return a
+vector. In the below example, we extract the <code>device</code> column as a vector. I am
+using <code>head</code> in addition to limit the output printed.</p>
+<div id="sample-data" class="section level3">
+<h3><span class="header-section-number">6.7.1</span> Sample Data</h3>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1">ecom_mini &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
+<p><img src="img/pull_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, device)</a></code></pre></div>
+<pre><code>##  [1] mobile laptop tablet mobile mobile tablet mobile mobile mobile tablet
+## Levels: laptop tablet mobile</code></pre>
+<p>Let us extract the first column from <code>ecom</code> using column position instead of
+name.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">1</span>) </a></code></pre></div>
+<pre><code>##  [1] google social social google social social direct google google bing  
+## Levels: bing direct social yahoo google</code></pre>
+<p>You can use <code>-</code> before the column position to indicate the position in reverse.
+The below example extracts data from the last column.</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">-1</span>) </a></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</code></pre>
+<p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we
+extract data starting from the 5th row and upto the 15th row.</p>
+<p><img src="img/slice_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1"><span class="kw">slice</span>(ecom, <span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 11 x 7
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 yahoo    mobile TRUE           9       1      955 FALSE   
+##  2 yahoo    laptop FALSE          5       5      135 FALSE   
+##  3 yahoo    mobile TRUE          10       1       75 FALSE   
+##  4 direct   mobile TRUE          10       1      908 FALSE   
+##  5 bing     mobile FALSE          3      19      209 FALSE   
+##  6 google   mobile TRUE           6       1      208 FALSE   
+##  7 direct   laptop TRUE           9       1      738 FALSE   
+##  8 direct   tablet FALSE          6      12      132 FALSE   
+##  9 direct   mobile FALSE          9      14      406 TRUE    
+## 10 yahoo    tablet FALSE          5       8       80 FALSE   
+## 11 yahoo    mobile FALSE          7       1       19 FALSE</code></pre>
+<p>Use <code>n()</code> inside <code>slice()</code> to extract the last row.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="kw">slice</span>(ecom, <span class="kw">n</span>())</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 7
+##   referrer device bouncers n_visit n_pages duration purchase
+##   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+## 1 google   mobile TRUE           9       1      269 FALSE</code></pre>
+</div>
+</div>
+<div id="between" class="section level2">
+<h2><span class="header-section-number">6.8</span> Between</h2>
+<p><code>between()</code> allows us to test if the values in a column lie between two specific
+values. In the below example, we check how many visits browsed pages between 5
+and 15.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" data-line-number="1">ecom_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb174-2" data-line-number="2">  </a>
+<a class="sourceLine" id="cb174-3" data-line-number="3">ecom_sample <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb174-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(n_pages) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb174-5" data-line-number="5"><span class="st">  </span><span class="kw">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </a></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE
+## [12] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE
+## [23] FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE</code></pre>
+</div>
+<div id="case-when" class="section level2">
+<h2><span class="header-section-number">6.9</span> Case When</h2>
+<p><code>case_when()</code> is an alternative to <code>if else</code>. It allows us to lay down the
+conditions clearly and makes the code more readable. In the below example, we
+create a new column <code>repeat_visit</code> from <code>n_visit</code> (the number of previous visits).</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb176-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb176-3" data-line-number="3">    <span class="dt">repeat_visit =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb176-4" data-line-number="4">      n_visit <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb176-5" data-line-number="5">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb176-6" data-line-number="6">    )</a>
+<a class="sourceLine" id="cb176-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb176-8" data-line-number="8"><span class="st">  </span><span class="kw">select</span>(n_visit, repeat_visit) </a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 2
+##    n_visit repeat_visit
+##      &lt;dbl&gt; &lt;lgl&gt;       
+##  1      10 TRUE        
+##  2       9 TRUE        
+##  3       0 FALSE       
+##  4       3 TRUE        
+##  5       9 TRUE        
+##  6       5 TRUE        
+##  7      10 TRUE        
+##  8      10 TRUE        
+##  9       3 TRUE        
+## 10       6 TRUE        
+## # ... with 990 more rows</code></pre>
 
+</div>
 </div>
             </section>
 

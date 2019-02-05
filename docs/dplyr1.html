@@ -48,6 +48,71 @@
 
 
 
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -67,16 +132,257 @@
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="import1.html"><a href="import1.html"><i class="fa fa-check"></i><b>2</b> Import Data - 1</a></li>
-<li class="chapter" data-level="3" data-path="import2.html"><a href="import2.html"><i class="fa fa-check"></i><b>3</b> Import Data - 2</a></li>
-<li class="chapter" data-level="4" data-path="dplyr1.html"><a href="dplyr1.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling - 1</a></li>
-<li class="chapter" data-level="5" data-path="dplyr2.html"><a href="dplyr2.html"><i class="fa fa-check"></i><b>5</b> Data Wrangling - 2</a></li>
-<li class="chapter" data-level="6" data-path="dplyr3.html"><a href="dplyr3.html"><i class="fa fa-check"></i><b>6</b> Data Wrangling - 3</a></li>
-<li class="chapter" data-level="7" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>7</b> Pipes</a></li>
-<li class="chapter" data-level="8" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>8</b> tibbles</a></li>
-<li class="chapter" data-level="9" data-path="stringr.html"><a href="stringr.html"><i class="fa fa-check"></i><b>9</b> Handling String Data</a></li>
-<li class="chapter" data-level="10" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>10</b> Working with Date &amp; Time</a></li>
-<li class="chapter" data-level="11" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>11</b> Categorical Data Analysis</a></li>
+<li class="chapter" data-level="2" data-path="import1.html"><a href="import1.html"><i class="fa fa-check"></i><b>2</b> Import Data - 1</a><ul>
+<li class="chapter" data-level="2.1" data-path="import1.html"><a href="import1.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="import1.html"><a href="import1.html#delimiters"><i class="fa fa-check"></i><b>2.2</b> Delimiters</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="import1.html"><a href="import1.html#comma-separated-values"><i class="fa fa-check"></i><b>2.2.1</b> Comma Separated Values</a></li>
+<li class="chapter" data-level="2.2.2" data-path="import1.html"><a href="import1.html#semi-colon-separated-values"><i class="fa fa-check"></i><b>2.2.2</b> Semi Colon Separated Values</a></li>
+<li class="chapter" data-level="2.2.3" data-path="import1.html"><a href="import1.html#space-separated-values"><i class="fa fa-check"></i><b>2.2.3</b> Space Separated Values</a></li>
+<li class="chapter" data-level="2.2.4" data-path="import1.html"><a href="import1.html#tab-separated-values"><i class="fa fa-check"></i><b>2.2.4</b> Tab Separated Values</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="import1.html"><a href="import1.html#read-data"><i class="fa fa-check"></i><b>2.3</b> Read Data</a></li>
+<li class="chapter" data-level="2.4" data-path="import1.html"><a href="import1.html#column-names"><i class="fa fa-check"></i><b>2.4</b> Column Names</a></li>
+<li class="chapter" data-level="2.5" data-path="import1.html"><a href="import1.html#skip-lines"><i class="fa fa-check"></i><b>2.5</b> Skip Lines</a></li>
+<li class="chapter" data-level="2.6" data-path="import1.html"><a href="import1.html#maximum-lines"><i class="fa fa-check"></i><b>2.6</b> Maximum Lines</a></li>
+<li class="chapter" data-level="2.7" data-path="import1.html"><a href="import1.html#column-types"><i class="fa fa-check"></i><b>2.7</b> Column Types</a></li>
+<li class="chapter" data-level="2.8" data-path="import1.html"><a href="import1.html#select-columns"><i class="fa fa-check"></i><b>2.8</b> Select Columns</a></li>
+<li class="chapter" data-level="2.9" data-path="import1.html"><a href="import1.html#summary"><i class="fa fa-check"></i><b>2.9</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="import2.html"><a href="import2.html"><i class="fa fa-check"></i><b>3</b> Import Data - 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="import2.html"><a href="import2.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="import2.html"><a href="import2.html#list-sheets"><i class="fa fa-check"></i><b>3.2</b> List Sheets</a></li>
+<li class="chapter" data-level="3.3" data-path="import2.html"><a href="import2.html#read-sheet"><i class="fa fa-check"></i><b>3.3</b> Read Sheet</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="import2.html"><a href="import2.html#case-1-specify-the-sheet-number"><i class="fa fa-check"></i><b>3.3.1</b> Case 1: Specify the sheet number</a></li>
+<li class="chapter" data-level="3.3.2" data-path="import2.html"><a href="import2.html#case-2-specify-the-sheet-name"><i class="fa fa-check"></i><b>3.3.2</b> Case 2: Specify the sheet name</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="import2.html"><a href="import2.html#read-specific-cells"><i class="fa fa-check"></i><b>3.4</b> Read Specific Cells</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="import2.html"><a href="import2.html#method-1"><i class="fa fa-check"></i><b>3.4.1</b> Method 1</a></li>
+<li class="chapter" data-level="3.4.2" data-path="import2.html"><a href="import2.html#method-2"><i class="fa fa-check"></i><b>3.4.2</b> Method 2</a></li>
+<li class="chapter" data-level="3.4.3" data-path="import2.html"><a href="import2.html#method-3"><i class="fa fa-check"></i><b>3.4.3</b> Method 3</a></li>
+<li class="chapter" data-level="3.4.4" data-path="import2.html"><a href="import2.html#method-1-1"><i class="fa fa-check"></i><b>3.4.4</b> Method 1</a></li>
+<li class="chapter" data-level="3.4.5" data-path="import2.html"><a href="import2.html#method-2-1"><i class="fa fa-check"></i><b>3.4.5</b> Method 2</a></li>
+<li class="chapter" data-level="3.4.6" data-path="import2.html"><a href="import2.html#method-3-1"><i class="fa fa-check"></i><b>3.4.6</b> Method 3</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="import2.html"><a href="import2.html#read-specific-rows"><i class="fa fa-check"></i><b>3.5</b> Read Specific Rows</a></li>
+<li class="chapter" data-level="3.6" data-path="import2.html"><a href="import2.html#read-single-column"><i class="fa fa-check"></i><b>3.6</b> Read Single Column</a></li>
+<li class="chapter" data-level="3.7" data-path="import2.html"><a href="import2.html#read-multiple-columns"><i class="fa fa-check"></i><b>3.7</b> Read Multiple Columns</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="import2.html"><a href="import2.html#summary-1"><i class="fa fa-check"></i><b>3.7.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="import2.html"><a href="import2.html#statistical-softwares"><i class="fa fa-check"></i><b>3.8</b> Statistical Softwares</a><ul>
+<li class="chapter" data-level="3.8.1" data-path="import2.html"><a href="import2.html#stata"><i class="fa fa-check"></i><b>3.8.1</b> STATA</a></li>
+<li class="chapter" data-level="3.8.2" data-path="import2.html"><a href="import2.html#spss"><i class="fa fa-check"></i><b>3.8.2</b> SPSS</a></li>
+<li class="chapter" data-level="3.8.3" data-path="import2.html"><a href="import2.html#sas"><i class="fa fa-check"></i><b>3.8.3</b> SAS</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="import2.html"><a href="import2.html#summary-2"><i class="fa fa-check"></i><b>3.9</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dplyr1.html"><a href="dplyr1.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling - 1</a><ul>
+<li class="chapter" data-level="4.1" data-path="dplyr1.html"><a href="dplyr1.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="dplyr1.html"><a href="dplyr1.html#dplyr-verbs"><i class="fa fa-check"></i><b>4.2</b> dplyr Verbs</a></li>
+<li class="chapter" data-level="4.3" data-path="dplyr1.html"><a href="dplyr1.html#data"><i class="fa fa-check"></i><b>4.3</b> Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="dplyr1.html"><a href="dplyr1.html#data-dictionary"><i class="fa fa-check"></i><b>4.3.1</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="dplyr1.html"><a href="dplyr1.html#case-study"><i class="fa fa-check"></i><b>4.4</b> Case Study</a></li>
+<li class="chapter" data-level="4.5" data-path="dplyr1.html"><a href="dplyr1.html#average-order-value"><i class="fa fa-check"></i><b>4.5</b> Average Order Value</a></li>
+<li class="chapter" data-level="4.6" data-path="dplyr1.html"><a href="dplyr1.html#aov-by-devices"><i class="fa fa-check"></i><b>4.6</b> AOV by Devices</a></li>
+<li class="chapter" data-level="4.7" data-path="dplyr1.html"><a href="dplyr1.html#syntax"><i class="fa fa-check"></i><b>4.7</b> Syntax</a></li>
+<li class="chapter" data-level="4.8" data-path="dplyr1.html"><a href="dplyr1.html#filter-rows"><i class="fa fa-check"></i><b>4.8</b> Filter Rows</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-1"><i class="fa fa-check"></i><b>4.8.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="dplyr1.html"><a href="dplyr1.html#select-columns-1"><i class="fa fa-check"></i><b>4.9</b> Select Columns</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-2"><i class="fa fa-check"></i><b>4.9.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="dplyr1.html"><a href="dplyr1.html#grouping-data"><i class="fa fa-check"></i><b>4.10</b> Grouping Data</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-3"><i class="fa fa-check"></i><b>4.10.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="dplyr1.html"><a href="dplyr1.html#summarise-data"><i class="fa fa-check"></i><b>4.11</b> Summarise Data</a><ul>
+<li class="chapter" data-level="4.11.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-4"><i class="fa fa-check"></i><b>4.11.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.12" data-path="dplyr1.html"><a href="dplyr1.html#create-columns"><i class="fa fa-check"></i><b>4.12</b> Create Columns</a><ul>
+<li class="chapter" data-level="4.12.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-5"><i class="fa fa-check"></i><b>4.12.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="dplyr1.html"><a href="dplyr1.html#arrange-data"><i class="fa fa-check"></i><b>4.13</b> Arrange Data</a><ul>
+<li class="chapter" data-level="4.13.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-6"><i class="fa fa-check"></i><b>4.13.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="4.14" data-path="dplyr1.html"><a href="dplyr1.html#aov-by-devices-1"><i class="fa fa-check"></i><b>4.14</b> AOV by Devices</a></li>
+<li class="chapter" data-level="4.15" data-path="dplyr1.html"><a href="dplyr1.html#your-turn"><i class="fa fa-check"></i><b>4.15</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dplyr2.html"><a href="dplyr2.html"><i class="fa fa-check"></i><b>5</b> Data Wrangling - 2</a><ul>
+<li class="chapter" data-level="5.1" data-path="dplyr2.html"><a href="dplyr2.html#introduction-3"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="dplyr2.html"><a href="dplyr2.html#case-study-7"><i class="fa fa-check"></i><b>5.2</b> Case Study</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="dplyr2.html"><a href="dplyr2.html#data-orders"><i class="fa fa-check"></i><b>5.2.1</b> Data: Orders</a></li>
+<li class="chapter" data-level="5.2.2" data-path="dplyr2.html"><a href="dplyr2.html#data-customers"><i class="fa fa-check"></i><b>5.2.2</b> Data: Customers</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="dplyr2.html"><a href="dplyr2.html#example-data"><i class="fa fa-check"></i><b>5.3</b> Example Data</a></li>
+<li class="chapter" data-level="5.4" data-path="dplyr2.html"><a href="dplyr2.html#inner-join"><i class="fa fa-check"></i><b>5.4</b> Inner Join</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-placed-orders-and-their-order-details"><i class="fa fa-check"></i><b>5.4.1</b> Case Study: Details of customers who have placed orders and their order details</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="dplyr2.html"><a href="dplyr2.html#left-join"><i class="fa fa-check"></i><b>5.5</b> Left Join</a></li>
+<li class="chapter" data-level="5.6" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-and-their-orders-irrespective-of-whether-a-customer-has"><i class="fa fa-check"></i><b>5.6</b> Case Study: Details of customers and their orders irrespective of whether a customer has</a></li>
+<li class="chapter" data-level="5.7" data-path="dplyr2.html"><a href="dplyr2.html#right-join"><i class="fa fa-check"></i><b>5.7</b> Right Join</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-customer-details-for-each-order"><i class="fa fa-check"></i><b>5.7.1</b> Case Study: Customer details for each order</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="dplyr2.html"><a href="dplyr2.html#semi-join"><i class="fa fa-check"></i><b>5.8</b> Semi Join</a><ul>
+<li class="chapter" data-level="5.8.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-placed-orders"><i class="fa fa-check"></i><b>5.8.1</b> Case Study: Details of customers who have placed orders</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="dplyr2.html"><a href="dplyr2.html#anti-join"><i class="fa fa-check"></i><b>5.9</b> Anti Join</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-not-placed-orders"><i class="fa fa-check"></i><b>5.9.1</b> Case Study: Details of customers who have not placed orders</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="dplyr2.html"><a href="dplyr2.html#full-join"><i class="fa fa-check"></i><b>5.10</b> Full Join</a><ul>
+<li class="chapter" data-level="5.10.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-all-customers-and-all-orders"><i class="fa fa-check"></i><b>5.10.1</b> Case Study: Details of all customers and all orders</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="dplyr3.html"><a href="dplyr3.html"><i class="fa fa-check"></i><b>6</b> Data Wrangling - 3</a><ul>
+<li class="chapter" data-level="6.1" data-path="dplyr3.html"><a href="dplyr3.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.2" data-path="dplyr3.html"><a href="dplyr3.html#case-study-8"><i class="fa fa-check"></i><b>6.2</b> Case Study</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="dplyr3.html"><a href="dplyr3.html#data-1"><i class="fa fa-check"></i><b>6.2.1</b> Data</a></li>
+<li class="chapter" data-level="6.2.2" data-path="dplyr3.html"><a href="dplyr3.html#data-dictionary-1"><i class="fa fa-check"></i><b>6.2.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="dplyr3.html"><a href="dplyr3.html#data-sanitization"><i class="fa fa-check"></i><b>6.3</b> Data Sanitization</a></li>
+<li class="chapter" data-level="6.4" data-path="dplyr3.html"><a href="dplyr3.html#rename-columns"><i class="fa fa-check"></i><b>6.4</b> Rename Columns</a></li>
+<li class="chapter" data-level="6.5" data-path="dplyr3.html"><a href="dplyr3.html#data-tabulation"><i class="fa fa-check"></i><b>6.5</b> Data Tabulation</a></li>
+<li class="chapter" data-level="6.6" data-path="dplyr3.html"><a href="dplyr3.html#sampling-data"><i class="fa fa-check"></i><b>6.6</b> Sampling Data</a></li>
+<li class="chapter" data-level="6.7" data-path="dplyr3.html"><a href="dplyr3.html#data-extraction"><i class="fa fa-check"></i><b>6.7</b> Data Extraction</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="dplyr3.html"><a href="dplyr3.html#sample-data"><i class="fa fa-check"></i><b>6.7.1</b> Sample Data</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="dplyr3.html"><a href="dplyr3.html#between"><i class="fa fa-check"></i><b>6.8</b> Between</a></li>
+<li class="chapter" data-level="6.9" data-path="dplyr3.html"><a href="dplyr3.html#case-when"><i class="fa fa-check"></i><b>6.9</b> Case When</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>7</b> Pipes</a><ul>
+<li class="chapter" data-level="7.1" data-path="pipes.html"><a href="pipes.html#introduction-5"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="pipes.html"><a href="pipes.html#pipes-1"><i class="fa fa-check"></i><b>7.2</b> Pipes</a></li>
+<li class="chapter" data-level="7.3" data-path="pipes.html"><a href="pipes.html#data-2"><i class="fa fa-check"></i><b>7.3</b> Data</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="pipes.html"><a href="pipes.html#data-dictionary-2"><i class="fa fa-check"></i><b>7.3.1</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="pipes.html"><a href="pipes.html#head"><i class="fa fa-check"></i><b>7.4</b> head()</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="pipes.html"><a href="pipes.html#using-pipe"><i class="fa fa-check"></i><b>7.4.1</b> Using Pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="pipes.html"><a href="pipes.html#square-root"><i class="fa fa-check"></i><b>7.5</b> Square Root</a></li>
+<li class="chapter" data-level="7.6" data-path="pipes.html"><a href="pipes.html#visualization"><i class="fa fa-check"></i><b>7.6</b> Visualization</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="pipes.html"><a href="pipes.html#using-pipe-1"><i class="fa fa-check"></i><b>7.6.1</b> Using pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="pipes.html"><a href="pipes.html#correlation"><i class="fa fa-check"></i><b>7.7</b> Correlation</a></li>
+<li class="chapter" data-level="7.8" data-path="pipes.html"><a href="pipes.html#regression"><i class="fa fa-check"></i><b>7.8</b> Regression</a><ul>
+<li class="chapter" data-level="7.8.1" data-path="pipes.html"><a href="pipes.html#using-pipe-2"><i class="fa fa-check"></i><b>7.8.1</b> Using pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="pipes.html"><a href="pipes.html#string-manipulation"><i class="fa fa-check"></i><b>7.9</b> String Manipulation</a></li>
+<li class="chapter" data-level="7.10" data-path="pipes.html"><a href="pipes.html#data-extraction-1"><i class="fa fa-check"></i><b>7.10</b> Data Extraction</a><ul>
+<li class="chapter" data-level="7.10.1" data-path="pipes.html"><a href="pipes.html#extract-column"><i class="fa fa-check"></i><b>7.10.1</b> Extract Column</a></li>
+<li class="chapter" data-level="7.10.2" data-path="pipes.html"><a href="pipes.html#extract-list-element"><i class="fa fa-check"></i><b>7.10.2</b> Extract List Element</a></li>
+</ul></li>
+<li class="chapter" data-level="7.11" data-path="pipes.html"><a href="pipes.html#arithmetic-operations"><i class="fa fa-check"></i><b>7.11</b> Arithmetic Operations</a><ul>
+<li class="chapter" data-level="7.11.1" data-path="pipes.html"><a href="pipes.html#addition"><i class="fa fa-check"></i><b>7.11.1</b> Addition</a></li>
+<li class="chapter" data-level="7.11.2" data-path="pipes.html"><a href="pipes.html#multiplication"><i class="fa fa-check"></i><b>7.11.2</b> Multiplication</a></li>
+<li class="chapter" data-level="7.11.3" data-path="pipes.html"><a href="pipes.html#division"><i class="fa fa-check"></i><b>7.11.3</b> Division</a></li>
+<li class="chapter" data-level="7.11.4" data-path="pipes.html"><a href="pipes.html#power"><i class="fa fa-check"></i><b>7.11.4</b> Power</a></li>
+</ul></li>
+<li class="chapter" data-level="7.12" data-path="pipes.html"><a href="pipes.html#logical-operators"><i class="fa fa-check"></i><b>7.12</b> Logical Operators</a><ul>
+<li class="chapter" data-level="7.12.1" data-path="pipes.html"><a href="pipes.html#greater-than"><i class="fa fa-check"></i><b>7.12.1</b> Greater Than</a></li>
+<li class="chapter" data-level="7.12.2" data-path="pipes.html"><a href="pipes.html#weakly-greater-than"><i class="fa fa-check"></i><b>7.12.2</b> Weakly Greater Than</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>8</b> tibbles</a><ul>
+<li class="chapter" data-level="8.1" data-path="tibbles.html"><a href="tibbles.html#introduction-6"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="tibbles.html"><a href="tibbles.html#creating-tibbles"><i class="fa fa-check"></i><b>8.2</b> Creating tibbles</a></li>
+<li class="chapter" data-level="8.3" data-path="tibbles.html"><a href="tibbles.html#tibble-features"><i class="fa fa-check"></i><b>8.3</b> tibble features</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="tibbles.html"><a href="tibbles.html#never-changes-inputs-types"><i class="fa fa-check"></i><b>8.3.1</b> never changes input’s types</a></li>
+<li class="chapter" data-level="8.3.2" data-path="tibbles.html"><a href="tibbles.html#never-adjusts-variable-names"><i class="fa fa-check"></i><b>8.3.2</b> never adjusts variable names</a></li>
+<li class="chapter" data-level="8.3.3" data-path="tibbles.html"><a href="tibbles.html#never-prints-all-rows"><i class="fa fa-check"></i><b>8.3.3</b> never prints all rows</a></li>
+<li class="chapter" data-level="8.3.4" data-path="tibbles.html"><a href="tibbles.html#never-recycles-vector-of-length-greater-than-1"><i class="fa fa-check"></i><b>8.3.4</b> never recycles vector of length greater than 1</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="tibbles.html"><a href="tibbles.html#membership-testing"><i class="fa fa-check"></i><b>8.4</b> Membership Testing</a></li>
+<li class="chapter" data-level="8.5" data-path="tibbles.html"><a href="tibbles.html#tribble"><i class="fa fa-check"></i><b>8.5</b> Tribble</a></li>
+<li class="chapter" data-level="8.6" data-path="tibbles.html"><a href="tibbles.html#column-names-1"><i class="fa fa-check"></i><b>8.6</b> Column Names</a></li>
+<li class="chapter" data-level="8.7" data-path="tibbles.html"><a href="tibbles.html#add-rows"><i class="fa fa-check"></i><b>8.7</b> Add Rows</a></li>
+<li class="chapter" data-level="8.8" data-path="tibbles.html"><a href="tibbles.html#add-columns"><i class="fa fa-check"></i><b>8.8</b> Add Columns</a></li>
+<li class="chapter" data-level="8.9" data-path="tibbles.html"><a href="tibbles.html#rownames"><i class="fa fa-check"></i><b>8.9</b> Rownames</a><ul>
+<li class="chapter" data-level="8.9.1" data-path="tibbles.html"><a href="tibbles.html#remove-rownames"><i class="fa fa-check"></i><b>8.9.1</b> Remove Rownames</a></li>
+<li class="chapter" data-level="8.9.2" data-path="tibbles.html"><a href="tibbles.html#rownames-to-column"><i class="fa fa-check"></i><b>8.9.2</b> Rownames to Column</a></li>
+<li class="chapter" data-level="8.9.3" data-path="tibbles.html"><a href="tibbles.html#column-to-rownames"><i class="fa fa-check"></i><b>8.9.3</b> Column to Rownames</a></li>
+</ul></li>
+<li class="chapter" data-level="8.10" data-path="tibbles.html"><a href="tibbles.html#glimpse"><i class="fa fa-check"></i><b>8.10</b> Glimpse</a></li>
+<li class="chapter" data-level="8.11" data-path="tibbles.html"><a href="tibbles.html#check-column"><i class="fa fa-check"></i><b>8.11</b> Check Column</a></li>
+<li class="chapter" data-level="8.12" data-path="tibbles.html"><a href="tibbles.html#summary-3"><i class="fa fa-check"></i><b>8.12</b> Summary</a><ul>
+<li class="chapter" data-level="8.12.1" data-path="tibbles.html"><a href="tibbles.html#creating-tibbles-1"><i class="fa fa-check"></i><b>8.12.1</b> Creating tibbles</a></li>
+<li class="chapter" data-level="8.12.2" data-path="tibbles.html"><a href="tibbles.html#modifying-tibbles"><i class="fa fa-check"></i><b>8.12.2</b> Modifying tibbles</a></li>
+<li class="chapter" data-level="8.12.3" data-path="tibbles.html"><a href="tibbles.html#testing-tibbles"><i class="fa fa-check"></i><b>8.12.3</b> Testing tibbles</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="stringr.html"><a href="stringr.html"><i class="fa fa-check"></i><b>9</b> Handling String Data</a><ul>
+<li class="chapter" data-level="9.1" data-path="stringr.html"><a href="stringr.html#introduction-7"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.2" data-path="stringr.html"><a href="stringr.html#case-study-9"><i class="fa fa-check"></i><b>9.2</b> Case Study</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="stringr.html"><a href="stringr.html#data-3"><i class="fa fa-check"></i><b>9.2.1</b> Data</a></li>
+<li class="chapter" data-level="9.2.2" data-path="stringr.html"><a href="stringr.html#data-dictionary-3"><i class="fa fa-check"></i><b>9.2.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="stringr.html"><a href="stringr.html#overview"><i class="fa fa-check"></i><b>9.3</b> Overview</a></li>
+<li class="chapter" data-level="9.4" data-path="stringr.html"><a href="stringr.html#extract-domain-name-from-email-ids"><i class="fa fa-check"></i><b>9.4</b> Extract domain name from email ids</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="stringr.html"><a href="stringr.html#steps"><i class="fa fa-check"></i><b>9.4.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="stringr.html"><a href="stringr.html#extract-domain-extension"><i class="fa fa-check"></i><b>9.5</b> Extract Domain Extension</a></li>
+<li class="chapter" data-level="9.6" data-path="stringr.html"><a href="stringr.html#extract-image-type-from-url"><i class="fa fa-check"></i><b>9.6</b> Extract image type from URL</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="stringr.html"><a href="stringr.html#steps-1"><i class="fa fa-check"></i><b>9.6.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="stringr.html"><a href="stringr.html#extract-image-dimesion-from-url"><i class="fa fa-check"></i><b>9.7</b> Extract Image Dimesion from URL</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="stringr.html"><a href="stringr.html#steps-2"><i class="fa fa-check"></i><b>9.7.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="stringr.html"><a href="stringr.html#extract-http-protocol-from-url"><i class="fa fa-check"></i><b>9.8</b> Extract HTTP Protocol from URL</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="stringr.html"><a href="stringr.html#steps-3"><i class="fa fa-check"></i><b>9.8.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="stringr.html"><a href="stringr.html#extract-file-type"><i class="fa fa-check"></i><b>9.9</b> Extract file type</a><ul>
+<li class="chapter" data-level="9.9.1" data-path="stringr.html"><a href="stringr.html#steps-4"><i class="fa fa-check"></i><b>9.9.1</b> Steps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>10</b> Working with Date &amp; Time</a><ul>
+<li class="chapter" data-level="10.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="lubridate.html"><a href="lubridate.html#quick-intro"><i class="fa fa-check"></i><b>10.2</b> Quick Intro</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="lubridate.html"><a href="lubridate.html#origin"><i class="fa fa-check"></i><b>10.2.1</b> Origin</a></li>
+<li class="chapter" data-level="10.2.2" data-path="lubridate.html"><a href="lubridate.html#current-datetime"><i class="fa fa-check"></i><b>10.2.2</b> Current Date/Time</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>10.3</b> Case Study</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>10.3.1</b> Data</a></li>
+<li class="chapter" data-level="10.3.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>10.3.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="lubridate.html"><a href="lubridate.html#extract-date-month-year-from-due-date"><i class="fa fa-check"></i><b>10.4</b> Extract Date, Month &amp; Year from Due Date</a></li>
+<li class="chapter" data-level="10.5" data-path="lubridate.html"><a href="lubridate.html#compute-days-to-settle-invoice"><i class="fa fa-check"></i><b>10.5</b> Compute days to settle invoice</a></li>
+<li class="chapter" data-level="10.6" data-path="lubridate.html"><a href="lubridate.html#compute-days-over-due"><i class="fa fa-check"></i><b>10.6</b> Compute days over due</a></li>
+<li class="chapter" data-level="10.7" data-path="lubridate.html"><a href="lubridate.html#is-due-year-a-leap-year"><i class="fa fa-check"></i><b>10.7</b> Is due year a leap year?</a></li>
+<li class="chapter" data-level="10.8" data-path="lubridate.html"><a href="lubridate.html#if-due-day-is-february-29-is-it-a-leap-year"><i class="fa fa-check"></i><b>10.8</b> If due day is February 29, is it a leap year?</a></li>
+<li class="chapter" data-level="10.9" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>10.9</b> Shift Date</a></li>
+<li class="chapter" data-level="10.10" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>10.10</b> Interval</a></li>
+<li class="chapter" data-level="10.11" data-path="lubridate.html"><a href="lubridate.html#intervals-overlap"><i class="fa fa-check"></i><b>10.11</b> Intervals Overlap</a></li>
+<li class="chapter" data-level="10.12" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date"><i class="fa fa-check"></i><b>10.12</b> How many invoices were settled within due date?</a></li>
+<li class="chapter" data-level="10.13" data-path="lubridate.html"><a href="lubridate.html#shift-interval"><i class="fa fa-check"></i><b>10.13</b> Shift Interval</a></li>
+<li class="chapter" data-level="10.14" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>10.14</b> Within</a><ul>
+<li class="chapter" data-level="10.14.1" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date-1"><i class="fa fa-check"></i><b>10.14.1</b> How many invoices were settled within due date?</a></li>
+</ul></li>
+<li class="chapter" data-level="10.15" data-path="lubridate.html"><a href="lubridate.html#quarter"><i class="fa fa-check"></i><b>10.15</b> Quarter</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>11</b> Categorical Data Analysis</a><ul>
+<li class="chapter" data-level="11.1" data-path="forcats.html"><a href="forcats.html#introduction-9"><i class="fa fa-check"></i><b>11.1</b> Introduction</a></li>
+<li class="chapter" data-level="11.2" data-path="forcats.html"><a href="forcats.html#case-study-12"><i class="fa fa-check"></i><b>11.2</b> Case Study</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="forcats.html"><a href="forcats.html#data-5"><i class="fa fa-check"></i><b>11.2.1</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="forcats.html"><a href="forcats.html#tabulate-referrers"><i class="fa fa-check"></i><b>11.3</b> Tabulate Referrers</a></li>
+<li class="chapter" data-level="11.4" data-path="forcats.html"><a href="forcats.html#reorder-referrers"><i class="fa fa-check"></i><b>11.4</b> Reorder Referrers</a></li>
+<li class="chapter" data-level="11.5" data-path="forcats.html"><a href="forcats.html#plot-referrer-frequency-descending-order"><i class="fa fa-check"></i><b>11.5</b> Plot Referrer Frequency (Descending Order)</a></li>
+<li class="chapter" data-level="11.6" data-path="forcats.html"><a href="forcats.html#plot-referrer-frequency-ascending-order"><i class="fa fa-check"></i><b>11.6</b> Plot Referrer Frequency (Ascending Order)</a></li>
+<li class="chapter" data-level="11.7" data-path="forcats.html"><a href="forcats.html#case-study-2-1"><i class="fa fa-check"></i><b>11.7</b> Case Study 2</a><ul>
+<li class="chapter" data-level="11.7.1" data-path="forcats.html"><a href="forcats.html#data-6"><i class="fa fa-check"></i><b>11.7.1</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.8" data-path="forcats.html"><a href="forcats.html#tabulate-referrer"><i class="fa fa-check"></i><b>11.8</b> Tabulate Referrer</a></li>
+<li class="chapter" data-level="11.9" data-path="forcats.html"><a href="forcats.html#collapse-referrer-categories"><i class="fa fa-check"></i><b>11.9</b> Collapse Referrer Categories</a></li>
+<li class="chapter" data-level="11.10" data-path="forcats.html"><a href="forcats.html#lump-infrequent-referrer-types"><i class="fa fa-check"></i><b>11.10</b> Lump Infrequent Referrer Types</a></li>
+<li class="chapter" data-level="11.11" data-path="forcats.html"><a href="forcats.html#retain-top-3-referrers"><i class="fa fa-check"></i><b>11.11</b> Retain top 3 referrers</a></li>
+<li class="chapter" data-level="11.12" data-path="forcats.html"><a href="forcats.html#lump-referrer-types-with-less-than-10-traffic"><i class="fa fa-check"></i><b>11.12</b> Lump Referrer Types with less than 10% traffic</a></li>
+<li class="chapter" data-level="11.13" data-path="forcats.html"><a href="forcats.html#retain-3-referrer-types-with-lowest-traffic"><i class="fa fa-check"></i><b>11.13</b> Retain 3 Referrer Types with lowest traffic</a></li>
+<li class="chapter" data-level="11.14" data-path="forcats.html"><a href="forcats.html#retain-3-referrer-types-with-less-than-10-traffic"><i class="fa fa-check"></i><b>11.14</b> Retain 3 Referrer Types with less than 10% traffic</a></li>
+<li class="chapter" data-level="11.15" data-path="forcats.html"><a href="forcats.html#replace-levels"><i class="fa fa-check"></i><b>11.15</b> Replace Levels</a></li>
+<li class="chapter" data-level="11.16" data-path="forcats.html"><a href="forcats.html#drop-levels"><i class="fa fa-check"></i><b>11.16</b> Drop Levels</a></li>
+<li class="chapter" data-level="11.17" data-path="forcats.html"><a href="forcats.html#reorder-levels"><i class="fa fa-check"></i><b>11.17</b> Reorder Levels</a></li>
+<li class="chapter" data-level="11.18" data-path="forcats.html"><a href="forcats.html#case-study-3-1"><i class="fa fa-check"></i><b>11.18</b> Case Study 3</a><ul>
+<li class="chapter" data-level="11.18.1" data-path="forcats.html"><a href="forcats.html#data-7"><i class="fa fa-check"></i><b>11.18.1</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.19" data-path="forcats.html"><a href="forcats.html#shift-levels"><i class="fa fa-check"></i><b>11.19</b> Shift Levels</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -99,7 +405,678 @@
             <section class="normal" id="section-">
 <div id="dplyr1" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Data Wrangling - 1</h1>
+<div id="introduction-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Introduction</h2>
+<p>According to a <a href="http://visit.crowdflower.com/rs/416-ZBE-142/images/CrowdFlower_DataScienceReport_2016.pdf">survey</a> by <a href="https://www.crowdflower.com/">CrowdFlower</a>, data scientists spend most of their
+time cleaning and manipulating data rather than mining or modeling them for
+insights. As such, it becomes important to have tools that make data
+manipulation faster and easier. In today’s chapter, we introduce you to
+<a href="http://dplyr.tidyverse.org/">dplyr</a>, a grammar of data manipulation.</p>
+<p><img src="img/crowd_flower.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb64-2" data-line-number="2"><span class="kw">library</span>(readr)</a></code></pre></div>
+</div>
+<div id="dplyr-verbs" class="section level2">
+<h2><span class="header-section-number">4.2</span> dplyr Verbs</h2>
+<p>dplyr provides a set of verbs that help us solve the most common data
+manipulation challenges while working with tabular data (dataframes, tibbles):</p>
+<ul>
+<li><code>select</code></li>
+<li><code>filter</code></li>
+<li><code>arrange</code></li>
+<li><code>mutate</code></li>
+<li><code>summarise</code></li>
+</ul>
+</div>
+<div id="data" class="section level2">
+<h2><span class="header-section-number">4.3</span> Data</h2>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb65-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(<span class="dt">device =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</a>
+<a class="sourceLine" id="cb65-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
+<a class="sourceLine" id="cb65-5" data-line-number="5">      <span class="dt">purchase =</span> <span class="kw">col_logical</span>(), <span class="dt">n_pages =</span> <span class="kw">col_double</span>(), <span class="dt">n_visit =</span> <span class="kw">col_double</span>(), </a>
+<a class="sourceLine" id="cb65-6" data-line-number="6">      <span class="dt">duration =</span> <span class="kw">col_double</span>(), <span class="dt">order_value =</span> <span class="kw">col_double</span>(), <span class="dt">order_items =</span> <span class="kw">col_double</span>()</a>
+<a class="sourceLine" id="cb65-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb65-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb65-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb65-10" data-line-number="10">ecom</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 google   laptop      10       1      693 FALSE              0
+##  2 yahoo    tablet       9       1      459 FALSE              0
+##  3 direct   laptop       0       1      996 FALSE              0
+##  4 bing     tablet       3      18      468 TRUE               6
+##  5 yahoo    mobile       9       1      955 FALSE              0
+##  6 yahoo    laptop       5       5      135 FALSE              0
+##  7 yahoo    mobile      10       1       75 FALSE              0
+##  8 direct   mobile      10       1      908 FALSE              0
+##  9 bing     mobile       3      19      209 FALSE              0
+## 10 google   mobile       6       1      208 FALSE              0
+## # ... with 990 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
+<div id="data-dictionary" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Data Dictionary</h3>
+<p>Below is the description of the data set:</p>
+<ul>
+<li>referrer: referrer website/search engine</li>
+<li>device: device used to visit the website</li>
+<li>n_pages: number of pages visited</li>
+<li>duration: time spent on the website (in seconds)</li>
+<li>purchase: whether visitor purchased</li>
+<li>order_value: order value of visitor (in dollars)</li>
+<li>n_visit: number of visits</li>
+</ul>
+</div>
+</div>
+<div id="case-study" class="section level2">
+<h2><span class="header-section-number">4.4</span> Case Study</h2>
+<p>We will use dplyr to answer the following:</p>
+<ul>
+<li>what is the average order value by device types?</li>
+<li>what is the average number of pages visited by purchasers and non-purchasers?</li>
+<li>what is the average time on site for purchasers vs non-purchasers?</li>
+<li>what is the average number of pages visited by purchasers and non-purchasers
+using mobile?</li>
+</ul>
+</div>
+<div id="average-order-value" class="section level2">
+<h2><span class="header-section-number">4.5</span> Average Order Value</h2>
+<p><img src="img/image.jpg" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="aov-by-devices" class="section level2">
+<h2><span class="header-section-number">4.6</span> AOV by Devices</h2>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(device, order_value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(device) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>())) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb67-7" data-line-number="7">    <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders</a>
+<a class="sourceLine" id="cb67-8" data-line-number="8">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-9" data-line-number="9"><span class="st">  </span><span class="kw">select</span>(device, aov) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-10" data-line-number="10"><span class="st">  </span><span class="kw">arrange</span>(aov)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 tablet 1426.
+## 2 mobile 1431.
+## 3 laptop 1824.</code></pre>
+</div>
+<div id="syntax" class="section level2">
+<h2><span class="header-section-number">4.7</span> Syntax</h2>
+<p>Before we start exploring the dplyr verbs, let us look at their syntax:</p>
+<ul>
+<li>the first argument is always a <code>data.frame</code> or <code>tibble</code></li>
+<li>the subsequent arguments provide the information required for the verbs to
+take action</li>
+<li>the name of columns in the data need not be surrounded by quotes</li>
+</ul>
+</div>
+<div id="filter-rows" class="section level2">
+<h2><span class="header-section-number">4.8</span> Filter Rows</h2>
+<p>In order to compute the AOV, we must first separate the purchasers from
+non-purchasers. We will do this by filtering the data related to purchasers
+using the <code>filter()</code> function. It allows us to filter rows that meet a specific
+criteria/condition. The first argument is the name of the data frame and the
+rest of the arguments are expressions for filtering the data. Let us look at a
+few examples:</p>
+<p>The first example we will look at filters all visits from device <strong>mobile</strong>. As
+we had learnt in the previous section, the first argument is our data set <code>ecom</code>
+and the next argument is the condition for filtering rows.</p>
+<p><img src="img/filter_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;mobile&quot;</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 344 x 8
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 yahoo    mobile       9       1      955 FALSE              0
+##  2 yahoo    mobile      10       1       75 FALSE              0
+##  3 direct   mobile      10       1      908 FALSE              0
+##  4 bing     mobile       3      19      209 FALSE              0
+##  5 google   mobile       6       1      208 FALSE              0
+##  6 direct   mobile       9      14      406 TRUE               3
+##  7 yahoo    mobile       7       1       19 FALSE              7
+##  8 google   mobile       5       1      147 FALSE              0
+##  9 bing     mobile       0       7      196 FALSE              4
+## 10 google   mobile      10       1      338 FALSE              0
+## # ... with 334 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
+<p>We can specify multiple filtering conditions as well. In the below example, we
+specify two filter conditions:</p>
+<ul>
+<li>visit from device <strong>mobile</strong></li>
+<li>resulted in a purchase or conversion</li>
+</ul>
+<p><img src="img/filter_2.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;mobile&quot;</span>, purchase)</a></code></pre></div>
+<pre><code>## # A tibble: 36 x 8
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 direct   mobile       9      14      406 TRUE               3
+##  2 bing     mobile       4      20      440 TRUE               3
+##  3 bing     mobile       3      18      288 TRUE               6
+##  4 social   mobile      10      11      242 TRUE               4
+##  5 yahoo    mobile       6      14      322 TRUE               3
+##  6 google   mobile       1      18      252 TRUE               3
+##  7 social   mobile       7      16      352 TRUE              10
+##  8 direct   mobile       4      18      324 TRUE               3
+##  9 social   mobile       1      20      520 TRUE               5
+## 10 yahoo    mobile       0      13      351 TRUE              10
+## # ... with 26 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
+<p>Here is another example where we specify multiple conditions:</p>
+<ul>
+<li>visit from device <strong>tablet</strong></li>
+<li>made a purchase</li>
+<li>browsed less than 15 pages</li>
+</ul>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;tablet&quot;</span>, purchase, n_pages <span class="op">&lt;</span><span class="st"> </span><span class="dv">15</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 12 x 8
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 social   tablet       7      10      290 TRUE               9
+##  2 yahoo    tablet       2      14      364 TRUE               6
+##  3 google   tablet       7      12      324 TRUE               2
+##  4 direct   tablet       3      12      324 TRUE              10
+##  5 yahoo    tablet       0      13      390 TRUE               5
+##  6 social   tablet       2      12      300 TRUE               2
+##  7 direct   tablet       6      13      338 TRUE               5
+##  8 yahoo    tablet       2      10      280 TRUE               4
+##  9 social   tablet      10      10      290 TRUE               9
+## 10 direct   tablet       3      10      260 TRUE               7
+## 11 google   tablet       9      14      308 TRUE               7
+## 12 social   tablet      10      11      330 TRUE               1
+## # ... with 1 more variable: order_value &lt;dbl&gt;</code></pre>
+<div id="case-study-1" class="section level3">
+<h3><span class="header-section-number">4.8.1</span> Case Study</h3>
+<p>Let us apply what we have learnt to the case study. We want to filter all
+visits that resulted in a purchase.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">filter</span>(ecom, purchase)</a></code></pre></div>
+<pre><code>## # A tibble: 103 x 8
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 bing     tablet       3      18      468 TRUE               6
+##  2 direct   mobile       9      14      406 TRUE               3
+##  3 bing     tablet       5      16      368 TRUE               6
+##  4 social   tablet       7      10      290 TRUE               9
+##  5 direct   tablet       2      19      342 TRUE               5
+##  6 social   tablet       9      20      420 TRUE               7
+##  7 bing     mobile       4      20      440 TRUE               3
+##  8 yahoo    tablet       2      16      480 TRUE               9
+##  9 bing     mobile       3      18      288 TRUE               6
+## 10 yahoo    tablet       2      14      364 TRUE               6
+## # ... with 93 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div id="select-columns-1" class="section level2">
+<h2><span class="header-section-number">4.9</span> Select Columns</h2>
+<p>After filtering the data, we need to select relevent variables to compute the
+AOV. Remember, we do not need all the columns in the data to compute a required
+metric (in our case, AOV). The <code>select()</code> function allows us to select a subset
+of columns. The first argument is the name of the data frame and the subsequent
+arguments specify the columns by name or position.</p>
+<p>To select the <code>device</code> and <code>duration</code> columns, we specify the data set i.e.
+<code>ecom</code> followed by the name of the columns.</p>
+<p><img src="img/select_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">select</span>(ecom, device, duration)</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 2
+##    device duration
+##    &lt;fct&gt;     &lt;dbl&gt;
+##  1 laptop      693
+##  2 tablet      459
+##  3 laptop      996
+##  4 tablet      468
+##  5 mobile      955
+##  6 laptop      135
+##  7 mobile       75
+##  8 mobile      908
+##  9 mobile      209
+## 10 mobile      208
+## # ... with 990 more rows</code></pre>
+<p>We can select a set of columns using <code>:</code>. In the below example, we select all
+the columns starting from <code>referrer</code> up to <code>order_items</code>. Remember that we can use <code>:</code> only when
+the columns are adjacent to each other in the data set.</p>
+<p><img src="img/select_2.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">select</span>(ecom, referrer<span class="op">:</span>order_items)</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 7
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 google   laptop      10       1      693 FALSE              0
+##  2 yahoo    tablet       9       1      459 FALSE              0
+##  3 direct   laptop       0       1      996 FALSE              0
+##  4 bing     tablet       3      18      468 TRUE               6
+##  5 yahoo    mobile       9       1      955 FALSE              0
+##  6 yahoo    laptop       5       5      135 FALSE              0
+##  7 yahoo    mobile      10       1       75 FALSE              0
+##  8 direct   mobile      10       1      908 FALSE              0
+##  9 bing     mobile       3      19      209 FALSE              0
+## 10 google   mobile       6       1      208 FALSE              0
+## # ... with 990 more rows</code></pre>
+<p>What if you want to select all columns except a few? Typing the name of many
+columns can be cumbersome and may also result in spelling errors. We may use <code>:</code>
+only if the columns are adjacent to each other but that may not always be
+the case. dplyr allows us to specify columns that need not be
+selected using <code>-</code>. In the below example, we select all columns except <code>n_pages</code> and
+<code>duration</code>. Notice the <code>-</code> before both of them.</p>
+<p><img src="img/select_3.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">select</span>(ecom, <span class="op">-</span>n_pages, <span class="op">-</span>duration)</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 6
+##    referrer device n_visit purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 google   laptop      10 FALSE              0           0
+##  2 yahoo    tablet       9 FALSE              0           0
+##  3 direct   laptop       0 FALSE              0           0
+##  4 bing     tablet       3 TRUE               6         434
+##  5 yahoo    mobile       9 FALSE              0           0
+##  6 yahoo    laptop       5 FALSE              0           0
+##  7 yahoo    mobile      10 FALSE              0           0
+##  8 direct   mobile      10 FALSE              0           0
+##  9 bing     mobile       3 FALSE              0           0
+## 10 google   mobile       6 FALSE              0           0
+## # ... with 990 more rows</code></pre>
+<div id="case-study-2" class="section level3">
+<h3><span class="header-section-number">4.9.1</span> Case Study</h3>
+<p>For our case study, we need to select the column <code>order_value</code>
+to calculate the AOV. We also need to select the <code>device</code> column as we are
+computing the AOV for each device type.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="kw">select</span>(ecom, device, order_value)</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 2
+##    device order_value
+##    &lt;fct&gt;        &lt;dbl&gt;
+##  1 laptop           0
+##  2 tablet           0
+##  3 laptop           0
+##  4 tablet         434
+##  5 mobile           0
+##  6 laptop           0
+##  7 mobile           0
+##  8 mobile           0
+##  9 mobile           0
+## 10 mobile           0
+## # ... with 990 more rows</code></pre>
+<p>But we want the above data only for purchasers. Let us combine <code>filter()</code> and
+<code>select()</code> functions to extract <code>order_value</code> and <code>order_items</code> only for those
+visis that resulted in a purchase.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="co"># filter all visits that resulted in a purchase</span></a>
+<a class="sourceLine" id="cb85-2" data-line-number="2">ecom1 &lt;-<span class="st"> </span><span class="kw">filter</span>(ecom, purchase)</a>
+<a class="sourceLine" id="cb85-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb85-4" data-line-number="4"><span class="co"># select the relevant columns</span></a>
+<a class="sourceLine" id="cb85-5" data-line-number="5">ecom2 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom1, device, order_value)</a>
+<a class="sourceLine" id="cb85-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb85-7" data-line-number="7"><span class="co"># view data</span></a>
+<a class="sourceLine" id="cb85-8" data-line-number="8">ecom2</a></code></pre></div>
+<pre><code>## # A tibble: 103 x 2
+##    device order_value
+##    &lt;fct&gt;        &lt;dbl&gt;
+##  1 tablet         434
+##  2 mobile         651
+##  3 tablet        1049
+##  4 tablet        1304
+##  5 tablet         622
+##  6 tablet        1613
+##  7 mobile         184
+##  8 tablet         286
+##  9 mobile         764
+## 10 tablet        1667
+## # ... with 93 more rows</code></pre>
+</div>
+</div>
+<div id="grouping-data" class="section level2">
+<h2><span class="header-section-number">4.10</span> Grouping Data</h2>
+<p>We need to compute the total order value and total order items for each device
+in order to compute their AOV. To achieve this, we need to group the selected
+<code>order_value</code> and <code>order_items</code> by device type. <code>group_by()</code> allows us to group
+or split data based on particular (discrete) variable. The first argument is the
+name of the data set and the second argument is the name of the column based on
+which the data will be split.</p>
+<p>To split the data by referrer type, we use <code>group_by</code> and specify the data set
+i.e. <code>ecom</code> and the column based on which to split the data i.e. <code>referrer</code>.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="kw">group_by</span>(ecom, referrer)</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+## # Groups:   referrer [5]
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 google   laptop      10       1      693 FALSE              0
+##  2 yahoo    tablet       9       1      459 FALSE              0
+##  3 direct   laptop       0       1      996 FALSE              0
+##  4 bing     tablet       3      18      468 TRUE               6
+##  5 yahoo    mobile       9       1      955 FALSE              0
+##  6 yahoo    laptop       5       5      135 FALSE              0
+##  7 yahoo    mobile      10       1       75 FALSE              0
+##  8 direct   mobile      10       1      908 FALSE              0
+##  9 bing     mobile       3      19      209 FALSE              0
+## 10 google   mobile       6       1      208 FALSE              0
+## # ... with 990 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
+<div id="case-study-3" class="section level3">
+<h3><span class="header-section-number">4.10.1</span> Case Study</h3>
+<p>In the second line in the previous output, you can observe <code>Groups: referrer [5]</code>
+. The data is split into 5 groups as the referrer variable has 5 distinct values.
+For our case study, we need to group the data by <code>device</code> type.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="co"># split ecom2 by device type</span></a>
+<a class="sourceLine" id="cb89-2" data-line-number="2">ecom3 &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom2, device)</a>
+<a class="sourceLine" id="cb89-3" data-line-number="3">ecom3</a></code></pre></div>
+<pre><code>## # A tibble: 103 x 2
+## # Groups:   device [3]
+##    device order_value
+##    &lt;fct&gt;        &lt;dbl&gt;
+##  1 tablet         434
+##  2 mobile         651
+##  3 tablet        1049
+##  4 tablet        1304
+##  5 tablet         622
+##  6 tablet        1613
+##  7 mobile         184
+##  8 tablet         286
+##  9 mobile         764
+## 10 tablet        1667
+## # ... with 93 more rows</code></pre>
+</div>
+</div>
+<div id="summarise-data" class="section level2">
+<h2><span class="header-section-number">4.11</span> Summarise Data</h2>
+<p>The next step is to compute the total order value and total order items for each
+device. i.e. we need to reduce the order value and order items data to a single
+summary. We can achieve this using <code>summarise()</code>. As usual, the first argument
+is the name of a data set and the subsequent arguments are functions that can
+summarise data. For example, we can use <code>min</code>, <code>max</code>, <code>sum</code>, <code>mean</code> etc.</p>
+<p>Let us compute the average number of pages browsed by referrer type:</p>
+<ul>
+<li>split data by <code>referrer</code> type</li>
+<li>compute the average number of pages using <code>mean</code></li>
+</ul>
+<p><img src="img/groupby_summarise.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="co"># split data by referrer type</span></a>
+<a class="sourceLine" id="cb91-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom, referrer)</a>
+<a class="sourceLine" id="cb91-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb91-4" data-line-number="4"><span class="co"># compute average number of pages</span></a>
+<a class="sourceLine" id="cb91-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">summarise</span>(step_<span class="dv">1</span>, <span class="kw">mean</span>(n_pages))</a>
+<a class="sourceLine" id="cb91-6" data-line-number="6">step_<span class="dv">2</span></a></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   referrer `mean(n_pages)`
+##   &lt;fct&gt;              &lt;dbl&gt;
+## 1 bing                6.13
+## 2 direct              6.38
+## 3 social              5.42
+## 4 yahoo               5.99
+## 5 google              5.73</code></pre>
+<p>Now let us compute both the <code>mean</code> and the <code>median</code>.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="co"># split data by referrer type</span></a>
+<a class="sourceLine" id="cb93-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom, referrer)</a>
+<a class="sourceLine" id="cb93-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb93-4" data-line-number="4"><span class="co"># compute average number of pages</span></a>
+<a class="sourceLine" id="cb93-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">summarise</span>(step_<span class="dv">1</span>, <span class="kw">mean</span>(n_pages), <span class="kw">median</span>(n_pages))</a>
+<a class="sourceLine" id="cb93-6" data-line-number="6">step_<span class="dv">2</span></a></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   referrer `mean(n_pages)` `median(n_pages)`
+##   &lt;fct&gt;              &lt;dbl&gt;             &lt;dbl&gt;
+## 1 bing                6.13                 1
+## 2 direct              6.38                 1
+## 3 social              5.42                 1
+## 4 yahoo               5.99                 2
+## 5 google              5.73                 1</code></pre>
+<p>Another way to achieve the above result is to use the
+<code>summarise_all()</code> function. How does that work? It generates the specified
+summary for all the columns in the data set except for the column based on
+which the data has been grouped or split. So we need to ensure that the data
+does not have any irrelevant columns.</p>
+<ul>
+<li>split data by <code>referrer</code> type</li>
+<li>select <code>order_value</code> and <code>order_items</code></li>
+<li>compute the average number of pages by applying the <code>mean</code> function to all
+the columns</li>
+</ul>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="co"># select relevant columns</span></a>
+<a class="sourceLine" id="cb95-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, referrer, order_value)</a>
+<a class="sourceLine" id="cb95-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb95-4" data-line-number="4"><span class="co"># split data by referrer type</span></a>
+<a class="sourceLine" id="cb95-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(step_<span class="dv">1</span>, referrer)</a>
+<a class="sourceLine" id="cb95-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb95-7" data-line-number="7"><span class="co"># compute average number of pages</span></a>
+<a class="sourceLine" id="cb95-8" data-line-number="8">step_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(step_<span class="dv">2</span>, <span class="kw">funs</span>(mean))</a>
+<a class="sourceLine" id="cb95-9" data-line-number="9">step_<span class="dv">3</span></a></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   referrer order_value
+##   &lt;fct&gt;          &lt;dbl&gt;
+## 1 bing            316.
+## 2 direct          441.
+## 3 social          380.
+## 4 yahoo           470.
+## 5 google          328.</code></pre>
+<p>Let us compute <code>mean</code> and <code>median</code> number of pages for each referre type using
+<code>summarise_all</code>.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="co"># select relevant columns</span></a>
+<a class="sourceLine" id="cb97-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, referrer, order_value)</a>
+<a class="sourceLine" id="cb97-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb97-4" data-line-number="4"><span class="co"># split data by referrer type</span></a>
+<a class="sourceLine" id="cb97-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(step_<span class="dv">1</span>, referrer)</a>
+<a class="sourceLine" id="cb97-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb97-7" data-line-number="7"><span class="co"># compute mean and median number of pages</span></a>
+<a class="sourceLine" id="cb97-8" data-line-number="8">step_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(step_<span class="dv">2</span>, <span class="kw">funs</span>(mean, median))</a>
+<a class="sourceLine" id="cb97-9" data-line-number="9">step_<span class="dv">3</span></a></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   referrer  mean median
+##   &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1 bing      316.      0
+## 2 direct    441.      0
+## 3 social    380.      0
+## 4 yahoo     470.      0
+## 5 google    328.      0</code></pre>
+<div id="case-study-4" class="section level3">
+<h3><span class="header-section-number">4.11.1</span> Case Study</h3>
+<p>So far, we have split the data based on the <code>device</code> type and we have selected 2
+columns, <code>order_value</code> and <code>order_items</code>. We need the sum of order value and
+order items. What function can we use to obtain them? The <code>sum()</code> function will
+generate the sum of the values and hence we will use it inside the <code>summarise()</code>
+function. Remember, we need to provide a name to the summary being generated.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise</span>(ecom3, <span class="dt">revenue =</span> <span class="kw">sum</span>(order_value),</a>
+<a class="sourceLine" id="cb99-2" data-line-number="2">          <span class="dt">orders =</span> <span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb99-3" data-line-number="3">ecom4</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   device revenue orders
+##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt;
+## 1 laptop   56531     31
+## 2 tablet   51321     36
+## 3 mobile   51504     36</code></pre>
+<p>There you go, we have the total order value and total order items for each
+device type. If we use <code>summarise_all()</code>, it will generate the summary for the
+selected columns based on the function specified. To specify the functions, we
+need to use another argument <code>funs</code> and it can take any number of valid
+functions.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(ecom3, <span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>()))</a>
+<a class="sourceLine" id="cb101-2" data-line-number="2">ecom4</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   device revenue orders
+##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt;
+## 1 laptop   56531     31
+## 2 tablet   51321     36
+## 3 mobile   51504     36</code></pre>
+</div>
+</div>
+<div id="create-columns" class="section level2">
+<h2><span class="header-section-number">4.12</span> Create Columns</h2>
+<p>To create a new column, we will use <code>mutate()</code>. The first argument is the name
+of the data set and the subsequent arguments are expressions for creating new
+columns based out of existing columns.</p>
+<p>Let us add a new column <code>avg_page_time</code> i.e. time on site divided by number of
+pages visited.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="co"># select duration and n_pages from ecom</span></a>
+<a class="sourceLine" id="cb103-2" data-line-number="2">mutate_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, n_pages, duration)</a>
+<a class="sourceLine" id="cb103-3" data-line-number="3"><span class="kw">mutate</span>(mutate_<span class="dv">1</span>, <span class="dt">avg_page_time =</span> duration <span class="op">/</span><span class="st"> </span>n_pages)</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 3
+##    n_pages duration avg_page_time
+##      &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;
+##  1       1      693           693
+##  2       1      459           459
+##  3       1      996           996
+##  4      18      468            26
+##  5       1      955           955
+##  6       5      135            27
+##  7       1       75            75
+##  8       1      908           908
+##  9      19      209            11
+## 10       1      208           208
+## # ... with 990 more rows</code></pre>
+<p>We can create new columns based on other columns created using <code>mutate</code>. Let us
+create another column <code>sqrt_avg_page_time</code> i.e. square root of the average time
+on page using <code>avg_page_time</code>.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="kw">mutate</span>(mutate_<span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb105-2" data-line-number="2">       <span class="dt">avg_page_time =</span> duration <span class="op">/</span><span class="st"> </span>n_pages,</a>
+<a class="sourceLine" id="cb105-3" data-line-number="3">       <span class="dt">sqrt_avg_page_time =</span> <span class="kw">sqrt</span>(avg_page_time))</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 4
+##    n_pages duration avg_page_time sqrt_avg_page_time
+##      &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;              &lt;dbl&gt;
+##  1       1      693           693              26.3 
+##  2       1      459           459              21.4 
+##  3       1      996           996              31.6 
+##  4      18      468            26               5.10
+##  5       1      955           955              30.9 
+##  6       5      135            27               5.20
+##  7       1       75            75               8.66
+##  8       1      908           908              30.1 
+##  9      19      209            11               3.32
+## 10       1      208           208              14.4 
+## # ... with 990 more rows</code></pre>
+<div id="case-study-5" class="section level3">
+<h3><span class="header-section-number">4.12.1</span> Case Study</h3>
+<p>Back to our case study, from the last step we have the total order value and
+total order items for each device category and can compute the AOV. We will
+create a new column to store AOV.</p>
+<p><img src="img/mutate_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1">ecom5 &lt;-<span class="st"> </span><span class="kw">mutate</span>(ecom4, <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders)</a>
+<a class="sourceLine" id="cb107-2" data-line-number="2">ecom5</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 4
+##   device revenue orders   aov
+##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;
+## 1 laptop   56531     31 1824.
+## 2 tablet   51321     36 1426.
+## 3 mobile   51504     36 1431.</code></pre>
+<p>The last step is to select the relevant columns. We will select the device type
+and the corresponding aov while getting rid of other columns. Use <code>select()</code>
+to extract the relevant columns.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">ecom6 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom5, device, aov)</a>
+<a class="sourceLine" id="cb109-2" data-line-number="2">ecom6</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 laptop 1824.
+## 2 tablet 1426.
+## 3 mobile 1431.</code></pre>
+</div>
+</div>
+<div id="arrange-data" class="section level2">
+<h2><span class="header-section-number">4.13</span> Arrange Data</h2>
+<p>Arranging data in ascending or descending order is one of the most common tasks
+in data manipulation. We can use <code>arrange</code> to arrange data by different columns.
+Let us say we want to arrange data by the number of pages browsed.</p>
+<p><img src="img/arrange_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">arrange</span>(ecom, n_pages)</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 google   laptop      10       1      693 FALSE              0
+##  2 yahoo    tablet       9       1      459 FALSE              0
+##  3 direct   laptop       0       1      996 FALSE              0
+##  4 yahoo    mobile       9       1      955 FALSE              0
+##  5 yahoo    mobile      10       1       75 FALSE              0
+##  6 direct   mobile      10       1      908 FALSE              0
+##  7 google   mobile       6       1      208 FALSE              0
+##  8 direct   laptop       9       1      738 FALSE              0
+##  9 yahoo    mobile       7       1       19 FALSE              7
+## 10 bing     laptop       1       1      995 FALSE              0
+## # ... with 990 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
+<p>If we want to arrange the data in descending order, we can use <code>desc()</code>. Let us
+arrange the data in descending order.</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw">arrange</span>(ecom , <span class="kw">desc</span>(n_pages))</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 social   tablet       9      20      420 TRUE               7
+##  2 bing     mobile       4      20      440 TRUE               3
+##  3 yahoo    tablet       0      20      200 FALSE              0
+##  4 direct   tablet       6      20      580 TRUE               5
+##  5 social   mobile       1      20      520 TRUE               5
+##  6 google   mobile       8      20      300 TRUE               7
+##  7 social   laptop       4      20      200 FALSE              0
+##  8 yahoo    mobile       3      20      480 FALSE              0
+##  9 social   laptop      10      20      280 TRUE               1
+## 10 yahoo    mobile       2      20      240 FALSE              0
+## # ... with 990 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
+<p>Data can be arranged by multiple variables as well. Let us arrange data first by
+number of visits and then by number of pages in a descending order.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw">arrange</span>(ecom, n_visit, <span class="kw">desc</span>(n_pages))</a></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 yahoo    tablet       0      20      200 FALSE              0
+##  2 google   laptop       0      19      418 TRUE               2
+##  3 bing     laptop       0      18      180 FALSE              0
+##  4 yahoo    laptop       0      18      522 TRUE               8
+##  5 direct   tablet       0      18      252 FALSE              0
+##  6 social   laptop       0      17      204 FALSE              0
+##  7 bing     laptop       0      17      272 TRUE               9
+##  8 bing     mobile       0      16      272 FALSE              0
+##  9 yahoo    mobile       0      15      255 FALSE              0
+## 10 direct   laptop       0      15      255 FALSE              0
+## # ... with 990 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
+<div id="case-study-6" class="section level3">
+<h3><span class="header-section-number">4.13.1</span> Case Study</h3>
+<p>If you observe <code>ecom6</code>, the <code>aov</code> column is arranged in descending order.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">arrange</span>(ecom6, aov)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 tablet 1426.
+## 2 mobile 1431.
+## 3 laptop 1824.</code></pre>
+</div>
+</div>
+<div id="aov-by-devices-1" class="section level2">
+<h2><span class="header-section-number">4.14</span> AOV by Devices</h2>
+<p>Let us combine all the code from the above steps:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1">ecom1 &lt;-<span class="st"> </span><span class="kw">filter</span>(ecom, purchase)</a>
+<a class="sourceLine" id="cb119-2" data-line-number="2">ecom2 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom1, device, order_value)</a>
+<a class="sourceLine" id="cb119-3" data-line-number="3">ecom3 &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom2, device)</a>
+<a class="sourceLine" id="cb119-4" data-line-number="4">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(ecom3, <span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>()))</a>
+<a class="sourceLine" id="cb119-5" data-line-number="5">ecom5 &lt;-<span class="st"> </span><span class="kw">mutate</span>(ecom4, <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders)</a>
+<a class="sourceLine" id="cb119-6" data-line-number="6">ecom6 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom5, device, aov)</a>
+<a class="sourceLine" id="cb119-7" data-line-number="7">ecom7 &lt;-<span class="st"> </span><span class="kw">arrange</span>(ecom6, aov)</a>
+<a class="sourceLine" id="cb119-8" data-line-number="8">ecom7</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 tablet 1426.
+## 2 mobile 1431.
+## 3 laptop 1824.</code></pre>
+<p>If you observe, at each step we create a new variable(data frame) and then use
+it as an input in the next step i.e. the output from one step becomes the input
+for the next. Can we achieve the final outcome i.e. <code>ecom7</code> without creating the
+intermediate data (ecom1 - ecom6)? Yes, we can. We will use the <code>%&gt;%</code> operator
+to chain the steps and get rid of the intermediate data.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb121-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb121-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(device, order_value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb121-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(device) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>())) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb121-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb121-7" data-line-number="7">    <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders</a>
+<a class="sourceLine" id="cb121-8" data-line-number="8">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb121-9" data-line-number="9"><span class="st">  </span><span class="kw">select</span>(device, aov) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb121-10" data-line-number="10"><span class="st">  </span><span class="kw">arrange</span>(aov)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 tablet 1426.
+## 2 mobile 1431.
+## 3 laptop 1824.</code></pre>
+<p>Below we map the description of each step to dplyr verbs.</p>
+<p><img src="img/dplyr_aov_map.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="your-turn" class="section level2">
+<h2><span class="header-section-number">4.15</span> Your Turn</h2>
+<ul>
+<li>what is the average number of pages visited by purchasers and non-purchasers?</li>
+<li>what is the average time on site for purchasers vs non-purchasers?</li>
+<li>what is the average number of pages visited by purchasers and non-purchasers using mobile?</li>
+</ul>
 
+</div>
 </div>
             </section>
 
