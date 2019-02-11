@@ -127,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Data Wrangling with R</a></li>
+<li><a href="https://github.com/rsquaredacademy-education/wrangle-r/">Data Wrangling with R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
@@ -581,16 +581,16 @@ number of observations.</p>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 bing     tablet FALSE          5       6      138 FALSE   
-##  2 bing     tablet FALSE          1       8      144 FALSE   
-##  3 social   mobile FALSE          5      16      272 TRUE    
-##  4 direct   mobile TRUE           2       1      501 FALSE   
-##  5 google   mobile FALSE          8      11      198 FALSE   
-##  6 yahoo    laptop TRUE           7       1      163 FALSE   
-##  7 direct   tablet FALSE         10      18      324 TRUE    
-##  8 direct   mobile FALSE          5      10      140 FALSE   
-##  9 direct   laptop FALSE          9      17      425 TRUE    
-## 10 direct   mobile FALSE         10      17      272 FALSE   
+##  1 google   tablet FALSE          1      11      220 FALSE   
+##  2 bing     tablet FALSE          5      20      540 FALSE   
+##  3 google   laptop FALSE          6      13      325 TRUE    
+##  4 direct   laptop FALSE          8      20      440 FALSE   
+##  5 yahoo    laptop FALSE         10      18      180 FALSE   
+##  6 social   tablet FALSE          5      16      272 TRUE    
+##  7 yahoo    tablet FALSE          7      16      224 FALSE   
+##  8 yahoo    tablet TRUE           1       1      441 FALSE   
+##  9 direct   tablet FALSE          7      15      240 FALSE   
+## 10 google   mobile TRUE           5       1      988 FALSE   
 ## # ... with 690 more rows</code></pre>
 <p>We can combine the sampling functions with other dplyr functions as shown below
 where we sample observation after grouping them according to the source of
@@ -602,32 +602,32 @@ traffic.</p>
 ## # Groups:   referrer [5]
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 bing     tablet TRUE           0       1      985 FALSE   
-##  2 bing     mobile FALSE          1      12      168 FALSE   
-##  3 bing     laptop TRUE           7       1      362 FALSE   
-##  4 bing     mobile FALSE          3      19      209 FALSE   
-##  5 bing     tablet FALSE          1      19      361 TRUE    
-##  6 bing     mobile TRUE           1       1      905 FALSE   
-##  7 bing     laptop TRUE           0       1      897 FALSE   
-##  8 bing     tablet TRUE           3       1      134 FALSE   
-##  9 bing     mobile FALSE          9       3       78 FALSE   
-## 10 bing     tablet TRUE           1       1      406 FALSE   
+##  1 bing     mobile TRUE           1       1      905 FALSE   
+##  2 bing     mobile FALSE          3      18      288 TRUE    
+##  3 bing     laptop TRUE           8       1      484 FALSE   
+##  4 bing     laptop FALSE          4       3       48 FALSE   
+##  5 bing     tablet TRUE           5       1      999 FALSE   
+##  6 bing     laptop FALSE         10      17      493 FALSE   
+##  7 bing     mobile TRUE           5       1      190 FALSE   
+##  8 bing     mobile FALSE          0       4       72 FALSE   
+##  9 bing     tablet TRUE           1       1      721 FALSE   
+## 10 bing     laptop TRUE           9       1      709 FALSE   
 ## # ... with 490 more rows</code></pre>
 <p><code>sample_frac()</code> allows a specific percentage of observations.</p>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="kw">sample_frac</span>(ecom, <span class="dt">size =</span> <span class="fl">0.7</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 yahoo    laptop TRUE           1       1       63 FALSE   
-##  2 bing     tablet FALSE          8      19      570 TRUE    
-##  3 google   laptop FALSE          3      20      460 FALSE   
-##  4 social   laptop TRUE           4       1      850 FALSE   
-##  5 yahoo    tablet FALSE          6       5      110 FALSE   
-##  6 bing     mobile FALSE          4       2       46 FALSE   
-##  7 bing     tablet FALSE          7       2       34 FALSE   
-##  8 social   tablet TRUE           7       1      811 FALSE   
-##  9 google   tablet FALSE          9       3       57 FALSE   
-## 10 direct   mobile FALSE          9      15      375 TRUE    
+##  1 direct   tablet TRUE           9       1      709 FALSE   
+##  2 yahoo    mobile FALSE          7       6      102 FALSE   
+##  3 social   laptop TRUE           3       1      365 FALSE   
+##  4 direct   mobile FALSE          3      10      200 FALSE   
+##  5 direct   mobile FALSE          8      15      180 FALSE   
+##  6 yahoo    laptop TRUE           2       1      997 FALSE   
+##  7 google   tablet TRUE           6       1      250 FALSE   
+##  8 bing     mobile TRUE           5       1      541 FALSE   
+##  9 yahoo    laptop FALSE          3       1       23 FALSE   
+## 10 yahoo    laptop FALSE          3       1       29 FALSE   
 ## # ... with 690 more rows</code></pre>
 </div>
 <div id="data-extraction" class="section level2">
@@ -643,17 +643,17 @@ using <code>head</code> in addition to limit the output printed.</p>
 <div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1">ecom_mini &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
 <p><img src="img/pull_1.png" width="100%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, device)</a></code></pre></div>
-<pre><code>##  [1] mobile laptop tablet mobile mobile tablet mobile mobile mobile tablet
+<pre><code>##  [1] mobile mobile tablet laptop laptop tablet tablet laptop laptop mobile
 ## Levels: laptop tablet mobile</code></pre>
 <p>Let us extract the first column from <code>ecom</code> using column position instead of
 name.</p>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">1</span>) </a></code></pre></div>
-<pre><code>##  [1] google social social google social social direct google google bing  
+<pre><code>##  [1] yahoo  google google bing   google social direct google yahoo  yahoo 
 ## Levels: bing direct social yahoo google</code></pre>
 <p>You can use <code>-</code> before the column position to indicate the position in reverse.
 The below example extracts data from the last column.</p>
 <div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">-1</span>) </a></code></pre></div>
-<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 <p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we
 extract data starting from the 5th row and upto the 15th row.</p>
 <p><img src="img/slice_1.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -690,9 +690,9 @@ and 15.</p>
 <a class="sourceLine" id="cb174-3" data-line-number="3">ecom_sample <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb174-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(n_pages) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb174-5" data-line-number="5"><span class="st">  </span><span class="kw">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </a></code></pre></div>
-<pre><code>##  [1] FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE
-## [12] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE
-## [23] FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE</code></pre>
+<pre><code>##  [1]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+## [12]  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+## [23]  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE</code></pre>
 </div>
 <div id="case-when" class="section level2">
 <h2><span class="header-section-number">6.9</span> Case When</h2>
@@ -765,7 +765,8 @@ gitbook.start({
 },
 "download": null,
 "toc": {
-"collapse": "subsection"
+"collapse": "section",
+"scroll_highlight": true
 }
 });
 });

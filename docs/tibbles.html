@@ -127,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Data Wrangling with R</a></li>
+<li><a href="https://github.com/rsquaredacademy-education/wrangle-r/">Data Wrangling with R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
@@ -437,16 +437,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## # A tibble: 26 x 3
 ##    x         y     z
 ##    &lt;chr&gt; &lt;int&gt; &lt;int&gt;
-##  1 a         1    20
-##  2 b         2    89
-##  3 c         3    93
-##  4 d         4     6
-##  5 e         5    72
-##  6 f         6    40
-##  7 g         7     7
-##  8 h         8    23
-##  9 i         9    59
-## 10 j        10    21
+##  1 a         1    35
+##  2 b         2    40
+##  3 c         3    34
+##  4 d         4    22
+##  5 e         5    80
+##  6 f         6    20
+##  7 g         7    42
+##  8 h         8    66
+##  9 i         9    98
+## 10 j        10     4
 ## # ... with 16 more rows</code></pre>
 <p>We mentioned the column names followed by the data. If you do not specify the
 column names, <code>tibble()</code> will supply them. Ensure that the length of each column
@@ -465,16 +465,16 @@ you need to set <code>stringsAsFactors</code> to <code>FALSE</code>.</p>
 <pre><code>## # A tibble: 26 x 3
 ##    x         y     z
 ##    &lt;chr&gt; &lt;int&gt; &lt;int&gt;
-##  1 a         1    57
-##  2 b         2     9
-##  3 c         3    85
-##  4 d         4    11
-##  5 e         5    22
-##  6 f         6    93
-##  7 g         7    64
-##  8 h         8    48
-##  9 i         9    59
-## 10 j        10    23
+##  1 a         1    45
+##  2 b         2    92
+##  3 c         3    20
+##  4 d         4    87
+##  5 e         5    44
+##  6 f         6    86
+##  7 g         7   100
+##  8 h         8    17
+##  9 i         9    95
+## 10 j        10     9
 ## # ... with 16 more rows</code></pre>
 </div>
 <div id="never-adjusts-variable-names" class="section level3">
@@ -501,11 +501,11 @@ console.</p>
 ##    &lt;int&gt; &lt;chr&gt; &lt;lgl&gt;
 ##  1     1 a     FALSE
 ##  2     2 a     TRUE 
-##  3     3 a     TRUE 
-##  4     4 a     FALSE
-##  5     5 a     FALSE
-##  6     6 a     FALSE
-##  7     7 a     FALSE
+##  3     3 a     FALSE
+##  4     4 a     TRUE 
+##  5     5 a     TRUE 
+##  6     6 a     TRUE 
+##  7     7 a     TRUE 
 ##  8     8 a     TRUE 
 ##  9     9 a     TRUE 
 ## 10    10 a     FALSE
@@ -806,7 +806,8 @@ gitbook.start({
 },
 "download": null,
 "toc": {
-"collapse": "subsection"
+"collapse": "section",
+"scroll_highlight": true
 }
 });
 });

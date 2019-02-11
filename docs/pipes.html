@@ -127,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Data Wrangling with R</a></li>
+<li><a href="https://github.com/rsquaredacademy-education/wrangle-r/">Data Wrangling with R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
@@ -466,16 +466,16 @@ complex code, it results in nested function calls which are hard to read and mai
 <pre><code>## # A tibble: 10 x 4
 ##    referrer n_pages duration purchase
 ##    &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 social         1      874 FALSE   
-##  2 direct         1      180 FALSE   
-##  3 google         1      301 FALSE   
-##  4 bing           1      646 FALSE   
-##  5 social         1      619 FALSE   
-##  6 direct        10      120 FALSE   
-##  7 yahoo         18      468 TRUE    
-##  8 direct        17      391 TRUE    
-##  9 bing           1      369 FALSE   
-## 10 yahoo          4       52 FALSE</code></pre>
+##  1 social         1       30 FALSE   
+##  2 yahoo         18      432 FALSE   
+##  3 bing           9      261 FALSE   
+##  4 google         4       60 FALSE   
+##  5 yahoo          1      804 FALSE   
+##  6 social        10      150 FALSE   
+##  7 social         5       95 FALSE   
+##  8 direct         4       80 FALSE   
+##  9 yahoo          1      377 FALSE   
+## 10 yahoo          4      112 FALSE</code></pre>
 <div id="data-dictionary-2" class="section level3">
 <h3><span class="header-section-number">7.3.1</span> Data Dictionary</h3>
 <ul>
@@ -708,13 +708,13 @@ we do not use quotes.</p>
 ##    n_pages
 ##      &lt;dbl&gt;
 ##  1       1
-##  2       1
-##  3       1
-##  4       1
+##  2      18
+##  3       9
+##  4       4
 ##  5       1
 ##  6      10
-##  7      18
-##  8      17
+##  7       5
+##  8       4
 ##  9       1
 ## 10       4</code></pre>
 <div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" data-line-number="1"><span class="co"># magrittr</span></a>
@@ -723,13 +723,13 @@ we do not use quotes.</p>
 ##    n_pages
 ##      &lt;dbl&gt;
 ##  1       1
-##  2       1
-##  3       1
-##  4       1
+##  2      18
+##  3       9
+##  4       4
 ##  5       1
 ##  6      10
-##  7      18
-##  8      17
+##  7       5
+##  8       4
 ##  9       1
 ## 10       4</code></pre>
 <p>We can extract columns using their index position. Keep in mind that index
@@ -742,13 +742,13 @@ column position.</p>
 ##    n_pages
 ##      &lt;dbl&gt;
 ##  1       1
-##  2       1
-##  3       1
-##  4       1
+##  2      18
+##  3       9
+##  4       4
 ##  5       1
 ##  6      10
-##  7      18
-##  8      17
+##  7       5
+##  8       4
 ##  9       1
 ## 10       4</code></pre>
 <div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="co"># magrittr</span></a>
@@ -757,13 +757,13 @@ column position.</p>
 ##    n_pages
 ##      &lt;dbl&gt;
 ##  1       1
-##  2       1
-##  3       1
-##  4       1
+##  2      18
+##  3       9
+##  4       4
 ##  5       1
 ##  6      10
-##  7      18
-##  8      17
+##  7       5
+##  8       4
 ##  9       1
 ## 10       4</code></pre>
 <p>One important differentiator between <code>[</code> and <code>[[</code> is that <code>[[</code> will
@@ -772,10 +772,10 @@ a atomic vector. In magrittr, we can use <code>use_series()</code> in place of
 <code>$</code>.</p>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="co"># base </span></a>
 <a class="sourceLine" id="cb216-2" data-line-number="2">ecom_mini<span class="op">$</span>n_pages</a></code></pre></div>
-<pre><code>##  [1]  1  1  1  1  1 10 18 17  1  4</code></pre>
+<pre><code>##  [1]  1 18  9  4  1 10  5  4  1  4</code></pre>
 <div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" data-line-number="1"><span class="co"># magrittr</span></a>
 <a class="sourceLine" id="cb218-2" data-line-number="2"><span class="kw">use_series</span>(ecom_mini, <span class="st">&#39;n_pages&#39;</span>) </a></code></pre></div>
-<pre><code>##  [1]  1  1  1  1  1 10 18 17  1  4</code></pre>
+<pre><code>##  [1]  1 18  9  4  1 10  5  4  1  4</code></pre>
 </div>
 <div id="extract-list-element" class="section level3">
 <h3><span class="header-section-number">7.10.2</span> Extract List Element</h3>
@@ -785,25 +785,25 @@ a atomic vector. In magrittr, we can use <code>use_series()</code> in place of
 alternative for <code>[[</code>.</p>
 <div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="co"># base </span></a>
 <a class="sourceLine" id="cb221-2" data-line-number="2">ecom_list[[<span class="st">&#39;n_pages&#39;</span>]]</a></code></pre></div>
-<pre><code>##  [1]  1  1  1  1  1 10 18 17  1  4</code></pre>
+<pre><code>##  [1]  1 18  9  4  1 10  5  4  1  4</code></pre>
 <div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="co"># magrittr</span></a>
 <a class="sourceLine" id="cb223-2" data-line-number="2"><span class="kw">extract2</span>(ecom_list, <span class="st">&#39;n_pages&#39;</span>)</a></code></pre></div>
-<pre><code>##  [1]  1  1  1  1  1 10 18 17  1  4</code></pre>
+<pre><code>##  [1]  1 18  9  4  1 10  5  4  1  4</code></pre>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="co"># base </span></a>
 <a class="sourceLine" id="cb225-2" data-line-number="2">ecom_list[[<span class="dv">1</span>]]</a></code></pre></div>
-<pre><code>##  [1] social direct google bing   social direct yahoo  direct bing   yahoo 
+<pre><code>##  [1] social yahoo  bing   google yahoo  social social direct yahoo  yahoo 
 ## Levels: bing direct social yahoo google</code></pre>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="co"># magrittr</span></a>
 <a class="sourceLine" id="cb227-2" data-line-number="2"><span class="kw">extract2</span>(ecom_list, <span class="dv">1</span>)</a></code></pre></div>
-<pre><code>##  [1] social direct google bing   social direct yahoo  direct bing   yahoo 
+<pre><code>##  [1] social yahoo  bing   google yahoo  social social direct yahoo  yahoo 
 ## Levels: bing direct social yahoo google</code></pre>
 <p>We can extract the elements of a list using <code>use_series()</code> as well.</p>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="co"># base </span></a>
 <a class="sourceLine" id="cb229-2" data-line-number="2">ecom_list<span class="op">$</span>n_pages</a></code></pre></div>
-<pre><code>##  [1]  1  1  1  1  1 10 18 17  1  4</code></pre>
+<pre><code>##  [1]  1 18  9  4  1 10  5  4  1  4</code></pre>
 <div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="co"># magrittr</span></a>
 <a class="sourceLine" id="cb231-2" data-line-number="2"><span class="kw">use_series</span>(ecom_list, n_pages)</a></code></pre></div>
-<pre><code>##  [1]  1  1  1  1  1 10 18 17  1  4</code></pre>
+<pre><code>##  [1]  1 18  9  4  1 10  5  4  1  4</code></pre>
 </div>
 </div>
 <div id="arithmetic-operations" class="section level2">
@@ -938,7 +938,8 @@ gitbook.start({
 },
 "download": null,
 "toc": {
-"collapse": "subsection"
+"collapse": "section",
+"scroll_highlight": true
 }
 });
 });
