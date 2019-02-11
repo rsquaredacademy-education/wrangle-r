@@ -2,7 +2,9 @@ bookdown::gitbook:
   css: style.css
   config:
     toc:
+      collapse: section
+      scroll_highlight: yes
       before: |
-        <li><a href="./">Data Wrangling with R</a></li>
+        <li><a href="https://github.com/rsquaredacademy-education/wrangle-r/">Data Wrangling with R</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
