@@ -25,7 +25,7 @@
 <meta name="author" content="Aravind Hebbali">
 
 
-<meta name="date" content="2019-02-13">
+<meta name="date" content="2019-02-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -422,8 +422,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>extract/mutate data using predicate functions</li>
 <li>count observations for different levels of a variable</li>
 </ul>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="kw">library</span>(readr)</a></code></pre></div>
+<p>We will use the following R packages:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb141-2" data-line-number="2"><span class="kw">library</span>(readr)</a></code></pre></div>
 </div>
 <div id="case-study-8" class="section level2">
 <h2><span class="header-section-number">5.2</span> Case Study</h2>
@@ -432,16 +433,16 @@ helper functions to answer questions we have about and to modify/transform the
 underlying data set.</p>
 <div id="data-1" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> Data</h3>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb143-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
-<a class="sourceLine" id="cb143-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(<span class="dt">device =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</a>
-<a class="sourceLine" id="cb143-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
-<a class="sourceLine" id="cb143-5" data-line-number="5">      <span class="dt">purchase =</span> <span class="kw">col_logical</span>(), <span class="dt">bouncers =</span> <span class="kw">col_logical</span>(), <span class="dt">duration =</span> <span class="kw">col_double</span>(),</a>
-<a class="sourceLine" id="cb143-6" data-line-number="6">      <span class="dt">n_visit =</span> <span class="kw">col_double</span>(), <span class="dt">n_pages =</span> <span class="kw">col_double</span>()</a>
-<a class="sourceLine" id="cb143-7" data-line-number="7">    )</a>
-<a class="sourceLine" id="cb143-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb143-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb143-10" data-line-number="10">ecom</a></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb142-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(<span class="dt">device =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</a>
+<a class="sourceLine" id="cb142-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
+<a class="sourceLine" id="cb142-5" data-line-number="5">      <span class="dt">purchase =</span> <span class="kw">col_logical</span>(), <span class="dt">bouncers =</span> <span class="kw">col_logical</span>(), <span class="dt">duration =</span> <span class="kw">col_double</span>(),</a>
+<a class="sourceLine" id="cb142-6" data-line-number="6">      <span class="dt">n_visit =</span> <span class="kw">col_double</span>(), <span class="dt">n_pages =</span> <span class="kw">col_double</span>()</a>
+<a class="sourceLine" id="cb142-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb142-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb142-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb142-10" data-line-number="10">ecom</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
@@ -476,7 +477,7 @@ underlying data set.</p>
 and devices used to visit the site. We will use <code>distinct</code> to examine the
 values in the <code>referrer</code> column</p>
 <p><img src="img/distinct_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="kw">distinct</span>(ecom, referrer)</a></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="kw">distinct</span>(ecom, referrer)</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 1
 ##   referrer
 ##   &lt;fct&gt;   
@@ -486,7 +487,7 @@ values in the <code>referrer</code> column</p>
 ## 4 bing    
 ## 5 social</code></pre>
 <p>and the <code>device</code> column as well.</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">distinct</span>(ecom, device)</a></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="kw">distinct</span>(ecom, device)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 1
 ##   device
 ##   &lt;fct&gt; 
@@ -498,7 +499,7 @@ values in the <code>referrer</code> column</p>
 <h2><span class="header-section-number">5.4</span> Rename Columns</h2>
 <p>Columns can be renamed using <code>rename()</code>.</p>
 <p><img src="img/rename_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1"><span class="kw">rename</span>(ecom, <span class="dt">time_on_site =</span> duration)</a></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1"><span class="kw">rename</span>(ecom, <span class="dt">time_on_site =</span> duration)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 7
 ##    referrer device bouncers n_visit n_pages time_on_site purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt; &lt;lgl&gt;   
@@ -519,9 +520,9 @@ values in the <code>referrer</code> column</p>
 <p>Let us now look at the proportion or share of visits driven by different sources
 of traffic.</p>
 <p><img src="img/tally_count.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb151-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb151-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb150-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb150-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   referrer     n
 ##   &lt;fct&gt;    &lt;int&gt;
@@ -532,9 +533,9 @@ of traffic.</p>
 ## 5 google     208</code></pre>
 <p>We would also like to know the number of bouncers driven by the different
 sources of traffic.</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb153-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer, bouncers) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb153-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb152-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer, bouncers) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb152-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
 <pre><code>## # A tibble: 10 x 3
 ## # Groups:   referrer [?]
 ##    referrer bouncers     n
@@ -550,10 +551,10 @@ sources of traffic.</p>
 ##  9 google   FALSE      101
 ## 10 google   TRUE       107</code></pre>
 <p>Let us look at how many conversions happen across different devices.</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb155-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(device, purchase) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb155-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb155-4" data-line-number="4"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb154-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(device, purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb154-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb154-4" data-line-number="4"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 3
 ## # Groups:   device [3]
 ##   device purchase     n
@@ -562,9 +563,9 @@ sources of traffic.</p>
 ## 2 tablet TRUE        36
 ## 3 mobile TRUE        36</code></pre>
 <p>Another way to extract the above information is by using <code>count</code></p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb157-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(referrer, purchase) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb157-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb156-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(referrer, purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb156-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 3
 ##   referrer purchase     n
 ##   &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
@@ -580,57 +581,57 @@ sources of traffic.</p>
 number or percentage of observations. <code>sample_n()</code> allows sampling a specific
 number of observations.</p>
 <p><img src="img/sample_frac_n.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="kw">sample_n</span>(ecom, <span class="dv">700</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1"><span class="kw">sample_n</span>(ecom, <span class="dv">700</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 yahoo    mobile TRUE           9       1      565 FALSE   
-##  2 bing     mobile FALSE          3      18      288 TRUE    
-##  3 social   laptop TRUE          10       1      504 FALSE   
-##  4 social   laptop TRUE           1       1       10 FALSE   
-##  5 yahoo    mobile TRUE           4       1      377 FALSE   
-##  6 direct   mobile FALSE          5      13      325 FALSE   
-##  7 social   tablet TRUE           8       1      425 FALSE   
-##  8 yahoo    mobile TRUE           0       1      895 FALSE   
-##  9 yahoo    laptop FALSE          5       8      136 FALSE   
-## 10 direct   tablet FALSE         10      14      252 FALSE   
+##  1 direct   mobile TRUE           2       1      217 FALSE   
+##  2 google   tablet FALSE          9       3       48 FALSE   
+##  3 direct   tablet TRUE           8       1      814 FALSE   
+##  4 google   mobile FALSE          4      10      200 FALSE   
+##  5 google   laptop FALSE          5       5      125 FALSE   
+##  6 direct   mobile TRUE           2       1      338 FALSE   
+##  7 direct   tablet FALSE          8       5       50 FALSE   
+##  8 google   mobile TRUE           5       1      988 FALSE   
+##  9 yahoo    mobile FALSE         10       6       90 FALSE   
+## 10 social   mobile TRUE           5       1       22 FALSE   
 ## # ... with 690 more rows</code></pre>
 <p>We can combine the sampling functions with other dplyr functions as shown below
 where we sample observation after grouping them according to the source of
 traffic.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb161-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb161-3" data-line-number="3"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb160-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb160-3" data-line-number="3"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">100</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 500 x 7
 ## # Groups:   referrer [5]
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 bing     mobile FALSE         10       8      152 FALSE   
-##  2 bing     laptop FALSE          1      10      250 TRUE    
-##  3 bing     tablet FALSE          1       8      144 FALSE   
-##  4 bing     tablet FALSE          3      18      468 TRUE    
-##  5 bing     tablet TRUE           9       1      281 FALSE   
-##  6 bing     tablet FALSE          4      15      210 FALSE   
-##  7 bing     laptop TRUE           9       1      709 FALSE   
-##  8 bing     laptop TRUE           9       1      162 FALSE   
-##  9 bing     tablet FALSE          2      17      510 FALSE   
-## 10 bing     laptop TRUE           8       1      484 FALSE   
+##  1 bing     tablet TRUE           1       1      721 FALSE   
+##  2 bing     mobile TRUE           3       1      479 FALSE   
+##  3 bing     laptop TRUE           3       1      396 FALSE   
+##  4 bing     tablet TRUE           5       1      765 FALSE   
+##  5 bing     mobile TRUE           6       1      966 FALSE   
+##  6 bing     tablet TRUE           2       1      489 FALSE   
+##  7 bing     tablet FALSE          8      19      570 TRUE    
+##  8 bing     mobile FALSE         10      20      560 FALSE   
+##  9 bing     mobile TRUE           8       1      195 FALSE   
+## 10 bing     laptop FALSE          0      12      144 FALSE   
 ## # ... with 490 more rows</code></pre>
 <p><code>sample_frac()</code> allows a specific percentage of observations.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="kw">sample_frac</span>(ecom, <span class="dt">size =</span> <span class="fl">0.7</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="kw">sample_frac</span>(ecom, <span class="dt">size =</span> <span class="fl">0.7</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 yahoo    mobile FALSE          4      13      364 FALSE   
-##  2 yahoo    laptop FALSE          5      18      414 FALSE   
-##  3 yahoo    mobile TRUE           0       1      287 FALSE   
-##  4 bing     mobile FALSE          4      20      440 TRUE    
-##  5 bing     laptop TRUE           3       1      550 FALSE   
-##  6 google   laptop FALSE          2      17      391 FALSE   
-##  7 social   laptop FALSE          0      11      187 FALSE   
-##  8 google   laptop TRUE           5       1      751 FALSE   
-##  9 bing     tablet FALSE          2       1       23 FALSE   
-## 10 bing     mobile TRUE           1       1       67 FALSE   
+##  1 direct   tablet TRUE           5       1      581 FALSE   
+##  2 yahoo    laptop FALSE          1       2       30 FALSE   
+##  3 google   tablet TRUE           2       1      239 FALSE   
+##  4 social   mobile FALSE          1      10      170 FALSE   
+##  5 google   tablet FALSE          2       4       64 FALSE   
+##  6 social   tablet TRUE           6       1      133 FALSE   
+##  7 yahoo    mobile TRUE           1       1      376 FALSE   
+##  8 direct   tablet FALSE         10      14      252 FALSE   
+##  9 bing     laptop FALSE         10      16      304 FALSE   
+## 10 yahoo    laptop TRUE           2       1      731 FALSE   
 ## # ... with 690 more rows</code></pre>
 </div>
 <div id="data-extraction" class="section level2">
@@ -643,24 +644,24 @@ vector. In the below example, we extract the <code>device</code> column as a vec
 using <code>head</code> in addition to limit the output printed.</p>
 <div id="sample-data" class="section level3">
 <h3><span class="header-section-number">5.7.1</span> Sample Data</h3>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1">ecom_mini &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">ecom_mini &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
 <p><img src="img/pull_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, device)</a></code></pre></div>
-<pre><code>##  [1] tablet laptop mobile mobile tablet tablet laptop laptop mobile tablet
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, device)</a></code></pre></div>
+<pre><code>##  [1] tablet mobile tablet mobile mobile tablet tablet tablet laptop laptop
 ## Levels: laptop tablet mobile</code></pre>
 <p>Let us extract the first column from <code>ecom</code> using column position instead of
 name.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">1</span>) </a></code></pre></div>
-<pre><code>##  [1] direct bing   direct direct google direct social bing   direct social
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">1</span>) </a></code></pre></div>
+<pre><code>##  [1] google bing   bing   google google social bing   yahoo  direct bing  
 ## Levels: bing direct social yahoo google</code></pre>
 <p>You can use <code>-</code> before the column position to indicate the position in reverse.
 The below example extracts data from the last column.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">-1</span>) </a></code></pre></div>
-<pre><code>##  [1]  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">-1</span>) </a></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 <p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we
 extract data starting from the 5th row and upto the 15th row.</p>
 <p><img src="img/slice_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="kw">slice</span>(ecom, <span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="kw">slice</span>(ecom, <span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 11 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
@@ -676,7 +677,7 @@ extract data starting from the 5th row and upto the 15th row.</p>
 ## 10 yahoo    tablet FALSE          5       8       80 FALSE   
 ## 11 yahoo    mobile FALSE          7       1       19 FALSE</code></pre>
 <p>Use <code>n()</code> inside <code>slice()</code> to extract the last row.</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" data-line-number="1"><span class="kw">slice</span>(ecom, <span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="kw">slice</span>(ecom, <span class="kw">n</span>())</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 7
 ##   referrer device bouncers n_visit n_pages duration purchase
 ##   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
@@ -688,28 +689,28 @@ extract data starting from the 5th row and upto the 15th row.</p>
 <p><code>between()</code> allows us to test if the values in a column lie between two specific
 values. In the below example, we check how many visits browsed pages between 5
 and 15.</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1">ecom_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dv">30</span>)</a>
-<a class="sourceLine" id="cb176-2" data-line-number="2">  </a>
-<a class="sourceLine" id="cb176-3" data-line-number="3">ecom_sample <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb176-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(n_pages) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb176-5" data-line-number="5"><span class="st">  </span><span class="kw">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </a></code></pre></div>
-<pre><code>##  [1]  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE
-## [12]  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE
-## [23]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1">ecom_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb175-2" data-line-number="2">  </a>
+<a class="sourceLine" id="cb175-3" data-line-number="3">ecom_sample <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb175-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(n_pages) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb175-5" data-line-number="5"><span class="st">  </span><span class="kw">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </a></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+## [12] FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE
+## [23] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE</code></pre>
 </div>
 <div id="case-when" class="section level2">
 <h2><span class="header-section-number">5.9</span> Case When</h2>
 <p><code>case_when()</code> is an alternative to <code>if else</code>. It allows us to lay down the
 conditions clearly and makes the code more readable. In the below example, we
 create a new column <code>repeat_visit</code> from <code>n_visit</code> (the number of previous visits).</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb178-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb178-3" data-line-number="3">    <span class="dt">repeat_visit =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb178-4" data-line-number="4">      n_visit <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb178-5" data-line-number="5">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb178-6" data-line-number="6">    )</a>
-<a class="sourceLine" id="cb178-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb178-8" data-line-number="8"><span class="st">  </span><span class="kw">select</span>(n_visit, repeat_visit) </a></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb177-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb177-3" data-line-number="3">    <span class="dt">repeat_visit =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb177-4" data-line-number="4">      n_visit <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb177-5" data-line-number="5">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb177-6" data-line-number="6">    )</a>
+<a class="sourceLine" id="cb177-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb177-8" data-line-number="8"><span class="st">  </span><span class="kw">select</span>(n_visit, repeat_visit) </a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 2
 ##    n_visit repeat_visit
 ##      &lt;dbl&gt; &lt;lgl&gt;       

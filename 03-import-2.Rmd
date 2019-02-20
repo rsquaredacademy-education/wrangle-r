@@ -14,8 +14,11 @@ In this chapter, we will:
 		- SPSS
 		- STATA
 
+We will use the following R packages:		
+
 ```{r library, message=FALSE}
 library(readxl)
+library(haven)
 ```
 
 ## List Sheets
@@ -199,10 +202,6 @@ We will use the [haven](https://haven.tidyverse.org) package to read data from f
 - SAS
 - SPSS
 - STATA
-
-```{r haven, message=FALSE}
-library(haven)
-```
 
 ### STATA
 

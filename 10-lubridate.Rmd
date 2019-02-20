@@ -4,7 +4,7 @@
 
  In this chapter, we will learn to work with date/time data in R using 
  [lubridate](https://lubridate.tidyverse.org/), an R package that makes it easy 
- to work with dates and time. 
+ to work with dates and time. We will use the following R packages:
 
 ```{r lub1, message=FALSE}
 library(lubridate)

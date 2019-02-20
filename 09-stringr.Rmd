@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this chapter, we will learn to work with string data in R using [stringr](https://stringr.tidyverse.org). As we did in the other chapters, we will use a case study to explore the various features of the stringr package. 
+In this chapter, we will learn to work with string data in R using [stringr](https://stringr.tidyverse.org). As we did in the other chapters, we will use a case study to explore the various features of the stringr package. We will use the following R packages:
  
 ```{r str1, message=FALSE}
 library(stringr)

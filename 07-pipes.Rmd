@@ -22,6 +22,7 @@ If you are using [tidyverse](https://www.tidyverse.org/), magrittr will be autom
 - `%<>%`: result assigned to left hand side object instead of returning it 
 - `%$%` : expose names within left hand side objects to right hand side expressions
 
+We will use the following R packages:
 
 ```{r importlib1, message=FALSE}
 library(magrittr)

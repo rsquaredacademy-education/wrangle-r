@@ -5,6 +5,8 @@
 In this chapter, we will learn to combine tables using different `*_join` 
 functions provided in dplyr. 
 
+We will use the following R packages:
+
 ```{r dplyr1, message=FALSE}
 library(dplyr)
 library(readr)

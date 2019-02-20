@@ -14,6 +14,7 @@ In this chapter, we will explore a set of helper functions in order to:
 - extract/mutate data using predicate functions
 - count observations for different levels of a variable
 
+We will use the following R packages:
 
 ```{r dplyr1c, message=FALSE}
 library(dplyr)

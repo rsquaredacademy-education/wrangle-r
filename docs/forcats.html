@@ -25,7 +25,7 @@
 <meta name="author" content="Aravind Hebbali">
 
 
-<meta name="date" content="2019-02-13">
+<meta name="date" content="2019-02-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -411,15 +411,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="introduction-9" class="section level2">
 <h2><span class="header-section-number">10.1</span> Introduction</h2>
 <p>In this chapter, we will learn to work with categorical/qualitative data in R
-using <a href="https://forcats.tidyverse.org">forcats</a>. Let us begin by installing
-and loading forcats and a set of other pacakges we will be using.</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb459-1" data-line-number="1"><span class="kw">library</span>(forcats)</a>
-<a class="sourceLine" id="cb459-2" data-line-number="2"><span class="kw">library</span>(tibble)</a>
-<a class="sourceLine" id="cb459-3" data-line-number="3"><span class="kw">library</span>(magrittr)</a>
-<a class="sourceLine" id="cb459-4" data-line-number="4"><span class="kw">library</span>(purrr)</a>
-<a class="sourceLine" id="cb459-5" data-line-number="5"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb459-6" data-line-number="6"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb459-7" data-line-number="7"><span class="kw">library</span>(readr)</a></code></pre></div>
+using <a href="https://forcats.tidyverse.org">forcats</a>. We will use the following R
+packages:</p>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1"><span class="kw">library</span>(forcats)</a>
+<a class="sourceLine" id="cb458-2" data-line-number="2"><span class="kw">library</span>(tibble)</a>
+<a class="sourceLine" id="cb458-3" data-line-number="3"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb458-4" data-line-number="4"><span class="kw">library</span>(purrr)</a>
+<a class="sourceLine" id="cb458-5" data-line-number="5"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb458-6" data-line-number="6"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb458-7" data-line-number="7"><span class="kw">library</span>(readr)</a></code></pre></div>
 </div>
 <div id="case-study-12" class="section level2">
 <h2><span class="header-section-number">10.2</span> Case Study</h2>
@@ -437,15 +437,15 @@ in this case study:</p>
 </ul>
 <div id="data-5" class="section level3">
 <h3><span class="header-section-number">10.2.1</span> Data</h3>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb460-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
-<a class="sourceLine" id="cb460-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(</a>
-<a class="sourceLine" id="cb460-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
-<a class="sourceLine" id="cb460-5" data-line-number="5">      <span class="dt">n_pages =</span> <span class="kw">col_double</span>(), <span class="dt">duration =</span> <span class="kw">col_double</span>()</a>
-<a class="sourceLine" id="cb460-6" data-line-number="6">    )</a>
-<a class="sourceLine" id="cb460-7" data-line-number="7">  )</a>
-<a class="sourceLine" id="cb460-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb460-9" data-line-number="9">ecom</a></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb459-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb459-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb459-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(</a>
+<a class="sourceLine" id="cb459-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
+<a class="sourceLine" id="cb459-5" data-line-number="5">      <span class="dt">n_pages =</span> <span class="kw">col_double</span>(), <span class="dt">duration =</span> <span class="kw">col_double</span>()</a>
+<a class="sourceLine" id="cb459-6" data-line-number="6">    )</a>
+<a class="sourceLine" id="cb459-7" data-line-number="7">  )</a>
+<a class="sourceLine" id="cb459-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb459-9" data-line-number="9">ecom</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 3
 ##    referrer n_pages duration
 ##    &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt;
@@ -464,14 +464,14 @@ in this case study:</p>
 and save it in a new variable <code>referrers</code>. Instead of using ecom which is
 a tibble, we will use <code>referrers</code> which is a vector. We do this to avoid
 extracting the <code>referrer</code> column from the above data in later examples.</p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1">referrers &lt;-<span class="st"> </span><span class="kw">use_series</span>(ecom, referrer)</a></code></pre></div>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb461-1" data-line-number="1">referrers &lt;-<span class="st"> </span><span class="kw">use_series</span>(ecom, referrer)</a></code></pre></div>
 </div>
 </div>
 <div id="tabulate-referrers" class="section level2">
 <h2><span class="header-section-number">10.3</span> Tabulate Referrers</h2>
 <p>Let us look at the traffic driven by different referrer types.</p>
 <p><img src="img/fct_count.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb463-1" data-line-number="1"><span class="kw">fct_count</span>(referrers)</a></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1"><span class="kw">fct_count</span>(referrers)</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   f          n
 ##   &lt;fct&gt;  &lt;int&gt;
@@ -481,7 +481,7 @@ extracting the <code>referrer</code> column from the above data in later example
 ## 4 yahoo    207
 ## 5 google   208</code></pre>
 <p>If you want to sort the output in descending order, use <code>sort</code> and set it to <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb465-1" data-line-number="1"><span class="kw">fct_count</span>(referrers, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1"><span class="kw">fct_count</span>(referrers, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   f          n
 ##   &lt;fct&gt;  &lt;int&gt;
@@ -491,23 +491,23 @@ extracting the <code>referrer</code> column from the above data in later example
 ## 4 bing     194
 ## 5 direct   191</code></pre>
 <p>Use <code>fct_unique</code> to view the categories or levels of the referrer variable.</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb467-1" data-line-number="1"><span class="kw">fct_unique</span>(referrers)</a></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb466-1" data-line-number="1"><span class="kw">fct_unique</span>(referrers)</a></code></pre></div>
 <pre><code>## [1] bing   direct social yahoo  google
 ## Levels: bing direct social yahoo google</code></pre>
 </div>
 <div id="reorder-referrers" class="section level2">
 <h2><span class="header-section-number">10.4</span> Reorder Referrers</h2>
 <p>We want to examine the average number of pages visited by each referrer type.</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb469-1" data-line-number="1">refer_summary &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb469-2" data-line-number="2"><span class="st">  </span>ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb469-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb469-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb469-5" data-line-number="5">    <span class="dt">page =</span> <span class="kw">mean</span>(n_pages),</a>
-<a class="sourceLine" id="cb469-6" data-line-number="6">    <span class="dt">tos =</span> <span class="kw">mean</span>(duration),</a>
-<a class="sourceLine" id="cb469-7" data-line-number="7">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
-<a class="sourceLine" id="cb469-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb469-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb469-10" data-line-number="10">refer_summary</a></code></pre></div>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb468-1" data-line-number="1">refer_summary &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb468-2" data-line-number="2"><span class="st">  </span>ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb468-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb468-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb468-5" data-line-number="5">    <span class="dt">page =</span> <span class="kw">mean</span>(n_pages),</a>
+<a class="sourceLine" id="cb468-6" data-line-number="6">    <span class="dt">tos =</span> <span class="kw">mean</span>(duration),</a>
+<a class="sourceLine" id="cb468-7" data-line-number="7">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb468-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb468-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb468-10" data-line-number="10">refer_summary</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 4
 ##   referrer  page   tos     n
 ##   &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
@@ -517,15 +517,15 @@ extracting the <code>referrer</code> column from the above data in later example
 ## 4 yahoo     5.99  336.   207
 ## 5 google    5.73  360.   208</code></pre>
 <p>Let us plot the average number of pages visited by each referrer type.</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb471-1" data-line-number="1">refer_summary <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb471-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb471-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(page, referrer))</a></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb470-1" data-line-number="1">refer_summary <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb470-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb470-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(page, referrer))</a></code></pre></div>
 <p><img src="data-wrangling-with-r_files/figure-html/cat10-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Use <code>fct_reorder</code> to reorder the referrer types by the average number of pages
 visited.</p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" data-line-number="1">refer_summary <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb472-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb472-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(page, <span class="kw">fct_reorder</span>(referrer, page)))</a></code></pre></div>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb471-1" data-line-number="1">refer_summary <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb471-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb471-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(page, <span class="kw">fct_reorder</span>(referrer, page)))</a></code></pre></div>
 <p><img src="data-wrangling-with-r_files/figure-html/cat11-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 <div id="plot-referrer-frequency-descending-order" class="section level2">
@@ -533,46 +533,46 @@ visited.</p>
 <p>Since we want to plot the referrers in descending order of frequency, we will
 use <code>fct_infreq()</code> to reorder by frequency.</p>
 <p><img src="img/fct_infreq.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb473-1" data-line-number="1">referrers <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb473-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_infreq</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb473-3" data-line-number="3"><span class="st">  </span><span class="kw">fct_unique</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" data-line-number="1">referrers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb472-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_infreq</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb472-3" data-line-number="3"><span class="st">  </span><span class="kw">fct_unique</span>()</a></code></pre></div>
 <pre><code>## [1] google yahoo  social bing   direct
 ## Levels: google yahoo social bing direct</code></pre>
 <p>Now that we know how to reorder categories/levels by frequency, let us reorder
 the referrers by frequency and plot them.</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb475-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb475-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb475-3" data-line-number="3">    <span class="dt">ref =</span> referrer <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb475-4" data-line-number="4"><span class="st">      </span><span class="kw">fct_infreq</span>()</a>
-<a class="sourceLine" id="cb475-5" data-line-number="5">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb475-6" data-line-number="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(ref)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb475-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb474-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb474-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb474-3" data-line-number="3">    <span class="dt">ref =</span> referrer <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb474-4" data-line-number="4"><span class="st">      </span><span class="kw">fct_infreq</span>()</a>
+<a class="sourceLine" id="cb474-5" data-line-number="5">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb474-6" data-line-number="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(ref)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb474-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
 <p><img src="data-wrangling-with-r_files/figure-html/cat4-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 <div id="plot-referrer-frequency-ascending-order" class="section level2">
 <h2><span class="header-section-number">10.6</span> Plot Referrer Frequency (Ascending Order)</h2>
 <p>Let us look at the categories of the referrer variable.</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb476-1" data-line-number="1"><span class="kw">fct_unique</span>(referrers)</a></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb475-1" data-line-number="1"><span class="kw">fct_unique</span>(referrers)</a></code></pre></div>
 <pre><code>## [1] bing   direct social yahoo  google
 ## Levels: bing direct social yahoo google</code></pre>
 <p>Since we want to plot the referrers in ascending order of frequency, we will
 use <code>fct_rev()</code> to reverse the order.</p>
 <p><img src="img/fct_rev.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb478-1" data-line-number="1">referrers <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb478-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_rev</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb478-3" data-line-number="3"><span class="st">  </span><span class="kw">fct_unique</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb477-1" data-line-number="1">referrers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb477-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_rev</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb477-3" data-line-number="3"><span class="st">  </span><span class="kw">fct_unique</span>()</a></code></pre></div>
 <pre><code>## [1] google yahoo  social direct bing  
 ## Levels: google yahoo social direct bing</code></pre>
 <p>Let us reorder the referrers by frequency first and then reverse the order
 before plotting their frequencies.</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb480-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb480-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb480-3" data-line-number="3">    <span class="dt">ref =</span> referrer <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb480-4" data-line-number="4"><span class="st">      </span><span class="kw">fct_infreq</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb480-5" data-line-number="5"><span class="st">      </span><span class="kw">fct_rev</span>()</a>
-<a class="sourceLine" id="cb480-6" data-line-number="6">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb480-7" data-line-number="7"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(ref)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb480-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb479-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb479-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb479-3" data-line-number="3">    <span class="dt">ref =</span> referrer <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb479-4" data-line-number="4"><span class="st">      </span><span class="kw">fct_infreq</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb479-5" data-line-number="5"><span class="st">      </span><span class="kw">fct_rev</span>()</a>
+<a class="sourceLine" id="cb479-6" data-line-number="6">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb479-7" data-line-number="7"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(ref)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb479-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
 <p><img src="data-wrangling-with-r_files/figure-html/cat5-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 <div id="case-study-2-1" class="section level2">
@@ -586,16 +586,16 @@ before plotting their frequencies.</p>
 of traffic for a imaginary website.</p>
 <div id="data-6" class="section level3">
 <h3><span class="header-section-number">10.7.1</span> Data</h3>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb481-1" data-line-number="1">traffic &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb481-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web_traffic.csv&#39;</span>,</a>
-<a class="sourceLine" id="cb481-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb481-4" data-line-number="4">      <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;affiliates&quot;</span>, <span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;facebook&quot;</span>, </a>
-<a class="sourceLine" id="cb481-5" data-line-number="5">        <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>, <span class="st">&quot;instagram&quot;</span>, <span class="st">&quot;twitter&quot;</span>, <span class="st">&quot;unknown&quot;</span>)</a>
-<a class="sourceLine" id="cb481-6" data-line-number="6">      )</a>
-<a class="sourceLine" id="cb481-7" data-line-number="7">    )</a>
-<a class="sourceLine" id="cb481-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb481-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb481-10" data-line-number="10">traffic</a></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb480-1" data-line-number="1">traffic &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb480-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web_traffic.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb480-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb480-4" data-line-number="4">      <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;affiliates&quot;</span>, <span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;facebook&quot;</span>, </a>
+<a class="sourceLine" id="cb480-5" data-line-number="5">        <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>, <span class="st">&quot;instagram&quot;</span>, <span class="st">&quot;twitter&quot;</span>, <span class="st">&quot;unknown&quot;</span>)</a>
+<a class="sourceLine" id="cb480-6" data-line-number="6">      )</a>
+<a class="sourceLine" id="cb480-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb480-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb480-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb480-10" data-line-number="10">traffic</a></code></pre></div>
 <pre><code>## # A tibble: 48,232 x 1
 ##    traffics
 ##    &lt;fct&gt;   
@@ -615,13 +615,13 @@ and save it in a new variable <code>traffics</code>. Instead of using traffic wh
 a tibble, we will use <code>traffics</code> which is a vector. We do this to avoid
 extracting the <code>traffics</code> column from the above data in all the examples
 shown below.</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb483-1" data-line-number="1">traffics &lt;-<span class="st"> </span><span class="kw">use_series</span>(traffic, traffics)</a></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb482-1" data-line-number="1">traffics &lt;-<span class="st"> </span><span class="kw">use_series</span>(traffic, traffics)</a></code></pre></div>
 </div>
 </div>
 <div id="tabulate-referrer" class="section level2">
 <h2><span class="header-section-number">10.8</span> Tabulate Referrer</h2>
 <p>Let us compute the traffic driven by different referrers using <code>fct_count</code>.</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb484-1" data-line-number="1"><span class="kw">fct_count</span>(traffics)   </a></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb483-1" data-line-number="1"><span class="kw">fct_count</span>(traffics)   </a></code></pre></div>
 <pre><code>## # A tibble: 9 x 2
 ##   f              n
 ##   &lt;fct&gt;      &lt;int&gt;
@@ -644,12 +644,12 @@ shown below.</p>
 </ul>
 <p>To group categories/levels, we will use <code>fct_collapse()</code>.</p>
 <p><img src="img/fct_collapse.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb486-1" data-line-number="1">traffics <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb486-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_collapse</span>(</a>
-<a class="sourceLine" id="cb486-3" data-line-number="3">    <span class="dt">social =</span> <span class="kw">c</span>(<span class="st">&quot;facebook&quot;</span>, <span class="st">&quot;twitter&quot;</span>, <span class="st">&quot;instagram&quot;</span>),</a>
-<a class="sourceLine" id="cb486-4" data-line-number="4">    <span class="dt">search =</span> <span class="kw">c</span>(<span class="st">&quot;google&quot;</span>, <span class="st">&quot;bing&quot;</span>, <span class="st">&quot;yahoo&quot;</span>)</a>
-<a class="sourceLine" id="cb486-5" data-line-number="5">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb486-6" data-line-number="6"><span class="st">  </span><span class="kw">fct_count</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb485-1" data-line-number="1">traffics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb485-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_collapse</span>(</a>
+<a class="sourceLine" id="cb485-3" data-line-number="3">    <span class="dt">social =</span> <span class="kw">c</span>(<span class="st">&quot;facebook&quot;</span>, <span class="st">&quot;twitter&quot;</span>, <span class="st">&quot;instagram&quot;</span>),</a>
+<a class="sourceLine" id="cb485-4" data-line-number="4">    <span class="dt">search =</span> <span class="kw">c</span>(<span class="st">&quot;google&quot;</span>, <span class="st">&quot;bing&quot;</span>, <span class="st">&quot;yahoo&quot;</span>)</a>
+<a class="sourceLine" id="cb485-5" data-line-number="5">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb485-6" data-line-number="6"><span class="st">  </span><span class="kw">fct_count</span>()</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   f              n
 ##   &lt;fct&gt;      &lt;int&gt;
@@ -660,14 +660,14 @@ shown below.</p>
 ## 5 unknown     2657</code></pre>
 <p>The above result can be achieved using <code>fct_recode()</code> as shown below:</p>
 <p><img src="img/fct_recode.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb488-1" data-line-number="1"><span class="kw">fct_recode</span>(traffics, </a>
-<a class="sourceLine" id="cb488-2" data-line-number="2">  <span class="dt">search =</span> <span class="st">&quot;bing&quot;</span>, </a>
-<a class="sourceLine" id="cb488-3" data-line-number="3">  <span class="dt">search =</span> <span class="st">&quot;yahoo&quot;</span>, </a>
-<a class="sourceLine" id="cb488-4" data-line-number="4">  <span class="dt">search =</span> <span class="st">&quot;google&quot;</span>,</a>
-<a class="sourceLine" id="cb488-5" data-line-number="5">  <span class="dt">social =</span> <span class="st">&quot;facebook&quot;</span>, </a>
-<a class="sourceLine" id="cb488-6" data-line-number="6">  <span class="dt">social =</span> <span class="st">&quot;twitter&quot;</span>, </a>
-<a class="sourceLine" id="cb488-7" data-line-number="7">  <span class="dt">social =</span> <span class="st">&quot;instagram&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb488-8" data-line-number="8"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="kw">fct_recode</span>(traffics, </a>
+<a class="sourceLine" id="cb487-2" data-line-number="2">  <span class="dt">search =</span> <span class="st">&quot;bing&quot;</span>, </a>
+<a class="sourceLine" id="cb487-3" data-line-number="3">  <span class="dt">search =</span> <span class="st">&quot;yahoo&quot;</span>, </a>
+<a class="sourceLine" id="cb487-4" data-line-number="4">  <span class="dt">search =</span> <span class="st">&quot;google&quot;</span>,</a>
+<a class="sourceLine" id="cb487-5" data-line-number="5">  <span class="dt">social =</span> <span class="st">&quot;facebook&quot;</span>, </a>
+<a class="sourceLine" id="cb487-6" data-line-number="6">  <span class="dt">social =</span> <span class="st">&quot;twitter&quot;</span>, </a>
+<a class="sourceLine" id="cb487-7" data-line-number="7">  <span class="dt">social =</span> <span class="st">&quot;instagram&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb487-8" data-line-number="8"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
 <pre><code>## [1] &quot;affiliates&quot; &quot;search&quot;     &quot;direct&quot;     &quot;social&quot;     &quot;unknown&quot;</code></pre>
 </div>
 <div id="lump-infrequent-referrer-types" class="section level2">
@@ -675,28 +675,28 @@ shown below.</p>
 <p>Let us group together referrer types that drive low traffic to the website.
 Use <code>fct_lump()</code> to lump together categories.</p>
 <p><img src="img/fct_lump_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb490-1" data-line-number="1"><span class="kw">fct_count</span>(traffics)</a>
-<a class="sourceLine" id="cb490-2" data-line-number="2">## # A tibble: 9 x 2</a>
-<a class="sourceLine" id="cb490-3" data-line-number="3">##   f              n</a>
-<a class="sourceLine" id="cb490-4" data-line-number="4">##   &lt;fct&gt;      &lt;int&gt;</a>
-<a class="sourceLine" id="cb490-5" data-line-number="5">## 1 affiliates  7641</a>
-<a class="sourceLine" id="cb490-6" data-line-number="6">## 2 bing        5893</a>
-<a class="sourceLine" id="cb490-7" data-line-number="7">## 3 direct      1350</a>
-<a class="sourceLine" id="cb490-8" data-line-number="8">## 4 facebook    8135</a>
-<a class="sourceLine" id="cb490-9" data-line-number="9">## 5 yahoo       4899</a>
-<a class="sourceLine" id="cb490-10" data-line-number="10">## 6 google      9229</a>
-<a class="sourceLine" id="cb490-11" data-line-number="11">## 7 instagram   3907</a>
-<a class="sourceLine" id="cb490-12" data-line-number="12">## 8 twitter     4521</a>
-<a class="sourceLine" id="cb490-13" data-line-number="13">## 9 unknown     2657</a>
-<a class="sourceLine" id="cb490-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb490-15" data-line-number="15">traffics <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb490-16" data-line-number="16"><span class="st">  </span><span class="kw">fct_lump</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb490-17" data-line-number="17"><span class="st">  </span><span class="kw">table</span>()</a>
-<a class="sourceLine" id="cb490-18" data-line-number="18">## .</a>
-<a class="sourceLine" id="cb490-19" data-line-number="19">## affiliates       bing   facebook      yahoo     google  instagram </a>
-<a class="sourceLine" id="cb490-20" data-line-number="20">##       7641       5893       8135       4899       9229       3907 </a>
-<a class="sourceLine" id="cb490-21" data-line-number="21">##    twitter    unknown      Other </a>
-<a class="sourceLine" id="cb490-22" data-line-number="22">##       4521       2657       1350</a></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="kw">fct_count</span>(traffics)</a>
+<a class="sourceLine" id="cb489-2" data-line-number="2">## # A tibble: 9 x 2</a>
+<a class="sourceLine" id="cb489-3" data-line-number="3">##   f              n</a>
+<a class="sourceLine" id="cb489-4" data-line-number="4">##   &lt;fct&gt;      &lt;int&gt;</a>
+<a class="sourceLine" id="cb489-5" data-line-number="5">## 1 affiliates  7641</a>
+<a class="sourceLine" id="cb489-6" data-line-number="6">## 2 bing        5893</a>
+<a class="sourceLine" id="cb489-7" data-line-number="7">## 3 direct      1350</a>
+<a class="sourceLine" id="cb489-8" data-line-number="8">## 4 facebook    8135</a>
+<a class="sourceLine" id="cb489-9" data-line-number="9">## 5 yahoo       4899</a>
+<a class="sourceLine" id="cb489-10" data-line-number="10">## 6 google      9229</a>
+<a class="sourceLine" id="cb489-11" data-line-number="11">## 7 instagram   3907</a>
+<a class="sourceLine" id="cb489-12" data-line-number="12">## 8 twitter     4521</a>
+<a class="sourceLine" id="cb489-13" data-line-number="13">## 9 unknown     2657</a>
+<a class="sourceLine" id="cb489-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb489-15" data-line-number="15">traffics <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb489-16" data-line-number="16"><span class="st">  </span><span class="kw">fct_lump</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb489-17" data-line-number="17"><span class="st">  </span><span class="kw">table</span>()</a>
+<a class="sourceLine" id="cb489-18" data-line-number="18">## .</a>
+<a class="sourceLine" id="cb489-19" data-line-number="19">## affiliates       bing   facebook      yahoo     google  instagram </a>
+<a class="sourceLine" id="cb489-20" data-line-number="20">##       7641       5893       8135       4899       9229       3907 </a>
+<a class="sourceLine" id="cb489-21" data-line-number="21">##    twitter    unknown      Other </a>
+<a class="sourceLine" id="cb489-22" data-line-number="22">##       4521       2657       1350</a></code></pre></div>
 </div>
 <div id="retain-top-3-referrers" class="section level2">
 <h2><span class="header-section-number">10.11</span> Retain top 3 referrers</h2>
@@ -716,9 +716,9 @@ single category.</p>
 ## 9 direct      1350</code></pre>
 <p>Use <code>fct_lump()</code> and set the argument <code>n</code> to <code>3</code> indicating we want to
 retain top 3 categories and combine the rest.</p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb492-1" data-line-number="1">traffics <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb492-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_lump</span>(<span class="dt">n =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb492-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb491-1" data-line-number="1">traffics <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb491-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_lump</span>(<span class="dt">n =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb491-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()</a></code></pre></div>
 <pre><code>## .
 ## affiliates   facebook     google      Other 
 ##       7641       8135       9229      23227</code></pre>
@@ -743,9 +743,9 @@ retain top 3 categories and combine the rest.</p>
 not the actual numbers, we use the <code>prop</code> argument and set it to <code>0.1</code>,
 indicating that we want to retain only those categories which have a
 proportion of more than 10% and combine the rest.</p>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb495-1" data-line-number="1">traffics <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb495-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_lump</span>(<span class="dt">prop =</span> <span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb495-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb494-1" data-line-number="1">traffics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb494-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_lump</span>(<span class="dt">prop =</span> <span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb494-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()</a></code></pre></div>
 <pre><code>## .
 ## affiliates       bing   facebook      yahoo     google      Other 
 ##       7641       5893       8135       4899       9229      12435</code></pre>
@@ -767,9 +767,9 @@ to the website and combine the rest?</p>
 ## 8 facebook    8135
 ## 9 google      9229</code></pre>
 <p>We will still use the <code>n</code> argument but instead of specifying <code>3</code>, we now specify <code>-3</code>.</p>
-<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb498-1" data-line-number="1">traffics <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb498-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_lump</span>(<span class="dt">n =</span> <span class="dv">-3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb498-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb497-1" data-line-number="1">traffics <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb497-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_lump</span>(<span class="dt">n =</span> <span class="dv">-3</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb497-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()</a></code></pre></div>
 <pre><code>## .
 ##    direct instagram   unknown     Other 
 ##      1350      3907      2657     40318</code></pre>
@@ -791,9 +791,9 @@ the website and combine the rest into a single group.</p>
 ## 8 twitter     4521    9.37
 ## 9 unknown     2657    5.51</code></pre>
 <p>Instead of setting <code>prop</code> to <code>0.1</code>, we will set it to <code>-0.1</code>.</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb501-1" data-line-number="1">traffics <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb501-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_lump</span>(<span class="dt">prop =</span> <span class="fl">-0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb501-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb500-1" data-line-number="1">traffics <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb500-2" data-line-number="2"><span class="st">  </span><span class="kw">fct_lump</span>(<span class="dt">prop =</span> <span class="fl">-0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb500-3" data-line-number="3"><span class="st">  </span><span class="kw">table</span>()</a></code></pre></div>
 <pre><code>## .
 ##    direct instagram   twitter   unknown     Other 
 ##      1350      3907      4521      2657     35797</code></pre>
@@ -804,8 +804,8 @@ the website and combine the rest into a single group.</p>
 <p>Let us assume we want to retain a couple of important categories and group
 the rest into a single category. In the below example, we retain <em>google</em> and
 <em>yahoo</em> while grouping the rest as others using <code>fct_other()</code>.</p>
-<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb503-1" data-line-number="1"><span class="kw">fct_other</span>(traffics, <span class="dt">keep =</span> <span class="kw">c</span>(<span class="st">&quot;google&quot;</span>, <span class="st">&quot;yahoo&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb503-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb502-1" data-line-number="1"><span class="kw">fct_other</span>(traffics, <span class="dt">keep =</span> <span class="kw">c</span>(<span class="st">&quot;google&quot;</span>, <span class="st">&quot;yahoo&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb502-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
 <pre><code>## [1] &quot;yahoo&quot;  &quot;google&quot; &quot;Other&quot;</code></pre>
 </div>
 <div id="drop-levels" class="section level2">
@@ -818,8 +818,8 @@ dropped. In the below example, we drop the following referrer categories:</p>
 <li>instagram</li>
 <li>twitter</li>
 </ul>
-<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb505-1" data-line-number="1"><span class="kw">fct_other</span>(traffics, <span class="dt">drop =</span> <span class="kw">c</span>(<span class="st">&quot;instagram&quot;</span>, <span class="st">&quot;twitter&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb505-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb504-1" data-line-number="1"><span class="kw">fct_other</span>(traffics, <span class="dt">drop =</span> <span class="kw">c</span>(<span class="st">&quot;instagram&quot;</span>, <span class="st">&quot;twitter&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb504-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
 <pre><code>## [1] &quot;affiliates&quot; &quot;bing&quot;       &quot;direct&quot;     &quot;facebook&quot;   &quot;yahoo&quot;     
 ## [6] &quot;google&quot;     &quot;unknown&quot;    &quot;Other&quot;</code></pre>
 </div>
@@ -830,8 +830,8 @@ we reorder the categories to ensure <em>google</em> appears first. Similarly in
 the below example, we reorder the levels to ensure <em>twitter</em> appears first
 irrespective of its frequency or order of appearance in the data.</p>
 <p><img src="img/fct_relevel_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="kw">fct_relevel</span>(traffics, <span class="st">&quot;twitter&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb507-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb506-1" data-line-number="1"><span class="kw">fct_relevel</span>(traffics, <span class="st">&quot;twitter&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb506-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
 <pre><code>## [1] &quot;twitter&quot;    &quot;affiliates&quot; &quot;bing&quot;       &quot;direct&quot;     &quot;facebook&quot;  
 ## [6] &quot;yahoo&quot;      &quot;google&quot;     &quot;instagram&quot;  &quot;unknown&quot;</code></pre>
 <p>If the category needs to appear at a particular position, use the <code>after</code>
@@ -839,15 +839,15 @@ argument and specify the position after which it should appear. For example,
 if <em>google</em> should be the third category, we would specify <code>after = 2</code> i.e.
 <em>google</em> should come after the 2nd position (i.e. third position).</p>
 <p><img src="img/fct_relevel_2.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb509-1" data-line-number="1"><span class="kw">fct_relevel</span>(traffics, <span class="st">&quot;google&quot;</span>, <span class="dt">after =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb509-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb508-1" data-line-number="1"><span class="kw">fct_relevel</span>(traffics, <span class="st">&quot;google&quot;</span>, <span class="dt">after =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb508-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
 <pre><code>## [1] &quot;affiliates&quot; &quot;bing&quot;       &quot;google&quot;     &quot;direct&quot;     &quot;facebook&quot;  
 ## [6] &quot;yahoo&quot;      &quot;instagram&quot;  &quot;twitter&quot;    &quot;unknown&quot;</code></pre>
 <p>If the category should appear last, supply the value <code>Inf</code> (infinity) to the
 <code>after</code> argument as shown below.</p>
 <p><img src="img/fct_relevel_3.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb511-1" data-line-number="1"><span class="kw">fct_relevel</span>(traffics, <span class="st">&quot;facebook&quot;</span>, <span class="dt">after =</span> <span class="ot">Inf</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb511-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb510-1" data-line-number="1"><span class="kw">fct_relevel</span>(traffics, <span class="st">&quot;facebook&quot;</span>, <span class="dt">after =</span> <span class="ot">Inf</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb510-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
 <pre><code>## [1] &quot;affiliates&quot; &quot;bing&quot;       &quot;direct&quot;     &quot;yahoo&quot;      &quot;google&quot;    
 ## [6] &quot;instagram&quot;  &quot;twitter&quot;    &quot;unknown&quot;    &quot;facebook&quot;</code></pre>
 </div>
@@ -857,16 +857,16 @@ if <em>google</em> should be the third category, we would specify <code>after = 
 It contains response to an imaginary survey.</p>
 <div id="data-7" class="section level3">
 <h3><span class="header-section-number">10.18.1</span> Data</h3>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb513-1" data-line-number="1">response_data &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb513-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/response.csv&#39;</span>,</a>
-<a class="sourceLine" id="cb513-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">list</span>(<span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;like&quot;</span>, <span class="st">&quot;like somewhat&quot;</span>, <span class="st">&quot;neutral&quot;</span>, </a>
-<a class="sourceLine" id="cb513-4" data-line-number="4">      <span class="st">&quot;dislike somewhat&quot;</span>, <span class="st">&quot;dislike&quot;</span>), <span class="dt">ordered =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb513-5" data-line-number="5">    )</a>
-<a class="sourceLine" id="cb513-6" data-line-number="6">  )</a></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb512-1" data-line-number="1">response_data &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb512-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/response.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb512-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">list</span>(<span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;like&quot;</span>, <span class="st">&quot;like somewhat&quot;</span>, <span class="st">&quot;neutral&quot;</span>, </a>
+<a class="sourceLine" id="cb512-4" data-line-number="4">      <span class="st">&quot;dislike somewhat&quot;</span>, <span class="st">&quot;dislike&quot;</span>), <span class="dt">ordered =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb512-5" data-line-number="5">    )</a>
+<a class="sourceLine" id="cb512-6" data-line-number="6">  )</a></code></pre></div>
 <p>Since we will be using only one column from the above data set, let us extract it using
 <code>use_series()</code> and save it as <code>responses</code>.</p>
-<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb514-1" data-line-number="1">responses &lt;-<span class="st"> </span><span class="kw">use_series</span>(response_data, response)</a>
-<a class="sourceLine" id="cb514-2" data-line-number="2"><span class="kw">levels</span>(responses)</a></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb513-1" data-line-number="1">responses &lt;-<span class="st"> </span><span class="kw">use_series</span>(response_data, response)</a>
+<a class="sourceLine" id="cb513-2" data-line-number="2"><span class="kw">levels</span>(responses)</a></code></pre></div>
 <pre><code>## [1] &quot;like&quot;             &quot;like somewhat&quot;    &quot;neutral&quot;         
 ## [4] &quot;dislike somewhat&quot; &quot;dislike&quot;</code></pre>
 </div>
@@ -878,16 +878,16 @@ the direction of the shift. If <code>n</code> is positive, the levels are shifte
 the left else to the right. In the below example, we shift the levels to
 the left by 2 positions.</p>
 <p><img src="img/fct_shift_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb516-1" data-line-number="1"><span class="kw">fct_shift</span>(responses, <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb516-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb515-1" data-line-number="1"><span class="kw">fct_shift</span>(responses, <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb515-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
 <pre><code>## [1] &quot;neutral&quot;          &quot;dislike somewhat&quot; &quot;dislike&quot;         
 ## [4] &quot;like&quot;             &quot;like somewhat&quot;</code></pre>
 <p>To shift the levels to the right, supply a negative value to the <code>n</code> argument
 in <code>fct_shift()</code>. In the below example, we shift the levels to the right by
 2 positions.</p>
 <p><img src="img/fct_shift_2.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb518-1" data-line-number="1"><span class="kw">fct_shift</span>(responses, <span class="dv">-2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb518-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb517-1" data-line-number="1"><span class="kw">fct_shift</span>(responses, <span class="dv">-2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb517-2" data-line-number="2"><span class="st">  </span><span class="kw">levels</span>()</a></code></pre></div>
 <pre><code>## [1] &quot;dislike somewhat&quot; &quot;dislike&quot;          &quot;like&quot;            
 ## [4] &quot;like somewhat&quot;    &quot;neutral&quot;</code></pre>
 

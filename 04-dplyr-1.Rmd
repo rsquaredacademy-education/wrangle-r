@@ -12,6 +12,8 @@ manipulation faster and easier. In today's chapter, we introduce you to
 knitr::include_graphics("img/crowd_flower.png")
 ```
 
+We will use the following R packages:
+
 ```{r libs, message=FALSE}
 library(dplyr)
 library(readr)

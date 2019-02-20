@@ -25,7 +25,7 @@
 <meta name="author" content="Aravind Hebbali">
 
 
-<meta name="date" content="2019-02-13">
+<meta name="date" content="2019-02-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -416,8 +416,9 @@ insights. As such, it becomes important to have tools that make data
 manipulation faster and easier. In today’s chapter, we introduce you to
 <a href="http://dplyr.tidyverse.org/">dplyr</a>, a grammar of data manipulation.</p>
 <p><img src="img/crowd_flower.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb66-2" data-line-number="2"><span class="kw">library</span>(readr)</a></code></pre></div>
+<p>We will use the following R packages:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="kw">library</span>(readr)</a></code></pre></div>
 </div>
 <div id="dplyr-verbs" class="section level2">
 <h2><span class="header-section-number">3.2</span> dplyr Verbs</h2>
@@ -433,16 +434,16 @@ manipulation challenges while working with tabular data (dataframes, tibbles):</
 </div>
 <div id="data" class="section level2">
 <h2><span class="header-section-number">3.3</span> Data</h2>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
-<a class="sourceLine" id="cb67-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(<span class="dt">device =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</a>
-<a class="sourceLine" id="cb67-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
-<a class="sourceLine" id="cb67-5" data-line-number="5">      <span class="dt">purchase =</span> <span class="kw">col_logical</span>(), <span class="dt">n_pages =</span> <span class="kw">col_double</span>(), <span class="dt">n_visit =</span> <span class="kw">col_double</span>(), </a>
-<a class="sourceLine" id="cb67-6" data-line-number="6">      <span class="dt">duration =</span> <span class="kw">col_double</span>(), <span class="dt">order_value =</span> <span class="kw">col_double</span>(), <span class="dt">order_items =</span> <span class="kw">col_double</span>()</a>
-<a class="sourceLine" id="cb67-7" data-line-number="7">    )</a>
-<a class="sourceLine" id="cb67-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb67-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb67-10" data-line-number="10">ecom</a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb66-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb66-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(<span class="dt">device =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</a>
+<a class="sourceLine" id="cb66-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
+<a class="sourceLine" id="cb66-5" data-line-number="5">      <span class="dt">purchase =</span> <span class="kw">col_logical</span>(), <span class="dt">n_pages =</span> <span class="kw">col_double</span>(), <span class="dt">n_visit =</span> <span class="kw">col_double</span>(), </a>
+<a class="sourceLine" id="cb66-6" data-line-number="6">      <span class="dt">duration =</span> <span class="kw">col_double</span>(), <span class="dt">order_value =</span> <span class="kw">col_double</span>(), <span class="dt">order_items =</span> <span class="kw">col_double</span>()</a>
+<a class="sourceLine" id="cb66-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb66-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb66-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb66-10" data-line-number="10">ecom</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 8
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -488,16 +489,16 @@ using mobile?</li>
 </div>
 <div id="aov-by-devices" class="section level2">
 <h2><span class="header-section-number">3.6</span> AOV by Devices</h2>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(purchase) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(device, order_value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(device) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>())) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb69-7" data-line-number="7">    <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders</a>
-<a class="sourceLine" id="cb69-8" data-line-number="8">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-9" data-line-number="9"><span class="st">  </span><span class="kw">select</span>(device, aov) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb69-10" data-line-number="10"><span class="st">  </span><span class="kw">arrange</span>(aov)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(device, order_value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(device) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>())) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb68-7" data-line-number="7">    <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders</a>
+<a class="sourceLine" id="cb68-8" data-line-number="8">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-9" data-line-number="9"><span class="st">  </span><span class="kw">select</span>(device, aov) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-10" data-line-number="10"><span class="st">  </span><span class="kw">arrange</span>(aov)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   device   aov
 ##   &lt;fct&gt;  &lt;dbl&gt;
@@ -527,7 +528,7 @@ few examples:</p>
 we had learnt in the previous section, the first argument is our data set <code>ecom</code>
 and the next argument is the condition for filtering rows.</p>
 <p><img src="img/filter_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;mobile&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;mobile&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 344 x 8
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -549,7 +550,7 @@ specify two filter conditions:</p>
 <li>resulted in a purchase or conversion</li>
 </ul>
 <p><img src="img/filter_2.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;mobile&quot;</span>, purchase)</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;mobile&quot;</span>, purchase)</a></code></pre></div>
 <pre><code>## # A tibble: 36 x 8
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -570,7 +571,7 @@ specify two filter conditions:</p>
 <li>made a purchase</li>
 <li>browsed less than 15 pages</li>
 </ul>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;tablet&quot;</span>, purchase, n_pages <span class="op">&lt;</span><span class="st"> </span><span class="dv">15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1"><span class="kw">filter</span>(ecom, device <span class="op">==</span><span class="st"> &quot;tablet&quot;</span>, purchase, n_pages <span class="op">&lt;</span><span class="st"> </span><span class="dv">15</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 12 x 8
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -591,7 +592,7 @@ specify two filter conditions:</p>
 <h3><span class="header-section-number">3.8.1</span> Case Study</h3>
 <p>Let us apply what we have learnt to the case study. We want to filter all
 visits that resulted in a purchase.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">filter</span>(ecom, purchase)</a></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="kw">filter</span>(ecom, purchase)</a></code></pre></div>
 <pre><code>## # A tibble: 103 x 8
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -618,7 +619,7 @@ arguments specify the columns by name or position.</p>
 <p>To select the <code>device</code> and <code>duration</code> columns, we specify the data set i.e.
 <code>ecom</code> followed by the name of the columns.</p>
 <p><img src="img/select_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">select</span>(ecom, device, duration)</a></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="kw">select</span>(ecom, device, duration)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 2
 ##    device duration
 ##    &lt;fct&gt;     &lt;dbl&gt;
@@ -637,7 +638,7 @@ arguments specify the columns by name or position.</p>
 the columns starting from <code>referrer</code> up to <code>order_items</code>. Remember that we can use <code>:</code> only when
 the columns are adjacent to each other in the data set.</p>
 <p><img src="img/select_2.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">select</span>(ecom, referrer<span class="op">:</span>order_items)</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="kw">select</span>(ecom, referrer<span class="op">:</span>order_items)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 7
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -659,7 +660,7 @@ the case. dplyr allows us to specify columns that need not be
 selected using <code>-</code>. In the below example, we select all columns except <code>n_pages</code> and
 <code>duration</code>. Notice the <code>-</code> before both of them.</p>
 <p><img src="img/select_3.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="kw">select</span>(ecom, <span class="op">-</span>n_pages, <span class="op">-</span>duration)</a></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="kw">select</span>(ecom, <span class="op">-</span>n_pages, <span class="op">-</span>duration)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 6
 ##    referrer device n_visit purchase order_items order_value
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
@@ -679,7 +680,7 @@ selected using <code>-</code>. In the below example, we select all columns excep
 <p>For our case study, we need to select the column <code>order_value</code>
 to calculate the AOV. We also need to select the <code>device</code> column as we are
 computing the AOV for each device type.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">select</span>(ecom, device, order_value)</a></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1"><span class="kw">select</span>(ecom, device, order_value)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 2
 ##    device order_value
 ##    &lt;fct&gt;        &lt;dbl&gt;
@@ -697,14 +698,14 @@ computing the AOV for each device type.</p>
 <p>But we want the above data only for purchasers. Let us combine <code>filter()</code> and
 <code>select()</code> functions to extract <code>order_value</code> and <code>order_items</code> only for those
 visis that resulted in a purchase.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="co"># filter all visits that resulted in a purchase</span></a>
-<a class="sourceLine" id="cb87-2" data-line-number="2">ecom1 &lt;-<span class="st"> </span><span class="kw">filter</span>(ecom, purchase)</a>
-<a class="sourceLine" id="cb87-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb87-4" data-line-number="4"><span class="co"># select the relevant columns</span></a>
-<a class="sourceLine" id="cb87-5" data-line-number="5">ecom2 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom1, device, order_value)</a>
-<a class="sourceLine" id="cb87-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb87-7" data-line-number="7"><span class="co"># view data</span></a>
-<a class="sourceLine" id="cb87-8" data-line-number="8">ecom2</a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="co"># filter all visits that resulted in a purchase</span></a>
+<a class="sourceLine" id="cb86-2" data-line-number="2">ecom1 &lt;-<span class="st"> </span><span class="kw">filter</span>(ecom, purchase)</a>
+<a class="sourceLine" id="cb86-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb86-4" data-line-number="4"><span class="co"># select the relevant columns</span></a>
+<a class="sourceLine" id="cb86-5" data-line-number="5">ecom2 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom1, device, order_value)</a>
+<a class="sourceLine" id="cb86-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb86-7" data-line-number="7"><span class="co"># view data</span></a>
+<a class="sourceLine" id="cb86-8" data-line-number="8">ecom2</a></code></pre></div>
 <pre><code>## # A tibble: 103 x 2
 ##    device order_value
 ##    &lt;fct&gt;        &lt;dbl&gt;
@@ -731,7 +732,7 @@ name of the data set and the second argument is the name of the column based on
 which the data will be split.</p>
 <p>To split the data by referrer type, we use <code>group_by</code> and specify the data set
 i.e. <code>ecom</code> and the column based on which to split the data i.e. <code>referrer</code>.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">group_by</span>(ecom, referrer)</a></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="kw">group_by</span>(ecom, referrer)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 8
 ## # Groups:   referrer [5]
 ##    referrer device n_visit n_pages duration purchase order_items
@@ -752,9 +753,9 @@ i.e. <code>ecom</code> and the column based on which to split the data i.e. <cod
 <p>In the second line in the previous output, you can observe <code>Groups: referrer [5]</code>
 . The data is split into 5 groups as the referrer variable has 5 distinct values.
 For our case study, we need to group the data by <code>device</code> type.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="co"># split ecom2 by device type</span></a>
-<a class="sourceLine" id="cb91-2" data-line-number="2">ecom3 &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom2, device)</a>
-<a class="sourceLine" id="cb91-3" data-line-number="3">ecom3</a></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="co"># split ecom2 by device type</span></a>
+<a class="sourceLine" id="cb90-2" data-line-number="2">ecom3 &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom2, device)</a>
+<a class="sourceLine" id="cb90-3" data-line-number="3">ecom3</a></code></pre></div>
 <pre><code>## # A tibble: 103 x 2
 ## # Groups:   device [3]
 ##    device order_value
@@ -785,12 +786,12 @@ summarise data. For example, we can use <code>min</code>, <code>max</code>, <cod
 <li>compute the average number of pages using <code>mean</code></li>
 </ul>
 <p><img src="img/groupby_summarise.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="co"># split data by referrer type</span></a>
-<a class="sourceLine" id="cb93-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom, referrer)</a>
-<a class="sourceLine" id="cb93-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb93-4" data-line-number="4"><span class="co"># compute average number of pages</span></a>
-<a class="sourceLine" id="cb93-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">summarise</span>(step_<span class="dv">1</span>, <span class="kw">mean</span>(n_pages))</a>
-<a class="sourceLine" id="cb93-6" data-line-number="6">step_<span class="dv">2</span></a></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="co"># split data by referrer type</span></a>
+<a class="sourceLine" id="cb92-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom, referrer)</a>
+<a class="sourceLine" id="cb92-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb92-4" data-line-number="4"><span class="co"># compute average number of pages</span></a>
+<a class="sourceLine" id="cb92-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">summarise</span>(step_<span class="dv">1</span>, <span class="kw">mean</span>(n_pages))</a>
+<a class="sourceLine" id="cb92-6" data-line-number="6">step_<span class="dv">2</span></a></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   referrer `mean(n_pages)`
 ##   &lt;fct&gt;              &lt;dbl&gt;
@@ -800,12 +801,12 @@ summarise data. For example, we can use <code>min</code>, <code>max</code>, <cod
 ## 4 yahoo               5.99
 ## 5 google              5.73</code></pre>
 <p>Now let us compute both the <code>mean</code> and the <code>median</code>.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="co"># split data by referrer type</span></a>
-<a class="sourceLine" id="cb95-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom, referrer)</a>
-<a class="sourceLine" id="cb95-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb95-4" data-line-number="4"><span class="co"># compute average number of pages</span></a>
-<a class="sourceLine" id="cb95-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">summarise</span>(step_<span class="dv">1</span>, <span class="kw">mean</span>(n_pages), <span class="kw">median</span>(n_pages))</a>
-<a class="sourceLine" id="cb95-6" data-line-number="6">step_<span class="dv">2</span></a></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="co"># split data by referrer type</span></a>
+<a class="sourceLine" id="cb94-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom, referrer)</a>
+<a class="sourceLine" id="cb94-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb94-4" data-line-number="4"><span class="co"># compute average number of pages</span></a>
+<a class="sourceLine" id="cb94-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">summarise</span>(step_<span class="dv">1</span>, <span class="kw">mean</span>(n_pages), <span class="kw">median</span>(n_pages))</a>
+<a class="sourceLine" id="cb94-6" data-line-number="6">step_<span class="dv">2</span></a></code></pre></div>
 <pre><code>## # A tibble: 5 x 3
 ##   referrer `mean(n_pages)` `median(n_pages)`
 ##   &lt;fct&gt;              &lt;dbl&gt;             &lt;dbl&gt;
@@ -825,15 +826,15 @@ does not have any irrelevant columns.</p>
 <li>compute the average number of pages by applying the <code>mean</code> function to all
 the columns</li>
 </ul>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="co"># select relevant columns</span></a>
-<a class="sourceLine" id="cb97-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, referrer, order_value)</a>
-<a class="sourceLine" id="cb97-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb97-4" data-line-number="4"><span class="co"># split data by referrer type</span></a>
-<a class="sourceLine" id="cb97-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(step_<span class="dv">1</span>, referrer)</a>
-<a class="sourceLine" id="cb97-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb97-7" data-line-number="7"><span class="co"># compute average number of pages</span></a>
-<a class="sourceLine" id="cb97-8" data-line-number="8">step_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(step_<span class="dv">2</span>, <span class="kw">funs</span>(mean))</a>
-<a class="sourceLine" id="cb97-9" data-line-number="9">step_<span class="dv">3</span></a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="co"># select relevant columns</span></a>
+<a class="sourceLine" id="cb96-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, referrer, order_value)</a>
+<a class="sourceLine" id="cb96-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb96-4" data-line-number="4"><span class="co"># split data by referrer type</span></a>
+<a class="sourceLine" id="cb96-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(step_<span class="dv">1</span>, referrer)</a>
+<a class="sourceLine" id="cb96-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb96-7" data-line-number="7"><span class="co"># compute average number of pages</span></a>
+<a class="sourceLine" id="cb96-8" data-line-number="8">step_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(step_<span class="dv">2</span>, <span class="kw">funs</span>(mean))</a>
+<a class="sourceLine" id="cb96-9" data-line-number="9">step_<span class="dv">3</span></a></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   referrer order_value
 ##   &lt;fct&gt;          &lt;dbl&gt;
@@ -844,15 +845,15 @@ the columns</li>
 ## 5 google          328.</code></pre>
 <p>Let us compute <code>mean</code> and <code>median</code> number of pages for each referre type using
 <code>summarise_all</code>.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="co"># select relevant columns</span></a>
-<a class="sourceLine" id="cb99-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, referrer, order_value)</a>
-<a class="sourceLine" id="cb99-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb99-4" data-line-number="4"><span class="co"># split data by referrer type</span></a>
-<a class="sourceLine" id="cb99-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(step_<span class="dv">1</span>, referrer)</a>
-<a class="sourceLine" id="cb99-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb99-7" data-line-number="7"><span class="co"># compute mean and median number of pages</span></a>
-<a class="sourceLine" id="cb99-8" data-line-number="8">step_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(step_<span class="dv">2</span>, <span class="kw">funs</span>(mean, median))</a>
-<a class="sourceLine" id="cb99-9" data-line-number="9">step_<span class="dv">3</span></a></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="co"># select relevant columns</span></a>
+<a class="sourceLine" id="cb98-2" data-line-number="2">step_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, referrer, order_value)</a>
+<a class="sourceLine" id="cb98-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb98-4" data-line-number="4"><span class="co"># split data by referrer type</span></a>
+<a class="sourceLine" id="cb98-5" data-line-number="5">step_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">group_by</span>(step_<span class="dv">1</span>, referrer)</a>
+<a class="sourceLine" id="cb98-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb98-7" data-line-number="7"><span class="co"># compute mean and median number of pages</span></a>
+<a class="sourceLine" id="cb98-8" data-line-number="8">step_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(step_<span class="dv">2</span>, <span class="kw">funs</span>(mean, median))</a>
+<a class="sourceLine" id="cb98-9" data-line-number="9">step_<span class="dv">3</span></a></code></pre></div>
 <pre><code>## # A tibble: 5 x 3
 ##   referrer  mean median
 ##   &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;
@@ -868,9 +869,9 @@ columns, <code>order_value</code> and <code>order_items</code>. We need the sum 
 order items. What function can we use to obtain them? The <code>sum()</code> function will
 generate the sum of the values and hence we will use it inside the <code>summarise()</code>
 function. Remember, we need to provide a name to the summary being generated.</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise</span>(ecom3, <span class="dt">revenue =</span> <span class="kw">sum</span>(order_value),</a>
-<a class="sourceLine" id="cb101-2" data-line-number="2">          <span class="dt">orders =</span> <span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb101-3" data-line-number="3">ecom4</a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise</span>(ecom3, <span class="dt">revenue =</span> <span class="kw">sum</span>(order_value),</a>
+<a class="sourceLine" id="cb100-2" data-line-number="2">          <span class="dt">orders =</span> <span class="kw">n</span>())</a>
+<a class="sourceLine" id="cb100-3" data-line-number="3">ecom4</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 3
 ##   device revenue orders
 ##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt;
@@ -882,8 +883,8 @@ device type. If we use <code>summarise_all()</code>, it will generate the summar
 selected columns based on the function specified. To specify the functions, we
 need to use another argument <code>funs</code> and it can take any number of valid
 functions.</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(ecom3, <span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>()))</a>
-<a class="sourceLine" id="cb103-2" data-line-number="2">ecom4</a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(ecom3, <span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>()))</a>
+<a class="sourceLine" id="cb102-2" data-line-number="2">ecom4</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 3
 ##   device revenue orders
 ##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt;
@@ -899,9 +900,9 @@ of the data set and the subsequent arguments are expressions for creating new
 columns based out of existing columns.</p>
 <p>Let us add a new column <code>avg_page_time</code> i.e. time on site divided by number of
 pages visited.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="co"># select duration and n_pages from ecom</span></a>
-<a class="sourceLine" id="cb105-2" data-line-number="2">mutate_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, n_pages, duration)</a>
-<a class="sourceLine" id="cb105-3" data-line-number="3"><span class="kw">mutate</span>(mutate_<span class="dv">1</span>, <span class="dt">avg_page_time =</span> duration <span class="op">/</span><span class="st"> </span>n_pages)</a></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="co"># select duration and n_pages from ecom</span></a>
+<a class="sourceLine" id="cb104-2" data-line-number="2">mutate_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">select</span>(ecom, n_pages, duration)</a>
+<a class="sourceLine" id="cb104-3" data-line-number="3"><span class="kw">mutate</span>(mutate_<span class="dv">1</span>, <span class="dt">avg_page_time =</span> duration <span class="op">/</span><span class="st"> </span>n_pages)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 3
 ##    n_pages duration avg_page_time
 ##      &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;
@@ -919,9 +920,9 @@ pages visited.</p>
 <p>We can create new columns based on other columns created using <code>mutate</code>. Let us
 create another column <code>sqrt_avg_page_time</code> i.e. square root of the average time
 on page using <code>avg_page_time</code>.</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1"><span class="kw">mutate</span>(mutate_<span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb107-2" data-line-number="2">       <span class="dt">avg_page_time =</span> duration <span class="op">/</span><span class="st"> </span>n_pages,</a>
-<a class="sourceLine" id="cb107-3" data-line-number="3">       <span class="dt">sqrt_avg_page_time =</span> <span class="kw">sqrt</span>(avg_page_time))</a></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">mutate</span>(mutate_<span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb106-2" data-line-number="2">       <span class="dt">avg_page_time =</span> duration <span class="op">/</span><span class="st"> </span>n_pages,</a>
+<a class="sourceLine" id="cb106-3" data-line-number="3">       <span class="dt">sqrt_avg_page_time =</span> <span class="kw">sqrt</span>(avg_page_time))</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 4
 ##    n_pages duration avg_page_time sqrt_avg_page_time
 ##      &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;              &lt;dbl&gt;
@@ -942,8 +943,8 @@ on page using <code>avg_page_time</code>.</p>
 total order items for each device category and can compute the AOV. We will
 create a new column to store AOV.</p>
 <p><img src="img/mutate_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">ecom5 &lt;-<span class="st"> </span><span class="kw">mutate</span>(ecom4, <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders)</a>
-<a class="sourceLine" id="cb109-2" data-line-number="2">ecom5</a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">ecom5 &lt;-<span class="st"> </span><span class="kw">mutate</span>(ecom4, <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders)</a>
+<a class="sourceLine" id="cb108-2" data-line-number="2">ecom5</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   device revenue orders   aov
 ##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;
@@ -953,8 +954,8 @@ create a new column to store AOV.</p>
 <p>The last step is to select the relevant columns. We will select the device type
 and the corresponding aov while getting rid of other columns. Use <code>select()</code>
 to extract the relevant columns.</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1">ecom6 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom5, device, aov)</a>
-<a class="sourceLine" id="cb111-2" data-line-number="2">ecom6</a></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1">ecom6 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom5, device, aov)</a>
+<a class="sourceLine" id="cb110-2" data-line-number="2">ecom6</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   device   aov
 ##   &lt;fct&gt;  &lt;dbl&gt;
@@ -969,7 +970,7 @@ to extract the relevant columns.</p>
 in data manipulation. We can use <code>arrange</code> to arrange data by different columns.
 Let us say we want to arrange data by the number of pages browsed.</p>
 <p><img src="img/arrange_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw">arrange</span>(ecom, n_pages)</a></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="kw">arrange</span>(ecom, n_pages)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 8
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -986,7 +987,7 @@ Let us say we want to arrange data by the number of pages browsed.</p>
 ## # ... with 990 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
 <p>If we want to arrange the data in descending order, we can use <code>desc()</code>. Let us
 arrange the data in descending order.</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw">arrange</span>(ecom , <span class="kw">desc</span>(n_pages))</a></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="kw">arrange</span>(ecom , <span class="kw">desc</span>(n_pages))</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 8
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -1003,7 +1004,7 @@ arrange the data in descending order.</p>
 ## # ... with 990 more rows, and 1 more variable: order_value &lt;dbl&gt;</code></pre>
 <p>Data can be arranged by multiple variables as well. Let us arrange data first by
 number of visits and then by number of pages in a descending order.</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">arrange</span>(ecom, n_visit, <span class="kw">desc</span>(n_pages))</a></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">arrange</span>(ecom, n_visit, <span class="kw">desc</span>(n_pages))</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 8
 ##    referrer device n_visit n_pages duration purchase order_items
 ##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
@@ -1021,7 +1022,7 @@ number of visits and then by number of pages in a descending order.</p>
 <div id="case-study-6" class="section level3">
 <h3><span class="header-section-number">3.13.1</span> Case Study</h3>
 <p>If you observe <code>ecom6</code>, the <code>aov</code> column is arranged in descending order.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw">arrange</span>(ecom6, aov)</a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1"><span class="kw">arrange</span>(ecom6, aov)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   device   aov
 ##   &lt;fct&gt;  &lt;dbl&gt;
@@ -1033,14 +1034,14 @@ number of visits and then by number of pages in a descending order.</p>
 <div id="aov-by-devices-1" class="section level2">
 <h2><span class="header-section-number">3.14</span> AOV by Devices</h2>
 <p>Let us combine all the code from the above steps:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">ecom1 &lt;-<span class="st"> </span><span class="kw">filter</span>(ecom, purchase)</a>
-<a class="sourceLine" id="cb121-2" data-line-number="2">ecom2 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom1, device, order_value)</a>
-<a class="sourceLine" id="cb121-3" data-line-number="3">ecom3 &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom2, device)</a>
-<a class="sourceLine" id="cb121-4" data-line-number="4">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(ecom3, <span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>()))</a>
-<a class="sourceLine" id="cb121-5" data-line-number="5">ecom5 &lt;-<span class="st"> </span><span class="kw">mutate</span>(ecom4, <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders)</a>
-<a class="sourceLine" id="cb121-6" data-line-number="6">ecom6 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom5, device, aov)</a>
-<a class="sourceLine" id="cb121-7" data-line-number="7">ecom7 &lt;-<span class="st"> </span><span class="kw">arrange</span>(ecom6, aov)</a>
-<a class="sourceLine" id="cb121-8" data-line-number="8">ecom7</a></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1">ecom1 &lt;-<span class="st"> </span><span class="kw">filter</span>(ecom, purchase)</a>
+<a class="sourceLine" id="cb120-2" data-line-number="2">ecom2 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom1, device, order_value)</a>
+<a class="sourceLine" id="cb120-3" data-line-number="3">ecom3 &lt;-<span class="st"> </span><span class="kw">group_by</span>(ecom2, device)</a>
+<a class="sourceLine" id="cb120-4" data-line-number="4">ecom4 &lt;-<span class="st"> </span><span class="kw">summarise_all</span>(ecom3, <span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>()))</a>
+<a class="sourceLine" id="cb120-5" data-line-number="5">ecom5 &lt;-<span class="st"> </span><span class="kw">mutate</span>(ecom4, <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders)</a>
+<a class="sourceLine" id="cb120-6" data-line-number="6">ecom6 &lt;-<span class="st"> </span><span class="kw">select</span>(ecom5, device, aov)</a>
+<a class="sourceLine" id="cb120-7" data-line-number="7">ecom7 &lt;-<span class="st"> </span><span class="kw">arrange</span>(ecom6, aov)</a>
+<a class="sourceLine" id="cb120-8" data-line-number="8">ecom7</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   device   aov
 ##   &lt;fct&gt;  &lt;dbl&gt;
@@ -1052,16 +1053,16 @@ it as an input in the next step i.e. the output from one step becomes the input
 for the next. Can we achieve the final outcome i.e. <code>ecom7</code> without creating the
 intermediate data (ecom1 - ecom6)? Yes, we can. We will use the <code>%&gt;%</code> operator
 to chain the steps and get rid of the intermediate data.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(purchase) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb123-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(device, order_value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb123-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(device) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb123-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>())) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb123-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb123-7" data-line-number="7">    <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders</a>
-<a class="sourceLine" id="cb123-8" data-line-number="8">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb123-9" data-line-number="9"><span class="st">  </span><span class="kw">select</span>(device, aov) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb123-10" data-line-number="10"><span class="st">  </span><span class="kw">arrange</span>(aov)</a></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(device, order_value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(device) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise_all</span>(<span class="kw">funs</span>(<span class="dt">revenue =</span> sum, <span class="dt">orders =</span> <span class="kw">n</span>())) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb122-7" data-line-number="7">    <span class="dt">aov =</span> revenue <span class="op">/</span><span class="st"> </span>orders</a>
+<a class="sourceLine" id="cb122-8" data-line-number="8">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-9" data-line-number="9"><span class="st">  </span><span class="kw">select</span>(device, aov) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-10" data-line-number="10"><span class="st">  </span><span class="kw">arrange</span>(aov)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   device   aov
 ##   &lt;fct&gt;  &lt;dbl&gt;

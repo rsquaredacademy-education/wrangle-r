@@ -2,10 +2,6 @@
 
 ## Introduction
 
-```{r library1, message=FALSE}
-library(readr)
-```
-
 In this chapter, we will learn to:
 
 - read data from flat or delimited files
@@ -13,6 +9,12 @@ In this chapter, we will learn to:
 - skip text/info present before data
 - specify column/variable types
 - read specific columns/variables
+
+We will use the following R packages:
+
+```{r library1, message=FALSE}
+library(readr)
+```
 
 ## Delimiters
 

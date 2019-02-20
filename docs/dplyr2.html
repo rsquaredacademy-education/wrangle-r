@@ -25,7 +25,7 @@
 <meta name="author" content="Aravind Hebbali">
 
 
-<meta name="date" content="2019-02-13">
+<meta name="date" content="2019-02-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -412,9 +412,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">4.1</span> Introduction</h2>
 <p>In this chapter, we will learn to combine tables using different <code>*_join</code>
 functions provided in dplyr.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb125-2" data-line-number="2"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb125-3" data-line-number="3"><span class="kw">options</span>(<span class="dt">tibble.width =</span> <span class="ot">Inf</span>)</a></code></pre></div>
+<p>We will use the following R packages:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb124-2" data-line-number="2"><span class="kw">library</span>(readr)</a>
+<a class="sourceLine" id="cb124-3" data-line-number="3"><span class="kw">options</span>(<span class="dt">tibble.width =</span> <span class="ot">Inf</span>)</a></code></pre></div>
 </div>
 <div id="case-study-7" class="section level2">
 <h2><span class="header-section-number">4.2</span> Case Study</h2>
@@ -426,8 +427,8 @@ in each data set.</p>
 <p>Let us import both the data sets using <code>read_csv</code>.</p>
 <div id="data-orders" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> Data: Orders</h3>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1">order &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/order.csv&#39;</span>, <span class="dt">delim =</span> <span class="st">&#39;;&#39;</span>)</a>
-<a class="sourceLine" id="cb126-2" data-line-number="2">order</a></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1">order &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/order.csv&#39;</span>, <span class="dt">delim =</span> <span class="st">&#39;;&#39;</span>)</a>
+<a class="sourceLine" id="cb125-2" data-line-number="2">order</a></code></pre></div>
 <pre><code>## # A tibble: 300 x 3
 ##       id order_date amount
 ##    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
@@ -445,8 +446,8 @@ in each data set.</p>
 </div>
 <div id="data-customers" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Data: Customers</h3>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1">customer &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/customer.csv&#39;</span>, <span class="dt">delim =</span> <span class="st">&#39;;&#39;</span>)</a>
-<a class="sourceLine" id="cb128-2" data-line-number="2">customer</a></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">customer &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/customer.csv&#39;</span>, <span class="dt">delim =</span> <span class="st">&#39;;&#39;</span>)</a>
+<a class="sourceLine" id="cb127-2" data-line-number="2">customer</a></code></pre></div>
 <pre><code>## # A tibble: 91 x 3
 ##       id first_name city      
 ##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
@@ -489,7 +490,7 @@ between <code>Age</code> and <code>Height</code>, all combination of the matches
 <h3><span class="header-section-number">4.4.1</span> Case Study: Details of customers who have placed orders and their order details</h3>
 <p>To get data for all those customers who have placed orders in the past let us
 join the <code>order</code> data with the <code>customer</code> data using <code>inner_join</code>.</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">inner_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="kw">inner_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 55 x 5
 ##       id first_name city       order_date amount
 ##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
@@ -520,7 +521,7 @@ the matches are returned.</p>
 <p>To get data for all those customers and their orders irrespective of whether a
 customer has placed orders or not let us join the <code>order</code> data with the
 <code>customer</code> data using <code>left_join</code>.</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">left_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw">left_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 104 x 5
 ##       id first_name city       order_date amount
 ##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
@@ -547,7 +548,7 @@ combinations of the matches are returned.</p>
 <h3><span class="header-section-number">4.7.1</span> Case Study: Customer details for each order</h3>
 <p>To get customer data for all orders, let us join the <code>order</code> data with the
 <code>customer</code> data using <code>right_join</code>.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="kw">right_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="kw">right_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 300 x 5
 ##       id first_name city      order_date amount
 ##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;
@@ -576,7 +577,7 @@ where a semi join will never duplicate rows of <code>Age</code>.</p>
 <p>To get customer data for all orders where customer data exists, let us join the <code>order</code> data with the
 <code>customer</code> data using <code>semi_join</code>. You can observe that data is returned only for those
 cases where customer data is present.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="kw">semi_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="kw">semi_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 42 x 3
 ##       id first_name city      
 ##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
@@ -602,7 +603,7 @@ cases where customer data is present.</p>
 <h3><span class="header-section-number">4.9.1</span> Case Study: Details of customers who have not placed orders</h3>
 <p>To get details of customers who have not placed orders, let us join the <code>order</code>
 data with the <code>customer</code> data using <code>anti_join</code>.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="kw">anti_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">anti_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 49 x 3
 ##       id first_name city      
 ##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
@@ -628,7 +629,7 @@ there are not matching values, returns NA for the one missing.</p>
 <h3><span class="header-section-number">4.10.1</span> Case Study: Details of all customers and all orders</h3>
 <p>To get details of all customers and all orders, let us join the <code>order</code>
 data with the <code>customer</code> data using <code>full_join</code>.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="kw">full_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="kw">full_join</span>(customer, order, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 349 x 5
 ##       id first_name city       order_date amount
 ##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
