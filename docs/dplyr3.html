@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Data Wrangling with R</title>
-  <meta name="description" content="Learn to wrangle data with R.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Data Wrangling - 3 | Data Wrangling with R</title>
+  <meta name="description" content="Learn to wrangle data with R." />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Wrangling with R" />
+  <meta property="og:title" content="Chapter 5 Data Wrangling - 3 | Data Wrangling with R" />
   <meta property="og:type" content="book" />
   
   
@@ -17,25 +16,26 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Wrangling with R" />
+  <meta name="twitter:title" content="Chapter 5 Data Wrangling - 3 | Data Wrangling with R" />
   
   <meta name="twitter:description" content="Learn to wrangle data with R." />
   
 
-<meta name="author" content="Aravind Hebbali">
+<meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2019-02-20">
+<meta name="date" content="2020-01-03" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="dplyr2.html">
-<link rel="next" href="pipes.html">
+<link rel="prev" href="dplyr2.html"/>
+<link rel="next" href="pipes.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -47,15 +47,15 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -65,13 +65,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -336,33 +334,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>9</b> Working with Date &amp; Time</a><ul>
-<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
-<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#quick-intro"><i class="fa fa-check"></i><b>9.2</b> Quick Intro</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="lubridate.html"><a href="lubridate.html#origin"><i class="fa fa-check"></i><b>9.2.1</b> Origin</a></li>
-<li class="chapter" data-level="9.2.2" data-path="lubridate.html"><a href="lubridate.html#current-datetime"><i class="fa fa-check"></i><b>9.2.2</b> Current Date/Time</a></li>
+<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lubridate.html"><a href="lubridate.html#date"><i class="fa fa-check"></i><b>9.1.1</b> Date</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lubridate.html"><a href="lubridate.html#time"><i class="fa fa-check"></i><b>9.1.2</b> Time</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lubridate.html"><a href="lubridate.html#am-or-pm"><i class="fa fa-check"></i><b>9.1.3</b> AM or PM?</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lubridate.html"><a href="lubridate.html#leap-year"><i class="fa fa-check"></i><b>9.1.4</b> Leap Year</a></li>
+<li class="chapter" data-level="9.1.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-1"><i class="fa fa-check"></i><b>9.1.5</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.3</b> Case Study</a><ul>
-<li class="chapter" data-level="9.3.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>9.3.1</b> Data</a></li>
-<li class="chapter" data-level="9.3.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.3.2</b> Data Dictionary</a></li>
+<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.2</b> Case Study</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>9.2.1</b> Data</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.2.2</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#extract-date-month-year-from-due-date"><i class="fa fa-check"></i><b>9.4</b> Extract Date, Month &amp; Year from Due Date</a></li>
-<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#compute-days-to-settle-invoice"><i class="fa fa-check"></i><b>9.5</b> Compute days to settle invoice</a></li>
-<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#compute-days-over-due"><i class="fa fa-check"></i><b>9.6</b> Compute days over due</a></li>
-<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#is-due-year-a-leap-year"><i class="fa fa-check"></i><b>9.7</b> Is due year a leap year?</a></li>
-<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#if-due-day-is-february-29-is-it-a-leap-year"><i class="fa fa-check"></i><b>9.8</b> If due day is February 29, is it a leap year?</a></li>
-<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>9.9</b> Shift Date</a></li>
-<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>9.10</b> Interval</a></li>
-<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#intervals-overlap"><i class="fa fa-check"></i><b>9.11</b> Intervals Overlap</a></li>
-<li class="chapter" data-level="9.12" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date"><i class="fa fa-check"></i><b>9.12</b> How many invoices were settled within due date?</a></li>
-<li class="chapter" data-level="9.13" data-path="lubridate.html"><a href="lubridate.html#shift-interval"><i class="fa fa-check"></i><b>9.13</b> Shift Interval</a></li>
-<li class="chapter" data-level="9.14" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>9.14</b> Within</a><ul>
-<li class="chapter" data-level="9.14.1" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date-1"><i class="fa fa-check"></i><b>9.14.1</b> How many invoices were settled within due date?</a></li>
+<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#datetimeclass"><i class="fa fa-check"></i><b>9.3</b> Date &amp; Time Classes</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="lubridate.html"><a href="lubridate.html#date-1"><i class="fa fa-check"></i><b>9.3.1</b> Date</a></li>
+<li class="chapter" data-level="9.3.2" data-path="lubridate.html"><a href="lubridate.html#iso-8601"><i class="fa fa-check"></i><b>9.3.2</b> ISO 8601</a></li>
+<li class="chapter" data-level="9.3.3" data-path="lubridate.html"><a href="lubridate.html#posix"><i class="fa fa-check"></i><b>9.3.3</b> POSIX</a></li>
+<li class="chapter" data-level="9.3.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-2"><i class="fa fa-check"></i><b>9.3.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.15" data-path="lubridate.html"><a href="lubridate.html#quarter"><i class="fa fa-check"></i><b>9.15</b> Quarter</a></li>
+<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#datearith"><i class="fa fa-check"></i><b>9.4</b> Date Arithmetic</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>9.4.1</b> Shift Date</a></li>
+<li class="chapter" data-level="9.4.2" data-path="lubridate.html"><a href="lubridate.html#case-study-11"><i class="fa fa-check"></i><b>9.4.2</b> Case Study</a></li>
+<li class="chapter" data-level="9.4.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-3"><i class="fa fa-check"></i><b>9.4.3</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#time-zones-daylight-savings"><i class="fa fa-check"></i><b>9.5</b> Time Zones &amp; Daylight Savings</a></li>
+<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#time-zones"><i class="fa fa-check"></i><b>9.6</b> Time Zones</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="lubridate.html"><a href="lubridate.html#daylight-savings"><i class="fa fa-check"></i><b>9.6.1</b> Daylight Savings</a></li>
+<li class="chapter" data-level="9.6.2" data-path="lubridate.html"><a href="lubridate.html#your-turn-4"><i class="fa fa-check"></i><b>9.6.2</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#date-time-formats"><i class="fa fa-check"></i><b>9.7</b> Date &amp; Time Formats</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="lubridate.html"><a href="lubridate.html#conversion-specifications"><i class="fa fa-check"></i><b>9.7.1</b> Conversion Specifications</a></li>
+<li class="chapter" data-level="9.7.2" data-path="lubridate.html"><a href="lubridate.html#guess-format"><i class="fa fa-check"></i><b>9.7.2</b> Guess Format</a></li>
+<li class="chapter" data-level="9.7.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-5"><i class="fa fa-check"></i><b>9.7.3</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#parse-date-time"><i class="fa fa-check"></i><b>9.8</b> Parse Date &amp; Time</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="lubridate.html"><a href="lubridate.html#your-turn-6"><i class="fa fa-check"></i><b>9.8.1</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#date-time-components"><i class="fa fa-check"></i><b>9.9</b> Date &amp; Time Components</a><ul>
+<li class="chapter" data-level="9.9.1" data-path="lubridate.html"><a href="lubridate.html#year"><i class="fa fa-check"></i><b>9.9.1</b> Year</a></li>
+<li class="chapter" data-level="9.9.2" data-path="lubridate.html"><a href="lubridate.html#month"><i class="fa fa-check"></i><b>9.9.2</b> Month</a></li>
+<li class="chapter" data-level="9.9.3" data-path="lubridate.html"><a href="lubridate.html#week"><i class="fa fa-check"></i><b>9.9.3</b> Week</a></li>
+<li class="chapter" data-level="9.9.4" data-path="lubridate.html"><a href="lubridate.html#day"><i class="fa fa-check"></i><b>9.9.4</b> Day</a></li>
+<li class="chapter" data-level="9.9.5" data-path="lubridate.html"><a href="lubridate.html#days-in-month"><i class="fa fa-check"></i><b>9.9.5</b> Days in Month</a></li>
+<li class="chapter" data-level="9.9.6" data-path="lubridate.html"><a href="lubridate.html#hour-minute-seconds"><i class="fa fa-check"></i><b>9.9.6</b> Hour, Minute &amp; Seconds</a></li>
+<li class="chapter" data-level="9.9.7" data-path="lubridate.html"><a href="lubridate.html#quarter-semester"><i class="fa fa-check"></i><b>9.9.7</b> Quarter &amp; Semester</a></li>
+<li class="chapter" data-level="9.9.8" data-path="lubridate.html"><a href="lubridate.html#case-study-12"><i class="fa fa-check"></i><b>9.9.8</b> Case Study</a></li>
+<li class="chapter" data-level="9.9.9" data-path="lubridate.html"><a href="lubridate.html#your-turn-7"><i class="fa fa-check"></i><b>9.9.9</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#create-update-verify"><i class="fa fa-check"></i><b>9.10</b> Create, Update &amp; Verify</a><ul>
+<li class="chapter" data-level="9.10.1" data-path="lubridate.html"><a href="lubridate.html#create"><i class="fa fa-check"></i><b>9.10.1</b> Create</a></li>
+<li class="chapter" data-level="9.10.2" data-path="lubridate.html"><a href="lubridate.html#update"><i class="fa fa-check"></i><b>9.10.2</b> Update</a></li>
+<li class="chapter" data-level="9.10.3" data-path="lubridate.html"><a href="lubridate.html#date-sequence"><i class="fa fa-check"></i><b>9.10.3</b> Date Sequence</a></li>
+<li class="chapter" data-level="9.10.4" data-path="lubridate.html"><a href="lubridate.html#verify-type"><i class="fa fa-check"></i><b>9.10.4</b> Verify Type</a></li>
+<li class="chapter" data-level="9.10.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-8"><i class="fa fa-check"></i><b>9.10.5</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#intervals-duration-period"><i class="fa fa-check"></i><b>9.11</b> Intervals, Duration &amp; Period</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>9.11.1</b> Interval</a></li>
+<li class="chapter" data-level="9.11.2" data-path="lubridate.html"><a href="lubridate.html#overlapping-intervals"><i class="fa fa-check"></i><b>9.11.2</b> Overlapping Intervals</a></li>
+<li class="chapter" data-level="9.11.3" data-path="lubridate.html"><a href="lubridate.html#shift-interval"><i class="fa fa-check"></i><b>9.11.3</b> Shift Interval</a></li>
+<li class="chapter" data-level="9.11.4" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>9.11.4</b> Within</a></li>
+<li class="chapter" data-level="9.11.5" data-path="lubridate.html"><a href="lubridate.html#duration"><i class="fa fa-check"></i><b>9.11.5</b> Duration</a></li>
+<li class="chapter" data-level="9.11.6" data-path="lubridate.html"><a href="lubridate.html#period"><i class="fa fa-check"></i><b>9.11.6</b> Period</a></li>
+<li class="chapter" data-level="9.11.7" data-path="lubridate.html"><a href="lubridate.html#your-turn-9"><i class="fa fa-check"></i><b>9.11.7</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="lubridate.html"><a href="lubridate.html#others"><i class="fa fa-check"></i><b>9.12</b> Others</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="lubridate.html"><a href="lubridate.html#rounding-dates"><i class="fa fa-check"></i><b>9.12.1</b> Rounding Dates</a></li>
+<li class="chapter" data-level="9.12.2" data-path="lubridate.html"><a href="lubridate.html#rollback"><i class="fa fa-check"></i><b>9.12.2</b> Rollback</a></li>
+<li class="chapter" data-level="9.12.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-10"><i class="fa fa-check"></i><b>9.12.3</b> Your Turn</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>10</b> Categorical Data Analysis</a><ul>
 <li class="chapter" data-level="10.1" data-path="forcats.html"><a href="forcats.html#introduction-9"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
-<li class="chapter" data-level="10.2" data-path="forcats.html"><a href="forcats.html#case-study-12"><i class="fa fa-check"></i><b>10.2</b> Case Study</a><ul>
+<li class="chapter" data-level="10.2" data-path="forcats.html"><a href="forcats.html#case-study-13"><i class="fa fa-check"></i><b>10.2</b> Case Study</a><ul>
 <li class="chapter" data-level="10.2.1" data-path="forcats.html"><a href="forcats.html#data-5"><i class="fa fa-check"></i><b>10.2.1</b> Data</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="forcats.html"><a href="forcats.html#tabulate-referrers"><i class="fa fa-check"></i><b>10.3</b> Tabulate Referrers</a></li>
@@ -423,8 +465,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>count observations for different levels of a variable</li>
 </ul>
 <p>We will use the following R packages:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb141-2" data-line-number="2"><span class="kw">library</span>(readr)</a></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb141-2" title="2"><span class="kw">library</span>(readr)</a></code></pre></div>
 </div>
 <div id="case-study-8" class="section level2">
 <h2><span class="header-section-number">5.2</span> Case Study</h2>
@@ -433,16 +475,16 @@ helper functions to answer questions we have about and to modify/transform the
 underlying data set.</p>
 <div id="data-1" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> Data</h3>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1">ecom &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
-<a class="sourceLine" id="cb142-3" data-line-number="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(<span class="dt">device =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</a>
-<a class="sourceLine" id="cb142-4" data-line-number="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
-<a class="sourceLine" id="cb142-5" data-line-number="5">      <span class="dt">purchase =</span> <span class="kw">col_logical</span>(), <span class="dt">bouncers =</span> <span class="kw">col_logical</span>(), <span class="dt">duration =</span> <span class="kw">col_double</span>(),</a>
-<a class="sourceLine" id="cb142-6" data-line-number="6">      <span class="dt">n_visit =</span> <span class="kw">col_double</span>(), <span class="dt">n_pages =</span> <span class="kw">col_double</span>()</a>
-<a class="sourceLine" id="cb142-7" data-line-number="7">    )</a>
-<a class="sourceLine" id="cb142-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb142-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb142-10" data-line-number="10">ecom</a></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1">ecom &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb142-2" title="2"><span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb142-3" title="3">    <span class="dt">col_types =</span> <span class="kw">cols_only</span>(<span class="dt">device =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</a>
+<a class="sourceLine" id="cb142-4" title="4">      <span class="dt">referrer =</span> <span class="kw">col_factor</span>(<span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</a>
+<a class="sourceLine" id="cb142-5" title="5">      <span class="dt">purchase =</span> <span class="kw">col_logical</span>(), <span class="dt">bouncers =</span> <span class="kw">col_logical</span>(), <span class="dt">duration =</span> <span class="kw">col_double</span>(),</a>
+<a class="sourceLine" id="cb142-6" title="6">      <span class="dt">n_visit =</span> <span class="kw">col_double</span>(), <span class="dt">n_pages =</span> <span class="kw">col_double</span>()</a>
+<a class="sourceLine" id="cb142-7" title="7">    )</a>
+<a class="sourceLine" id="cb142-8" title="8">  )</a>
+<a class="sourceLine" id="cb142-9" title="9"></a>
+<a class="sourceLine" id="cb142-10" title="10">ecom</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
@@ -477,7 +519,7 @@ underlying data set.</p>
 and devices used to visit the site. We will use <code>distinct</code> to examine the
 values in the <code>referrer</code> column</p>
 <p><img src="img/distinct_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="kw">distinct</span>(ecom, referrer)</a></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1"><span class="kw">distinct</span>(ecom, referrer)</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 1
 ##   referrer
 ##   &lt;fct&gt;   
@@ -487,7 +529,7 @@ values in the <code>referrer</code> column</p>
 ## 4 bing    
 ## 5 social</code></pre>
 <p>and the <code>device</code> column as well.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="kw">distinct</span>(ecom, device)</a></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1"><span class="kw">distinct</span>(ecom, device)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 1
 ##   device
 ##   &lt;fct&gt; 
@@ -499,7 +541,7 @@ values in the <code>referrer</code> column</p>
 <h2><span class="header-section-number">5.4</span> Rename Columns</h2>
 <p>Columns can be renamed using <code>rename()</code>.</p>
 <p><img src="img/rename_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1"><span class="kw">rename</span>(ecom, <span class="dt">time_on_site =</span> duration)</a></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" title="1"><span class="kw">rename</span>(ecom, <span class="dt">time_on_site =</span> duration)</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 7
 ##    referrer device bouncers n_visit n_pages time_on_site purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt; &lt;lgl&gt;   
@@ -520,9 +562,9 @@ values in the <code>referrer</code> column</p>
 <p>Let us now look at the proportion or share of visits driven by different sources
 of traffic.</p>
 <p><img src="img/tally_count.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb150-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb150-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" title="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb150-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb150-3" title="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   referrer     n
 ##   &lt;fct&gt;    &lt;int&gt;
@@ -533,11 +575,11 @@ of traffic.</p>
 ## 5 google     208</code></pre>
 <p>We would also like to know the number of bouncers driven by the different
 sources of traffic.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb152-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer, bouncers) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb152-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" title="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb152-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(referrer, bouncers) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb152-3" title="3"><span class="st">  </span><span class="kw">tally</span>()</a></code></pre></div>
 <pre><code>## # A tibble: 10 x 3
-## # Groups:   referrer [?]
+## # Groups:   referrer [5]
 ##    referrer bouncers     n
 ##    &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
 ##  1 bing     FALSE      104
@@ -551,10 +593,10 @@ sources of traffic.</p>
 ##  9 google   FALSE      101
 ## 10 google   TRUE       107</code></pre>
 <p>Let us look at how many conversions happen across different devices.</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb154-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(device, purchase) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb154-3" data-line-number="3"><span class="st">  </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb154-4" data-line-number="4"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" title="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb154-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(device, purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb154-3" title="3"><span class="st">  </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb154-4" title="4"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 3
 ## # Groups:   device [3]
 ##   device purchase     n
@@ -563,9 +605,9 @@ sources of traffic.</p>
 ## 2 tablet TRUE        36
 ## 3 mobile TRUE        36</code></pre>
 <p>Another way to extract the above information is by using <code>count</code></p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb156-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(referrer, purchase) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb156-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" title="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb156-2" title="2"><span class="st">  </span><span class="kw">count</span>(referrer, purchase) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb156-3" title="3"><span class="st">  </span><span class="kw">filter</span>(purchase)</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 3
 ##   referrer purchase     n
 ##   &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
@@ -581,57 +623,57 @@ sources of traffic.</p>
 number or percentage of observations. <code>sample_n()</code> allows sampling a specific
 number of observations.</p>
 <p><img src="img/sample_frac_n.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1"><span class="kw">sample_n</span>(ecom, <span class="dv">700</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" title="1"><span class="kw">sample_n</span>(ecom, <span class="dv">700</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 direct   mobile TRUE           2       1      217 FALSE   
-##  2 google   tablet FALSE          9       3       48 FALSE   
-##  3 direct   tablet TRUE           8       1      814 FALSE   
-##  4 google   mobile FALSE          4      10      200 FALSE   
-##  5 google   laptop FALSE          5       5      125 FALSE   
-##  6 direct   mobile TRUE           2       1      338 FALSE   
-##  7 direct   tablet FALSE          8       5       50 FALSE   
-##  8 google   mobile TRUE           5       1      988 FALSE   
-##  9 yahoo    mobile FALSE         10       6       90 FALSE   
-## 10 social   mobile TRUE           5       1       22 FALSE   
+##  1 direct   tablet FALSE          3      10      260 TRUE    
+##  2 social   laptop FALSE          5      16      176 FALSE   
+##  3 social   mobile FALSE         10      11      242 TRUE    
+##  4 bing     laptop TRUE           0       1      456 FALSE   
+##  5 social   tablet FALSE          2       8      208 FALSE   
+##  6 bing     tablet FALSE          1      17      170 FALSE   
+##  7 yahoo    laptop FALSE          5       8      136 FALSE   
+##  8 direct   tablet FALSE          3      18      522 TRUE    
+##  9 google   tablet TRUE           5       1      391 FALSE   
+## 10 bing     tablet FALSE          5      20      540 FALSE   
 ## # ... with 690 more rows</code></pre>
 <p>We can combine the sampling functions with other dplyr functions as shown below
 where we sample observation after grouping them according to the source of
 traffic.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb160-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb160-3" data-line-number="3"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" title="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb160-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(referrer) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb160-3" title="3"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">100</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 500 x 7
 ## # Groups:   referrer [5]
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 bing     tablet TRUE           1       1      721 FALSE   
-##  2 bing     mobile TRUE           3       1      479 FALSE   
-##  3 bing     laptop TRUE           3       1      396 FALSE   
-##  4 bing     tablet TRUE           5       1      765 FALSE   
-##  5 bing     mobile TRUE           6       1      966 FALSE   
-##  6 bing     tablet TRUE           2       1      489 FALSE   
-##  7 bing     tablet FALSE          8      19      570 TRUE    
-##  8 bing     mobile FALSE         10      20      560 FALSE   
-##  9 bing     mobile TRUE           8       1      195 FALSE   
-## 10 bing     laptop FALSE          0      12      144 FALSE   
+##  1 bing     tablet FALSE          7       3       42 FALSE   
+##  2 bing     mobile FALSE          6      18      342 TRUE    
+##  3 bing     laptop TRUE           7       1      362 FALSE   
+##  4 bing     mobile FALSE          4      20      440 TRUE    
+##  5 bing     laptop TRUE           1       1      995 FALSE   
+##  6 bing     mobile FALSE         10      14      140 FALSE   
+##  7 bing     laptop TRUE           3       1      422 FALSE   
+##  8 bing     tablet TRUE           3       1      798 FALSE   
+##  9 bing     laptop FALSE          1      19      380 TRUE    
+## 10 bing     tablet FALSE          6       9      198 FALSE   
 ## # ... with 490 more rows</code></pre>
 <p><code>sample_frac()</code> allows a specific percentage of observations.</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="kw">sample_frac</span>(ecom, <span class="dt">size =</span> <span class="fl">0.7</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1"><span class="kw">sample_frac</span>(ecom, <span class="dt">size =</span> <span class="fl">0.7</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 direct   tablet TRUE           5       1      581 FALSE   
-##  2 yahoo    laptop FALSE          1       2       30 FALSE   
-##  3 google   tablet TRUE           2       1      239 FALSE   
-##  4 social   mobile FALSE          1      10      170 FALSE   
-##  5 google   tablet FALSE          2       4       64 FALSE   
-##  6 social   tablet TRUE           6       1      133 FALSE   
-##  7 yahoo    mobile TRUE           1       1      376 FALSE   
-##  8 direct   tablet FALSE         10      14      252 FALSE   
-##  9 bing     laptop FALSE         10      16      304 FALSE   
-## 10 yahoo    laptop TRUE           2       1      731 FALSE   
+##  1 social   laptop TRUE           2       1      576 FALSE   
+##  2 social   tablet TRUE           2       1      795 FALSE   
+##  3 google   tablet FALSE          3      18      468 FALSE   
+##  4 yahoo    mobile FALSE          6      14      322 TRUE    
+##  5 social   tablet FALSE          9      20      420 TRUE    
+##  6 yahoo    tablet TRUE           2       1      652 FALSE   
+##  7 direct   tablet FALSE          8       5       50 FALSE   
+##  8 direct   laptop FALSE          8      10      210 FALSE   
+##  9 bing     mobile TRUE           1       1      905 FALSE   
+## 10 direct   tablet TRUE          10       1      970 FALSE   
 ## # ... with 690 more rows</code></pre>
 </div>
 <div id="data-extraction" class="section level2">
@@ -644,24 +686,24 @@ vector. In the below example, we extract the <code>device</code> column as a vec
 using <code>head</code> in addition to limit the output printed.</p>
 <div id="sample-data" class="section level3">
 <h3><span class="header-section-number">5.7.1</span> Sample Data</h3>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">ecom_mini &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1">ecom_mini &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
 <p><img src="img/pull_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, device)</a></code></pre></div>
-<pre><code>##  [1] tablet mobile tablet mobile mobile tablet tablet tablet laptop laptop
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1"><span class="kw">pull</span>(ecom_mini, device)</a></code></pre></div>
+<pre><code>##  [1] mobile laptop mobile laptop laptop tablet mobile tablet laptop mobile
 ## Levels: laptop tablet mobile</code></pre>
 <p>Let us extract the first column from <code>ecom</code> using column position instead of
 name.</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">1</span>) </a></code></pre></div>
-<pre><code>##  [1] google bing   bing   google google social bing   yahoo  direct bing  
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" title="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">1</span>) </a></code></pre></div>
+<pre><code>##  [1] google google direct yahoo  google direct direct social bing   yahoo 
 ## Levels: bing direct social yahoo google</code></pre>
 <p>You can use <code>-</code> before the column position to indicate the position in reverse.
 The below example extracts data from the last column.</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">-1</span>) </a></code></pre></div>
-<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">-1</span>) </a></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE</code></pre>
 <p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we
 extract data starting from the 5th row and upto the 15th row.</p>
 <p><img src="img/slice_1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="kw">slice</span>(ecom, <span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" title="1"><span class="kw">slice</span>(ecom, <span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 11 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
@@ -677,7 +719,7 @@ extract data starting from the 5th row and upto the 15th row.</p>
 ## 10 yahoo    tablet FALSE          5       8       80 FALSE   
 ## 11 yahoo    mobile FALSE          7       1       19 FALSE</code></pre>
 <p>Use <code>n()</code> inside <code>slice()</code> to extract the last row.</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="kw">slice</span>(ecom, <span class="kw">n</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" title="1"><span class="kw">slice</span>(ecom, <span class="kw">n</span>())</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 7
 ##   referrer device bouncers n_visit n_pages duration purchase
 ##   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
@@ -689,28 +731,28 @@ extract data starting from the 5th row and upto the 15th row.</p>
 <p><code>between()</code> allows us to test if the values in a column lie between two specific
 values. In the below example, we check how many visits browsed pages between 5
 and 15.</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1">ecom_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dv">30</span>)</a>
-<a class="sourceLine" id="cb175-2" data-line-number="2">  </a>
-<a class="sourceLine" id="cb175-3" data-line-number="3">ecom_sample <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb175-4" data-line-number="4"><span class="st">  </span><span class="kw">pull</span>(n_pages) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb175-5" data-line-number="5"><span class="st">  </span><span class="kw">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </a></code></pre></div>
-<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
-## [12] FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE
-## [23] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE</code></pre>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" title="1">ecom_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb175-2" title="2">  </a>
+<a class="sourceLine" id="cb175-3" title="3">ecom_sample <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb175-4" title="4"><span class="st">  </span><span class="kw">pull</span>(n_pages) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb175-5" title="5"><span class="st">  </span><span class="kw">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </a></code></pre></div>
+<pre><code>##  [1]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [12] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [23]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
 </div>
 <div id="case-when" class="section level2">
 <h2><span class="header-section-number">5.9</span> Case When</h2>
 <p><code>case_when()</code> is an alternative to <code>if else</code>. It allows us to lay down the
 conditions clearly and makes the code more readable. In the below example, we
 create a new column <code>repeat_visit</code> from <code>n_visit</code> (the number of previous visits).</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1">ecom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb177-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb177-3" data-line-number="3">    <span class="dt">repeat_visit =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb177-4" data-line-number="4">      n_visit <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb177-5" data-line-number="5">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb177-6" data-line-number="6">    )</a>
-<a class="sourceLine" id="cb177-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb177-8" data-line-number="8"><span class="st">  </span><span class="kw">select</span>(n_visit, repeat_visit) </a></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" title="1">ecom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb177-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb177-3" title="3">    <span class="dt">repeat_visit =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb177-4" title="4">      n_visit <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> </span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb177-5" title="5">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb177-6" title="6">    )</a>
+<a class="sourceLine" id="cb177-7" title="7">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb177-8" title="8"><span class="st">  </span><span class="kw">select</span>(n_visit, repeat_visit) </a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 2
 ##    n_visit repeat_visit
 ##      &lt;dbl&gt; &lt;lgl&gt;       
@@ -754,7 +796,7 @@ gitbook.start({
 "google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
 "all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
@@ -764,6 +806,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
 "link": null,
 "text": null
 },

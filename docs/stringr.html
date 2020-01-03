@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Data Wrangling with R</title>
-  <meta name="description" content="Learn to wrangle data with R.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Handling String Data | Data Wrangling with R</title>
+  <meta name="description" content="Learn to wrangle data with R." />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Wrangling with R" />
+  <meta property="og:title" content="Chapter 8 Handling String Data | Data Wrangling with R" />
   <meta property="og:type" content="book" />
   
   
@@ -17,25 +16,26 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Wrangling with R" />
+  <meta name="twitter:title" content="Chapter 8 Handling String Data | Data Wrangling with R" />
   
   <meta name="twitter:description" content="Learn to wrangle data with R." />
   
 
-<meta name="author" content="Aravind Hebbali">
+<meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2019-02-20">
+<meta name="date" content="2020-01-03" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="tibbles.html">
-<link rel="next" href="lubridate.html">
+<link rel="prev" href="tibbles.html"/>
+<link rel="next" href="lubridate.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -47,15 +47,15 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -65,13 +65,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -336,33 +334,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>9</b> Working with Date &amp; Time</a><ul>
-<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
-<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#quick-intro"><i class="fa fa-check"></i><b>9.2</b> Quick Intro</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="lubridate.html"><a href="lubridate.html#origin"><i class="fa fa-check"></i><b>9.2.1</b> Origin</a></li>
-<li class="chapter" data-level="9.2.2" data-path="lubridate.html"><a href="lubridate.html#current-datetime"><i class="fa fa-check"></i><b>9.2.2</b> Current Date/Time</a></li>
+<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lubridate.html"><a href="lubridate.html#date"><i class="fa fa-check"></i><b>9.1.1</b> Date</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lubridate.html"><a href="lubridate.html#time"><i class="fa fa-check"></i><b>9.1.2</b> Time</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lubridate.html"><a href="lubridate.html#am-or-pm"><i class="fa fa-check"></i><b>9.1.3</b> AM or PM?</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lubridate.html"><a href="lubridate.html#leap-year"><i class="fa fa-check"></i><b>9.1.4</b> Leap Year</a></li>
+<li class="chapter" data-level="9.1.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-1"><i class="fa fa-check"></i><b>9.1.5</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.3</b> Case Study</a><ul>
-<li class="chapter" data-level="9.3.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>9.3.1</b> Data</a></li>
-<li class="chapter" data-level="9.3.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.3.2</b> Data Dictionary</a></li>
+<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.2</b> Case Study</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>9.2.1</b> Data</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.2.2</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#extract-date-month-year-from-due-date"><i class="fa fa-check"></i><b>9.4</b> Extract Date, Month &amp; Year from Due Date</a></li>
-<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#compute-days-to-settle-invoice"><i class="fa fa-check"></i><b>9.5</b> Compute days to settle invoice</a></li>
-<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#compute-days-over-due"><i class="fa fa-check"></i><b>9.6</b> Compute days over due</a></li>
-<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#is-due-year-a-leap-year"><i class="fa fa-check"></i><b>9.7</b> Is due year a leap year?</a></li>
-<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#if-due-day-is-february-29-is-it-a-leap-year"><i class="fa fa-check"></i><b>9.8</b> If due day is February 29, is it a leap year?</a></li>
-<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>9.9</b> Shift Date</a></li>
-<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>9.10</b> Interval</a></li>
-<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#intervals-overlap"><i class="fa fa-check"></i><b>9.11</b> Intervals Overlap</a></li>
-<li class="chapter" data-level="9.12" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date"><i class="fa fa-check"></i><b>9.12</b> How many invoices were settled within due date?</a></li>
-<li class="chapter" data-level="9.13" data-path="lubridate.html"><a href="lubridate.html#shift-interval"><i class="fa fa-check"></i><b>9.13</b> Shift Interval</a></li>
-<li class="chapter" data-level="9.14" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>9.14</b> Within</a><ul>
-<li class="chapter" data-level="9.14.1" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date-1"><i class="fa fa-check"></i><b>9.14.1</b> How many invoices were settled within due date?</a></li>
+<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#datetimeclass"><i class="fa fa-check"></i><b>9.3</b> Date &amp; Time Classes</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="lubridate.html"><a href="lubridate.html#date-1"><i class="fa fa-check"></i><b>9.3.1</b> Date</a></li>
+<li class="chapter" data-level="9.3.2" data-path="lubridate.html"><a href="lubridate.html#iso-8601"><i class="fa fa-check"></i><b>9.3.2</b> ISO 8601</a></li>
+<li class="chapter" data-level="9.3.3" data-path="lubridate.html"><a href="lubridate.html#posix"><i class="fa fa-check"></i><b>9.3.3</b> POSIX</a></li>
+<li class="chapter" data-level="9.3.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-2"><i class="fa fa-check"></i><b>9.3.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.15" data-path="lubridate.html"><a href="lubridate.html#quarter"><i class="fa fa-check"></i><b>9.15</b> Quarter</a></li>
+<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#datearith"><i class="fa fa-check"></i><b>9.4</b> Date Arithmetic</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>9.4.1</b> Shift Date</a></li>
+<li class="chapter" data-level="9.4.2" data-path="lubridate.html"><a href="lubridate.html#case-study-11"><i class="fa fa-check"></i><b>9.4.2</b> Case Study</a></li>
+<li class="chapter" data-level="9.4.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-3"><i class="fa fa-check"></i><b>9.4.3</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#time-zones-daylight-savings"><i class="fa fa-check"></i><b>9.5</b> Time Zones &amp; Daylight Savings</a></li>
+<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#time-zones"><i class="fa fa-check"></i><b>9.6</b> Time Zones</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="lubridate.html"><a href="lubridate.html#daylight-savings"><i class="fa fa-check"></i><b>9.6.1</b> Daylight Savings</a></li>
+<li class="chapter" data-level="9.6.2" data-path="lubridate.html"><a href="lubridate.html#your-turn-4"><i class="fa fa-check"></i><b>9.6.2</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#date-time-formats"><i class="fa fa-check"></i><b>9.7</b> Date &amp; Time Formats</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="lubridate.html"><a href="lubridate.html#conversion-specifications"><i class="fa fa-check"></i><b>9.7.1</b> Conversion Specifications</a></li>
+<li class="chapter" data-level="9.7.2" data-path="lubridate.html"><a href="lubridate.html#guess-format"><i class="fa fa-check"></i><b>9.7.2</b> Guess Format</a></li>
+<li class="chapter" data-level="9.7.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-5"><i class="fa fa-check"></i><b>9.7.3</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#parse-date-time"><i class="fa fa-check"></i><b>9.8</b> Parse Date &amp; Time</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="lubridate.html"><a href="lubridate.html#your-turn-6"><i class="fa fa-check"></i><b>9.8.1</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#date-time-components"><i class="fa fa-check"></i><b>9.9</b> Date &amp; Time Components</a><ul>
+<li class="chapter" data-level="9.9.1" data-path="lubridate.html"><a href="lubridate.html#year"><i class="fa fa-check"></i><b>9.9.1</b> Year</a></li>
+<li class="chapter" data-level="9.9.2" data-path="lubridate.html"><a href="lubridate.html#month"><i class="fa fa-check"></i><b>9.9.2</b> Month</a></li>
+<li class="chapter" data-level="9.9.3" data-path="lubridate.html"><a href="lubridate.html#week"><i class="fa fa-check"></i><b>9.9.3</b> Week</a></li>
+<li class="chapter" data-level="9.9.4" data-path="lubridate.html"><a href="lubridate.html#day"><i class="fa fa-check"></i><b>9.9.4</b> Day</a></li>
+<li class="chapter" data-level="9.9.5" data-path="lubridate.html"><a href="lubridate.html#days-in-month"><i class="fa fa-check"></i><b>9.9.5</b> Days in Month</a></li>
+<li class="chapter" data-level="9.9.6" data-path="lubridate.html"><a href="lubridate.html#hour-minute-seconds"><i class="fa fa-check"></i><b>9.9.6</b> Hour, Minute &amp; Seconds</a></li>
+<li class="chapter" data-level="9.9.7" data-path="lubridate.html"><a href="lubridate.html#quarter-semester"><i class="fa fa-check"></i><b>9.9.7</b> Quarter &amp; Semester</a></li>
+<li class="chapter" data-level="9.9.8" data-path="lubridate.html"><a href="lubridate.html#case-study-12"><i class="fa fa-check"></i><b>9.9.8</b> Case Study</a></li>
+<li class="chapter" data-level="9.9.9" data-path="lubridate.html"><a href="lubridate.html#your-turn-7"><i class="fa fa-check"></i><b>9.9.9</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#create-update-verify"><i class="fa fa-check"></i><b>9.10</b> Create, Update &amp; Verify</a><ul>
+<li class="chapter" data-level="9.10.1" data-path="lubridate.html"><a href="lubridate.html#create"><i class="fa fa-check"></i><b>9.10.1</b> Create</a></li>
+<li class="chapter" data-level="9.10.2" data-path="lubridate.html"><a href="lubridate.html#update"><i class="fa fa-check"></i><b>9.10.2</b> Update</a></li>
+<li class="chapter" data-level="9.10.3" data-path="lubridate.html"><a href="lubridate.html#date-sequence"><i class="fa fa-check"></i><b>9.10.3</b> Date Sequence</a></li>
+<li class="chapter" data-level="9.10.4" data-path="lubridate.html"><a href="lubridate.html#verify-type"><i class="fa fa-check"></i><b>9.10.4</b> Verify Type</a></li>
+<li class="chapter" data-level="9.10.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-8"><i class="fa fa-check"></i><b>9.10.5</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#intervals-duration-period"><i class="fa fa-check"></i><b>9.11</b> Intervals, Duration &amp; Period</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>9.11.1</b> Interval</a></li>
+<li class="chapter" data-level="9.11.2" data-path="lubridate.html"><a href="lubridate.html#overlapping-intervals"><i class="fa fa-check"></i><b>9.11.2</b> Overlapping Intervals</a></li>
+<li class="chapter" data-level="9.11.3" data-path="lubridate.html"><a href="lubridate.html#shift-interval"><i class="fa fa-check"></i><b>9.11.3</b> Shift Interval</a></li>
+<li class="chapter" data-level="9.11.4" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>9.11.4</b> Within</a></li>
+<li class="chapter" data-level="9.11.5" data-path="lubridate.html"><a href="lubridate.html#duration"><i class="fa fa-check"></i><b>9.11.5</b> Duration</a></li>
+<li class="chapter" data-level="9.11.6" data-path="lubridate.html"><a href="lubridate.html#period"><i class="fa fa-check"></i><b>9.11.6</b> Period</a></li>
+<li class="chapter" data-level="9.11.7" data-path="lubridate.html"><a href="lubridate.html#your-turn-9"><i class="fa fa-check"></i><b>9.11.7</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="lubridate.html"><a href="lubridate.html#others"><i class="fa fa-check"></i><b>9.12</b> Others</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="lubridate.html"><a href="lubridate.html#rounding-dates"><i class="fa fa-check"></i><b>9.12.1</b> Rounding Dates</a></li>
+<li class="chapter" data-level="9.12.2" data-path="lubridate.html"><a href="lubridate.html#rollback"><i class="fa fa-check"></i><b>9.12.2</b> Rollback</a></li>
+<li class="chapter" data-level="9.12.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-10"><i class="fa fa-check"></i><b>9.12.3</b> Your Turn</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>10</b> Categorical Data Analysis</a><ul>
 <li class="chapter" data-level="10.1" data-path="forcats.html"><a href="forcats.html#introduction-9"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
-<li class="chapter" data-level="10.2" data-path="forcats.html"><a href="forcats.html#case-study-12"><i class="fa fa-check"></i><b>10.2</b> Case Study</a><ul>
+<li class="chapter" data-level="10.2" data-path="forcats.html"><a href="forcats.html#case-study-13"><i class="fa fa-check"></i><b>10.2</b> Case Study</a><ul>
 <li class="chapter" data-level="10.2.1" data-path="forcats.html"><a href="forcats.html#data-5"><i class="fa fa-check"></i><b>10.2.1</b> Data</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="forcats.html"><a href="forcats.html#tabulate-referrers"><i class="fa fa-check"></i><b>10.3</b> Tabulate Referrers</a></li>
@@ -411,12 +453,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="introduction-7" class="section level2">
 <h2><span class="header-section-number">8.1</span> Introduction</h2>
 <p>In this chapter, we will learn to work with string data in R using <a href="https://stringr.tidyverse.org">stringr</a>. As we did in the other chapters, we will use a case study to explore the various features of the stringr package. We will use the following R packages:</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" data-line-number="1"><span class="kw">library</span>(stringr)</a>
-<a class="sourceLine" id="cb312-2" data-line-number="2"><span class="kw">library</span>(tibble)</a>
-<a class="sourceLine" id="cb312-3" data-line-number="3"><span class="kw">library</span>(magrittr)</a>
-<a class="sourceLine" id="cb312-4" data-line-number="4"><span class="kw">library</span>(purrr)</a>
-<a class="sourceLine" id="cb312-5" data-line-number="5"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb312-6" data-line-number="6"><span class="kw">library</span>(readr)</a></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" title="1"><span class="kw">library</span>(stringr)</a>
+<a class="sourceLine" id="cb312-2" title="2"><span class="kw">library</span>(tibble)</a>
+<a class="sourceLine" id="cb312-3" title="3"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb312-4" title="4"><span class="kw">library</span>(purrr)</a>
+<a class="sourceLine" id="cb312-5" title="5"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb312-6" title="6"><span class="kw">library</span>(readr)</a></code></pre></div>
 </div>
 <div id="case-study-9" class="section level2">
 <h2><span class="header-section-number">8.2</span> Case Study</h2>
@@ -430,8 +472,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div id="data-3" class="section level3">
 <h3><span class="header-section-number">8.2.1</span> Data</h3>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" data-line-number="1">mockstring &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/mock_strings.csv&#39;</span>)</a>
-<a class="sourceLine" id="cb313-2" data-line-number="2">mockstring</a></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" title="1">mockstring &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/mock_strings.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb313-2" title="2">mockstring</a></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 12
 ##       id
 ##    &lt;dbl&gt;
@@ -547,8 +589,8 @@ that the email ids adher to a particular format .i.e</p>
 </ul>
 <p>Let us first detect if the email ids contain <code>@</code>. Since the data set has 1000 rows, we will
 use a smaller sample in the examples.</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1">mockdata &lt;-<span class="st"> </span><span class="kw">slice</span>(mockstring, <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb315-2" data-line-number="2">mockdata</a></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" title="1">mockdata &lt;-<span class="st"> </span><span class="kw">slice</span>(mockstring, <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb315-2" title="2">mockdata</a></code></pre></div>
 <pre><code>## # A tibble: 10 x 12
 ##       id
 ##    &lt;dbl&gt;
@@ -638,16 +680,16 @@ use a smaller sample in the examples.</p>
 <p>Use <code>str_detect()</code> to detect <code>@</code> and <code>str_count()</code> to count the number of times
 <code>@</code> appears in the email ids.</p>
 <p><img src="img/str_detect.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1"><span class="co"># detect @</span></a>
-<a class="sourceLine" id="cb317-2" data-line-number="2"><span class="kw">str_detect</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;@&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" title="1"><span class="co"># detect @</span></a>
+<a class="sourceLine" id="cb317-2" title="2"><span class="kw">str_detect</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;@&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="co"># count @</span></a>
-<a class="sourceLine" id="cb319-2" data-line-number="2"><span class="kw">str_count</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;@&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" title="1"><span class="co"># count @</span></a>
+<a class="sourceLine" id="cb319-2" title="2"><span class="kw">str_count</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;@&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1</code></pre>
 <p>We can use <code>str_c()</code> to concatenate strings. Let us add the string <code>email id:</code> before each
 email id in the data set.</p>
 <p><img src="img/str_c.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="kw">str_c</span>(<span class="st">&quot;email id:&quot;</span>, mockdata<span class="op">$</span>email)</a></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" title="1"><span class="kw">str_c</span>(<span class="st">&quot;email id:&quot;</span>, mockdata<span class="op">$</span>email)</a></code></pre></div>
 <pre><code>##  [1] &quot;email id:mnewburn0@fastcompany.com&quot;   
 ##  [2] &quot;email id:mdankersley1@digg.com&quot;       
 ##  [3] &quot;email id:hgirhard2@altervista.org&quot;    
@@ -663,7 +705,7 @@ Let us split the domain name and extension from the domain column in the data. T
 and extension are separated by <code>.</code> and we will use it to split the domain column. Since <code>.</code> is
 a special character, we will use two slashes to escape the special character.</p>
 <p><img src="img/str_split.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" data-line-number="1"><span class="kw">str_split</span>(mockdata<span class="op">$</span>domain, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" title="1"><span class="kw">str_split</span>(mockdata<span class="op">$</span>domain, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>)</a></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;addtoany&quot; &quot;com&quot;     
 ## 
@@ -695,26 +737,26 @@ a special character, we will use two slashes to escape the special character.</p
 ## [1] &quot;jugem&quot; &quot;jp&quot;</code></pre>
 <p>We can truncate a string using <code>str_trunc()</code>. The default truncation happens at the beggining
 of the string but we can truncate the central part or the end of the string as well.</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="kw">str_trunc</span>(mockdata<span class="op">$</span>email, <span class="dt">width =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" title="1"><span class="kw">str_trunc</span>(mockdata<span class="op">$</span>email, <span class="dt">width =</span> <span class="dv">10</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;mnewbur...&quot; &quot;mdanker...&quot; &quot;hgirhar...&quot; &quot;pmcmena...&quot; &quot;drisbro...&quot;
 ##  [6] &quot;cphlipp...&quot; &quot;kdodswe...&quot; &quot;vhourih...&quot; &quot;rdike8@...&quot; &quot;tdudbri...&quot;</code></pre>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" data-line-number="1"><span class="kw">str_trunc</span>(mockdata<span class="op">$</span>email, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">side =</span> <span class="st">&quot;left&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" title="1"><span class="kw">str_trunc</span>(mockdata<span class="op">$</span>email, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">side =</span> <span class="st">&quot;left&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;...any.com&quot; &quot;...igg.com&quot; &quot;...sta.org&quot; &quot;...ect.com&quot; &quot;...amp.com&quot;
 ##  [6] &quot;...key.com&quot; &quot;...@un.org&quot; &quot;...ovh.net&quot; &quot;...e.co.uk&quot; &quot;...ank.net&quot;</code></pre>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" data-line-number="1"><span class="kw">str_trunc</span>(mockdata<span class="op">$</span>email, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">side =</span> <span class="st">&quot;center&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" title="1"><span class="kw">str_trunc</span>(mockdata<span class="op">$</span>email, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">side =</span> <span class="st">&quot;center&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;mnew...com&quot; &quot;mdan...com&quot; &quot;hgir...org&quot; &quot;pmcm...com&quot; &quot;dris...com&quot;
 ##  [6] &quot;cphl...com&quot; &quot;kdod...org&quot; &quot;vhou...net&quot; &quot;rdik....uk&quot; &quot;tdud...net&quot;</code></pre>
 <p><img src="img/str_sort_descending.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Strings can be sorted using <code>str_sort()</code>. Let us quickly sort the emails in both
 ascending and descending orders.</p>
 <p><img src="img/str_sort.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="kw">str_sort</span>(mockdata<span class="op">$</span>email)</a></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" title="1"><span class="kw">str_sort</span>(mockdata<span class="op">$</span>email)</a></code></pre></div>
 <pre><code>##  [1] &quot;cphlippi5@surveymonkey.com&quot;   &quot;drisbrough4@bandcamp.com&quot;    
 ##  [3] &quot;hgirhard2@altervista.org&quot;     &quot;kdodswell6@un.org&quot;           
 ##  [5] &quot;mdankersley1@digg.com&quot;        &quot;mnewburn0@fastcompany.com&quot;   
 ##  [7] &quot;pmcmenamy3@sciencedirect.com&quot; &quot;rdike8@timesonline.co.uk&quot;    
 ##  [9] &quot;tdudbridge9@clickbank.net&quot;    &quot;vhourihane7@ovh.net&quot;</code></pre>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="kw">str_sort</span>(mockdata<span class="op">$</span>email, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" title="1"><span class="kw">str_sort</span>(mockdata<span class="op">$</span>email, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;vhourihane7@ovh.net&quot;          &quot;tdudbridge9@clickbank.net&quot;   
 ##  [3] &quot;rdike8@timesonline.co.uk&quot;     &quot;pmcmenamy3@sciencedirect.com&quot;
 ##  [5] &quot;mnewburn0@fastcompany.com&quot;    &quot;mdankersley1@digg.com&quot;       
@@ -722,12 +764,12 @@ ascending and descending orders.</p>
 ##  [9] &quot;drisbrough4@bandcamp.com&quot;     &quot;cphlippi5@surveymonkey.com&quot;</code></pre>
 <p>The case of a string can be changed to upper, lower or title case as shown below.</p>
 <p><img src="img/str_to_upper.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb335-1" data-line-number="1"><span class="kw">str_to_upper</span>(mockdata<span class="op">$</span>full_name)</a></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb335-1" title="1"><span class="kw">str_to_upper</span>(mockdata<span class="op">$</span>full_name)</a></code></pre></div>
 <pre><code>##  [1] &quot;MUFI RUIT&quot;          &quot;LEESE FURMAGIER&quot;    &quot;BLAKELEE WILSHIRE&quot; 
 ##  [4] &quot;TERENCIO MCILLRICK&quot; &quot;DEBEE MCERLAINE&quot;    &quot;FRAN PAINTEN&quot;      
 ##  [7] &quot;FRASCO BOWICH&quot;      &quot;CAR PONTEN&quot;         &quot;TADES CHECCUCCI&quot;   
 ## [10] &quot;WILTON KEMMEY&quot;</code></pre>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb337-1" data-line-number="1"><span class="kw">str_to_lower</span>(mockdata<span class="op">$</span>full_name)</a></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb337-1" title="1"><span class="kw">str_to_lower</span>(mockdata<span class="op">$</span>full_name)</a></code></pre></div>
 <pre><code>##  [1] &quot;mufi ruit&quot;          &quot;leese furmagier&quot;    &quot;blakelee wilshire&quot; 
 ##  [4] &quot;terencio mcillrick&quot; &quot;debee mcerlaine&quot;    &quot;fran painten&quot;      
 ##  [7] &quot;frasco bowich&quot;      &quot;car ponten&quot;         &quot;tades checcucci&quot;   
@@ -739,13 +781,13 @@ let us replace:</p>
 <li>Road with RD</li>
 </ul>
 <p><img src="img/str_replace.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb339-1" data-line-number="1"><span class="kw">str_replace</span>(mockdata<span class="op">$</span>address, <span class="st">&quot;Street&quot;</span>, <span class="st">&quot;ST&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb339-1" title="1"><span class="kw">str_replace</span>(mockdata<span class="op">$</span>address, <span class="st">&quot;Street&quot;</span>, <span class="st">&quot;ST&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;8 Anhalt Crossing&quot;          &quot;697 East Avenue&quot;           
 ##  [3] &quot;89 Dottie Circle&quot;           &quot;98135 Blue Bill Park Drive&quot;
 ##  [5] &quot;7814 Pennsylvania ST&quot;       &quot;4897 Little Fleur Drive&quot;   
 ##  [7] &quot;53541 Morrow Center&quot;        &quot;4819 Hermina Parkway&quot;      
 ##  [9] &quot;68096 Monument Park&quot;        &quot;9595 Spaight Avenue&quot;</code></pre>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="kw">str_replace</span>(mockdata<span class="op">$</span>address, <span class="st">&quot;Road&quot;</span>, <span class="st">&quot;RD&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" title="1"><span class="kw">str_replace</span>(mockdata<span class="op">$</span>address, <span class="st">&quot;Road&quot;</span>, <span class="st">&quot;RD&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;8 Anhalt Crossing&quot;          &quot;697 East Avenue&quot;           
 ##  [3] &quot;89 Dottie Circle&quot;           &quot;98135 Blue Bill Park Drive&quot;
 ##  [5] &quot;7814 Pennsylvania Street&quot;   &quot;4897 Little Fleur Drive&quot;   
@@ -753,12 +795,12 @@ let us replace:</p>
 ##  [9] &quot;68096 Monument Park&quot;        &quot;9595 Spaight Avenue&quot;</code></pre>
 <p>We can extract parts of the string that match a particular pattern using <code>str_extract()</code>.</p>
 <p><img src="img/str_extract.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="kw">str_extract</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;org&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" title="1"><span class="kw">str_extract</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;org&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] NA    NA    &quot;org&quot; NA    NA    NA    &quot;org&quot; NA    NA    NA</code></pre>
 <p>Before we extract, we need to know whether the string contains text that match our pattern.
 Use <code>str_match()</code> to see if the pattern is present in the string.</p>
 <p><img src="img/str_match.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" data-line-number="1"><span class="kw">str_match</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;org&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" title="1"><span class="kw">str_match</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;org&quot;</span>)</a></code></pre></div>
 <pre><code>##       [,1] 
 ##  [1,] NA   
 ##  [2,] NA   
@@ -774,13 +816,13 @@ Use <code>str_match()</code> to see if the pattern is present in the string.</p>
 is present in the vector, we might want to know the index of the strings in which it is
 present. Use <code>str_which()</code> to identify the index of the strings that match our pattern.</p>
 <p><img src="img/str_which.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" data-line-number="1"><span class="kw">str_which</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;org&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" title="1"><span class="kw">str_which</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;org&quot;</span>)</a></code></pre></div>
 <pre><code>## [1] 3 7</code></pre>
 <p>Another objective might be to locate the position of the pattern we are looking for in the
 string. For example, if we want to know the position of <code>@</code> in the email ids, we can use
 <code>str_locate()</code>.</p>
 <p><img src="img/str_locate.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb349-1" data-line-number="1"><span class="kw">str_locate</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;@&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb349-1" title="1"><span class="kw">str_locate</span>(mockdata<span class="op">$</span>email, <span class="dt">pattern =</span> <span class="st">&quot;@&quot;</span>)</a></code></pre></div>
 <pre><code>##       start end
 ##  [1,]    10  10
 ##  [2,]    13  13
@@ -795,21 +837,21 @@ string. For example, if we want to know the position of <code>@</code> in the em
 <p>The length of the string can be computed using <code>str_length()</code>. Let us ensure that the length
 of the strings in the <code>password</code> column is 16.</p>
 <p><img src="img/str_length.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" data-line-number="1"><span class="kw">str_length</span>(mockdata<span class="op">$</span>passwords)</a></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" title="1"><span class="kw">str_length</span>(mockdata<span class="op">$</span>passwords)</a></code></pre></div>
 <pre><code>##  [1] 16 16 16 16 16 16 16 16 16 16</code></pre>
 <p>We can extract parts of a string by specifying the starting and ending position using
 <code>str_sub()</code>. Let us extract the currency type from the <code>currency</code> column.</p>
 <p><img src="img/str_sub.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" data-line-number="1"><span class="kw">str_sub</span>(mockdata<span class="op">$</span>currency, <span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">end =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" title="1"><span class="kw">str_sub</span>(mockdata<span class="op">$</span>currency, <span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">end =</span> <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;¥&quot; &quot;$&quot; &quot;\200&quot; &quot;\200&quot; &quot;\200&quot; &quot;¥&quot; &quot;$&quot; &quot;¥&quot; &quot;\200&quot; &quot;\200&quot;</code></pre>
 <p>One final function that we will look at before the case study is <code>word()</code>. It extracts
 word(s) from sentences. We do not have any sentences in the data set, but let us use it
 to extract the first and last name from the <code>full_name</code> column.</p>
 <p><img src="img/word.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" data-line-number="1"><span class="kw">word</span>(mockdata<span class="op">$</span>full_name, <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" title="1"><span class="kw">word</span>(mockdata<span class="op">$</span>full_name, <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;Mufi&quot;     &quot;Leese&quot;    &quot;Blakelee&quot; &quot;Terencio&quot; &quot;Debee&quot;    &quot;Fran&quot;    
 ##  [7] &quot;Frasco&quot;   &quot;Car&quot;      &quot;Tades&quot;    &quot;Wilton&quot;</code></pre>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" data-line-number="1"><span class="kw">word</span>(mockdata<span class="op">$</span>full_name, <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" title="1"><span class="kw">word</span>(mockdata<span class="op">$</span>full_name, <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>##  [1] &quot;Ruit&quot;      &quot;Furmagier&quot; &quot;Wilshire&quot;  &quot;McIllrick&quot; &quot;McErlaine&quot;
 ##  [6] &quot;Painten&quot;   &quot;Bowich&quot;    &quot;Ponten&quot;    &quot;Checcucci&quot; &quot;Kemmey&quot;</code></pre>
 <p>Alright, now let us apply what we have learned so far to our case study.</p>
@@ -825,12 +867,12 @@ to extract the first and last name from the <code>full_name</code> column.</p>
 <li>extract the first element from the resulting list</li>
 </ul>
 <p>Let us take a look at the emails before we extract the domain names.</p>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb359-1" data-line-number="1">emails &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb359-2" data-line-number="2"><span class="st">  </span>mockstring <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb359-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(email) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb359-4" data-line-number="4"><span class="st">  </span><span class="kw">head</span>()</a>
-<a class="sourceLine" id="cb359-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb359-6" data-line-number="6">emails</a></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb359-1" title="1">emails &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb359-2" title="2"><span class="st">  </span>mockstring <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb359-3" title="3"><span class="st">  </span><span class="kw">pull</span>(email) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb359-4" title="4"><span class="st">  </span><span class="kw">head</span>()</a>
+<a class="sourceLine" id="cb359-5" title="5"></a>
+<a class="sourceLine" id="cb359-6" title="6">emails</a></code></pre></div>
 <pre><code>## [1] &quot;mnewburn0@fastcompany.com&quot;    &quot;mdankersley1@digg.com&quot;       
 ## [3] &quot;hgirhard2@altervista.org&quot;     &quot;pmcmenamy3@sciencedirect.com&quot;
 ## [5] &quot;drisbrough4@bandcamp.com&quot;     &quot;cphlippi5@surveymonkey.com&quot;</code></pre>
@@ -838,7 +880,7 @@ to extract the first and last name from the <code>full_name</code> column.</p>
 <h4><span class="header-section-number">8.4.1.1</span> Step 1: Split email using pattern <code>@</code>.</h4>
 <p>We will split the email using <code>str_split</code>. It will split a string
 using the pattern supplied. In our case the pattern is <code>@</code>.</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" data-line-number="1"> <span class="kw">str_split</span>(emails, <span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" title="1"> <span class="kw">str_split</span>(emails, <span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>)</a></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;mnewburn0&quot;       &quot;fastcompany.com&quot;
 ## 
@@ -866,9 +908,9 @@ the list.</p>
 <p>We will use <code>map_chr()</code> from purrr to extract the domain names. It will
 return the second value from each element in the list. Since the domain
 name is a string, <code>map_chr()</code> will return a character vector.</p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1">emails <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb363-2" data-line-number="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb363-3" data-line-number="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" title="1">emails <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb363-2" title="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb363-3" title="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;fastcompany.com&quot;   &quot;digg.com&quot;          &quot;altervista.org&quot;   
 ## [4] &quot;sciencedirect.com&quot; &quot;bandcamp.com&quot;      &quot;surveymonkey.com&quot;</code></pre>
 </div>
@@ -879,10 +921,10 @@ character vector and we need to split the domain name and the domain
 extension. They are separated by <code>.</code>. Since <code>.</code> is a special character,
 we will use <code>\\</code> before <code>.</code> to escape it. Let us split the domain
 name and domain extension using <code>str_split</code> and <code>\\.</code> as the pattern.</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1">emails <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb365-2" data-line-number="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb365-3" data-line-number="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb365-4" data-line-number="4"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" title="1">emails <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb365-2" title="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb365-3" title="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb365-4" title="4"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) </a></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;fastcompany&quot; &quot;com&quot;        
 ## 
@@ -906,11 +948,11 @@ name and domain extension using <code>str_split</code> and <code>\\.</code> as t
 <p>Now that we have separated the domain name from its extension, let us extract
 the first value from each element in the list returned in step 3. We will again
 use <code>map_chr</code> to achieve this.</p>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1">emails <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb367-2" data-line-number="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb367-3" data-line-number="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb367-4" data-line-number="4"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb367-5" data-line-number="5"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" title="1">emails <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb367-2" title="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb367-3" title="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb367-4" title="4"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb367-5" title="5"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">1</span>))</a></code></pre></div>
 <pre><code>## [1] &quot;fastcompany&quot;   &quot;digg&quot;          &quot;altervista&quot;    &quot;sciencedirect&quot;
 ## [5] &quot;bandcamp&quot;      &quot;surveymonkey&quot;</code></pre>
 </div>
@@ -919,11 +961,11 @@ use <code>map_chr</code> to achieve this.</p>
 <div id="extract-domain-extension" class="section level2">
 <h2><span class="header-section-number">8.5</span> Extract Domain Extension</h2>
 <p>The below code extracts the domain extension instead of the domain name.</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" data-line-number="1">emails <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb369-2" data-line-number="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb369-3" data-line-number="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb369-4" data-line-number="4"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>, <span class="dt">simplify =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb369-5" data-line-number="5"><span class="st">  </span><span class="kw">extract</span>(, <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" title="1">emails <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb369-2" title="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb369-3" title="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb369-4" title="4"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>, <span class="dt">simplify =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb369-5" title="5"><span class="st">  </span><span class="kw">extract</span>(, <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;com&quot; &quot;com&quot; &quot;org&quot; &quot;com&quot; &quot;com&quot; &quot;com&quot;</code></pre>
 </div>
 <div id="extract-image-type-from-url" class="section level2">
@@ -936,12 +978,12 @@ use <code>map_chr</code> to achieve this.</p>
 <li>subset the string using the index position</li>
 </ul>
 <p>Let us take a look at the URL of the image.</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1">img &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb371-2" data-line-number="2"><span class="st">  </span>mockstring <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb371-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(imageurl) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb371-4" data-line-number="4"><span class="st">  </span><span class="kw">head</span>()</a>
-<a class="sourceLine" id="cb371-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb371-6" data-line-number="6">img</a></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" title="1">img &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb371-2" title="2"><span class="st">  </span>mockstring <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb371-3" title="3"><span class="st">  </span><span class="kw">pull</span>(imageurl) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb371-4" title="4"><span class="st">  </span><span class="kw">head</span>()</a>
+<a class="sourceLine" id="cb371-5" title="5"></a>
+<a class="sourceLine" id="cb371-6" title="6">img</a></code></pre></div>
 <pre><code>## [1] &quot;http://dummyimage.com/130x183.jpg/dddddd/000000&quot;
 ## [2] &quot;http://dummyimage.com/106x217.bmp/dddddd/000000&quot;
 ## [3] &quot;http://dummyimage.com/146x127.bmp/cc0000/ffffff&quot;
@@ -951,7 +993,7 @@ use <code>map_chr</code> to achieve this.</p>
 <div id="step-1-split-imageurl-using-pattern-." class="section level4">
 <h4><span class="header-section-number">8.6.1.1</span> Step 1: Split imageurl using pattern <code>\\.</code></h4>
 <p>Let us split imageurl using <code>str_split</code> and the pattern <code>\\.</code>.</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" data-line-number="1"><span class="kw">str_split</span>(img, <span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" title="1"><span class="kw">str_split</span>(img, <span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>)</a></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;http://dummyimage&quot; &quot;com/130x183&quot;       &quot;jpg/dddddd/000000&quot;
 ## 
@@ -975,9 +1017,9 @@ use <code>map_chr</code> to achieve this.</p>
 <p>Step 1 returned a list the elements of which have 3 values each. If you
 observe the list, the image type is in the 3rd value. We will now
 extract the third value from each element of the list using <code>map_chr</code>.</p>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" data-line-number="1">img <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb375-2" data-line-number="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb375-3" data-line-number="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">3</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" title="1">img <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb375-2" title="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb375-3" title="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">3</span>))</a></code></pre></div>
 <pre><code>## [1] &quot;jpg/dddddd/000000&quot; &quot;bmp/dddddd/000000&quot; &quot;bmp/cc0000/ffffff&quot;
 ## [4] &quot;png/5fa2dd/ffffff&quot; &quot;jpg/ff4444/ffffff&quot; &quot;bmp/dddddd/000000&quot;</code></pre>
 </div>
@@ -992,19 +1034,19 @@ elements of the resulting list</li>
 <p>Below is the first method. We know that the image type is 3 characters. So
 we use <code>str_sub</code> to subset the first 3 characters. The index positions
 are mentioned using <code>start</code> and <code>stop</code>.</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" data-line-number="1">img <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb377-2" data-line-number="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb377-3" data-line-number="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb377-4" data-line-number="4"><span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">end =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" title="1">img <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb377-2" title="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb377-3" title="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb377-4" title="4"><span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">end =</span> <span class="dv">3</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;jpg&quot; &quot;bmp&quot; &quot;bmp&quot; &quot;png&quot; &quot;jpg&quot; &quot;bmp&quot;</code></pre>
 <p>In case you are not sure about the length of the image type. In such cases,
 we will split the string using pattern <code>/</code> and then use <code>map_chr</code> to
 extract the first value of each element of the resulting list.</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" data-line-number="1">img <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb379-2" data-line-number="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb379-3" data-line-number="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb379-4" data-line-number="4"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;/&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb379-5" data-line-number="5"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" title="1">img <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb379-2" title="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb379-3" title="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb379-4" title="4"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;/&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb379-5" title="5"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">1</span>))</a></code></pre></div>
 <pre><code>## [1] &quot;jpg&quot; &quot;bmp&quot; &quot;bmp&quot; &quot;png&quot; &quot;jpg&quot; &quot;bmp&quot;</code></pre>
 </div>
 </div>
@@ -1027,7 +1069,7 @@ before. We will locate the position or index of the first number
 in the url using <code>str_locate()</code> and using the pattern <code>[0-9]</code>
 which instructs to look for any number between and including 0
 and 9.</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1"><span class="kw">str_locate</span>(img, <span class="dt">pattern =</span> <span class="st">&quot;[0-9]&quot;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" title="1"><span class="kw">str_locate</span>(img, <span class="dt">pattern =</span> <span class="st">&quot;[0-9]&quot;</span>) </a></code></pre></div>
 <pre><code>##      start end
 ## [1,]    23  23
 ## [2,]    23  23
@@ -1040,7 +1082,7 @@ and 9.</p>
 <h4><span class="header-section-number">8.7.1.2</span> Step 2: Extract url</h4>
 <p>We know where the dimension is located in the url. Let us extract the
 part of the url that contains the image dimension using <code>str_sub()</code>.</p>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" data-line-number="1"><span class="kw">str_sub</span>(img, <span class="dt">start =</span> <span class="dv">23</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" title="1"><span class="kw">str_sub</span>(img, <span class="dt">start =</span> <span class="dv">23</span>) </a></code></pre></div>
 <pre><code>## [1] &quot;130x183.jpg/dddddd/000000&quot; &quot;106x217.bmp/dddddd/000000&quot;
 ## [3] &quot;146x127.bmp/cc0000/ffffff&quot; &quot;181x194.png/5fa2dd/ffffff&quot;
 ## [5] &quot;220x123.jpg/ff4444/ffffff&quot; &quot;118x176.bmp/dddddd/000000&quot;</code></pre>
@@ -1052,9 +1094,9 @@ contains the image dimension. To extract the dimension, we
 will split it from the rest of the url using <code>str_split()</code>
 and using the pattern <code>\\.</code> as it separates the dimension
 and the image extension.</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1">img <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb385-2" data-line-number="2"><span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">23</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb385-3" data-line-number="3"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" title="1">img <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb385-2" title="2"><span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">23</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb385-3" title="3"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) </a></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;130x183&quot;           &quot;jpg/dddddd/000000&quot;
 ## 
@@ -1081,22 +1123,22 @@ of the list is a character vector. We want to extract
 the first value in the character vector. Let us use
 <code>map_chr()</code> to extract the first value from each
 element of the list.</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1">img <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-2" data-line-number="2"><span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">23</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-3" data-line-number="3"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb387-4" data-line-number="4"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" title="1">img <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-2" title="2"><span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">23</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-3" title="3"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb387-4" title="4"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">1</span>))</a></code></pre></div>
 <pre><code>## [1] &quot;130x183&quot; &quot;106x217&quot; &quot;146x127&quot; &quot;181x194&quot; &quot;220x123&quot; &quot;118x176&quot;</code></pre>
 </div>
 </div>
 </div>
 <div id="extract-http-protocol-from-url" class="section level2">
 <h2><span class="header-section-number">8.8</span> Extract HTTP Protocol from URL</h2>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1">url1 &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb389-2" data-line-number="2"><span class="st">  </span>mockstring <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-3" data-line-number="3"><span class="st">  </span><span class="kw">pull</span>(url) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb389-4" data-line-number="4"><span class="st">  </span><span class="kw">first</span>()</a>
-<a class="sourceLine" id="cb389-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb389-6" data-line-number="6">url1</a></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" title="1">url1 &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb389-2" title="2"><span class="st">  </span>mockstring <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb389-3" title="3"><span class="st">  </span><span class="kw">pull</span>(url) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb389-4" title="4"><span class="st">  </span><span class="kw">first</span>()</a>
+<a class="sourceLine" id="cb389-5" title="5"></a>
+<a class="sourceLine" id="cb389-6" title="6">url1</a></code></pre></div>
 <pre><code>## [1] &quot;https://engadget.com/nascetur/ridiculus/mus/vivamus/vestibulum.jsp?eu=est&amp;tincidunt=risus&amp;in=auctor&amp;leo=sed&amp;maecenas=tristique&amp;pulvinar=in&amp;lobortis=tempus&amp;est=sit&amp;phasellus=amet&amp;sit=sem&amp;amet=fusce&amp;erat=consequat&amp;nulla=nulla&amp;tempus=nisl&amp;vivamus=nunc&amp;in=nisl&amp;felis=duis&amp;eu=bibendum&amp;sapien=felis&amp;cursus=sed&amp;vestibulum=interdum&amp;proin=venenatis&amp;eu=turpis&amp;mi=enim&amp;nulla=blandit&amp;ac=mi&amp;enim=in&amp;in=porttitor&amp;tempor=pede&amp;turpis=justo&amp;nec=eu&amp;euismod=massa&amp;scelerisque=donec&amp;quam=dapibus&amp;turpis=duis&amp;adipiscing=at&amp;lorem=velit&amp;vitae=eu&amp;mattis=est&amp;nibh=congue&amp;ligula=elementum&amp;nec=in&amp;sem=hac&amp;duis=habitasse&amp;aliquam=platea&amp;convallis=dictumst&amp;nunc=morbi&amp;proin=vestibulum&amp;at=velit&amp;turpis=id&amp;a=pretium&amp;pede=iaculis&amp;posuere=diam&amp;nonummy=erat&amp;integer=fermentum&amp;non=justo&amp;velit=nec&amp;donec=condimentum&amp;diam=neque&amp;neque=sapien&amp;vestibulum=placerat&amp;eget=ante&amp;vulputate=nulla&amp;ut=justo&amp;ultrices=aliquam&amp;vel=quis&amp;augue=turpis&amp;vestibulum=eget&amp;ante=elit&amp;ipsum=sodales&amp;primis=scelerisque&amp;in=mauris&amp;faucibus=sit&amp;orci=amet&amp;luctus=eros&amp;et=suspendisse&amp;ultrices=accumsan&amp;posuere=tortor&amp;cubilia=quis&amp;curae=turpis&amp;donec=sed&amp;pharetra=ante&amp;magna=vivamus&amp;vestibulum=tortor&amp;aliquet=duis&amp;ultrices=mattis&amp;erat=egestas&amp;tortor=metus&amp;sollicitudin=aenean&amp;mi=fermentum&amp;sit=donec&quot;</code></pre>
 <div id="steps-3" class="section level3">
 <h3><span class="header-section-number">8.8.1</span> Steps</h3>
@@ -1111,7 +1153,7 @@ separated from the rest of the url by <code>:</code>. Let us
 split the url using <code>str_split()</code> and using the
 pattern <code>:</code>. Since <code>:</code> is a special character, we
 will escape it using <code>\\</code>.</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" data-line-number="1"><span class="kw">str_split</span>(url1, <span class="dt">pattern =</span> <span class="st">&#39;://&#39;</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" title="1"><span class="kw">str_split</span>(url1, <span class="dt">pattern =</span> <span class="st">&#39;://&#39;</span>) </a></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;https&quot;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 ## [2] &quot;engadget.com/nascetur/ridiculus/mus/vivamus/vestibulum.jsp?eu=est&amp;tincidunt=risus&amp;in=auctor&amp;leo=sed&amp;maecenas=tristique&amp;pulvinar=in&amp;lobortis=tempus&amp;est=sit&amp;phasellus=amet&amp;sit=sem&amp;amet=fusce&amp;erat=consequat&amp;nulla=nulla&amp;tempus=nisl&amp;vivamus=nunc&amp;in=nisl&amp;felis=duis&amp;eu=bibendum&amp;sapien=felis&amp;cursus=sed&amp;vestibulum=interdum&amp;proin=venenatis&amp;eu=turpis&amp;mi=enim&amp;nulla=blandit&amp;ac=mi&amp;enim=in&amp;in=porttitor&amp;tempor=pede&amp;turpis=justo&amp;nec=eu&amp;euismod=massa&amp;scelerisque=donec&amp;quam=dapibus&amp;turpis=duis&amp;adipiscing=at&amp;lorem=velit&amp;vitae=eu&amp;mattis=est&amp;nibh=congue&amp;ligula=elementum&amp;nec=in&amp;sem=hac&amp;duis=habitasse&amp;aliquam=platea&amp;convallis=dictumst&amp;nunc=morbi&amp;proin=vestibulum&amp;at=velit&amp;turpis=id&amp;a=pretium&amp;pede=iaculis&amp;posuere=diam&amp;nonummy=erat&amp;integer=fermentum&amp;non=justo&amp;velit=nec&amp;donec=condimentum&amp;diam=neque&amp;neque=sapien&amp;vestibulum=placerat&amp;eget=ante&amp;vulputate=nulla&amp;ut=justo&amp;ultrices=aliquam&amp;vel=quis&amp;augue=turpis&amp;vestibulum=eget&amp;ante=elit&amp;ipsum=sodales&amp;primis=scelerisque&amp;in=mauris&amp;faucibus=sit&amp;orci=amet&amp;luctus=eros&amp;et=suspendisse&amp;ultrices=accumsan&amp;posuere=tortor&amp;cubilia=quis&amp;curae=turpis&amp;donec=sed&amp;pharetra=ante&amp;magna=vivamus&amp;vestibulum=tortor&amp;aliquet=duis&amp;ultrices=mattis&amp;erat=egestas&amp;tortor=metus&amp;sollicitudin=aenean&amp;mi=fermentum&amp;sit=donec&quot;</code></pre>
@@ -1121,19 +1163,19 @@ will escape it using <code>\\</code>.</p>
 <p>The HTTP protocol is the first value in each element
 of the list. As we did in the previous example, we
 will extact it using <code>map_chr()</code> and <code>extract()</code>.</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" data-line-number="1">url1 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb393-2" data-line-number="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;://&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb393-3" data-line-number="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" title="1">url1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb393-2" title="2"><span class="st">  </span><span class="kw">str_split</span>(<span class="dt">pattern =</span> <span class="st">&#39;://&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb393-3" title="3"><span class="st">  </span><span class="kw">map_chr</span>(<span class="kw">extract</span>(<span class="dv">1</span>))</a></code></pre></div>
 <pre><code>## [1] &quot;https&quot;</code></pre>
 </div>
 </div>
 </div>
 <div id="extract-file-type" class="section level2">
 <h2><span class="header-section-number">8.9</span> Extract file type</h2>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1">urls &lt;-</a>
-<a class="sourceLine" id="cb395-2" data-line-number="2"><span class="st">  </span>mockstring <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb395-3" data-line-number="3"><span class="st">  </span><span class="kw">use_series</span>(url) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb395-4" data-line-number="4"><span class="st">  </span><span class="kw">extract</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" title="1">urls &lt;-</a>
+<a class="sourceLine" id="cb395-2" title="2"><span class="st">  </span>mockstring <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb395-3" title="3"><span class="st">  </span><span class="kw">use_series</span>(url) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb395-4" title="4"><span class="st">  </span><span class="kw">extract</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</a></code></pre></div>
 <div id="steps-4" class="section level3">
 <h3><span class="header-section-number">8.9.1</span> Steps</h3>
 <ul>
@@ -1147,22 +1189,22 @@ will extact it using <code>map_chr()</code> and <code>extract()</code>.</p>
 <h4><span class="header-section-number">8.9.1.1</span> Step 1: Check if there are only 2 dots in the URL</h4>
 <p>Let us locate all the dots in the url using <code>str_locate_all()</code> and see
 if any of them contain more than 2 dots.</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" data-line-number="1">urls <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb396-2" data-line-number="2"><span class="st">  </span><span class="kw">str_locate_all</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb396-3" data-line-number="3"><span class="st">  </span><span class="kw">map_int</span>(nrow) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb396-4" data-line-number="4"><span class="st">  </span><span class="kw">is_greater_than</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb396-5" data-line-number="5"><span class="st">  </span><span class="kw">sum</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" title="1">urls <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb396-2" title="2"><span class="st">  </span><span class="kw">str_locate_all</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb396-3" title="3"><span class="st">  </span><span class="kw">map_int</span>(nrow) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb396-4" title="4"><span class="st">  </span><span class="kw">is_greater_than</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb396-5" title="5"><span class="st">  </span><span class="kw">sum</span>()</a></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 </div>
 <div id="step-2-check-if-there-is-only-1-question-mark-in-the-url" class="section level4">
 <h4><span class="header-section-number">8.9.1.2</span> Step 2: Check if there is only 1 question mark in the URL</h4>
 <p>The next step is to check if there is only one <code>?</code> (question mark)
 in the url.</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" data-line-number="1">urls <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb398-2" data-line-number="2"><span class="st">  </span><span class="kw">str_locate_all</span>(<span class="dt">pattern =</span> <span class="st">&quot;[?]&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb398-3" data-line-number="3"><span class="st">  </span><span class="kw">map_int</span>(nrow) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb398-4" data-line-number="4"><span class="st">  </span><span class="kw">is_greater_than</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb398-5" data-line-number="5"><span class="st">  </span><span class="kw">sum</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" title="1">urls <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb398-2" title="2"><span class="st">  </span><span class="kw">str_locate_all</span>(<span class="dt">pattern =</span> <span class="st">&quot;[?]&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb398-3" title="3"><span class="st">  </span><span class="kw">map_int</span>(nrow) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb398-4" title="4"><span class="st">  </span><span class="kw">is_greater_than</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb398-5" title="5"><span class="st">  </span><span class="kw">sum</span>()</a></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 </div>
 <div id="step-3-detect-the-staritng-position-of-file-type" class="section level4">
@@ -1171,13 +1213,13 @@ in the url.</p>
 the first quesiton mark in the url, let us extract the
 location of the second dot and add 1 as the file type
 starts after the dot.</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb400-1" data-line-number="1">d &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb400-2" data-line-number="2"><span class="st">  </span>urls <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb400-3" data-line-number="3"><span class="st">  </span><span class="kw">str_locate_all</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb400-4" data-line-number="4"><span class="st">  </span><span class="kw">map_int</span>(<span class="kw">extract</span>(<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb400-5" data-line-number="5"><span class="st">  </span><span class="kw">add</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb400-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb400-7" data-line-number="7">d  </a></code></pre></div>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb400-1" title="1">d &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb400-2" title="2"><span class="st">  </span>urls <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb400-3" title="3"><span class="st">  </span><span class="kw">str_locate_all</span>(<span class="dt">pattern =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb400-4" title="4"><span class="st">  </span><span class="kw">map_int</span>(<span class="kw">extract</span>(<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb400-5" title="5"><span class="st">  </span><span class="kw">add</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb400-6" title="6"></a>
+<a class="sourceLine" id="cb400-7" title="7">d  </a></code></pre></div>
 <pre><code>## [1] 64 47 48</code></pre>
 </div>
 <div id="step-4-detect-the-ending-position-of-file-type" class="section level4">
@@ -1187,13 +1229,13 @@ Let us locate the question mark in the url and subtract 1 (as the
 file type ends before the question mark) so that we get the
 ending chapterion of the file type.
 .</p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1">q &lt;-<span class="st">  </span></a>
-<a class="sourceLine" id="cb402-2" data-line-number="2"><span class="st">  </span>urls <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb402-3" data-line-number="3"><span class="st">  </span><span class="kw">str_locate_all</span>(<span class="dt">pattern =</span> <span class="st">&quot;[?]&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb402-4" data-line-number="4"><span class="st">  </span><span class="kw">map_int</span>(<span class="kw">extract</span>(<span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb402-5" data-line-number="5"><span class="st">  </span><span class="kw">subtract</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb402-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb402-7" data-line-number="7">q</a></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" title="1">q &lt;-<span class="st">  </span></a>
+<a class="sourceLine" id="cb402-2" title="2"><span class="st">  </span>urls <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb402-3" title="3"><span class="st">  </span><span class="kw">str_locate_all</span>(<span class="dt">pattern =</span> <span class="st">&quot;[?]&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb402-4" title="4"><span class="st">  </span><span class="kw">map_int</span>(<span class="kw">extract</span>(<span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb402-5" title="5"><span class="st">  </span><span class="kw">subtract</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb402-6" title="6"></a>
+<a class="sourceLine" id="cb402-7" title="7">q</a></code></pre></div>
 <pre><code>## [1] 66 50 51</code></pre>
 </div>
 <div id="step-5-specify-the-index-position-for-extracting-file-type" class="section level4">
@@ -1201,7 +1243,7 @@ ending chapterion of the file type.
 <p>From steps 3 and 4, we have the location of the second dot and the
 first question mark in the url. Let us use them with <code>str_sub()</code>
 to extract the file type.</p>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1"><span class="kw">str_sub</span>(urls, <span class="dt">start =</span> d, <span class="dt">end =</span> q)</a></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" title="1"><span class="kw">str_sub</span>(urls, <span class="dt">start =</span> d, <span class="dt">end =</span> q)</a></code></pre></div>
 <pre><code>## [1] &quot;jsp&quot;  &quot;json&quot; &quot;json&quot;</code></pre>
 
 </div>
@@ -1234,7 +1276,7 @@ gitbook.start({
 "google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
 "all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
@@ -1244,6 +1286,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
 "link": null,
 "text": null
 },

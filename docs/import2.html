@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Data Wrangling with R</title>
-  <meta name="description" content="Learn to wrangle data with R.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Import Data - 2 | Data Wrangling with R</title>
+  <meta name="description" content="Learn to wrangle data with R." />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Wrangling with R" />
+  <meta property="og:title" content="Chapter 2 Import Data - 2 | Data Wrangling with R" />
   <meta property="og:type" content="book" />
   
   
@@ -17,25 +16,26 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Wrangling with R" />
+  <meta name="twitter:title" content="Chapter 2 Import Data - 2 | Data Wrangling with R" />
   
   <meta name="twitter:description" content="Learn to wrangle data with R." />
   
 
-<meta name="author" content="Aravind Hebbali">
+<meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2019-02-20">
+<meta name="date" content="2020-01-03" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="import1.html">
-<link rel="next" href="dplyr1.html">
+<link rel="prev" href="import1.html"/>
+<link rel="next" href="dplyr1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -47,15 +47,15 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -65,13 +65,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -336,33 +334,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>9</b> Working with Date &amp; Time</a><ul>
-<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
-<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#quick-intro"><i class="fa fa-check"></i><b>9.2</b> Quick Intro</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="lubridate.html"><a href="lubridate.html#origin"><i class="fa fa-check"></i><b>9.2.1</b> Origin</a></li>
-<li class="chapter" data-level="9.2.2" data-path="lubridate.html"><a href="lubridate.html#current-datetime"><i class="fa fa-check"></i><b>9.2.2</b> Current Date/Time</a></li>
+<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="lubridate.html"><a href="lubridate.html#date"><i class="fa fa-check"></i><b>9.1.1</b> Date</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lubridate.html"><a href="lubridate.html#time"><i class="fa fa-check"></i><b>9.1.2</b> Time</a></li>
+<li class="chapter" data-level="9.1.3" data-path="lubridate.html"><a href="lubridate.html#am-or-pm"><i class="fa fa-check"></i><b>9.1.3</b> AM or PM?</a></li>
+<li class="chapter" data-level="9.1.4" data-path="lubridate.html"><a href="lubridate.html#leap-year"><i class="fa fa-check"></i><b>9.1.4</b> Leap Year</a></li>
+<li class="chapter" data-level="9.1.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-1"><i class="fa fa-check"></i><b>9.1.5</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.3</b> Case Study</a><ul>
-<li class="chapter" data-level="9.3.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>9.3.1</b> Data</a></li>
-<li class="chapter" data-level="9.3.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.3.2</b> Data Dictionary</a></li>
+<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.2</b> Case Study</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>9.2.1</b> Data</a></li>
+<li class="chapter" data-level="9.2.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.2.2</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#extract-date-month-year-from-due-date"><i class="fa fa-check"></i><b>9.4</b> Extract Date, Month &amp; Year from Due Date</a></li>
-<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#compute-days-to-settle-invoice"><i class="fa fa-check"></i><b>9.5</b> Compute days to settle invoice</a></li>
-<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#compute-days-over-due"><i class="fa fa-check"></i><b>9.6</b> Compute days over due</a></li>
-<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#is-due-year-a-leap-year"><i class="fa fa-check"></i><b>9.7</b> Is due year a leap year?</a></li>
-<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#if-due-day-is-february-29-is-it-a-leap-year"><i class="fa fa-check"></i><b>9.8</b> If due day is February 29, is it a leap year?</a></li>
-<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>9.9</b> Shift Date</a></li>
-<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>9.10</b> Interval</a></li>
-<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#intervals-overlap"><i class="fa fa-check"></i><b>9.11</b> Intervals Overlap</a></li>
-<li class="chapter" data-level="9.12" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date"><i class="fa fa-check"></i><b>9.12</b> How many invoices were settled within due date?</a></li>
-<li class="chapter" data-level="9.13" data-path="lubridate.html"><a href="lubridate.html#shift-interval"><i class="fa fa-check"></i><b>9.13</b> Shift Interval</a></li>
-<li class="chapter" data-level="9.14" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>9.14</b> Within</a><ul>
-<li class="chapter" data-level="9.14.1" data-path="lubridate.html"><a href="lubridate.html#how-many-invoices-were-settled-within-due-date-1"><i class="fa fa-check"></i><b>9.14.1</b> How many invoices were settled within due date?</a></li>
+<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#datetimeclass"><i class="fa fa-check"></i><b>9.3</b> Date &amp; Time Classes</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="lubridate.html"><a href="lubridate.html#date-1"><i class="fa fa-check"></i><b>9.3.1</b> Date</a></li>
+<li class="chapter" data-level="9.3.2" data-path="lubridate.html"><a href="lubridate.html#iso-8601"><i class="fa fa-check"></i><b>9.3.2</b> ISO 8601</a></li>
+<li class="chapter" data-level="9.3.3" data-path="lubridate.html"><a href="lubridate.html#posix"><i class="fa fa-check"></i><b>9.3.3</b> POSIX</a></li>
+<li class="chapter" data-level="9.3.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-2"><i class="fa fa-check"></i><b>9.3.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.15" data-path="lubridate.html"><a href="lubridate.html#quarter"><i class="fa fa-check"></i><b>9.15</b> Quarter</a></li>
+<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#datearith"><i class="fa fa-check"></i><b>9.4</b> Date Arithmetic</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>9.4.1</b> Shift Date</a></li>
+<li class="chapter" data-level="9.4.2" data-path="lubridate.html"><a href="lubridate.html#case-study-11"><i class="fa fa-check"></i><b>9.4.2</b> Case Study</a></li>
+<li class="chapter" data-level="9.4.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-3"><i class="fa fa-check"></i><b>9.4.3</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#time-zones-daylight-savings"><i class="fa fa-check"></i><b>9.5</b> Time Zones &amp; Daylight Savings</a></li>
+<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#time-zones"><i class="fa fa-check"></i><b>9.6</b> Time Zones</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="lubridate.html"><a href="lubridate.html#daylight-savings"><i class="fa fa-check"></i><b>9.6.1</b> Daylight Savings</a></li>
+<li class="chapter" data-level="9.6.2" data-path="lubridate.html"><a href="lubridate.html#your-turn-4"><i class="fa fa-check"></i><b>9.6.2</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#date-time-formats"><i class="fa fa-check"></i><b>9.7</b> Date &amp; Time Formats</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="lubridate.html"><a href="lubridate.html#conversion-specifications"><i class="fa fa-check"></i><b>9.7.1</b> Conversion Specifications</a></li>
+<li class="chapter" data-level="9.7.2" data-path="lubridate.html"><a href="lubridate.html#guess-format"><i class="fa fa-check"></i><b>9.7.2</b> Guess Format</a></li>
+<li class="chapter" data-level="9.7.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-5"><i class="fa fa-check"></i><b>9.7.3</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#parse-date-time"><i class="fa fa-check"></i><b>9.8</b> Parse Date &amp; Time</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="lubridate.html"><a href="lubridate.html#your-turn-6"><i class="fa fa-check"></i><b>9.8.1</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#date-time-components"><i class="fa fa-check"></i><b>9.9</b> Date &amp; Time Components</a><ul>
+<li class="chapter" data-level="9.9.1" data-path="lubridate.html"><a href="lubridate.html#year"><i class="fa fa-check"></i><b>9.9.1</b> Year</a></li>
+<li class="chapter" data-level="9.9.2" data-path="lubridate.html"><a href="lubridate.html#month"><i class="fa fa-check"></i><b>9.9.2</b> Month</a></li>
+<li class="chapter" data-level="9.9.3" data-path="lubridate.html"><a href="lubridate.html#week"><i class="fa fa-check"></i><b>9.9.3</b> Week</a></li>
+<li class="chapter" data-level="9.9.4" data-path="lubridate.html"><a href="lubridate.html#day"><i class="fa fa-check"></i><b>9.9.4</b> Day</a></li>
+<li class="chapter" data-level="9.9.5" data-path="lubridate.html"><a href="lubridate.html#days-in-month"><i class="fa fa-check"></i><b>9.9.5</b> Days in Month</a></li>
+<li class="chapter" data-level="9.9.6" data-path="lubridate.html"><a href="lubridate.html#hour-minute-seconds"><i class="fa fa-check"></i><b>9.9.6</b> Hour, Minute &amp; Seconds</a></li>
+<li class="chapter" data-level="9.9.7" data-path="lubridate.html"><a href="lubridate.html#quarter-semester"><i class="fa fa-check"></i><b>9.9.7</b> Quarter &amp; Semester</a></li>
+<li class="chapter" data-level="9.9.8" data-path="lubridate.html"><a href="lubridate.html#case-study-12"><i class="fa fa-check"></i><b>9.9.8</b> Case Study</a></li>
+<li class="chapter" data-level="9.9.9" data-path="lubridate.html"><a href="lubridate.html#your-turn-7"><i class="fa fa-check"></i><b>9.9.9</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#create-update-verify"><i class="fa fa-check"></i><b>9.10</b> Create, Update &amp; Verify</a><ul>
+<li class="chapter" data-level="9.10.1" data-path="lubridate.html"><a href="lubridate.html#create"><i class="fa fa-check"></i><b>9.10.1</b> Create</a></li>
+<li class="chapter" data-level="9.10.2" data-path="lubridate.html"><a href="lubridate.html#update"><i class="fa fa-check"></i><b>9.10.2</b> Update</a></li>
+<li class="chapter" data-level="9.10.3" data-path="lubridate.html"><a href="lubridate.html#date-sequence"><i class="fa fa-check"></i><b>9.10.3</b> Date Sequence</a></li>
+<li class="chapter" data-level="9.10.4" data-path="lubridate.html"><a href="lubridate.html#verify-type"><i class="fa fa-check"></i><b>9.10.4</b> Verify Type</a></li>
+<li class="chapter" data-level="9.10.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-8"><i class="fa fa-check"></i><b>9.10.5</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#intervals-duration-period"><i class="fa fa-check"></i><b>9.11</b> Intervals, Duration &amp; Period</a><ul>
+<li class="chapter" data-level="9.11.1" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>9.11.1</b> Interval</a></li>
+<li class="chapter" data-level="9.11.2" data-path="lubridate.html"><a href="lubridate.html#overlapping-intervals"><i class="fa fa-check"></i><b>9.11.2</b> Overlapping Intervals</a></li>
+<li class="chapter" data-level="9.11.3" data-path="lubridate.html"><a href="lubridate.html#shift-interval"><i class="fa fa-check"></i><b>9.11.3</b> Shift Interval</a></li>
+<li class="chapter" data-level="9.11.4" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>9.11.4</b> Within</a></li>
+<li class="chapter" data-level="9.11.5" data-path="lubridate.html"><a href="lubridate.html#duration"><i class="fa fa-check"></i><b>9.11.5</b> Duration</a></li>
+<li class="chapter" data-level="9.11.6" data-path="lubridate.html"><a href="lubridate.html#period"><i class="fa fa-check"></i><b>9.11.6</b> Period</a></li>
+<li class="chapter" data-level="9.11.7" data-path="lubridate.html"><a href="lubridate.html#your-turn-9"><i class="fa fa-check"></i><b>9.11.7</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.12" data-path="lubridate.html"><a href="lubridate.html#others"><i class="fa fa-check"></i><b>9.12</b> Others</a><ul>
+<li class="chapter" data-level="9.12.1" data-path="lubridate.html"><a href="lubridate.html#rounding-dates"><i class="fa fa-check"></i><b>9.12.1</b> Rounding Dates</a></li>
+<li class="chapter" data-level="9.12.2" data-path="lubridate.html"><a href="lubridate.html#rollback"><i class="fa fa-check"></i><b>9.12.2</b> Rollback</a></li>
+<li class="chapter" data-level="9.12.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-10"><i class="fa fa-check"></i><b>9.12.3</b> Your Turn</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>10</b> Categorical Data Analysis</a><ul>
 <li class="chapter" data-level="10.1" data-path="forcats.html"><a href="forcats.html#introduction-9"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
-<li class="chapter" data-level="10.2" data-path="forcats.html"><a href="forcats.html#case-study-12"><i class="fa fa-check"></i><b>10.2</b> Case Study</a><ul>
+<li class="chapter" data-level="10.2" data-path="forcats.html"><a href="forcats.html#case-study-13"><i class="fa fa-check"></i><b>10.2</b> Case Study</a><ul>
 <li class="chapter" data-level="10.2.1" data-path="forcats.html"><a href="forcats.html#data-5"><i class="fa fa-check"></i><b>10.2.1</b> Data</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="forcats.html"><a href="forcats.html#tabulate-referrers"><i class="fa fa-check"></i><b>10.3</b> Tabulate Referrers</a></li>
@@ -423,15 +465,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 - STATA</li>
 </ul>
 <p>We will use the following R packages:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">library</span>(readxl)</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">library</span>(haven)</a></code></pre></div>
-<pre><code>## Warning: package &#39;haven&#39; was built under R version 3.5.2</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">library</span>(readxl)</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">library</span>(haven)</a></code></pre></div>
 </div>
 <div id="list-sheets" class="section level2">
 <h2><span class="header-section-number">2.2</span> List Sheets</h2>
 <p>An excel file may contain several sheets. Let us see how many sheets are
 present in <code>sample.xls</code> file and their respective names using <code>excel_sheets()</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">excel_sheets</span>(<span class="st">&#39;sample.xls&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">excel_sheets</span>(<span class="st">&#39;sample.xls&#39;</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;ecom&quot;</code></pre>
 </div>
 <div id="read-sheet" class="section level2">
@@ -441,7 +482,7 @@ the <code>ecom</code> sheet of the <code>sample.xls</code> file using <code>read
 the file name, and the sheet name or sheet number.</p>
 <div id="case-1-specify-the-sheet-number" class="section level3">
 <h3><span class="header-section-number">2.3.1</span> Case 1: Specify the sheet number</h3>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -455,7 +496,7 @@ the file name, and the sheet name or sheet number.</p>
 </div>
 <div id="case-2-specify-the-sheet-name" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Case 2: Specify the sheet name</h3>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="st">&#39;ecom&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="st">&#39;ecom&#39;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -483,16 +524,16 @@ cell range and we will look at them one by one:</p>
 <p><br></p>
 <p>The first method uses the cell names along with <code>:</code> to specify the cell range.
 For example, to read data from first 4 rows of columns <strong>B</strong> and <strong>C</strong>, we will
-specify the range as <code>&quot;B1:C4&quot;</code>.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</a></code></pre></div>
+specify the range as <code>"B1:C4"</code>.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
 ## 1 43296     40238
 ## 2 12916     12311
 ## 3 10983      7636</code></pre>
-<p>To read data from first 5 rows of columns <strong>A</strong>, <strong>B</strong> and <strong>C</strong>, we will specify the range as <code>&quot;A1:C5&quot;</code>.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:C5&quot;</span>)</a></code></pre></div>
+<p>To read data from first 5 rows of columns <strong>A</strong>, <strong>B</strong> and <strong>C</strong>, we will specify the range as <code>"A1:C5"</code>.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:C5&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   channel        users new_users
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;
@@ -509,10 +550,10 @@ specify the range as <code>&quot;B1:C4&quot;</code>.</p>
 of rows and columns to be covered keeping the initial cell as anchorage.
 In the below example, we want to read 3 rows and 2 columns starting from the
 cell <code>A4</code>.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2">  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;A4&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb38-2" title="2">  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;A4&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
-##   X__1      X__2
+##   ...1      ...2
 ##   &lt;chr&gt;    &lt;dbl&gt;
 ## 1 Referral 10983
 ## 2 Social   10346
@@ -529,8 +570,8 @@ from the first 6 rows and 4 columns, we will specify the range as following:</p>
 </ul>
 <p><img src="img/readxl_cell_limits_lucid.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">4</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb40-2" title="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">4</span>)))</a></code></pre></div>
 <pre><code>## # A tibble: 5 x 4
 ##   channel        users new_users sessions
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
@@ -541,8 +582,8 @@ from the first 6 rows and 4 columns, we will specify the range as following:</p>
 ## 5 Display         5564      4790     7220</code></pre>
 <p>You can use <code>NA</code> to indicate the first and last row/column. For example, to
 read data from all the rows from the second column onwards:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb42-2" title="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>)))</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 4
 ##   users new_users sessions bounce_rate
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -558,8 +599,8 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 </div>
 <div id="method-1-1" class="section level3">
 <h3><span class="header-section-number">2.4.4</span> Method 1</h3>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">  <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb44-2" title="2">  <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -569,8 +610,8 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 </div>
 <div id="method-2-1" class="section level3">
 <h3><span class="header-section-number">2.4.5</span> Method 2</h3>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;B1&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb46-2" title="2">  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;B1&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -580,8 +621,8 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 </div>
 <div id="method-3-1" class="section level3">
 <h3><span class="header-section-number">2.4.6</span> Method 3</h3>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">3</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb48-2" title="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">3</span>)))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -595,7 +636,7 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 <p>When you want to read a subset of rows from the data, use <code>cell_rows()</code> and
 specify the row numbers or the range. In the below example, we want to read
 the first 4 rows of data from the file.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_rows</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_rows</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -608,7 +649,7 @@ the first 4 rows of data from the file.</p>
 <p>If you want to read a single column from the data, use <code>cell_cols()</code> and
 specify the column number. In the below example, we read the second column
 from the <code>sample.xls</code> file.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="dv">2</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="dv">2</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 1
 ##   users
 ##   &lt;dbl&gt;
@@ -625,9 +666,9 @@ from the <code>sample.xls</code> file.</p>
 <p>In case of multiple columns, we need to specify the column numbers or the
 column range. In the below example, we want to read the 2nd, 4th and 6th column from
 the <code>sample.xls</code> file.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)))</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
-##   users new_users sessions bounce_rate X__1 
+##   users new_users sessions bounce_rate ...5 
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
 ## 1 43296     40238    50810 48.72%      NA   
 ## 2 12916     12311    16419 49.27%      NA   
@@ -638,9 +679,9 @@ the <code>sample.xls</code> file.</p>
 ## 7  1773      1585     2167 55.75%      NA</code></pre>
 <p>In the next example, we want to read data from the 2nd column upto and
 including the 6th column.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>)))</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
-##   users new_users sessions bounce_rate X__1 
+##   users new_users sessions bounce_rate ...5 
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
 ## 1 43296     40238    50810 48.72%      NA   
 ## 2 12916     12311    16419 49.27%      NA   
@@ -664,7 +705,7 @@ including the 6th column.</p>
 </ul>
 <div id="stata" class="section level3">
 <h3><span class="header-section-number">2.8.1</span> STATA</h3>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">read_stata</span>(<span class="st">&#39;airline.dta&#39;</span>)  </a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="kw">read_stata</span>(<span class="st">&#39;airline.dta&#39;</span>)  </a></code></pre></div>
 <pre><code>## # A tibble: 32 x 6
 ##     year     y     w     r     l     k
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -682,25 +723,25 @@ including the 6th column.</p>
 </div>
 <div id="spss" class="section level3">
 <h3><span class="header-section-number">2.8.2</span> SPSS</h3>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">read_spss</span>(<span class="st">&#39;employee.sav&#39;</span>)  </a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">read_spss</span>(<span class="st">&#39;employee.sav&#39;</span>)  </a></code></pre></div>
 <pre><code>## # A tibble: 474 x 9
-##       id gender  educ    jobcat  salary  salbegin  jobtime prevexp minority
-##    &lt;dbl&gt; &lt;chr+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+lbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+lb&gt;
-##  1     1 m       15      3       57000   27000     98      144     0       
-##  2     2 m       16      1       40200   18750     98       36     0       
-##  3     3 f       12      1       21450   12000     98      381     0       
-##  4     4 f        8      1       21900   13200     98      190     0       
-##  5     5 m       15      1       45000   21000     98      138     0       
-##  6     6 m       15      1       32100   13500     98       67     0       
-##  7     7 m       15      1       36000   18750     98      114     0       
-##  8     8 f       12      1       21900    9750     98        0     0       
-##  9     9 f       15      1       27900   12750     98      115     0       
-## 10    10 f       12      1       24000   13500     98      244     0       
+##       id gender     educ  jobcat salary salbegin jobtime   prevexp minority
+##    &lt;dbl&gt; &lt;chr+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl+lbl&gt; &lt;dbl+lb&gt;
+##  1     1 m [Mal~ 15 [15] 3 [Man~  57000    27000      98 144         0 [No]
+##  2     2 m [Mal~ 16 [16] 1 [Cle~  40200    18750      98  36         0 [No]
+##  3     3 f [Fem~ 12 [12] 1 [Cle~  21450    12000      98 381         0 [No]
+##  4     4 f [Fem~  8 [8]  1 [Cle~  21900    13200      98 190         0 [No]
+##  5     5 m [Mal~ 15 [15] 1 [Cle~  45000    21000      98 138         0 [No]
+##  6     6 m [Mal~ 15 [15] 1 [Cle~  32100    13500      98  67         0 [No]
+##  7     7 m [Mal~ 15 [15] 1 [Cle~  36000    18750      98 114         0 [No]
+##  8     8 f [Fem~ 12 [12] 1 [Cle~  21900     9750      98   0 [mis~   0 [No]
+##  9     9 f [Fem~ 15 [15] 1 [Cle~  27900    12750      98 115         0 [No]
+## 10    10 f [Fem~ 12 [12] 1 [Cle~  24000    13500      98 244         0 [No]
 ## # ... with 464 more rows</code></pre>
 </div>
 <div id="sas" class="section level3">
 <h3><span class="header-section-number">2.8.3</span> SAS</h3>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">read_sas</span>(<span class="st">&#39;airline.sas7bdat&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1"><span class="kw">read_sas</span>(<span class="st">&#39;airline.sas7bdat&#39;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 32 x 6
 ##     YEAR     Y     W     R     L     K
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -749,7 +790,7 @@ gitbook.start({
 "google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
 "all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
@@ -759,6 +800,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
 "link": null,
 "text": null
 },

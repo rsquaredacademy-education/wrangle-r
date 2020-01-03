@@ -34,7 +34,7 @@ library(purrr)
 
 ## Data
 
-```{r show, message=FALSE}
+```{r showed, message=FALSE}
 ecom <- 
   read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',
     col_types = cols_only(
