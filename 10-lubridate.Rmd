@@ -1,10 +1,6 @@
 # Working with Date & Time {#lubridate}
 
-## Introduction
-
- In this chapter, we will learn to work with date/time data in R using 
- [lubridate](https://lubridate.tidyverse.org/), an R package that makes it easy 
- to work with dates and time. 
+## Introduction 
 
 ```{r pkg_load, echo=FALSE, message=FALSE, warning=FALSE}
 library(knitr)
@@ -54,13 +50,32 @@ We can also check if the current year is a leap year using `leap_year()`.
 lubridate::leap_year(Sys.Date())
 ```
 
+### Summary
+
+```{r table_current_date_time, echo=FALSE}
+cname   <- c("`Sys.Date()`", "`lubridate::today()`", "`Sys.time()`",
+             "`lubridate::now()`", "`lubridate::am()`", "`lubridate::pm()`",
+             "`lubridate::leap_year()`")
+descrip <- c("Current Date", "Current Date", "Current Time", "Current Time",
+             "Whether time occurs in am?", "Whether time occurs in pm?",
+             "Check if the year is a leap year?")
+data.frame(Function = cname, Description = descrip) %>% 
+  kable() %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive")
+  )
+```
 
 ### Your Turn
 
-- get current date and time
-- check whether time occurs in AM or PM?
+- get current date
+- get current time
+- check whether the time occurs in am or pm?
+- check whether the following years were leap years
+    - 2018
+    - 2016
 
-## Case Study 
+## Case Study
 
 Throughout the tutorial, we will work on a case study related to transactions of a imaginary company. The data set includes information about
 invoice and payment dates.
@@ -71,7 +86,7 @@ invoice and payment dates.
 transact <- readr::read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv')
 ```
 
-```{r showing, echo=FALSE, eval=TRUE, message=FALSE}
+```{r show, echo=FALSE, eval=TRUE, message=FALSE}
 transact <- readr::read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv')
 transact
 ```
@@ -80,9 +95,18 @@ transact
 
 The data set has 3 columns. All the dates are in the format (yyyy-mm-dd).
 
-- `Invoice`: invoice date 
-- `Due`: due date
-- `Payment`: payment date
+<br>
+<br>
+
+```{r table_data_dict, echo=FALSE}
+cname   <- c("Invoice", "Due", "Payment")
+descrip <- c("Invoice Date", "Due Date", "Payment Date")
+data.frame(Column = cname, Description = descrip) %>% 
+  kable() %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive")
+  )
+```
 
 In the case study, we will try to answer a few questions we have about the `transact` data.
 
@@ -94,7 +118,9 @@ In the case study, we will try to answer a few questions we have about the `tran
 - how many invoices were settled within due date
 - how many invoices are due in each quarter
 
-## Date & Time Classes {#datetimeclass}
+## Date & Time Classes 
+
+### Introduction
 
 In this section, we will look at two things. First, how to create date/time
 data in R, and second, how to convert other data types to date/time. Let us 
@@ -152,6 +178,8 @@ date/time in R
 Let us explore each of the above classes one by one.
 
 ### Date
+
+#### Introduction
 
 The `Date` class represents calendar dates. Let us go back to `Sys.Date()`. If 
 you check the class of `Sys.Date()`, it is `Date`. Internally, this date is a 
@@ -237,7 +265,7 @@ as.Date(7285, origin = "2000-01-01")
 
 ### ISO 8601 
 
-```{r img1iso, fig.align='center', echo=FALSE}
+```{r img1lub, fig.align='center', echo=FALSE}
 knitr::include_graphics('img/iso.png')
 ```
 
@@ -389,14 +417,16 @@ R 1.0.0 was released on `2000-02-29 08:55:23 UTC`. Save it as
     - zone
 - ISODate
 
-## Date Arithmetic {#datearith}
+## Date Arithmetic 
+
+### Introduction 
 
 Time to do some arithmetic with the dates. Let us calculate the length of a 
 course you have enrolled for (Become a Rock Star Data Scientist in 10 Days) by subtracting the course start date from the course end date.
 
 <br>
 
-```{r img2duration, echo=FALSE, out.width="100%", fig.align="center"}
+```{r img2lub, echo=FALSE, out.width="100%", fig.align="center"}
 knitr::include_graphics("img/course_duration.png")
 ```
 
@@ -419,7 +449,7 @@ Time to shift the course dates. We can shift a date by days, weeks or months. Le
 
 <br>
 
-```{r img3shiftdates, echo=FALSE, out.width="100%", fig.align="center"}
+```{r img3lub, echo=FALSE, out.width="100%", fig.align="center"}
 knitr::include_graphics("img/shift_dates.png")
 ```
 
@@ -463,7 +493,18 @@ transact %>%
 
 ### Your Turn
 
-## Time Zones & Daylight Savings
+- compute the length of a vacation which begins on `2020-04-19` and ends on `2020-04-25`
+- recompute the length of the vacation after shifting the vacation start and end date by `10` days and `2` weeks
+- compute the days to settle invoice and days overdue from the `receivables.csv` data set
+- compute the length of employment (only for those employees who have been terminated) from the `hr-data.csv` data set (use date of hire and termination)
+
+## Time Zones 
+
+### Introduction
+
+```{r img_timezones, fig.align='center', out.width="200%", echo=FALSE}
+knitr::include_graphics('img/lub_timezones.jpg')
+```
 
 In the previous section, `POSIXlt` stored date/time components as a list. Among 
 the different components it returned were
@@ -480,7 +521,7 @@ UTC. Wait.. What do UTC and GMT stand for?
 Since we are talking about UTC, GMT etc., let us spend a little time on 
 understanding the basics of time zones and daylight savings.
 
-## Time Zones
+### Time Zones
 
 Timezones exist because different parts of the Earth receive sun light at 
 different times. If there was a single timezone, noon or morning would mean 
@@ -540,6 +581,10 @@ lubridate::with_tz(Sys.time(), "UTC")
 
 ### Daylight Savings
 
+```{r img_daylight, fig.align='center', out.width="200%", echo=FALSE}
+knitr::include_graphics('img/lub_daylight_savings.png')
+```
+
 Daylight savings also known as 
 
 - daylight saving time
@@ -562,11 +607,13 @@ dst(Sys.Date())
 
 ### Your Turn
 
-- Check the timezone you live in
-- Check if daylight savings in on
-- Check the time in a different time zone 
+- check the timezone you live in
+- check if daylight savings in on
+- check the current time in **UTC** or a different time zone 
 
 ## Date & Time Formats 
+
+### Introduction
 
 After the timezones and daylight savings detour, let us get back on path and 
 explore another important aspect, date & time formats. Although it is a good 
@@ -733,7 +780,20 @@ guess_formats(release_date_formats,
 
 ### Your Turn
 
-- Specify the format for the RStudio release dates
+Below, we have specified `July 5th, 2019` in different ways. Create the date using `as.Date()` while specifying the correct format for each of them.
+
+- `July-05-19`
+- `JUL-05-19`
+- `05.07.19`
+- `5-July 2019`
+- `July 5th, 2019`
+- `July 05, 2019`
+- `2019-July- 05`
+- `05/07/2019`
+- `07/05/2019`
+- `7/5/2019`
+- `07/5/19`
+- `2019-07-05`
 
 ## Parse Date & Time 
 
@@ -872,6 +932,21 @@ Note, in a couple of cases where the components are not separated by `/`, `-` or
 space, we have not enclosed the values in quotes. 
 
 ### Your Turn
+
+Below, we have specified `July 5th, 2019` in different ways. Parse the dates using `strptime()` or `parse_date_time()` or any other helper function.
+
+- `July-05-19`
+- `JUL-05-19`
+- `05.07.19`
+- `5-July 2019`
+- `July 5th, 2019`
+- `July 05, 2019`
+- `2019-July- 05`
+- `05/07/2019`
+- `07/05/2019`
+- `7/5/2019`
+- `07/5/19`
+- `2019-07-05`
 
 ## Date & Time Components 
 
@@ -1143,14 +1218,16 @@ transact %>%
 
 ### Your Turn
 
-Extract components from 
+Get the R release dates using `r_versions()` from the **rversions** package and
+tabulate the following
 
-- R release dates
-- RStudio release dates
-- receivabls data set
-- human resources data set
+- year 
+- month with label
+- weekday with label
+- hour
+- and quarter
 
-## Create, Update & Verify 
+## Create, Update & Verify
 
 In the second section, we learnt to create date-time objects using `as.Date()`, 
 `as.POSIXct()` etc. In this section, we will explore a few other functions that 
@@ -1182,7 +1259,7 @@ When you need to include time components, use `make_datetime()`.
 ```{r make_datetime}
 make_datetime(year  = 2019,
               month = 12,
-  #            day   = 12,
+              day   = 12,
               hour  = 08,
               min   = 05,
               sec   = 03,
@@ -1335,9 +1412,11 @@ is.POSIXlt(release_date)
 
 ### Your Turn
 
-- create R release date
-- update R release date
-- create football world cup years 
+- R 2.0.0 was released on `2004-10-04 14:24:38`. Create this date using both
+`make_date()` and `make_datetime()`
+
+- R 3.0.0 was released on `2013-04-03 07:12:36`. Update the date created in the
+previous step to the above using `update()`
 
 ## Intervals, Duration & Period 
 
@@ -1369,7 +1448,7 @@ interval(course_start, course_end)
 If you observe carefully, the interval is represented by the course start and
 end dates. We will learn how to use intervals in the case study.
 
-### Overlapping Intervals
+#### Overlapping Intervals
 
 Let us say you are planning a vacation and want to check if the vacation
 dates overlap with the course dates. You can do this by:
@@ -1448,7 +1527,7 @@ transact %>%
   select(Invoice, Due, Payment, overlaps)
 ```
 
-### Shift Interval
+#### Shift Interval
 
 Intervals can be shifted too. In the below example, we shift the course 
 interval by:
@@ -1643,6 +1722,7 @@ as.period(course_interval, unit = "minutes")
 as.period(course_interval, unit = "hours")
 ```
 
+
 `time_length()` computes the exact length of a timespan i.e. `duration`, `interval` or `period`. Let us use `time_length()` to compute the length of the
 course in different units.
 
@@ -1664,8 +1744,6 @@ time_length(course_interval, unit = "minutes")
 # course length in hours
 time_length(course_interval, unit = "hours")
 ```
-
-### Your Turn
 
 ## Others 
 
@@ -1728,5 +1806,6 @@ rollback(release_date, roll_to_first = TRUE)
 
 ### Your Turn
 
-- round R release dates
-- rollback R release dates
+- round up R release dates to hours
+- round down R release dates to minutes
+- rollback R release dates to the beginning of the month
