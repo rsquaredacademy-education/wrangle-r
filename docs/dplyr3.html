@@ -24,7 +24,7 @@
 <meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2020-01-23" />
+<meta name="date" content="2020-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -629,16 +629,16 @@ number of observations.</p>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 google   laptop FALSE          5       5      125 FALSE   
-##  2 yahoo    mobile FALSE         10       7      126 FALSE   
-##  3 yahoo    laptop FALSE          7      20      340 FALSE   
-##  4 social   mobile TRUE           0       1      436 FALSE   
-##  5 direct   tablet FALSE          9       6      102 FALSE   
-##  6 bing     laptop FALSE          1      19      380 TRUE    
-##  7 yahoo    tablet TRUE           5       1      386 FALSE   
-##  8 google   tablet FALSE          4      16      448 TRUE    
-##  9 yahoo    tablet FALSE          8      14      322 FALSE   
-## 10 bing     mobile TRUE           9       1      650 FALSE   
+##  1 social   mobile TRUE          10       1      102 FALSE   
+##  2 social   laptop TRUE          10       1       81 FALSE   
+##  3 bing     mobile FALSE          4       9      261 FALSE   
+##  4 bing     mobile FALSE          4      20      440 TRUE    
+##  5 social   mobile TRUE           5       1       22 FALSE   
+##  6 direct   mobile TRUE           9       1      898 FALSE   
+##  7 google   mobile TRUE          10       1      479 FALSE   
+##  8 direct   mobile FALSE         10      17      493 FALSE   
+##  9 yahoo    mobile FALSE         10       7      126 FALSE   
+## 10 direct   laptop TRUE           3       1      307 FALSE   
 ## # ... with 690 more rows</code></pre>
 <p>We can combine the sampling functions with other dplyr functions as shown below
 where we sample observation after grouping them according to the source of
@@ -650,32 +650,32 @@ traffic.</p>
 ## # Groups:   referrer [5]
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 bing     mobile TRUE           4       1      979 FALSE   
-##  2 bing     mobile TRUE           7       1      569 FALSE   
-##  3 bing     tablet FALSE          7       2       34 FALSE   
-##  4 bing     laptop TRUE           5       1      135 FALSE   
-##  5 bing     mobile TRUE          10       1       98 FALSE   
-##  6 bing     tablet TRUE           2       1       24 FALSE   
-##  7 bing     laptop TRUE           0       1      456 FALSE   
-##  8 bing     laptop TRUE           8       1      585 FALSE   
-##  9 bing     laptop TRUE           4       1      750 FALSE   
-## 10 bing     laptop FALSE          8       6      180 FALSE   
+##  1 bing     mobile TRUE           4       1      247 FALSE   
+##  2 bing     tablet TRUE           4       1      892 FALSE   
+##  3 bing     tablet FALSE          8      19      570 TRUE    
+##  4 bing     laptop TRUE           7       1      867 FALSE   
+##  5 bing     tablet TRUE           8       1      577 FALSE   
+##  6 bing     tablet TRUE           5       1      999 FALSE   
+##  7 bing     laptop TRUE           5       1      700 FALSE   
+##  8 bing     laptop FALSE          0      17      272 TRUE    
+##  9 bing     mobile FALSE         10       7      119 FALSE   
+## 10 bing     tablet FALSE          2       5      150 FALSE   
 ## # ... with 490 more rows</code></pre>
 <p><code>sample_frac()</code> allows a specific percentage of observations.</p>
 <div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1"><span class="kw">sample_frac</span>(ecom, <span class="dt">size =</span> <span class="fl">0.7</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 yahoo    mobile TRUE           9       1      123 FALSE   
-##  2 yahoo    mobile TRUE           7       1      520 FALSE   
-##  3 bing     mobile FALSE          9       3       78 FALSE   
-##  4 yahoo    mobile TRUE           9       1      955 FALSE   
-##  5 direct   mobile FALSE          7      19      570 FALSE   
-##  6 google   mobile TRUE          10       1      479 FALSE   
-##  7 google   tablet TRUE           0       1      755 FALSE   
-##  8 bing     mobile TRUE           5       1      751 FALSE   
-##  9 direct   laptop FALSE          4       5       65 FALSE   
-## 10 bing     laptop FALSE          0      12      144 FALSE   
+##  1 google   tablet FALSE          2      14      266 FALSE   
+##  2 yahoo    tablet TRUE           0       1      824 FALSE   
+##  3 social   tablet TRUE           4       1      578 FALSE   
+##  4 yahoo    mobile TRUE           9       1      773 FALSE   
+##  5 social   laptop FALSE          9      14      224 FALSE   
+##  6 bing     tablet FALSE          3      15      195 FALSE   
+##  7 direct   laptop TRUE           4       1      896 FALSE   
+##  8 social   mobile FALSE          7       8      216 FALSE   
+##  9 social   laptop TRUE           2       1      550 FALSE   
+## 10 bing     mobile TRUE           6       1      843 FALSE   
 ## # ... with 690 more rows</code></pre>
 </div>
 <div id="data-extraction" class="section level2">
@@ -691,17 +691,17 @@ using <code>head</code> in addition to limit the output printed.</p>
 <div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1">ecom_mini &lt;-<span class="st"> </span><span class="kw">sample_n</span>(ecom, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
 <p><img src="img/pull_1.png" width="100%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1"><span class="kw">pull</span>(ecom_mini, device)</a></code></pre></div>
-<pre><code>##  [1] mobile mobile laptop mobile tablet laptop tablet laptop mobile laptop
+<pre><code>##  [1] laptop mobile laptop tablet tablet laptop laptop mobile laptop laptop
 ## Levels: laptop tablet mobile</code></pre>
 <p>Let us extract the first column from <code>ecom</code> using column position instead of
 name.</p>
 <div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" title="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">1</span>) </a></code></pre></div>
-<pre><code>##  [1] bing   google yahoo  bing   bing   social google bing   bing   yahoo 
+<pre><code>##  [1] yahoo  yahoo  direct social google direct google google yahoo  social
 ## Levels: bing direct social yahoo google</code></pre>
 <p>You can use <code>-</code> before the column position to indicate the position in reverse.
 The below example extracts data from the last column.</p>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="kw">pull</span>(ecom_mini, <span class="dv">-1</span>) </a></code></pre></div>
-<pre><code>##  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE</code></pre>
 <p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we
 extract data starting from the 5th row and upto the 15th row.</p>
 <p><img src="img/slice_1.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -738,9 +738,9 @@ and 15.</p>
 <a class="sourceLine" id="cb175-3" title="3">ecom_sample <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb175-4" title="4"><span class="st">  </span><span class="kw">pull</span>(n_pages) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb175-5" title="5"><span class="st">  </span><span class="kw">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </a></code></pre></div>
-<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
-## [12] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE
-## [23]  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+## [13]  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE
+## [25]  TRUE FALSE  TRUE  TRUE FALSE FALSE</code></pre>
 </div>
 <div id="case-when" class="section level2">
 <h2><span class="header-section-number">5.9</span> Case When</h2>

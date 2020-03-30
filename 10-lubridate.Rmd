@@ -488,7 +488,10 @@ transact %>%
     delay = Due - Payment
   ) %>%
   filter(delay < 0) %>%
-  tally()
+  mutate(
+    delay = delay * -1
+  ) %>% 
+  count(delay)
 ```
 
 ### Your Turn
