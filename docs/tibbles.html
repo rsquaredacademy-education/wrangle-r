@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 tibbles | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
-  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 tibbles | Data Wrangling with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2020-03-30" />
+<meta name="date" content="2020-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -40,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -48,12 +51,21 @@
 
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-57270671-37"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-57270671-37');
+</script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -62,14 +74,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -78,9 +92,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -467,8 +481,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>how to manipulate tibbles?</li>
 </ul>
 <p>We will use the following R packages:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" title="1"><span class="kw">library</span>(tibble)</a>
-<a class="sourceLine" id="cb270-2" title="2"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="tibbles.html#cb276-1"></a><span class="kw">library</span>(tibble)</span>
+<span id="cb276-2"><a href="tibbles.html#cb276-2"></a><span class="kw">library</span>(dplyr)</span></code></pre></div>
 </div>
 <div id="creating-tibbles" class="section level2">
 <h2><span class="header-section-number">7.2</span> Creating tibbles</h2>
@@ -479,22 +493,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>tribble()</code></li>
 </ul>
 <p>Let us start with <code>tibble()</code>.</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" title="1"><span class="kw">tibble</span>(<span class="dt">x =</span> letters,</a>
-<a class="sourceLine" id="cb271-2" title="2">       <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">26</span>,</a>
-<a class="sourceLine" id="cb271-3" title="3">       <span class="dt">z =</span> <span class="kw">sample</span>(<span class="dv">100</span>, <span class="dv">26</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="tibbles.html#cb277-1"></a><span class="kw">tibble</span>(<span class="dt">x =</span> letters,</span>
+<span id="cb277-2"><a href="tibbles.html#cb277-2"></a>       <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">26</span>,</span>
+<span id="cb277-3"><a href="tibbles.html#cb277-3"></a>       <span class="dt">z =</span> <span class="kw">sample</span>(<span class="dv">100</span>, <span class="dv">26</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 26 x 3
 ##    x         y     z
 ##    &lt;chr&gt; &lt;int&gt; &lt;int&gt;
-##  1 a         1    60
-##  2 b         2    75
-##  3 c         3    72
-##  4 d         4    99
-##  5 e         5    13
-##  6 f         6    78
-##  7 g         7    16
-##  8 h         8    35
-##  9 i         9    58
-## 10 j        10    48
+##  1 a         1    17
+##  2 b         2    40
+##  3 c         3    18
+##  4 d         4    78
+##  5 e         5    61
+##  6 f         6    90
+##  7 g         7    67
+##  8 h         8    68
+##  9 i         9    22
+## 10 j        10    45
 ## # ... with 16 more rows</code></pre>
 <p>We mentioned the column names followed by the data. If you do not specify the
 column names, <code>tibble()</code> will supply them. Ensure that the length of each column
@@ -507,22 +521,22 @@ is same.</p>
 <p><code>tibble()</code> will never alter the input’s type. For example, if you supply a
 character vector it will not be converted to factor unlike data.frame where
 you need to set <code>stringsAsFactors</code> to <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" title="1"><span class="kw">tibble</span>(<span class="dt">x =</span> letters,</a>
-<a class="sourceLine" id="cb273-2" title="2">       <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">26</span>,</a>
-<a class="sourceLine" id="cb273-3" title="3">       <span class="dt">z =</span> <span class="kw">sample</span>(<span class="dv">100</span>, <span class="dv">26</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="tibbles.html#cb279-1"></a><span class="kw">tibble</span>(<span class="dt">x =</span> letters,</span>
+<span id="cb279-2"><a href="tibbles.html#cb279-2"></a>       <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">26</span>,</span>
+<span id="cb279-3"><a href="tibbles.html#cb279-3"></a>       <span class="dt">z =</span> <span class="kw">sample</span>(<span class="dv">100</span>, <span class="dv">26</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 26 x 3
 ##    x         y     z
 ##    &lt;chr&gt; &lt;int&gt; &lt;int&gt;
-##  1 a         1    12
-##  2 b         2    38
-##  3 c         3    78
-##  4 d         4     6
-##  5 e         5    86
-##  6 f         6    70
-##  7 g         7    66
-##  8 h         8    42
-##  9 i         9    79
-## 10 j        10    54
+##  1 a         1    96
+##  2 b         2    18
+##  3 c         3     6
+##  4 d         4    55
+##  5 e         5    93
+##  6 f         6     3
+##  7 g         7    35
+##  8 h         8    66
+##  9 i         9    95
+## 10 j        10    49
 ## # ... with 16 more rows</code></pre>
 </div>
 <div id="never-adjusts-variable-names" class="section level3">
@@ -530,9 +544,9 @@ you need to set <code>stringsAsFactors</code> to <code>FALSE</code>.</p>
 <p><code>tibble()</code> will never modify the column names. In the below example, you can
 observe that while <code>data.frame</code> adds a <code>.</code>, <code>tibble()</code> retains the column names
 as is.</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" title="1"><span class="kw">names</span>(<span class="kw">data.frame</span>(<span class="st">`</span><span class="dt">order value</span><span class="st">`</span> =<span class="st"> </span><span class="dv">10</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="tibbles.html#cb281-1"></a><span class="kw">names</span>(<span class="kw">data.frame</span>(<span class="st">`</span><span class="dt">order value</span><span class="st">`</span> =<span class="st"> </span><span class="dv">10</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;order.value&quot;</code></pre>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" title="1"><span class="kw">names</span>(<span class="kw">tibble</span>(<span class="st">`</span><span class="dt">order value</span><span class="st">`</span> =<span class="st"> </span><span class="dv">10</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="tibbles.html#cb283-1"></a><span class="kw">names</span>(<span class="kw">tibble</span>(<span class="st">`</span><span class="dt">order value</span><span class="st">`</span> =<span class="st"> </span><span class="dv">10</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;order value&quot;</code></pre>
 </div>
 <div id="never-prints-all-rows" class="section level3">
@@ -540,42 +554,42 @@ as is.</p>
 <p><code>tibble()</code> will never print all the rows and clutter your console. It will only
 print the first 10 rows and only as many columns that fit the width of the
 console.</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" title="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb279-2" title="2">y &lt;-<span class="st"> </span>letters[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb279-3" title="3">z &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb279-4" title="4"><span class="kw">tibble</span>(x, y, z)</a></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="tibbles.html#cb285-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></span>
+<span id="cb285-2"><a href="tibbles.html#cb285-2"></a>y &lt;-<span class="st"> </span>letters[<span class="dv">1</span>]</span>
+<span id="cb285-3"><a href="tibbles.html#cb285-3"></a>z &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb285-4"><a href="tibbles.html#cb285-4"></a><span class="kw">tibble</span>(x, y, z)</span></code></pre></div>
 <pre><code>## # A tibble: 100 x 3
 ##        x y     z    
 ##    &lt;int&gt; &lt;chr&gt; &lt;lgl&gt;
-##  1     1 a     TRUE 
+##  1     1 a     FALSE
 ##  2     2 a     FALSE
-##  3     3 a     TRUE 
-##  4     4 a     TRUE 
+##  3     3 a     FALSE
+##  4     4 a     FALSE
 ##  5     5 a     TRUE 
 ##  6     6 a     FALSE
-##  7     7 a     TRUE 
+##  7     7 a     FALSE
 ##  8     8 a     FALSE
-##  9     9 a     FALSE
-## 10    10 a     TRUE 
+##  9     9 a     TRUE 
+## 10    10 a     FALSE
 ## # ... with 90 more rows</code></pre>
 </div>
 <div id="never-recycles-vector-of-length-greater-than-1" class="section level3">
 <h3><span class="header-section-number">7.3.4</span> never recycles vector of length greater than 1</h3>
 <p>Recycling vectors of length greater than 1 often leads to errors and as such
 <code>tibble()</code> will only recycle vectors of length 1.</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" title="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb281-2" title="2">y &lt;-<span class="st"> </span>letters</a>
-<a class="sourceLine" id="cb281-3" title="3">z &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb281-4" title="4"><span class="kw">tibble</span>(x, y, z)</a>
-<a class="sourceLine" id="cb281-5" title="5">Error <span class="cf">in</span> <span class="kw">overscope_eval_next</span>(overscope, expr) <span class="op">:</span><span class="st"> </span>object <span class="st">&#39;y&#39;</span> not found</a></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="tibbles.html#cb287-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></span>
+<span id="cb287-2"><a href="tibbles.html#cb287-2"></a>y &lt;-<span class="st"> </span>letters</span>
+<span id="cb287-3"><a href="tibbles.html#cb287-3"></a>z &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb287-4"><a href="tibbles.html#cb287-4"></a><span class="kw">tibble</span>(x, y, z)</span>
+<span id="cb287-5"><a href="tibbles.html#cb287-5"></a>Error <span class="cf">in</span> <span class="kw">overscope_eval_next</span>(overscope, expr) <span class="op">:</span><span class="st"> </span>object <span class="st">&#39;y&#39;</span> not found</span></code></pre></div>
 </div>
 </div>
 <div id="membership-testing" class="section level2">
 <h2><span class="header-section-number">7.4</span> Membership Testing</h2>
 <p>We can test if an object is a tibble using <code>is_tibble()</code>.</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb282-1" title="1"><span class="kw">is_tibble</span>(mtcars)</a></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="tibbles.html#cb288-1"></a><span class="kw">is_tibble</span>(mtcars)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb284-1" title="1"><span class="kw">is_tibble</span>(<span class="kw">as_tibble</span>(mtcars))</a></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="tibbles.html#cb290-1"></a><span class="kw">is_tibble</span>(<span class="kw">as_tibble</span>(mtcars))</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="tribble" class="section level2">
@@ -587,12 +601,12 @@ console.</p>
 <li>column names start with <code>~</code></li>
 <li>and values are separated by commas</li>
 </ul>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" title="1"><span class="kw">tribble</span>(</a>
-<a class="sourceLine" id="cb286-2" title="2">  <span class="op">~</span>x, <span class="op">~</span>y, <span class="op">~</span>z,</a>
-<a class="sourceLine" id="cb286-3" title="3">  <span class="co">#--|--|----</span></a>
-<a class="sourceLine" id="cb286-4" title="4">  <span class="dv">1</span>, <span class="ot">TRUE</span>, <span class="st">&#39;a&#39;</span>,</a>
-<a class="sourceLine" id="cb286-5" title="5">  <span class="dv">2</span>, <span class="ot">FALSE</span>, <span class="st">&#39;b&#39;</span></a>
-<a class="sourceLine" id="cb286-6" title="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="tibbles.html#cb292-1"></a><span class="kw">tribble</span>(</span>
+<span id="cb292-2"><a href="tibbles.html#cb292-2"></a>  <span class="op">~</span>x, <span class="op">~</span>y, <span class="op">~</span>z,</span>
+<span id="cb292-3"><a href="tibbles.html#cb292-3"></a>  <span class="co">#--|--|----</span></span>
+<span id="cb292-4"><a href="tibbles.html#cb292-4"></a>  <span class="dv">1</span>, <span class="ot">TRUE</span>, <span class="st">&#39;a&#39;</span>,</span>
+<span id="cb292-5"><a href="tibbles.html#cb292-5"></a>  <span class="dv">2</span>, <span class="ot">FALSE</span>, <span class="st">&#39;b&#39;</span></span>
+<span id="cb292-6"><a href="tibbles.html#cb292-6"></a>)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 3
 ##       x y     z    
 ##   &lt;dbl&gt; &lt;lgl&gt; &lt;chr&gt;
@@ -604,11 +618,11 @@ console.</p>
 <p>Names of the columns in tibbles need not be valid R variable names. They can
 contain unusual characters like a space or a smiley but must be enclosed in
 ticks.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" title="1"><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb288-2" title="2">  <span class="st">`</span><span class="dt"> </span><span class="st">`</span> =<span class="st"> &#39;space&#39;</span>,</a>
-<a class="sourceLine" id="cb288-3" title="3">  <span class="st">`</span><span class="dt">2</span><span class="st">`</span> =<span class="st"> &#39;integer&#39;</span>,</a>
-<a class="sourceLine" id="cb288-4" title="4">  <span class="st">`</span><span class="dt">:)</span><span class="st">`</span> =<span class="st"> &#39;smiley&#39;</span></a>
-<a class="sourceLine" id="cb288-5" title="5">)</a></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="tibbles.html#cb294-1"></a><span class="kw">tibble</span>(</span>
+<span id="cb294-2"><a href="tibbles.html#cb294-2"></a>  <span class="st">`</span><span class="dt"> </span><span class="st">`</span> =<span class="st"> &#39;space&#39;</span>,</span>
+<span id="cb294-3"><a href="tibbles.html#cb294-3"></a>  <span class="st">`</span><span class="dt">2</span><span class="st">`</span> =<span class="st"> &#39;integer&#39;</span>,</span>
+<span id="cb294-4"><a href="tibbles.html#cb294-4"></a>  <span class="st">`</span><span class="dt">:)</span><span class="st">`</span> =<span class="st"> &#39;smiley&#39;</span></span>
+<span id="cb294-5"><a href="tibbles.html#cb294-5"></a>)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##   ` `   `2`     `:)`  
 ##   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
@@ -618,15 +632,15 @@ ticks.</p>
 <h2><span class="header-section-number">7.7</span> Add Rows</h2>
 <p>Let us add data related to <strong>Safari</strong> browser to the web traffic data using
 <code>add_row()</code>.</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb290-1" title="1">browsers &lt;-<span class="st"> </span><span class="kw">enframe</span>(<span class="kw">c</span>(<span class="dt">chrome =</span> <span class="dv">40</span>, <span class="dt">firefox =</span> <span class="dv">20</span>, <span class="dt">edge =</span> <span class="dv">30</span>))</a>
-<a class="sourceLine" id="cb290-2" title="2">browsers</a></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="tibbles.html#cb296-1"></a>browsers &lt;-<span class="st"> </span><span class="kw">enframe</span>(<span class="kw">c</span>(<span class="dt">chrome =</span> <span class="dv">40</span>, <span class="dt">firefox =</span> <span class="dv">20</span>, <span class="dt">edge =</span> <span class="dv">30</span>))</span>
+<span id="cb296-2"><a href="tibbles.html#cb296-2"></a>browsers</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   name    value
 ##   &lt;chr&gt;   &lt;dbl&gt;
 ## 1 chrome     40
 ## 2 firefox    20
 ## 3 edge       30</code></pre>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" title="1"><span class="kw">add_row</span>(browsers, <span class="dt">name =</span> <span class="st">&#39;safari&#39;</span>, <span class="dt">value =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="tibbles.html#cb298-1"></a><span class="kw">add_row</span>(browsers, <span class="dt">name =</span> <span class="st">&#39;safari&#39;</span>, <span class="dt">value =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   name    value
 ##   &lt;chr&gt;   &lt;dbl&gt;
@@ -637,7 +651,7 @@ ticks.</p>
 <p>If we want to add the data at a particular row, we can specify the row number
 using the <code>.before</code> argument. Let us add the data related to <strong>Safari</strong> browser
 in the second row instead of the last row.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" title="1"><span class="kw">add_row</span>(browsers, <span class="dt">name =</span> <span class="st">&#39;safari&#39;</span>, <span class="dt">value =</span> <span class="dv">10</span>, <span class="dt">.before =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="tibbles.html#cb300-1"></a><span class="kw">add_row</span>(browsers, <span class="dt">name =</span> <span class="st">&#39;safari&#39;</span>, <span class="dt">value =</span> <span class="dv">10</span>, <span class="dt">.before =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   name    value
 ##   &lt;chr&gt;   &lt;dbl&gt;
@@ -649,8 +663,8 @@ in the second row instead of the last row.</p>
 <div id="add-columns" class="section level2">
 <h2><span class="header-section-number">7.8</span> Add Columns</h2>
 <p><code>add_column()</code> adds a new column to tibbles.</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" title="1">browsers &lt;-<span class="st"> </span><span class="kw">enframe</span>(<span class="kw">c</span>(<span class="dt">chrome =</span> <span class="dv">40</span>, <span class="dt">firefox =</span> <span class="dv">20</span>, <span class="dt">edge =</span> <span class="dv">30</span>, <span class="dt">safari =</span> <span class="dv">10</span>))</a>
-<a class="sourceLine" id="cb296-2" title="2"><span class="kw">add_column</span>(browsers, <span class="dt">visits =</span> <span class="kw">c</span>(<span class="dv">4000</span>, <span class="dv">2000</span>, <span class="dv">3000</span>, <span class="dv">1000</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="tibbles.html#cb302-1"></a>browsers &lt;-<span class="st"> </span><span class="kw">enframe</span>(<span class="kw">c</span>(<span class="dt">chrome =</span> <span class="dv">40</span>, <span class="dt">firefox =</span> <span class="dv">20</span>, <span class="dt">edge =</span> <span class="dv">30</span>, <span class="dt">safari =</span> <span class="dv">10</span>))</span>
+<span id="cb302-2"><a href="tibbles.html#cb302-2"></a><span class="kw">add_column</span>(browsers, <span class="dt">visits =</span> <span class="kw">c</span>(<span class="dv">4000</span>, <span class="dv">2000</span>, <span class="dv">3000</span>, <span class="dv">1000</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   name    value visits
 ##   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;
@@ -664,11 +678,11 @@ in the second row instead of the last row.</p>
 <p>The <a href="tibble.tidyverse.org">tibble</a> package provides a set of functions to deal
 with rownames. Remember, <code>tibble</code> does not have <code>rownames</code> unlike <code>data.frame</code>.
 To check whether a data set has rownames, use <code>has_rownames()</code>.</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" title="1"><span class="kw">has_rownames</span>(mtcars)</a></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="tibbles.html#cb304-1"></a><span class="kw">has_rownames</span>(mtcars)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <div id="remove-rownames" class="section level3">
 <h3><span class="header-section-number">7.9.1</span> Remove Rownames</h3>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" title="1"><span class="kw">remove_rownames</span>(mtcars)</a></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="tibbles.html#cb306-1"></a><span class="kw">remove_rownames</span>(mtcars)</span></code></pre></div>
 <pre><code>##     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 ## 1  21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 ## 2  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
@@ -705,7 +719,7 @@ To check whether a data set has rownames, use <code>has_rownames()</code>.</p>
 </div>
 <div id="rownames-to-column" class="section level3">
 <h3><span class="header-section-number">7.9.2</span> Rownames to Column</h3>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" title="1"><span class="kw">head</span>(<span class="kw">rownames_to_column</span>(mtcars))</a></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="tibbles.html#cb308-1"></a><span class="kw">head</span>(<span class="kw">rownames_to_column</span>(mtcars))</span></code></pre></div>
 <pre><code>##             rowname  mpg cyl disp  hp drat    wt  qsec vs am gear carb
 ## 1         Mazda RX4 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 ## 2     Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
@@ -717,8 +731,8 @@ To check whether a data set has rownames, use <code>has_rownames()</code>.</p>
 <div id="column-to-rownames" class="section level3">
 <h3><span class="header-section-number">7.9.3</span> Column to Rownames</h3>
 <p>To convert the first column in the data set to rownames, use <code>column_to_rownames()</code>:</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" title="1">mtcars_tbl &lt;-<span class="st"> </span><span class="kw">rownames_to_column</span>(mtcars)</a>
-<a class="sourceLine" id="cb304-2" title="2"><span class="kw">column_to_rownames</span>(mtcars_tbl)</a></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="tibbles.html#cb310-1"></a>mtcars_tbl &lt;-<span class="st"> </span><span class="kw">rownames_to_column</span>(mtcars)</span>
+<span id="cb310-2"><a href="tibbles.html#cb310-2"></a><span class="kw">column_to_rownames</span>(mtcars_tbl)</span></code></pre></div>
 <pre><code>##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 ## Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 ## Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
@@ -757,9 +771,9 @@ To check whether a data set has rownames, use <code>has_rownames()</code>.</p>
 <div id="glimpse" class="section level2">
 <h2><span class="header-section-number">7.10</span> Glimpse</h2>
 <p>Use <code>glimpse()</code> to get an overview of the data.</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" title="1"><span class="kw">glimpse</span>(mtcars)</a></code></pre></div>
-<pre><code>## Observations: 32
-## Variables: 11
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="tibbles.html#cb312-1"></a><span class="kw">glimpse</span>(mtcars)</span></code></pre></div>
+<pre><code>## Rows: 32
+## Columns: 11
 ## $ mpg  &lt;dbl&gt; 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17...
 ## $ cyl  &lt;dbl&gt; 6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4,...
 ## $ disp &lt;dbl&gt; 160.0, 160.0, 108.0, 258.0, 360.0, 225.0, 360.0, 146.7, 140.8,...
@@ -775,9 +789,9 @@ To check whether a data set has rownames, use <code>has_rownames()</code>.</p>
 <div id="check-column" class="section level2">
 <h2><span class="header-section-number">7.11</span> Check Column</h2>
 <p><code>has_name()</code> can be used to check if a tibble has a specific column.</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb308-1" title="1"><span class="kw">has_name</span>(mtcars, <span class="st">&#39;cyl&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="tibbles.html#cb314-1"></a><span class="kw">has_name</span>(mtcars, <span class="st">&#39;cyl&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb310-1" title="1"><span class="kw">has_name</span>(mtcars, <span class="st">&#39;gears&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="tibbles.html#cb316-1"></a><span class="kw">has_name</span>(mtcars, <span class="st">&#39;gears&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="summary-3" class="section level2">
@@ -824,11 +838,13 @@ To check whether a data set has rownames, use <code>has_rownames()</code>.</p>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -836,12 +852,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -853,6 +868,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

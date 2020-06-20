@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Import Data - 2 | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
-  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Import Data - 2 | Data Wrangling with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2020-03-30" />
+<meta name="date" content="2020-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -40,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -48,12 +51,21 @@
 
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-57270671-37"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-57270671-37');
+</script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -62,14 +74,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -78,9 +92,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -467,14 +481,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 - STATA</li>
 </ul>
 <p>We will use the following R packages:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">library</span>(readxl)</a>
-<a class="sourceLine" id="cb27-2" title="2"><span class="kw">library</span>(haven)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="import2.html#cb27-1"></a><span class="kw">library</span>(readxl)</span>
+<span id="cb27-2"><a href="import2.html#cb27-2"></a><span class="kw">library</span>(haven)</span></code></pre></div>
 </div>
 <div id="list-sheets" class="section level2">
 <h2><span class="header-section-number">2.2</span> List Sheets</h2>
 <p>An excel file may contain several sheets. Let us see how many sheets are
 present in <code>sample.xls</code> file and their respective names using <code>excel_sheets()</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">excel_sheets</span>(<span class="st">&#39;sample.xls&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="import2.html#cb28-1"></a><span class="kw">excel_sheets</span>(<span class="st">&#39;sample.xls&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;ecom&quot;</code></pre>
 </div>
 <div id="read-sheet" class="section level2">
@@ -484,7 +498,7 @@ the <code>ecom</code> sheet of the <code>sample.xls</code> file using <code>read
 the file name, and the sheet name or sheet number.</p>
 <div id="case-1-specify-the-sheet-number" class="section level3">
 <h3><span class="header-section-number">2.3.1</span> Case 1: Specify the sheet number</h3>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="import2.html#cb30-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -498,7 +512,7 @@ the file name, and the sheet name or sheet number.</p>
 </div>
 <div id="case-2-specify-the-sheet-name" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Case 2: Specify the sheet name</h3>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="st">&#39;ecom&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="import2.html#cb32-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="st">&#39;ecom&#39;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -527,7 +541,7 @@ cell range and we will look at them one by one:</p>
 <p>The first method uses the cell names along with <code>:</code> to specify the cell range.
 For example, to read data from first 4 rows of columns <strong>B</strong> and <strong>C</strong>, we will
 specify the range as <code>"B1:C4"</code>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="import2.html#cb34-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -535,7 +549,7 @@ specify the range as <code>"B1:C4"</code>.</p>
 ## 2 12916     12311
 ## 3 10983      7636</code></pre>
 <p>To read data from first 5 rows of columns <strong>A</strong>, <strong>B</strong> and <strong>C</strong>, we will specify the range as <code>"A1:C5"</code>.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:C5&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="import2.html#cb36-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:C5&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   channel        users new_users
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;
@@ -552,8 +566,8 @@ specify the range as <code>"B1:C4"</code>.</p>
 of rows and columns to be covered keeping the initial cell as anchorage.
 In the below example, we want to read 3 rows and 2 columns starting from the
 cell <code>A4</code>.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb38-2" title="2">  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;A4&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="import2.html#cb38-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb38-2"><a href="import2.html#cb38-2"></a>  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;A4&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   ...1      ...2
 ##   &lt;chr&gt;    &lt;dbl&gt;
@@ -572,8 +586,8 @@ from the first 6 rows and 4 columns, we will specify the range as following:</p>
 </ul>
 <p><img src="img/readxl_cell_limits_lucid.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb40-2" title="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">4</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="import2.html#cb40-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb40-2"><a href="import2.html#cb40-2"></a>  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">4</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 4
 ##   channel        users new_users sessions
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
@@ -584,8 +598,8 @@ from the first 6 rows and 4 columns, we will specify the range as following:</p>
 ## 5 Display         5564      4790     7220</code></pre>
 <p>You can use <code>NA</code> to indicate the first and last row/column. For example, to
 read data from all the rows from the second column onwards:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb42-2" title="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="import2.html#cb42-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb42-2"><a href="import2.html#cb42-2"></a>  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 4
 ##   users new_users sessions bounce_rate
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -601,8 +615,8 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 </div>
 <div id="method-1-1" class="section level3">
 <h3><span class="header-section-number">2.4.4</span> Method 1</h3>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb44-2" title="2">  <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="import2.html#cb44-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb44-2"><a href="import2.html#cb44-2"></a>  <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -612,8 +626,8 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 </div>
 <div id="method-2-1" class="section level3">
 <h3><span class="header-section-number">2.4.5</span> Method 2</h3>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb46-2" title="2">  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;B1&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="import2.html#cb46-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb46-2"><a href="import2.html#cb46-2"></a>  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;B1&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -623,8 +637,8 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 </div>
 <div id="method-3-1" class="section level3">
 <h3><span class="header-section-number">2.4.6</span> Method 3</h3>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb48-2" title="2">  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">3</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="import2.html#cb48-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb48-2"><a href="import2.html#cb48-2"></a>  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">3</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -638,7 +652,7 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 <p>When you want to read a subset of rows from the data, use <code>cell_rows()</code> and
 specify the row numbers or the range. In the below example, we want to read
 the first 4 rows of data from the file.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_rows</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="import2.html#cb50-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_rows</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -651,7 +665,7 @@ the first 4 rows of data from the file.</p>
 <p>If you want to read a single column from the data, use <code>cell_cols()</code> and
 specify the column number. In the below example, we read the second column
 from the <code>sample.xls</code> file.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="dv">2</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="import2.html#cb52-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 1
 ##   users
 ##   &lt;dbl&gt;
@@ -668,7 +682,7 @@ from the <code>sample.xls</code> file.</p>
 <p>In case of multiple columns, we need to specify the column numbers or the
 column range. In the below example, we want to read the 2nd, 4th and 6th column from
 the <code>sample.xls</code> file.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="import2.html#cb54-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   users new_users sessions bounce_rate ...5 
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
@@ -681,7 +695,7 @@ the <code>sample.xls</code> file.</p>
 ## 7  1773      1585     2167 55.75%      NA</code></pre>
 <p>In the next example, we want to read data from the 2nd column upto and
 including the 6th column.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1"><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="import2.html#cb56-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   users new_users sessions bounce_rate ...5 
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
@@ -707,7 +721,7 @@ including the 6th column.</p>
 </ul>
 <div id="stata" class="section level3">
 <h3><span class="header-section-number">2.8.1</span> STATA</h3>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="kw">read_stata</span>(<span class="st">&#39;airline.dta&#39;</span>)  </a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="import2.html#cb58-1"></a><span class="kw">read_stata</span>(<span class="st">&#39;airline.dta&#39;</span>)  </span></code></pre></div>
 <pre><code>## # A tibble: 32 x 6
 ##     year     y     w     r     l     k
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -725,7 +739,7 @@ including the 6th column.</p>
 </div>
 <div id="spss" class="section level3">
 <h3><span class="header-section-number">2.8.2</span> SPSS</h3>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">read_spss</span>(<span class="st">&#39;employee.sav&#39;</span>)  </a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="import2.html#cb60-1"></a><span class="kw">read_spss</span>(<span class="st">&#39;employee.sav&#39;</span>)  </span></code></pre></div>
 <pre><code>## # A tibble: 474 x 9
 ##       id gender       educ    jobcat  salary salbegin jobtime   prevexp minority
 ##    &lt;dbl&gt; &lt;chr+lb&gt; &lt;dbl+lb&gt; &lt;dbl+lbl&gt; &lt;dbl+l&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl+lbl&gt; &lt;dbl+lb&gt;
@@ -743,7 +757,7 @@ including the 6th column.</p>
 </div>
 <div id="sas" class="section level3">
 <h3><span class="header-section-number">2.8.3</span> SAS</h3>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1"><span class="kw">read_sas</span>(<span class="st">&#39;airline.sas7bdat&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="import2.html#cb62-1"></a><span class="kw">read_sas</span>(<span class="st">&#39;airline.sas7bdat&#39;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 32 x 6
 ##     YEAR     Y     W     R     L     K
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -777,11 +791,13 @@ including the 6th column.</p>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -789,12 +805,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -806,6 +821,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

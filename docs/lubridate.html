@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Working with Date &amp; Time | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
-  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Working with Date &amp; Time | Data Wrangling with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2020-03-30" />
+<meta name="date" content="2020-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -40,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -48,12 +51,21 @@
 
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-57270671-37"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-57270671-37');
+</script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -62,14 +74,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -78,9 +92,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -458,33 +472,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="date" class="section level3">
 <h3><span class="header-section-number">9.1.1</span> Date</h3>
 <p><code>Sys.Date()</code> and <code>today()</code> will return the current date.</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" title="1"><span class="kw">Sys.Date</span>()</a></code></pre></div>
-<pre><code>## [1] &quot;2020-03-30&quot;</code></pre>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb408-1" title="1">lubridate<span class="op">::</span><span class="kw">today</span>()</a></code></pre></div>
-<pre><code>## [1] &quot;2020-03-30&quot;</code></pre>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="lubridate.html#cb412-1"></a><span class="kw">Sys.Date</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;2020-06-20&quot;</code></pre>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="lubridate.html#cb414-1"></a>lubridate<span class="op">::</span><span class="kw">today</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;2020-06-20&quot;</code></pre>
 </div>
 <div id="time" class="section level3">
 <h3><span class="header-section-number">9.1.2</span> Time</h3>
 <p><code>Sys.time()</code> and <code>now()</code> return the date, time and the timezone. In <code>now()</code>, we can specify the timezone using the <code>tzone</code> argument.</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb410-1" title="1"><span class="kw">Sys.time</span>()</a></code></pre></div>
-<pre><code>## [1] &quot;2020-03-30 15:20:39 IST&quot;</code></pre>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" title="1">lubridate<span class="op">::</span><span class="kw">now</span>()</a></code></pre></div>
-<pre><code>## [1] &quot;2020-03-30 15:20:39 IST&quot;</code></pre>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" title="1">lubridate<span class="op">::</span><span class="kw">now</span>(<span class="dt">tzone =</span> <span class="st">&quot;UTC&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;2020-03-30 09:50:39 UTC&quot;</code></pre>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="lubridate.html#cb416-1"></a><span class="kw">Sys.time</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;2020-06-20 15:47:52 IST&quot;</code></pre>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="lubridate.html#cb418-1"></a>lubridate<span class="op">::</span><span class="kw">now</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;2020-06-20 15:47:52 IST&quot;</code></pre>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="lubridate.html#cb420-1"></a>lubridate<span class="op">::</span><span class="kw">now</span>(<span class="dt">tzone =</span> <span class="st">&quot;UTC&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2020-06-20 10:17:52 UTC&quot;</code></pre>
 </div>
 <div id="am-or-pm" class="section level3">
 <h3><span class="header-section-number">9.1.3</span> AM or PM?</h3>
 <p><code>am()</code> and <code>pm()</code> allow us to check whether date/time occur in the am or pm? They return a logical value i.e. <code>TRUE</code> or <code>FALSE</code></p>
-<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" title="1">lubridate<span class="op">::</span><span class="kw">am</span>(<span class="kw">now</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="lubridate.html#cb422-1"></a>lubridate<span class="op">::</span><span class="kw">am</span>(<span class="kw">now</span>())</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" title="1">lubridate<span class="op">::</span><span class="kw">pm</span>(<span class="kw">now</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="lubridate.html#cb424-1"></a>lubridate<span class="op">::</span><span class="kw">pm</span>(<span class="kw">now</span>())</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="leap-year" class="section level3">
 <h3><span class="header-section-number">9.1.4</span> Leap Year</h3>
 <p>We can also check if the current year is a leap year using <code>leap_year()</code>.</p>
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" title="1">lubridate<span class="op">::</span><span class="kw">leap_year</span>(<span class="kw">Sys.Date</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="lubridate.html#cb426-1"></a>lubridate<span class="op">::</span><span class="kw">leap_year</span>(<span class="kw">Sys.Date</span>())</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="summary-4" class="section level3">
@@ -580,7 +594,7 @@ Check if the year is a leap year?
 invoice and payment dates.</p>
 <div id="data-4" class="section level3">
 <h3><span class="header-section-number">9.2.1</span> Data</h3>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" title="1">transact &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="lubridate.html#cb428-1"></a>transact &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv&#39;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 2,466 x 3
 ##    Invoice    Due        Payment   
 ##    &lt;date&gt;     &lt;date&gt;     &lt;date&gt;    
@@ -658,12 +672,12 @@ Payment Date
 <p>In this section, we will look at two things. First, how to create date/time
 data in R, and second, how to convert other data types to date/time. Let us
 begin by creating the latest R release date manually.</p>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" title="1">release_date &lt;-<span class="st"> </span><span class="dv">2019-12-12</span></a>
-<a class="sourceLine" id="cb424-2" title="2">release_date</a></code></pre></div>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="lubridate.html#cb430-1"></a>release_date &lt;-<span class="st"> </span><span class="dv">2019-12-12</span></span>
+<span id="cb430-2"><a href="lubridate.html#cb430-2"></a>release_date</span></code></pre></div>
 <pre><code>## [1] 1995</code></pre>
 <p>Okay! Why do we see <code>1995</code> when we call the date? What is happening here? Let us
 quickly check the data type of <code>release_date</code>.</p>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" title="1"><span class="kw">class</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="lubridate.html#cb432-1"></a><span class="kw">class</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
 <p>The data type is <code>numeric</code> i.e. R has subtracted <code>12</code> twice from <code>2019</code> to
 return <code>1995</code>. Clearly, the above method is not the right way to store
@@ -671,8 +685,8 @@ date/time. Let us see if we can get some hints from the builtin R functions we
 used in the previous section. If you observe the output, all of them returned
 date/time wrapped in quotes. Hmmm… let us wrap our date in quotes and see what
 happens.</p>
-<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb428-1" title="1">release_date &lt;-<span class="st"> &quot;2019-12-12&quot;</span></a>
-<a class="sourceLine" id="cb428-2" title="2">release_date</a></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="lubridate.html#cb434-1"></a>release_date &lt;-<span class="st"> &quot;2019-12-12&quot;</span></span>
+<span id="cb434-2"><a href="lubridate.html#cb434-2"></a>release_date</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 <p>Alright, now R does not do any arithmetic and returns the date as we specified.
 Great! Is this the right format to store date/time? No. Why? What is the problem
@@ -685,11 +699,11 @@ number or logical values.</p>
 </ul>
 <p>To answer the above questions, we will first check the data type of <code>Sys.Date()</code>
 and <code>now()</code>.</p>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" title="1"><span class="kw">class</span>(<span class="kw">Sys.Date</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="lubridate.html#cb436-1"></a><span class="kw">class</span>(<span class="kw">Sys.Date</span>())</span></code></pre></div>
 <pre><code>## [1] &quot;Date&quot;</code></pre>
-<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" title="1"><span class="kw">class</span>(lubridate<span class="op">::</span><span class="kw">now</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="lubridate.html#cb438-1"></a><span class="kw">class</span>(lubridate<span class="op">::</span><span class="kw">now</span>())</span></code></pre></div>
 <pre><code>## [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</code></pre>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" title="1"><span class="kw">class</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="lubridate.html#cb440-1"></a><span class="kw">class</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <p>As you can see from the above output, there are 3 different classes for storing
 date/time in R</p>
@@ -708,8 +722,8 @@ date/time in R</p>
 you check the class of <code>Sys.Date()</code>, it is <code>Date</code>. Internally, this date is a
 number i.e. an integer. The <code>unclass()</code> function will show dates are stored
 internally.</p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb436-1" title="1"><span class="kw">unclass</span>(<span class="kw">Sys.Date</span>())</a></code></pre></div>
-<pre><code>## [1] 18351</code></pre>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="lubridate.html#cb442-1"></a><span class="kw">unclass</span>(<span class="kw">Sys.Date</span>())</span></code></pre></div>
+<pre><code>## [1] 18433</code></pre>
 <p>What does this integer represent? Why has R stored the date as an integer?
 Before we answer this question, we need to know something else. In R, dates are
 represented as the number of days since <code>1970-01-01</code>. All the dates in R are
@@ -719,26 +733,26 @@ release date, <code>2019-12-12</code>.</p>
 <p>Until now, we have stored the above date as character/string but now we will use
 <code>as.Date()</code> to save it as a <code>Date</code> object. <code>as.Date()</code> is the easiest and
 simplest way to create dates in R.</p>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb438-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&quot;2019-12-12&quot;</span>)</a>
-<a class="sourceLine" id="cb438-2" title="2">release_date</a></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="lubridate.html#cb444-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&quot;2019-12-12&quot;</span>)</span>
+<span id="cb444-2"><a href="lubridate.html#cb444-2"></a>release_date</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 <p>The <code>as_date()</code> function from the lubridate package is similar to <code>as.Date()</code>.</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb440-1" title="1">release_date &lt;-<span class="st"> </span>lubridate<span class="op">::</span><span class="kw">as_date</span>(<span class="st">&quot;2019-12-12&quot;</span>)</a>
-<a class="sourceLine" id="cb440-2" title="2">release_date</a></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="lubridate.html#cb446-1"></a>release_date &lt;-<span class="st"> </span>lubridate<span class="op">::</span><span class="kw">as_date</span>(<span class="st">&quot;2019-12-12&quot;</span>)</span>
+<span id="cb446-2"><a href="lubridate.html#cb446-2"></a>release_date</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 <p>If you look at the difference between <code>release_date</code> and <code>1970-01-01</code>, it will
 be the same as <code>unclass(release_date)</code>.</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb442-1" title="1">release_date <span class="op">-</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&quot;1970-01-01&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="lubridate.html#cb448-1"></a>release_date <span class="op">-</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&quot;1970-01-01&quot;</span>)</span></code></pre></div>
 <pre><code>## Time difference of 18242 days</code></pre>
-<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb444-1" title="1"><span class="kw">unclass</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="lubridate.html#cb450-1"></a><span class="kw">unclass</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] 18242</code></pre>
 <p>Let us come back to <code>1970-01-01</code> i.e. the origin for dates in R.</p>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb446-1" title="1">lubridate<span class="op">::</span>origin</a></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="lubridate.html#cb452-1"></a>lubridate<span class="op">::</span>origin</span></code></pre></div>
 <pre><code>## [1] &quot;1970-01-01 UTC&quot;</code></pre>
 <p>From the previous examples, we know that dates are internally stored as number
 of days since <code>1970-01-01</code>. How about dates older than the origin? How are they
 stored? Let us look at that briefly.</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" title="1"><span class="kw">unclass</span>(<span class="kw">as.Date</span>(<span class="st">&quot;1963-08-28&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="lubridate.html#cb454-1"></a><span class="kw">unclass</span>(<span class="kw">as.Date</span>(<span class="st">&quot;1963-08-28&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] -2318</code></pre>
 <p>Dates older than the origin are stored as negative integers. For those who are
 not aware, Martin Luther King, Jr. delivered his famous <strong>I Have a Dream</strong>
@@ -757,10 +771,10 @@ object</p>
 <p>We have explored how to convert strings to date. How about converting numbers to
 date? Sure, we can create date from numbers by specifying the origin and number
 of days since it.</p>
-<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" title="1"><span class="kw">as.Date</span>(<span class="dv">18242</span>, <span class="dt">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="lubridate.html#cb456-1"></a><span class="kw">as.Date</span>(<span class="dv">18242</span>, <span class="dt">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 <p>The origin can be changed to another date (while changing the number as well.)</p>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" title="1"><span class="kw">as.Date</span>(<span class="dv">7285</span>, <span class="dt">origin =</span> <span class="st">&quot;2000-01-01&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="lubridate.html#cb458-1"></a><span class="kw">as.Date</span>(<span class="dv">7285</span>, <span class="dt">origin =</span> <span class="st">&quot;2000-01-01&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 </div>
 </div>
@@ -779,13 +793,13 @@ dates as well as of those returned by functions such as <code>Sys.Date()</code> 
 8601 standard for date/time. ISO 8601 is the internationally accepted way to
 represent dates and times and uses the 24 hour clock system. Let us create the
 release date using another function <code>ISOdate()</code>.</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" title="1"><span class="kw">ISOdate</span>(<span class="dt">year  =</span> <span class="dv">2019</span>,</a>
-<a class="sourceLine" id="cb454-2" title="2">        <span class="dt">month =</span> <span class="dv">12</span>,</a>
-<a class="sourceLine" id="cb454-3" title="3">        <span class="dt">day   =</span> <span class="dv">12</span>,</a>
-<a class="sourceLine" id="cb454-4" title="4">        <span class="dt">hour  =</span> <span class="dv">8</span>,</a>
-<a class="sourceLine" id="cb454-5" title="5">        <span class="dt">min   =</span> <span class="dv">5</span>, </a>
-<a class="sourceLine" id="cb454-6" title="6">        <span class="dt">sec   =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb454-7" title="7">        <span class="dt">tz    =</span> <span class="st">&quot;UTC&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="lubridate.html#cb460-1"></a><span class="kw">ISOdate</span>(<span class="dt">year  =</span> <span class="dv">2019</span>,</span>
+<span id="cb460-2"><a href="lubridate.html#cb460-2"></a>        <span class="dt">month =</span> <span class="dv">12</span>,</span>
+<span id="cb460-3"><a href="lubridate.html#cb460-3"></a>        <span class="dt">day   =</span> <span class="dv">12</span>,</span>
+<span id="cb460-4"><a href="lubridate.html#cb460-4"></a>        <span class="dt">hour  =</span> <span class="dv">8</span>,</span>
+<span id="cb460-5"><a href="lubridate.html#cb460-5"></a>        <span class="dt">min   =</span> <span class="dv">5</span>, </span>
+<span id="cb460-6"><a href="lubridate.html#cb460-6"></a>        <span class="dt">sec   =</span> <span class="dv">3</span>,</span>
+<span id="cb460-7"><a href="lubridate.html#cb460-7"></a>        <span class="dt">tz    =</span> <span class="st">&quot;UTC&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:05:03 UTC&quot;</code></pre>
 <p>We will look at all the different weird ways in which date/time are specified in
 the real world in the <a href="lubridate.html#date-time-formats">Date &amp; Time Formats</a> section. For the time being, let us
@@ -798,12 +812,12 @@ at is <code>POSIXct/POSIXlt</code>.</p>
 <strong>O</strong>perating <strong>S</strong>ystem <strong>I</strong>nterface. It is a family of standards specified f
 or maintaining compatibility between different operating systems. Before we
 learn to create POSIX objects, let us look at <code>now()</code> from lubridate.</p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" title="1"><span class="kw">class</span>(lubridate<span class="op">::</span><span class="kw">now</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="lubridate.html#cb462-1"></a><span class="kw">class</span>(lubridate<span class="op">::</span><span class="kw">now</span>())</span></code></pre></div>
 <pre><code>## [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</code></pre>
 <p><code>now()</code> returns current date/time as a POSIXct object. Let us look at its
 internal representation using <code>unclass()</code></p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" title="1"><span class="kw">unclass</span>(lubridate<span class="op">::</span><span class="kw">now</span>())</a></code></pre></div>
-<pre><code>## [1] 1585561845
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="lubridate.html#cb464-1"></a><span class="kw">unclass</span>(lubridate<span class="op">::</span><span class="kw">now</span>())</span></code></pre></div>
+<pre><code>## [1] 1592648277
 ## attr(,&quot;tzone&quot;)
 ## [1] &quot;&quot;</code></pre>
 <p>The output you see is the number of seconds since January 1, 1970.</p>
@@ -813,10 +827,10 @@ internal representation using <code>unclass()</code></p>
 <code>ct</code> stands for calendar time. To store date/time as <code>POSIXct</code> objects, use
 <code>as.POSIXct()</code>. Let us now store the latest R release date as <code>POSIXct</code> as shown
 below</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</a>
-<a class="sourceLine" id="cb460-2" title="2"><span class="kw">class</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="lubridate.html#cb466-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</span>
+<span id="cb466-2"><a href="lubridate.html#cb466-2"></a><span class="kw">class</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</code></pre>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" title="1"><span class="kw">unclass</span>(release_date) </a></code></pre></div>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="lubridate.html#cb468-1"></a><span class="kw">unclass</span>(release_date) </span></code></pre></div>
 <pre><code>## [1] 1576118103
 ## attr(,&quot;tzone&quot;)
 ## [1] &quot;&quot;</code></pre>
@@ -840,14 +854,14 @@ below</p>
 <p>The <code>lt</code> in <code>POSIXlt</code> stands for local time. Use <code>as.POSIXlt()</code> to store
 date/time as <code>POSIXlt</code> objects. Let us store the release date as a <code>POSIXlt</code>
 object as shown below</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</a>
-<a class="sourceLine" id="cb464-2" title="2">release_date</a></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="lubridate.html#cb470-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</span>
+<span id="cb470-2"><a href="lubridate.html#cb470-2"></a>release_date</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:05:03 IST&quot;</code></pre>
 <p>As we said earlier, <code>POSIXlt</code> stores date/time components in a list and these
 can be extracted. Let us look at the date/time components returned by <code>POSIXlt</code>
 using <code>unclass()</code>.</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb466-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</a>
-<a class="sourceLine" id="cb466-2" title="2"><span class="kw">unclass</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="lubridate.html#cb472-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</span>
+<span id="cb472-2"><a href="lubridate.html#cb472-2"></a><span class="kw">unclass</span>(release_date)</span></code></pre></div>
 <pre><code>## $sec
 ## [1] 3
 ## 
@@ -881,17 +895,17 @@ using <code>unclass()</code>.</p>
 ## $gmtoff
 ## [1] NA</code></pre>
 <p>Use <code>unlist()</code> if you want the components returned as a <code>vector</code>.</p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb468-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</a>
-<a class="sourceLine" id="cb468-2" title="2"><span class="kw">unlist</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="lubridate.html#cb474-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</span>
+<span id="cb474-2"><a href="lubridate.html#cb474-2"></a><span class="kw">unlist</span>(release_date)</span></code></pre></div>
 <pre><code>##    sec    min   hour   mday    mon   year   wday   yday  isdst   zone gmtoff 
 ##    &quot;3&quot;    &quot;5&quot;    &quot;8&quot;   &quot;12&quot;   &quot;11&quot;  &quot;119&quot;    &quot;4&quot;  &quot;345&quot;    &quot;0&quot;  &quot;IST&quot;     NA</code></pre>
 <p>To extract specific components, use <code>$</code>.</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb470-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</a>
-<a class="sourceLine" id="cb470-2" title="2">release_date<span class="op">$</span>hour</a></code></pre></div>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="lubridate.html#cb476-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</span>
+<span id="cb476-2"><a href="lubridate.html#cb476-2"></a>release_date<span class="op">$</span>hour</span></code></pre></div>
 <pre><code>## [1] 8</code></pre>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" title="1">release_date<span class="op">$</span>mon</a></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="lubridate.html#cb478-1"></a>release_date<span class="op">$</span>mon</span></code></pre></div>
 <pre><code>## [1] 11</code></pre>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb474-1" title="1">release_date<span class="op">$</span>zone</a></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="lubridate.html#cb480-1"></a>release_date<span class="op">$</span>zone</span></code></pre></div>
 <pre><code>## [1] &quot;IST&quot;</code></pre>
 <p>Now, let us look at the components returned by <code>POSIXlt</code>. Some of them are
 intuitive</p>
@@ -1033,11 +1047,11 @@ course you have enrolled for (Become a Rock Star Data Scientist in 10 Days) by s
 <p><br></p>
 <p><img src="img/course_duration.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb476-1" title="1">course_start    &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-12&#39;</span>)</a>
-<a class="sourceLine" id="cb476-2" title="2">course_end      &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-21&#39;</span>)</a>
-<a class="sourceLine" id="cb476-3" title="3">course_duration &lt;-<span class="st"> </span>course_end <span class="op">-</span><span class="st"> </span>course_start</a>
-<a class="sourceLine" id="cb476-4" title="4">course_duration</a>
-<a class="sourceLine" id="cb476-5" title="5"><span class="co">## Time difference of 9 days</span></a></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="lubridate.html#cb482-1"></a>course_start    &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-12&#39;</span>)</span>
+<span id="cb482-2"><a href="lubridate.html#cb482-2"></a>course_end      &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-21&#39;</span>)</span>
+<span id="cb482-3"><a href="lubridate.html#cb482-3"></a>course_duration &lt;-<span class="st"> </span>course_end <span class="op">-</span><span class="st"> </span>course_start</span>
+<span id="cb482-4"><a href="lubridate.html#cb482-4"></a>course_duration</span>
+<span id="cb482-5"><a href="lubridate.html#cb482-5"></a><span class="co">## Time difference of 9 days</span></span></code></pre></div>
 </div>
 <div id="shift-date" class="section level3">
 <h3><span class="header-section-number">9.4.2</span> Shift Date</h3>
@@ -1050,12 +1064,12 @@ course you have enrolled for (Become a Rock Star Data Scientist in 10 Days) by s
 <p><br></p>
 <p><img src="img/shift_dates.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb477-1" title="1">course_start <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb477-2" title="2"><span class="co">## [1] &quot;2017-04-14&quot;</span></a>
-<a class="sourceLine" id="cb477-3" title="3">course_start <span class="op">+</span><span class="st"> </span><span class="kw">weeks</span>(<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb477-4" title="4"><span class="co">## [1] &quot;2017-05-03&quot;</span></a>
-<a class="sourceLine" id="cb477-5" title="5">course_start <span class="op">+</span><span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb477-6" title="6"><span class="co">## [1] &quot;2018-04-12&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="lubridate.html#cb483-1"></a>course_start <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">2</span>)</span>
+<span id="cb483-2"><a href="lubridate.html#cb483-2"></a><span class="co">## [1] &quot;2017-04-14&quot;</span></span>
+<span id="cb483-3"><a href="lubridate.html#cb483-3"></a>course_start <span class="op">+</span><span class="st"> </span><span class="kw">weeks</span>(<span class="dv">3</span>)</span>
+<span id="cb483-4"><a href="lubridate.html#cb483-4"></a><span class="co">## [1] &quot;2017-05-03&quot;</span></span>
+<span id="cb483-5"><a href="lubridate.html#cb483-5"></a>course_start <span class="op">+</span><span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)</span>
+<span id="cb483-6"><a href="lubridate.html#cb483-6"></a><span class="co">## [1] &quot;2018-04-12&quot;</span></span></code></pre></div>
 </div>
 <div id="case-study-11" class="section level3">
 <h3><span class="header-section-number">9.4.3</span> Case Study</h3>
@@ -1063,10 +1077,10 @@ course you have enrolled for (Become a Rock Star Data Scientist in 10 Days) by s
 <h4><span class="header-section-number">9.4.3.1</span> Compute days to settle invoice</h4>
 <p>Let us estimate the number of days to settle the invoice by subtracting the
 date of invoice from the date of payment.</p>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb478-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb478-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb478-3" title="3">    <span class="dt">days_to_pay =</span> Payment <span class="op">-</span><span class="st"> </span>Invoice</a>
-<a class="sourceLine" id="cb478-4" title="4">  )</a></code></pre></div>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="lubridate.html#cb484-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb484-2"><a href="lubridate.html#cb484-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb484-3"><a href="lubridate.html#cb484-3"></a>    <span class="dt">days_to_pay =</span> Payment <span class="op">-</span><span class="st"> </span>Invoice</span>
+<span id="cb484-4"><a href="lubridate.html#cb484-4"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 2,466 x 4
 ##    Invoice    Due        Payment    days_to_pay
 ##    &lt;date&gt;     &lt;date&gt;     &lt;date&gt;     &lt;drtn&gt;     
@@ -1089,18 +1103,18 @@ date of invoice from the date of payment.</p>
 <li>subtracting the due date from the payment date</li>
 <li>counting the number of rows where delay &lt; 0</li>
 </ul>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb480-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb480-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb480-3" title="3">    <span class="dt">delay =</span> Due <span class="op">-</span><span class="st"> </span>Payment</a>
-<a class="sourceLine" id="cb480-4" title="4">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb480-5" title="5"><span class="st">  </span><span class="kw">filter</span>(delay <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb480-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb480-7" title="7">    <span class="dt">delay =</span> delay <span class="op">*</span><span class="st"> </span><span class="dv">-1</span></a>
-<a class="sourceLine" id="cb480-8" title="8">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb480-9" title="9"><span class="st">  </span><span class="kw">count</span>(delay)</a></code></pre></div>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="lubridate.html#cb486-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb486-2"><a href="lubridate.html#cb486-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb486-3"><a href="lubridate.html#cb486-3"></a>    <span class="dt">delay =</span> Due <span class="op">-</span><span class="st"> </span>Payment</span>
+<span id="cb486-4"><a href="lubridate.html#cb486-4"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb486-5"><a href="lubridate.html#cb486-5"></a><span class="st">  </span><span class="kw">filter</span>(delay <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></span>
+<span id="cb486-6"><a href="lubridate.html#cb486-6"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb486-7"><a href="lubridate.html#cb486-7"></a>    <span class="dt">delay =</span> delay <span class="op">*</span><span class="st"> </span><span class="dv">-1</span></span>
+<span id="cb486-8"><a href="lubridate.html#cb486-8"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb486-9"><a href="lubridate.html#cb486-9"></a><span class="st">  </span><span class="kw">count</span>(delay)</span></code></pre></div>
 <pre><code>## # A tibble: 36 x 2
 ##    delay       n
-##    &lt;drtn&gt;  &lt;int&gt;
+##  * &lt;drtn&gt;  &lt;int&gt;
 ##  1  1 days    61
 ##  2  2 days    65
 ##  3  3 days    51
@@ -1165,24 +1179,24 @@ though they share the same current time, <strong>GMT</strong> is a <strong>timez
 <strong>UTC</strong> is a <strong>time standard</strong>.</p>
 <p>So how do we check the timezone in R? When you run <code>Sys.timezone()</code>, you should
 be able to see the timezone you are in.</p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb482-1" title="1"><span class="kw">Sys.timezone</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="lubridate.html#cb488-1"></a><span class="kw">Sys.timezone</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;Asia/Calcutta&quot;</code></pre>
 <p>If you do not see the timezone, use <code>Sys.getenv()</code> to get the value of the
 <strong>TZ</strong> environment variable.</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb484-1" title="1"><span class="kw">Sys.getenv</span>(<span class="st">&quot;TZ&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="lubridate.html#cb490-1"></a><span class="kw">Sys.getenv</span>(<span class="st">&quot;TZ&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;&quot;</code></pre>
 <p>If nothing is returned, it means we have to set the timezone. Use <code>Sys.setenv()</code>
 to set the timezone as shown below. The author resides in India and hence the
 timezone is set to <code>Asia/Calcutta</code>. You need to set the timezone in which you
 reside or work.</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb486-1" title="1"><span class="kw">Sys.setenv</span>(<span class="dt">TZ =</span> <span class="st">&quot;Asia/Calcutta&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="lubridate.html#cb492-1"></a><span class="kw">Sys.setenv</span>(<span class="dt">TZ =</span> <span class="st">&quot;Asia/Calcutta&quot;</span>)</span></code></pre></div>
 <p>Another way to get the timezone is through <code>tz()</code> from the lubridate package.</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb487-1" title="1">lubridate<span class="op">::</span><span class="kw">tz</span>(<span class="kw">Sys.time</span>())</a></code></pre></div>
-<pre><code>## [1] &quot;Asia/Calcutta&quot;</code></pre>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="lubridate.html#cb493-1"></a>lubridate<span class="op">::</span><span class="kw">tz</span>(<span class="kw">Sys.time</span>())</span></code></pre></div>
+<pre><code>## [1] &quot;&quot;</code></pre>
 <p>If you want to view the time in a different timezone, use <code>with_tz()</code>. Let us
 look at the current time in <strong>UTC</strong> instead of <strong>Indian Standard Time</strong>.</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb489-1" title="1">lubridate<span class="op">::</span><span class="kw">with_tz</span>(<span class="kw">Sys.time</span>(), <span class="st">&quot;UTC&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;2020-03-30 09:50:49 UTC&quot;</code></pre>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="lubridate.html#cb495-1"></a>lubridate<span class="op">::</span><span class="kw">with_tz</span>(<span class="kw">Sys.time</span>(), <span class="st">&quot;UTC&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2020-06-20 10:18:00 UTC&quot;</code></pre>
 </div>
 <div id="daylight-savings" class="section level3">
 <h3><span class="header-section-number">9.5.3</span> Daylight Savings</h3>
@@ -1202,7 +1216,7 @@ later each day according to the clock. In other words</p>
 </ul>
 <p>In R, the <code>dst()</code> function is an indicator for daylight savings. It returns
 <code>TRUE</code> if daylight saving is in force, <code>FALSE</code> if not and <code>NA</code> if unknown.</p>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb491-1" title="1"><span class="kw">dst</span>(<span class="kw">Sys.Date</span>()) </a></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="lubridate.html#cb497-1"></a><span class="kw">dst</span>(<span class="kw">Sys.Date</span>()) </span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="your-turn-4" class="section level3">
@@ -1432,7 +1446,7 @@ Specification
 </table>
 <p>Using the format argument, we will specify the date format as a character vector
 i.e. enclosed in quotes.</p>
-<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb493-1" title="1"><span class="kw">as.Date</span>(<span class="st">&quot;19/12/12&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%y/%m/%d&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="lubridate.html#cb499-1"></a><span class="kw">as.Date</span>(<span class="st">&quot;19/12/12&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%y/%m/%d&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 <p>Another way in which the release data can be written is <code>2019-Dec-12</code>. We still
 have the year followed by the month and the date but there are a few changes
@@ -1482,7 +1496,7 @@ Dec
 </tbody>
 </table>
 <p>Let us specify the format for the date using the above mapping.</p>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb495-1" title="1"><span class="kw">as.Date</span>(<span class="st">&quot;2019-Dec-12&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%Y-%b-%d&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="lubridate.html#cb501-1"></a><span class="kw">as.Date</span>(<span class="st">&quot;2019-Dec-12&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%Y-%b-%d&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 <p>In both the above examples, we have not dealt with time components. Let us
 include the time of the latest R release in the next one i.e. 
@@ -1551,7 +1565,7 @@ Specification
 </table>
 <p>Since we are dealing with time, we will use <code>as.POSIXct()</code> instead of
 <code>as.Date()</code>.</p>
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb497-1" title="1"><span class="kw">as.POSIXct</span>(<span class="st">&quot;19/12/12 08:05:03&quot;</span>, <span class="dt">tz =</span> <span class="st">&quot;UTC&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%y/%m/%d %H:%M:%S&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="lubridate.html#cb503-1"></a><span class="kw">as.POSIXct</span>(<span class="st">&quot;19/12/12 08:05:03&quot;</span>, <span class="dt">tz =</span> <span class="st">&quot;UTC&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%y/%m/%d %H:%M:%S&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:05:03 UTC&quot;</code></pre>
 <p>In the below table, we look at some of the most widely used conversion
 specifications. You can learn more about these specifications by running
@@ -1715,13 +1729,13 @@ as well as in our GitHub repo. Try them and let us know if you have any doubts.<
 <p><code>guess_formats()</code> from lubridate is a very useful function. It will guess the
 date/time format if you specify the order in which year, month, date, hour,
 minute and second appear.</p>
-<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb499-1" title="1">release_date_formats &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;December 12th 2019&quot;</span>,</a>
-<a class="sourceLine" id="cb499-2" title="2">                        <span class="st">&quot;Dec 12th 19&quot;</span>,</a>
-<a class="sourceLine" id="cb499-3" title="3">                        <span class="st">&quot;dec 12 2019&quot;</span>)</a>
-<a class="sourceLine" id="cb499-4" title="4"></a>
-<a class="sourceLine" id="cb499-5" title="5"><span class="kw">guess_formats</span>(release_date_formats, </a>
-<a class="sourceLine" id="cb499-6" title="6">              <span class="dt">orders =</span> <span class="st">&quot;mdy&quot;</span>, </a>
-<a class="sourceLine" id="cb499-7" title="7">              <span class="dt">print_matches =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb505-1"><a href="lubridate.html#cb505-1"></a>release_date_formats &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;December 12th 2019&quot;</span>,</span>
+<span id="cb505-2"><a href="lubridate.html#cb505-2"></a>                        <span class="st">&quot;Dec 12th 19&quot;</span>,</span>
+<span id="cb505-3"><a href="lubridate.html#cb505-3"></a>                        <span class="st">&quot;dec 12 2019&quot;</span>)</span>
+<span id="cb505-4"><a href="lubridate.html#cb505-4"></a></span>
+<span id="cb505-5"><a href="lubridate.html#cb505-5"></a><span class="kw">guess_formats</span>(release_date_formats, </span>
+<span id="cb505-6"><a href="lubridate.html#cb505-6"></a>              <span class="dt">orders =</span> <span class="st">&quot;mdy&quot;</span>, </span>
+<span id="cb505-7"><a href="lubridate.html#cb505-7"></a>              <span class="dt">print_matches =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>##                           Omdy          mdy         
 ## [1,] &quot;December 12th 2019&quot; &quot;%Om %dth %Y&quot; &quot;%B %dth %Y&quot;
 ## [2,] &quot;Dec 12th 19&quot;        &quot;%Om %dth %y&quot; &quot;%b %dth %y&quot;
@@ -1776,21 +1790,21 @@ with a simple example. The data we have been supplied has date/time as
 character data and in the format <code>YYYYMMDD</code> i.e. nothing separates the year,
 month and date from each other. We will use <code>strptime()</code> to convert this to an
 object of class <code>POSIXlt</code>.</p>
-<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb502-1" title="1">rel_date &lt;-<span class="st"> </span><span class="kw">strptime</span>(<span class="st">&quot;20191212&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)</a>
-<a class="sourceLine" id="cb502-2" title="2"><span class="kw">class</span>(rel_date)</a></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="lubridate.html#cb508-1"></a>rel_date &lt;-<span class="st"> </span><span class="kw">strptime</span>(<span class="st">&quot;20191212&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)</span>
+<span id="cb508-2"><a href="lubridate.html#cb508-2"></a><span class="kw">class</span>(rel_date)</span></code></pre></div>
 <pre><code>## [1] &quot;POSIXlt&quot; &quot;POSIXt&quot;</code></pre>
 <p>If you have a basic knowledge of conversion specifications, you can use
 <code>strptime()</code> to convert character data to <code>POSIXlt</code>. Let us quickly explore the
 functions to convert date/time to character data before moving on to the
 functions from lubridate.</p>
-<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb504-1" title="1">rel_date_strf &lt;-<span class="st"> </span><span class="kw">strftime</span>(rel_date)</a>
-<a class="sourceLine" id="cb504-2" title="2"><span class="kw">class</span>(rel_date_strf)</a></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="lubridate.html#cb510-1"></a>rel_date_strf &lt;-<span class="st"> </span><span class="kw">strftime</span>(rel_date)</span>
+<span id="cb510-2"><a href="lubridate.html#cb510-2"></a><span class="kw">class</span>(rel_date_strf)</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb506-1" title="1">rel_date_format &lt;-<span class="st"> </span><span class="kw">format</span>(rel_date)</a>
-<a class="sourceLine" id="cb506-2" title="2"><span class="kw">class</span>(rel_date_format)</a></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="lubridate.html#cb512-1"></a>rel_date_format &lt;-<span class="st"> </span><span class="kw">format</span>(rel_date)</span>
+<span id="cb512-2"><a href="lubridate.html#cb512-2"></a><span class="kw">class</span>(rel_date_format)</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb508-1" title="1">rel_date_char &lt;-<span class="st"> </span><span class="kw">as.character</span>(rel_date)</a>
-<a class="sourceLine" id="cb508-2" title="2"><span class="kw">class</span>(rel_date_char)</a></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="lubridate.html#cb514-1"></a>rel_date_char &lt;-<span class="st"> </span><span class="kw">as.character</span>(rel_date)</span>
+<span id="cb514-2"><a href="lubridate.html#cb514-2"></a><span class="kw">class</span>(rel_date_char)</span></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <p>As you can see, all the 3 functions converted date/time to character. Time to
 move on and explore the lubridate package. We will start with an example in
@@ -1799,16 +1813,16 @@ in common i.e. the order in which the components appear. In all the 3 formats,
 the year is followed by the month and then the date.</p>
 <p>To parse the release date, we will use <code>parse_date_time()</code> from lubridate which
 parses the input into <code>POSIXct</code> objects.</p>
-<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb510-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;19-12-12&quot;</span>, <span class="st">&quot;20191212&quot;</span>, <span class="st">&quot;19-12 12&quot;</span>)</a>
-<a class="sourceLine" id="cb510-2" title="2"><span class="kw">parse_date_time</span>(release_date, <span class="st">&quot;ymd&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="lubridate.html#cb516-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;19-12-12&quot;</span>, <span class="st">&quot;20191212&quot;</span>, <span class="st">&quot;19-12 12&quot;</span>)</span>
+<span id="cb516-2"><a href="lubridate.html#cb516-2"></a><span class="kw">parse_date_time</span>(release_date, <span class="st">&quot;ymd&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 UTC&quot; &quot;2019-12-12 UTC&quot; &quot;2019-12-12 UTC&quot;</code></pre>
-<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb512-1" title="1"><span class="kw">parse_date_time</span>(release_date, <span class="st">&quot;y m d&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="lubridate.html#cb518-1"></a><span class="kw">parse_date_time</span>(release_date, <span class="st">&quot;y m d&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 UTC&quot; &quot;2019-12-12 UTC&quot; &quot;2019-12-12 UTC&quot;</code></pre>
-<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb514-1" title="1"><span class="kw">parse_date_time</span>(release_date, <span class="st">&quot;%y%m%d&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="lubridate.html#cb520-1"></a><span class="kw">parse_date_time</span>(release_date, <span class="st">&quot;%y%m%d&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 UTC&quot; &quot;2019-12-12 UTC&quot; &quot;2019-12-12 UTC&quot;</code></pre>
 <p>Try to use <code>strptime()</code> in the above example and see what happens. Now, let us
 look at another data set.</p>
-<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb516-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;19-07-05&quot;</span>, <span class="st">&quot;2019-07-05&quot;</span>, <span class="st">&quot;05-07-2019&quot;</span>, <span class="st">&quot;07-05-2019&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="lubridate.html#cb522-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;19-07-05&quot;</span>, <span class="st">&quot;2019-07-05&quot;</span>, <span class="st">&quot;05-07-2019&quot;</span>, <span class="st">&quot;07-05-2019&quot;</span>)</span></code></pre></div>
 <p>What happens in the below case? The same date appears in multiple formats. How
 do we parse them? <code>parse_date_time()</code> allows us to specify mutiple date-time
 formats. Let us first map the dates to their formats.</p>
@@ -1859,7 +1873,7 @@ Specification
 </tbody>
 </table>
 <p>The above specifications can be supplied as a character vector.</p>
-<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb517-1" title="1"><span class="kw">parse_date_time</span>(release_date, <span class="kw">c</span>(<span class="st">&quot;ymd&quot;</span>, <span class="st">&quot;ymd&quot;</span>, <span class="st">&quot;dmy&quot;</span>, <span class="st">&quot;mdy&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="lubridate.html#cb523-1"></a><span class="kw">parse_date_time</span>(release_date, <span class="kw">c</span>(<span class="st">&quot;ymd&quot;</span>, <span class="st">&quot;ymd&quot;</span>, <span class="st">&quot;dmy&quot;</span>, <span class="st">&quot;mdy&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;2019-07-05 UTC&quot; &quot;2019-07-05 UTC&quot; &quot;2019-07-05 UTC&quot; &quot;2019-05-07 UTC&quot;</code></pre>
 <p>Great! We have used both <code>strptime()</code> and <code>parse_date_time()</code> now. Can you tell
 what differentiates <code>parse_date_time()</code> when compared to <code>strptime()</code>? We
@@ -1875,29 +1889,29 @@ summarize it in the points below:</p>
 <li>parse period with hour, minute, second components</li>
 </ul>
 <p>and are explored in the below examples.</p>
-<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb519-1" title="1"><span class="co"># year/month/date</span></a>
-<a class="sourceLine" id="cb519-2" title="2"><span class="kw">ymd</span>(<span class="st">&quot;2019-12-12&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="lubridate.html#cb525-1"></a><span class="co"># year/month/date</span></span>
+<span id="cb525-2"><a href="lubridate.html#cb525-2"></a><span class="kw">ymd</span>(<span class="st">&quot;2019-12-12&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
-<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb521-1" title="1"><span class="co"># year/month/date</span></a>
-<a class="sourceLine" id="cb521-2" title="2"><span class="kw">ymd</span>(<span class="st">&quot;19/12/12&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="lubridate.html#cb527-1"></a><span class="co"># year/month/date</span></span>
+<span id="cb527-2"><a href="lubridate.html#cb527-2"></a><span class="kw">ymd</span>(<span class="st">&quot;19/12/12&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
-<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb523-1" title="1"><span class="co"># date/month/year</span></a>
-<a class="sourceLine" id="cb523-2" title="2"><span class="kw">dmy</span>(<span class="dv">121219</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="lubridate.html#cb529-1"></a><span class="co"># date/month/year</span></span>
+<span id="cb529-2"><a href="lubridate.html#cb529-2"></a><span class="kw">dmy</span>(<span class="dv">121219</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
-<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb525-1" title="1"><span class="co"># year/month/date/hour/minute/second</span></a>
-<a class="sourceLine" id="cb525-2" title="2"><span class="kw">ymd_hms</span>(<span class="dv">191212080503</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="lubridate.html#cb531-1"></a><span class="co"># year/month/date/hour/minute/second</span></span>
+<span id="cb531-2"><a href="lubridate.html#cb531-2"></a><span class="kw">ymd_hms</span>(<span class="dv">191212080503</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:05:03 UTC&quot;</code></pre>
-<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb527-1" title="1"><span class="co"># hour/minute/second</span></a>
-<a class="sourceLine" id="cb527-2" title="2"><span class="kw">hms</span>(<span class="st">&quot;8, 5, 3&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="lubridate.html#cb533-1"></a><span class="co"># hour/minute/second</span></span>
+<span id="cb533-2"><a href="lubridate.html#cb533-2"></a><span class="kw">hms</span>(<span class="st">&quot;8, 5, 3&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;8H 5M 3S&quot;</code></pre>
-<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb529-1" title="1"><span class="co"># hour/minute/second</span></a>
-<a class="sourceLine" id="cb529-2" title="2"><span class="kw">hms</span>(<span class="st">&quot;08:05:03&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="lubridate.html#cb535-1"></a><span class="co"># hour/minute/second</span></span>
+<span id="cb535-2"><a href="lubridate.html#cb535-2"></a><span class="kw">hms</span>(<span class="st">&quot;08:05:03&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;8H 5M 3S&quot;</code></pre>
-<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb531-1" title="1"><span class="co"># minute/second</span></a>
-<a class="sourceLine" id="cb531-2" title="2"><span class="kw">ms</span>(<span class="st">&quot;5,3&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="lubridate.html#cb537-1"></a><span class="co"># minute/second</span></span>
+<span id="cb537-2"><a href="lubridate.html#cb537-2"></a><span class="kw">ms</span>(<span class="st">&quot;5,3&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;5M 3S&quot;</code></pre>
-<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb533-1" title="1"><span class="co"># hour/minute</span></a>
-<a class="sourceLine" id="cb533-2" title="2"><span class="kw">hm</span>(<span class="st">&quot;8, 5&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="lubridate.html#cb539-1"></a><span class="co"># hour/minute</span></span>
+<span id="cb539-2"><a href="lubridate.html#cb539-2"></a><span class="kw">hm</span>(<span class="st">&quot;8, 5&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;8H 5M 0S&quot;</code></pre>
 <p>Note, in a couple of cases where the components are not separated by <code>/</code>, <code>-</code> or
 space, we have not enclosed the values in quotes.</p>
@@ -1939,7 +1953,7 @@ extract date/time components such as</p>
 <li>second</li>
 <li>timezone</li>
 </ul>
-<p><img src="img/day_week_month.png" width="654" style="display: block; margin: auto;" /></p>
+<p><img src="img/day_week_month.png" style="display: block; margin: auto;" /></p>
 <p>The below table outlines the functions we will explore in the first part of this
 section.</p>
 <table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
@@ -2006,36 +2020,36 @@ Get week
 </table>
 <div id="year" class="section level3">
 <h3><span class="header-section-number">9.8.1</span> Year</h3>
-<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb535-1" title="1">release_date &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</a>
-<a class="sourceLine" id="cb535-2" title="2"><span class="kw">year</span>(release_date) </a></code></pre></div>
+<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="lubridate.html#cb541-1"></a>release_date &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(<span class="st">&quot;2019-12-12 08:05:03&quot;</span>)</span>
+<span id="cb541-2"><a href="lubridate.html#cb541-2"></a><span class="kw">year</span>(release_date) </span></code></pre></div>
 <pre><code>## [1] 2019</code></pre>
 </div>
 <div id="month" class="section level3">
 <h3><span class="header-section-number">9.8.2</span> Month</h3>
 <p><code>month()</code> will return the month as a number i.e. <code>07</code> for July.</p>
-<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb537-1" title="1"><span class="kw">month</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="lubridate.html#cb543-1"></a><span class="kw">month</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] 12</code></pre>
 <p>If you want the name of the month instead, use the <code>label</code> argument and set it
 to <code>TRUE</code>. Now it returns <code>Jul</code> instead of <code>07</code>.</p>
-<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb539-1" title="1"><span class="kw">month</span>(release_date, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="lubridate.html#cb545-1"></a><span class="kw">month</span>(release_date, <span class="dt">label =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] Dec
 ## 12 Levels: Jan &lt; Feb &lt; Mar &lt; Apr &lt; May &lt; Jun &lt; Jul &lt; Aug &lt; Sep &lt; ... &lt; Dec</code></pre>
 <p>But this is the abbreviated name and not the full name. How do we get the full
 name of the month? Set the <code>abbr</code> argument to <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb541-1" title="1"><span class="kw">month</span>(release_date, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr  =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="lubridate.html#cb547-1"></a><span class="kw">month</span>(release_date, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr  =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] December
 ## 12 Levels: January &lt; February &lt; March &lt; April &lt; May &lt; June &lt; ... &lt; December</code></pre>
 <p>Ah! now we can see the full name of the month. <code>months()</code> from base R will
 return the full name of the month by default. If you want the abbreviated name,
 use the <code>abbreviate</code> argument and set it to <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb543-1" title="1"><span class="kw">months</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="lubridate.html#cb549-1"></a><span class="kw">months</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] &quot;December&quot;</code></pre>
 </div>
 <div id="week" class="section level3">
 <h3><span class="header-section-number">9.8.3</span> Week</h3>
 <p><code>week()</code> returns the number of complete 7 day periods between the date and 1st
 January plus one.</p>
-<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb545-1" title="1"><span class="kw">week</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="lubridate.html#cb551-1"></a><span class="kw">week</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] 50</code></pre>
 </div>
 <div id="day" class="section level3">
@@ -2111,13 +2125,13 @@ Days in the month
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb547-1" title="1"><span class="kw">day</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="lubridate.html#cb553-1"></a><span class="kw">day</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] 12</code></pre>
-<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb549-1" title="1"><span class="kw">mday</span>(release_date)                 </a></code></pre></div>
+<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="lubridate.html#cb555-1"></a><span class="kw">mday</span>(release_date)                 </span></code></pre></div>
 <pre><code>## [1] 12</code></pre>
-<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb551-1" title="1"><span class="kw">qday</span>(release_date)                 </a></code></pre></div>
+<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="lubridate.html#cb557-1"></a><span class="kw">qday</span>(release_date)                 </span></code></pre></div>
 <pre><code>## [1] 73</code></pre>
-<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb553-1" title="1"><span class="kw">yday</span>(release_date)                 </a></code></pre></div>
+<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="lubridate.html#cb559-1"></a><span class="kw">yday</span>(release_date)                 </span></code></pre></div>
 <pre><code>## [1] 346</code></pre>
 <p><code>wday</code> can return</p>
 <ul>
@@ -2125,26 +2139,26 @@ Days in the month
 <li>abbreviation of the weekday</li>
 <li>full name of the weekday</li>
 </ul>
-<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb555-1" title="1"><span class="kw">wday</span>(release_date)  </a></code></pre></div>
+<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="lubridate.html#cb561-1"></a><span class="kw">wday</span>(release_date)  </span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb557-1" title="1"><span class="kw">wday</span>(release_date, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="lubridate.html#cb563-1"></a><span class="kw">wday</span>(release_date, <span class="dt">label =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] Thu
 ## Levels: Sun &lt; Mon &lt; Tue &lt; Wed &lt; Thu &lt; Fri &lt; Sat</code></pre>
-<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb559-1" title="1"><span class="kw">wday</span>(release_date, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr  =</span> <span class="ot">FALSE</span>)  </a></code></pre></div>
+<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="lubridate.html#cb565-1"></a><span class="kw">wday</span>(release_date, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr  =</span> <span class="ot">FALSE</span>)  </span></code></pre></div>
 <pre><code>## [1] Thursday
 ## 7 Levels: Sunday &lt; Monday &lt; Tuesday &lt; Wednesday &lt; Thursday &lt; ... &lt; Saturday</code></pre>
 <p><code>weekdays()</code> from base R also returns the day of the week (the name and not
 the number). If you want the abbreviated name, use the <code>abbreviate</code> argument.</p>
-<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb561-1" title="1"><span class="kw">weekdays</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="lubridate.html#cb567-1"></a><span class="kw">weekdays</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] &quot;Thursday&quot;</code></pre>
-<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb563-1" title="1"><span class="kw">weekdays</span>(release_date, <span class="dt">abbreviate =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="lubridate.html#cb569-1"></a><span class="kw">weekdays</span>(release_date, <span class="dt">abbreviate =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Thu&quot;</code></pre>
 </div>
 <div id="days-in-month" class="section level3">
 <h3><span class="header-section-number">9.8.5</span> Days in Month</h3>
 <p>If you want to know the number of days in the month, use <code>days_in_month()</code>.
 In our example, the month is December and it has 31 days.</p>
-<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb565-1" title="1"><span class="kw">days_in_month</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="lubridate.html#cb571-1"></a><span class="kw">days_in_month</span>(release_date)</span></code></pre></div>
 <pre><code>## Dec 
 ##  31</code></pre>
 </div>
@@ -2198,35 +2212,35 @@ Number of seconds since <code>1970-01-01</code>
 </table>
 <p>So far we have been looking at date components. Now, let us look at time
 components.</p>
-<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb567-1" title="1"><span class="kw">hour</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="lubridate.html#cb573-1"></a><span class="kw">hour</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] 8</code></pre>
-<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb569-1" title="1"><span class="kw">minute</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="lubridate.html#cb575-1"></a><span class="kw">minute</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb571-1" title="1"><span class="kw">second</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="lubridate.html#cb577-1"></a><span class="kw">second</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p><code>seconds()</code> returns the number of seconds since <code>1970-01-01</code>.</p>
-<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb573-1" title="1"><span class="kw">seconds</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="lubridate.html#cb579-1"></a><span class="kw">seconds</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] &quot;1576137903S&quot;</code></pre>
 </div>
 <div id="quarter-semester" class="section level3">
 <h3><span class="header-section-number">9.8.7</span> Quarter &amp; Semester</h3>
-<p><img src="img/quarter_semester.png" width="496" style="display: block; margin: auto;" /></p>
+<p><img src="img/quarter_semester.png" style="display: block; margin: auto;" /></p>
 <p><code>quarter()</code> will return the quarter from the date. December is in the 4th
 quarter and hence it returns 4.</p>
-<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb575-1" title="1"><span class="kw">quarter</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="lubridate.html#cb581-1"></a><span class="kw">quarter</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
 <p>If you want the year along with the quarter, set the <code>with_year</code> argument to
 <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb577-1" title="1"><span class="kw">quarter</span>(release_date, <span class="dt">with_year =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb583-1"><a href="lubridate.html#cb583-1"></a><span class="kw">quarter</span>(release_date, <span class="dt">with_year =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 2019.4</code></pre>
 <p>In India, the fiscal starts in April and December falls in the 3rd quarter. How
 can we accommodate this change? The <code>fiscal_start</code> argument allows us to set the
 month in which the fiscal begins. We will set it to 4 for April. Now it returns
 3 instead of 4.</p>
-<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb579-1" title="1"><span class="kw">quarter</span>(release_date, <span class="dt">fiscal_start =</span> <span class="dv">4</span>)    </a></code></pre></div>
+<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="lubridate.html#cb585-1"></a><span class="kw">quarter</span>(release_date, <span class="dt">fiscal_start =</span> <span class="dv">4</span>)    </span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p><code>quarters()</code> from base R also returns the quarter.</p>
-<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb581-1" title="1"><span class="kw">quarters</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb587"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb587-1"><a href="lubridate.html#cb587-1"></a><span class="kw">quarters</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] &quot;Q4&quot;</code></pre>
 <table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -2288,12 +2302,12 @@ Get semester
 <div id="extract-date-month-year-from-due-date" class="section level4">
 <h4><span class="header-section-number">9.8.8.1</span> Extract Date, Month &amp; Year from Due Date</h4>
 <p>Let us now extract the date, month and year from the <code>Due</code> column.</p>
-<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb583-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb583-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb583-3" title="3">    <span class="dt">due_day   =</span> <span class="kw">day</span>(Due),</a>
-<a class="sourceLine" id="cb583-4" title="4">    <span class="dt">due_month =</span> <span class="kw">month</span>(Due),</a>
-<a class="sourceLine" id="cb583-5" title="5">    <span class="dt">due_year  =</span> <span class="kw">year</span>(Due)</a>
-<a class="sourceLine" id="cb583-6" title="6">  )</a></code></pre></div>
+<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb589-1"><a href="lubridate.html#cb589-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb589-2"><a href="lubridate.html#cb589-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb589-3"><a href="lubridate.html#cb589-3"></a>    <span class="dt">due_day   =</span> <span class="kw">day</span>(Due),</span>
+<span id="cb589-4"><a href="lubridate.html#cb589-4"></a>    <span class="dt">due_month =</span> <span class="kw">month</span>(Due),</span>
+<span id="cb589-5"><a href="lubridate.html#cb589-5"></a>    <span class="dt">due_year  =</span> <span class="kw">year</span>(Due)</span>
+<span id="cb589-6"><a href="lubridate.html#cb589-6"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 2,466 x 6
 ##    Invoice    Due        Payment    due_day due_month due_year
 ##    &lt;date&gt;     &lt;date&gt;     &lt;date&gt;       &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
@@ -2330,15 +2344,15 @@ the year is a leap year else it will be set to <code>FALSE</code></li>
 <li><code>is_leap</code></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb585-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb585-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb585-3" title="3">    <span class="dt">due_day   =</span> <span class="kw">day</span>(Due),</a>
-<a class="sourceLine" id="cb585-4" title="4">    <span class="dt">due_month =</span> <span class="kw">month</span>(Due),</a>
-<a class="sourceLine" id="cb585-5" title="5">    <span class="dt">due_year  =</span> <span class="kw">year</span>(Due),</a>
-<a class="sourceLine" id="cb585-6" title="6">    <span class="dt">is_leap   =</span> <span class="kw">leap_year</span>(due_year)</a>
-<a class="sourceLine" id="cb585-7" title="7">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb585-8" title="8"><span class="st">  </span><span class="kw">filter</span>(due_month <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>due_day <span class="op">==</span><span class="st"> </span><span class="dv">29</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb585-9" title="9"><span class="st">  </span><span class="kw">select</span>(Due, is_leap) </a></code></pre></div>
+<div class="sourceCode" id="cb591"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb591-1"><a href="lubridate.html#cb591-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb591-2"><a href="lubridate.html#cb591-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb591-3"><a href="lubridate.html#cb591-3"></a>    <span class="dt">due_day   =</span> <span class="kw">day</span>(Due),</span>
+<span id="cb591-4"><a href="lubridate.html#cb591-4"></a>    <span class="dt">due_month =</span> <span class="kw">month</span>(Due),</span>
+<span id="cb591-5"><a href="lubridate.html#cb591-5"></a>    <span class="dt">due_year  =</span> <span class="kw">year</span>(Due),</span>
+<span id="cb591-6"><a href="lubridate.html#cb591-6"></a>    <span class="dt">is_leap   =</span> <span class="kw">leap_year</span>(due_year)</span>
+<span id="cb591-7"><a href="lubridate.html#cb591-7"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb591-8"><a href="lubridate.html#cb591-8"></a><span class="st">  </span><span class="kw">filter</span>(due_month <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>due_day <span class="op">==</span><span class="st"> </span><span class="dv">29</span>) <span class="op">%&gt;%</span></span>
+<span id="cb591-9"><a href="lubridate.html#cb591-9"></a><span class="st">  </span><span class="kw">select</span>(Due, is_leap) </span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   Due        is_leap
 ##   &lt;date&gt;     &lt;lgl&gt;  
@@ -2350,14 +2364,14 @@ the year is a leap year else it will be set to <code>FALSE</code></li>
 <div id="invoices-distribution-by-quarter" class="section level4">
 <h4><span class="header-section-number">9.8.8.3</span> Invoices Distribution by Quarter</h4>
 <p>Let us count the invoices due for each quarter.</p>
-<div class="sourceCode" id="cb587"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb587-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb587-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb587-3" title="3">    <span class="dt">quarter_due =</span> <span class="kw">quarter</span>(Due)</a>
-<a class="sourceLine" id="cb587-4" title="4">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb587-5" title="5"><span class="st">  </span><span class="kw">count</span>(quarter_due)</a></code></pre></div>
+<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb593-1"><a href="lubridate.html#cb593-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb593-2"><a href="lubridate.html#cb593-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb593-3"><a href="lubridate.html#cb593-3"></a>    <span class="dt">quarter_due =</span> <span class="kw">quarter</span>(Due)</span>
+<span id="cb593-4"><a href="lubridate.html#cb593-4"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb593-5"><a href="lubridate.html#cb593-5"></a><span class="st">  </span><span class="kw">count</span>(quarter_due)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##   quarter_due     n
-##         &lt;int&gt; &lt;int&gt;
+## *       &lt;int&gt; &lt;int&gt;
 ## 1           1   521
 ## 2           2   661
 ## 3           3   618
@@ -2397,18 +2411,18 @@ following:</p>
 </ul>
 <p>We need to specify all the components in numbers i.e. we cannot use <code>Jul</code> or
 <code>July</code> for the month. It has to be <code>7</code>.</p>
-<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb589-1" title="1"><span class="kw">make_date</span>(<span class="dt">year  =</span> <span class="dv">2019</span>,</a>
-<a class="sourceLine" id="cb589-2" title="2">          <span class="dt">month =</span> <span class="dv">12</span>,</a>
-<a class="sourceLine" id="cb589-3" title="3">          <span class="dt">day   =</span> <span class="dv">12</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb595-1"><a href="lubridate.html#cb595-1"></a><span class="kw">make_date</span>(<span class="dt">year  =</span> <span class="dv">2019</span>,</span>
+<span id="cb595-2"><a href="lubridate.html#cb595-2"></a>          <span class="dt">month =</span> <span class="dv">12</span>,</span>
+<span id="cb595-3"><a href="lubridate.html#cb595-3"></a>          <span class="dt">day   =</span> <span class="dv">12</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 <p>When you need to include time components, use <code>make_datetime()</code>.</p>
-<div class="sourceCode" id="cb591"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb591-1" title="1"><span class="kw">make_datetime</span>(<span class="dt">year  =</span> <span class="dv">2019</span>,</a>
-<a class="sourceLine" id="cb591-2" title="2">              <span class="dt">month =</span> <span class="dv">12</span>,</a>
-<a class="sourceLine" id="cb591-3" title="3">              <span class="dt">day   =</span> <span class="dv">12</span>,</a>
-<a class="sourceLine" id="cb591-4" title="4">              <span class="dt">hour  =</span> <span class="dv">08</span>,</a>
-<a class="sourceLine" id="cb591-5" title="5">              <span class="dt">min   =</span> <span class="dv">05</span>,</a>
-<a class="sourceLine" id="cb591-6" title="6">              <span class="dt">sec   =</span> <span class="dv">03</span>,</a>
-<a class="sourceLine" id="cb591-7" title="7">              <span class="dt">tz    =</span> <span class="st">&quot;UTC&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb597-1"><a href="lubridate.html#cb597-1"></a><span class="kw">make_datetime</span>(<span class="dt">year  =</span> <span class="dv">2019</span>,</span>
+<span id="cb597-2"><a href="lubridate.html#cb597-2"></a>              <span class="dt">month =</span> <span class="dv">12</span>,</span>
+<span id="cb597-3"><a href="lubridate.html#cb597-3"></a>              <span class="dt">day   =</span> <span class="dv">12</span>,</span>
+<span id="cb597-4"><a href="lubridate.html#cb597-4"></a>              <span class="dt">hour  =</span> <span class="dv">08</span>,</span>
+<span id="cb597-5"><a href="lubridate.html#cb597-5"></a>              <span class="dt">min   =</span> <span class="dv">05</span>,</span>
+<span id="cb597-6"><a href="lubridate.html#cb597-6"></a>              <span class="dt">sec   =</span> <span class="dv">03</span>,</span>
+<span id="cb597-7"><a href="lubridate.html#cb597-7"></a>              <span class="dt">tz    =</span> <span class="st">&quot;UTC&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:05:03 UTC&quot;</code></pre>
 </div>
 <div id="update" class="section level3">
@@ -2424,11 +2438,11 @@ one of its components i.e. any of the following</p>
 components using <code>update()</code>. In the below example, we will start with the date
 of release of R version 3.6.1 and using <code>update()</code>, we will change it to
 <code>2019-12-12</code>.</p>
-<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb593-1" title="1">prev_release &lt;-<span class="st"> </span><span class="kw">ymd</span>(<span class="st">&quot;2019-07-05&quot;</span>)</a>
-<a class="sourceLine" id="cb593-2" title="2">prev_release <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb593-3" title="3"><span class="st">  </span><span class="kw">update</span>(<span class="dt">year  =</span> <span class="dv">2019</span>,</a>
-<a class="sourceLine" id="cb593-4" title="4">         <span class="dt">month =</span> <span class="dv">12</span>,</a>
-<a class="sourceLine" id="cb593-5" title="5">         <span class="dt">mday  =</span> <span class="dv">12</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="lubridate.html#cb599-1"></a>prev_release &lt;-<span class="st"> </span><span class="kw">ymd</span>(<span class="st">&quot;2019-07-05&quot;</span>)</span>
+<span id="cb599-2"><a href="lubridate.html#cb599-2"></a>prev_release <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb599-3"><a href="lubridate.html#cb599-3"></a><span class="st">  </span><span class="kw">update</span>(<span class="dt">year  =</span> <span class="dv">2019</span>,</span>
+<span id="cb599-4"><a href="lubridate.html#cb599-4"></a>         <span class="dt">month =</span> <span class="dv">12</span>,</span>
+<span id="cb599-5"><a href="lubridate.html#cb599-5"></a>         <span class="dt">mday  =</span> <span class="dv">12</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12&quot;</code></pre>
 </div>
 <div id="date-sequence" class="section level3">
@@ -2511,12 +2525,12 @@ Use length of this value as length of sequence
 <code>2019-12-31</code>. The unit of increment should be a year i.e. the difference
 between the dates in the sequence should be 1 year, specified using the <code>by</code>
 argument.</p>
-<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb595-1" title="1"><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">to =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2019-12-31&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;year&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="lubridate.html#cb601-1"></a><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">to =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2019-12-31&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;year&quot;</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;2010-01-01&quot; &quot;2011-01-01&quot; &quot;2012-01-01&quot; &quot;2013-01-01&quot; &quot;2014-01-01&quot;
 ##  [6] &quot;2015-01-01&quot; &quot;2016-01-01&quot; &quot;2017-01-01&quot; &quot;2018-01-01&quot; &quot;2019-01-01&quot;</code></pre>
 <p>In the next example, we change the unit of increment to a quarter i.e. the
 difference between the dates in the sequence should be a quarter or 3 months.</p>
-<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb597-1" title="1"><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2009-12-12&quot;</span>), <span class="dt">to =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2019-12-12&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;quarter&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="lubridate.html#cb603-1"></a><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2009-12-12&quot;</span>), <span class="dt">to =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2019-12-12&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;quarter&quot;</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;2009-12-12&quot; &quot;2010-03-12&quot; &quot;2010-06-12&quot; &quot;2010-09-12&quot; &quot;2010-12-12&quot;
 ##  [6] &quot;2011-03-12&quot; &quot;2011-06-12&quot; &quot;2011-09-12&quot; &quot;2011-12-12&quot; &quot;2012-03-12&quot;
 ## [11] &quot;2012-06-12&quot; &quot;2012-09-12&quot; &quot;2012-12-12&quot; &quot;2013-03-12&quot; &quot;2013-06-12&quot;
@@ -2532,7 +2546,7 @@ sequence. We do this using the <code>length.out</code> argument which specifies 
 length of the sequence. We want the sequence to have 10 dates including the
 start and end date, and hence we supply the value <code>10</code> for the <code>length.out</code>
 argument.</p>
-<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb599-1" title="1"><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">to =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2019-12-31&quot;</span>), <span class="dt">length.out =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb605-1"><a href="lubridate.html#cb605-1"></a><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">to =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2019-12-31&quot;</span>), <span class="dt">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;2010-01-01&quot; &quot;2011-02-10&quot; &quot;2012-03-22&quot; &quot;2013-05-02&quot; &quot;2014-06-11&quot;
 ##  [6] &quot;2015-07-22&quot; &quot;2016-08-31&quot; &quot;2017-10-10&quot; &quot;2018-11-20&quot; &quot;2019-12-31&quot;</code></pre>
 <p>In all of the previous examples, we have specified both the start and the end
@@ -2542,7 +2556,7 @@ sequence of dates starting from <code>2010-01-01</code>. The unit of increment s
 year i.e. the difference between the dates in the sequence should be 1 year and
 the length of the sequence should be <code>10</code> i.e. the number of dates including the
 start date should be <code>10</code>.</p>
-<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb601-1" title="1"><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">length.out =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb607"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb607-1"><a href="lubridate.html#cb607-1"></a><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;2010-01-01&quot; &quot;2011-01-01&quot; &quot;2012-01-01&quot; &quot;2013-01-01&quot; &quot;2014-01-01&quot;
 ##  [6] &quot;2015-01-01&quot; &quot;2016-01-01&quot; &quot;2017-01-01&quot; &quot;2018-01-01&quot; &quot;2019-01-01&quot;</code></pre>
 <p>The unit of increment can include multiples and <code>+/-</code> sign i.e. it can be an
@@ -2552,7 +2566,7 @@ instead of <code>1</code>. This is achieved by specifying the unit of increment 
 first followed by a space and then the unit. In our example, it is <code>2 year</code>. As
 you can see, the sequence now goes all the way till <code>2028</code> and the gap between
 the dates is 2 years.</p>
-<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb603-1" title="1"><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;2 year&quot;</span>, <span class="dt">length.out =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb609"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb609-1"><a href="lubridate.html#cb609-1"></a><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;2 year&quot;</span>, <span class="dt">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;2010-01-01&quot; &quot;2012-01-01&quot; &quot;2014-01-01&quot; &quot;2016-01-01&quot; &quot;2018-01-01&quot;
 ##  [6] &quot;2020-01-01&quot; &quot;2022-01-01&quot; &quot;2024-01-01&quot; &quot;2026-01-01&quot; &quot;2028-01-01&quot;</code></pre>
 <p>Let us say instead of increment we want to decrement the dates i.e. the sequence
@@ -2560,14 +2574,14 @@ of dates will go backwards as shown in the next example. We achieve this by
 using the <code>-</code> sign along with the unit of decrement. The sequence of dates in
 next example starts from <code>2010</code> and goes back upto <code>1992</code> and the difference
 between the dates in 2 years.</p>
-<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb605-1" title="1"><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;-2 year&quot;</span>, <span class="dt">length.out =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb611"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb611-1"><a href="lubridate.html#cb611-1"></a><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;-2 year&quot;</span>, <span class="dt">length.out =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;2010-01-01&quot; &quot;2008-01-01&quot; &quot;2006-01-01&quot; &quot;2004-01-01&quot; &quot;2002-01-01&quot;
 ##  [6] &quot;2000-01-01&quot; &quot;1998-01-01&quot; &quot;1996-01-01&quot; &quot;1994-01-01&quot; &quot;1992-01-01&quot;</code></pre>
 <p>In the last example, we will explore the <code>along.with</code> argument. Here we have
 supplied a vector which is a sequence of numbers from 1 to 10. The length of
 this vector is 10 and the same length is used as the length of the sequence i.e. 
 the length of value supplied to <code>along.with</code> is also the length of the sequence.</p>
-<div class="sourceCode" id="cb607"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb607-1" title="1"><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;-2 year&quot;</span>, <span class="dt">along.with =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb613"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb613-1"><a href="lubridate.html#cb613-1"></a><span class="kw">seq.Date</span>(<span class="dt">from =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;-2 year&quot;</span>, <span class="dt">along.with =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;2010-01-01&quot; &quot;2008-01-01&quot; &quot;2006-01-01&quot; &quot;2004-01-01&quot; &quot;2002-01-01&quot;
 ##  [6] &quot;2000-01-01&quot; &quot;1998-01-01&quot; &quot;1996-01-01&quot; &quot;1994-01-01&quot; &quot;1992-01-01&quot;</code></pre>
 </div>
@@ -2580,11 +2594,11 @@ of the following from the lubridate package.</p>
 <li><code>is.POSIXct()</code></li>
 <li><code>is.POSIXlt()</code></li>
 </ul>
-<div class="sourceCode" id="cb609"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb609-1" title="1"><span class="kw">is.Date</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb615"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb615-1"><a href="lubridate.html#cb615-1"></a><span class="kw">is.Date</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb611"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb611-1" title="1"><span class="kw">is.POSIXct</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb617-1"><a href="lubridate.html#cb617-1"></a><span class="kw">is.POSIXct</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb613"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb613-1" title="1"><span class="kw">is.POSIXlt</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb619-1"><a href="lubridate.html#cb619-1"></a><span class="kw">is.POSIXlt</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="your-turn-8" class="section level3">
@@ -2612,9 +2626,9 @@ of the course using <code>interval</code>.</p>
 <p><br></p>
 <p><img src="img/course_interval.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb615"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb615-1" title="1">course_start    &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-12&#39;</span>)</a>
-<a class="sourceLine" id="cb615-2" title="2">course_end      &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-21&#39;</span>)</a>
-<a class="sourceLine" id="cb615-3" title="3"><span class="kw">interval</span>(course_start, course_end)</a></code></pre></div>
+<div class="sourceCode" id="cb621"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb621-1"><a href="lubridate.html#cb621-1"></a>course_start    &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-12&#39;</span>)</span>
+<span id="cb621-2"><a href="lubridate.html#cb621-2"></a>course_end      &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-21&#39;</span>)</span>
+<span id="cb621-3"><a href="lubridate.html#cb621-3"></a><span class="kw">interval</span>(course_start, course_end)</span></code></pre></div>
 <pre><code>## [1] 2017-04-12 UTC--2017-04-21 UTC</code></pre>
 <p>If you observe carefully, the interval is represented by the course start and
 end dates. We will learn how to use intervals in the case study.</p>
@@ -2632,12 +2646,12 @@ and then check if it overlaps with <code>course_interval</code>.</p>
 <p><br></p>
 <p><img src="img/interval_overlap.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb617-1" title="1">vacation_start    &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-19&#39;</span>)</a>
-<a class="sourceLine" id="cb617-2" title="2">vacation_end      &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-25&#39;</span>)</a>
-<a class="sourceLine" id="cb617-3" title="3">course_interval   &lt;-<span class="st"> </span><span class="kw">interval</span>(course_start, course_end)</a>
-<a class="sourceLine" id="cb617-4" title="4">vacation_interval &lt;-<span class="st"> </span><span class="kw">interval</span>(vacation_start, vacation_end)</a>
-<a class="sourceLine" id="cb617-5" title="5"><span class="kw">int_overlaps</span>(course_interval, vacation_interval)</a>
-<a class="sourceLine" id="cb617-6" title="6"><span class="co">## [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb623-1"><a href="lubridate.html#cb623-1"></a>vacation_start    &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-19&#39;</span>)</span>
+<span id="cb623-2"><a href="lubridate.html#cb623-2"></a>vacation_end      &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-25&#39;</span>)</span>
+<span id="cb623-3"><a href="lubridate.html#cb623-3"></a>course_interval   &lt;-<span class="st"> </span><span class="kw">interval</span>(course_start, course_end)</span>
+<span id="cb623-4"><a href="lubridate.html#cb623-4"></a>vacation_interval &lt;-<span class="st"> </span><span class="kw">interval</span>(vacation_start, vacation_end)</span>
+<span id="cb623-5"><a href="lubridate.html#cb623-5"></a><span class="kw">int_overlaps</span>(course_interval, vacation_interval)</span>
+<span id="cb623-6"><a href="lubridate.html#cb623-6"></a><span class="co">## [1] TRUE</span></span></code></pre></div>
 </div>
 <div id="how-many-invoices-were-settled-within-due-date" class="section level4">
 <h4><span class="header-section-number">9.10.1.2</span> How many invoices were settled within due date?</h4>
@@ -2649,14 +2663,14 @@ the due date. To do this, we will:</p>
 <li>another interval for <code>due_next</code> and the payment date</li>
 <li>if the intervals overlap, the payment was made within the due date</li>
 </ul>
-<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb618-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb618-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb618-3" title="3">    <span class="dt">inv_due_interval =</span> <span class="kw">interval</span>(Invoice, Due),</a>
-<a class="sourceLine" id="cb618-4" title="4">    <span class="dt">due_next         =</span> Due <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb618-5" title="5">    <span class="dt">due_pay_interval =</span> <span class="kw">interval</span>(due_next, Payment),</a>
-<a class="sourceLine" id="cb618-6" title="6">    <span class="dt">overlaps         =</span> <span class="kw">int_overlaps</span>(inv_due_interval, due_pay_interval)</a>
-<a class="sourceLine" id="cb618-7" title="7">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb618-8" title="8"><span class="st">  </span><span class="kw">select</span>(Invoice, Due, Payment, overlaps)</a></code></pre></div>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="lubridate.html#cb624-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb624-2"><a href="lubridate.html#cb624-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb624-3"><a href="lubridate.html#cb624-3"></a>    <span class="dt">inv_due_interval =</span> <span class="kw">interval</span>(Invoice, Due),</span>
+<span id="cb624-4"><a href="lubridate.html#cb624-4"></a>    <span class="dt">due_next         =</span> Due <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">1</span>),</span>
+<span id="cb624-5"><a href="lubridate.html#cb624-5"></a>    <span class="dt">due_pay_interval =</span> <span class="kw">interval</span>(due_next, Payment),</span>
+<span id="cb624-6"><a href="lubridate.html#cb624-6"></a>    <span class="dt">overlaps         =</span> <span class="kw">int_overlaps</span>(inv_due_interval, due_pay_interval)</span>
+<span id="cb624-7"><a href="lubridate.html#cb624-7"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb624-8"><a href="lubridate.html#cb624-8"></a><span class="st">  </span><span class="kw">select</span>(Invoice, Due, Payment, overlaps)</span></code></pre></div>
 <pre><code>## # A tibble: 2,466 x 4
 ##    Invoice    Due        Payment    overlaps
 ##    &lt;date&gt;     &lt;date&gt;     &lt;date&gt;     &lt;lgl&gt;   
@@ -2674,14 +2688,14 @@ the due date. To do this, we will:</p>
 <p>Below we show another method to count the number of invoices paid within the
 due date. Instead of using <code>days</code> to change the due date, we use <code>int_shift</code>
 to shift it by 1 day.</p>
-<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb620-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb620-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb620-3" title="3">    <span class="dt">inv_due_interval =</span> <span class="kw">interval</span>(Invoice, Due),</a>
-<a class="sourceLine" id="cb620-4" title="4">    <span class="dt">due_pay_interval =</span> <span class="kw">interval</span>(Due, Payment),  </a>
-<a class="sourceLine" id="cb620-5" title="5">    <span class="dt">due_pay_next     =</span> <span class="kw">int_shift</span>(due_pay_interval, <span class="dt">by =</span> <span class="kw">days</span>(<span class="dv">1</span>)),</a>
-<a class="sourceLine" id="cb620-6" title="6">    <span class="dt">overlaps         =</span> <span class="kw">int_overlaps</span>(inv_due_interval, due_pay_next)</a>
-<a class="sourceLine" id="cb620-7" title="7">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb620-8" title="8"><span class="st">  </span><span class="kw">select</span>(Invoice, Due, Payment, overlaps)</a></code></pre></div>
+<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb626-1"><a href="lubridate.html#cb626-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb626-2"><a href="lubridate.html#cb626-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb626-3"><a href="lubridate.html#cb626-3"></a>    <span class="dt">inv_due_interval =</span> <span class="kw">interval</span>(Invoice, Due),</span>
+<span id="cb626-4"><a href="lubridate.html#cb626-4"></a>    <span class="dt">due_pay_interval =</span> <span class="kw">interval</span>(Due, Payment),  </span>
+<span id="cb626-5"><a href="lubridate.html#cb626-5"></a>    <span class="dt">due_pay_next     =</span> <span class="kw">int_shift</span>(due_pay_interval, <span class="dt">by =</span> <span class="kw">days</span>(<span class="dv">1</span>)),</span>
+<span id="cb626-6"><a href="lubridate.html#cb626-6"></a>    <span class="dt">overlaps         =</span> <span class="kw">int_overlaps</span>(inv_due_interval, due_pay_next)</span>
+<span id="cb626-7"><a href="lubridate.html#cb626-7"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb626-8"><a href="lubridate.html#cb626-8"></a><span class="st">  </span><span class="kw">select</span>(Invoice, Due, Payment, overlaps)</span></code></pre></div>
 <pre><code>## # A tibble: 2,466 x 4
 ##    Invoice    Due        Payment    overlaps
 ##    &lt;date&gt;     &lt;date&gt;     &lt;date&gt;     &lt;lgl&gt;   
@@ -2700,13 +2714,13 @@ to shift it by 1 day.</p>
 the interval between the due day and the payment day. If we do not increment,
 both the intervals will share a common date i.e. the due date and they will
 always overlap as shown below:</p>
-<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb622-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb622-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb622-3" title="3">    <span class="dt">inv_due_interval =</span> <span class="kw">interval</span>(Invoice, Due),</a>
-<a class="sourceLine" id="cb622-4" title="4">    <span class="dt">due_pay_interval =</span> <span class="kw">interval</span>(Due, Payment),</a>
-<a class="sourceLine" id="cb622-5" title="5">    <span class="dt">overlaps         =</span> <span class="kw">int_overlaps</span>(inv_due_interval, due_pay_interval)</a>
-<a class="sourceLine" id="cb622-6" title="6">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb622-7" title="7"><span class="st">  </span><span class="kw">select</span>(Invoice, Due, Payment, overlaps)</a></code></pre></div>
+<div class="sourceCode" id="cb628"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb628-1"><a href="lubridate.html#cb628-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb628-2"><a href="lubridate.html#cb628-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb628-3"><a href="lubridate.html#cb628-3"></a>    <span class="dt">inv_due_interval =</span> <span class="kw">interval</span>(Invoice, Due),</span>
+<span id="cb628-4"><a href="lubridate.html#cb628-4"></a>    <span class="dt">due_pay_interval =</span> <span class="kw">interval</span>(Due, Payment),</span>
+<span id="cb628-5"><a href="lubridate.html#cb628-5"></a>    <span class="dt">overlaps         =</span> <span class="kw">int_overlaps</span>(inv_due_interval, due_pay_interval)</span>
+<span id="cb628-6"><a href="lubridate.html#cb628-6"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb628-7"><a href="lubridate.html#cb628-7"></a><span class="st">  </span><span class="kw">select</span>(Invoice, Due, Payment, overlaps)</span></code></pre></div>
 <pre><code>## # A tibble: 2,466 x 4
 ##    Invoice    Due        Payment    overlaps
 ##    &lt;date&gt;     &lt;date&gt;     &lt;date&gt;     &lt;lgl&gt;   
@@ -2734,19 +2748,19 @@ interval by:</p>
 <p><br></p>
 <p><img src="img/shift_interval.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb624-1" title="1">course_interval &lt;-<span class="st"> </span><span class="kw">interval</span>(course_start, course_end)</a>
-<a class="sourceLine" id="cb624-2" title="2"></a>
-<a class="sourceLine" id="cb624-3" title="3"><span class="co"># shift course_interval by 1 day </span></a>
-<a class="sourceLine" id="cb624-4" title="4"><span class="kw">int_shift</span>(course_interval, <span class="dt">by =</span> <span class="kw">days</span>(<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb624-5" title="5"><span class="co">## [1] 2017-04-13 UTC--2017-04-22 UTC</span></a>
-<a class="sourceLine" id="cb624-6" title="6"></a>
-<a class="sourceLine" id="cb624-7" title="7"><span class="co"># shift course_interval by 3 weeks</span></a>
-<a class="sourceLine" id="cb624-8" title="8"><span class="kw">int_shift</span>(course_interval, <span class="dt">by =</span> <span class="kw">weeks</span>(<span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb624-9" title="9"><span class="co">## [1] 2017-05-03 UTC--2017-05-12 UTC</span></a>
-<a class="sourceLine" id="cb624-10" title="10"></a>
-<a class="sourceLine" id="cb624-11" title="11"><span class="co"># shift course_interval by 1 year</span></a>
-<a class="sourceLine" id="cb624-12" title="12"><span class="kw">int_shift</span>(course_interval, <span class="dt">by =</span> <span class="kw">years</span>(<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb624-13" title="13"><span class="co">## [1] 2018-04-12 UTC--2018-04-21 UTC</span></a></code></pre></div>
+<div class="sourceCode" id="cb630"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb630-1"><a href="lubridate.html#cb630-1"></a>course_interval &lt;-<span class="st"> </span><span class="kw">interval</span>(course_start, course_end)</span>
+<span id="cb630-2"><a href="lubridate.html#cb630-2"></a></span>
+<span id="cb630-3"><a href="lubridate.html#cb630-3"></a><span class="co"># shift course_interval by 1 day </span></span>
+<span id="cb630-4"><a href="lubridate.html#cb630-4"></a><span class="kw">int_shift</span>(course_interval, <span class="dt">by =</span> <span class="kw">days</span>(<span class="dv">1</span>))</span>
+<span id="cb630-5"><a href="lubridate.html#cb630-5"></a><span class="co">## [1] 2017-04-13 UTC--2017-04-22 UTC</span></span>
+<span id="cb630-6"><a href="lubridate.html#cb630-6"></a></span>
+<span id="cb630-7"><a href="lubridate.html#cb630-7"></a><span class="co"># shift course_interval by 3 weeks</span></span>
+<span id="cb630-8"><a href="lubridate.html#cb630-8"></a><span class="kw">int_shift</span>(course_interval, <span class="dt">by =</span> <span class="kw">weeks</span>(<span class="dv">3</span>))</span>
+<span id="cb630-9"><a href="lubridate.html#cb630-9"></a><span class="co">## [1] 2017-05-03 UTC--2017-05-12 UTC</span></span>
+<span id="cb630-10"><a href="lubridate.html#cb630-10"></a></span>
+<span id="cb630-11"><a href="lubridate.html#cb630-11"></a><span class="co"># shift course_interval by 1 year</span></span>
+<span id="cb630-12"><a href="lubridate.html#cb630-12"></a><span class="kw">int_shift</span>(course_interval, <span class="dt">by =</span> <span class="kw">years</span>(<span class="dv">1</span>))</span>
+<span id="cb630-13"><a href="lubridate.html#cb630-13"></a><span class="co">## [1] 2018-04-12 UTC--2018-04-21 UTC</span></span></code></pre></div>
 </div>
 </div>
 <div id="within" class="section level3">
@@ -2757,9 +2771,9 @@ return <code>TRUE</code> if a date falls within an interval.</p>
 <p><br></p>
 <p><img src="img/within.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb625-1" title="1">conference &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-15&#39;</span>)</a>
-<a class="sourceLine" id="cb625-2" title="2">conference <span class="op">%within%</span><span class="st"> </span>course_interval</a>
-<a class="sourceLine" id="cb625-3" title="3"><span class="co">## [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="lubridate.html#cb631-1"></a>conference &lt;-<span class="st"> </span><span class="kw">as_date</span>(<span class="st">&#39;2017-04-15&#39;</span>)</span>
+<span id="cb631-2"><a href="lubridate.html#cb631-2"></a>conference <span class="op">%within%</span><span class="st"> </span>course_interval</span>
+<span id="cb631-3"><a href="lubridate.html#cb631-3"></a><span class="co">## [1] TRUE</span></span></code></pre></div>
 <div id="how-many-invoices-were-settled-within-due-date-1" class="section level4">
 <h4><span class="header-section-number">9.10.2.1</span> How many invoices were settled within due date?</h4>
 <p>Let us use <code>%within%</code> to count the number of invoices that were settled within
@@ -2768,12 +2782,12 @@ the due date. We will do this by:</p>
 <li>creating an interval for the invoice and due date</li>
 <li>check if the payment date falls within the above interval</li>
 </ul>
-<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb626-1" title="1">transact <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb626-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb626-3" title="3">    <span class="dt">inv_due_interval =</span> <span class="kw">interval</span>(Invoice, Due),</a>
-<a class="sourceLine" id="cb626-4" title="4">    <span class="dt">overlaps         =</span> Payment <span class="op">%within%</span><span class="st"> </span>inv_due_interval</a>
-<a class="sourceLine" id="cb626-5" title="5">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb626-6" title="6"><span class="st">  </span><span class="kw">select</span>(Due, Payment, overlaps)</a></code></pre></div>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="lubridate.html#cb632-1"></a>transact <span class="op">%&gt;%</span></span>
+<span id="cb632-2"><a href="lubridate.html#cb632-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb632-3"><a href="lubridate.html#cb632-3"></a>    <span class="dt">inv_due_interval =</span> <span class="kw">interval</span>(Invoice, Due),</span>
+<span id="cb632-4"><a href="lubridate.html#cb632-4"></a>    <span class="dt">overlaps         =</span> Payment <span class="op">%within%</span><span class="st"> </span>inv_due_interval</span>
+<span id="cb632-5"><a href="lubridate.html#cb632-5"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb632-6"><a href="lubridate.html#cb632-6"></a><span class="st">  </span><span class="kw">select</span>(Due, Payment, overlaps)</span></code></pre></div>
 <pre><code>## # A tibble: 2,466 x 3
 ##    Due        Payment    overlaps
 ##    &lt;date&gt;     &lt;date&gt;     &lt;lgl&gt;   
@@ -2795,130 +2809,130 @@ the due date. We will do this by:</p>
 <p>Duration is timespan measured in seconds. To create a duration object, use
 <code>duration()</code>. The timespan can be anything from seconds to years but it will be
 represented as seconds. Let us begin by creating a duration object where the timespan is in seconds.</p>
-<div class="sourceCode" id="cb628"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb628-1" title="1"><span class="kw">duration</span>(<span class="dv">50</span>, <span class="st">&quot;seconds&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="lubridate.html#cb634-1"></a><span class="kw">duration</span>(<span class="dv">50</span>, <span class="st">&quot;seconds&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;50s&quot;</code></pre>
 <p>Another way to specify the above timespan is shown below:</p>
-<div class="sourceCode" id="cb630"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb630-1" title="1"><span class="kw">duration</span>(<span class="dt">second =</span> <span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb636-1"><a href="lubridate.html#cb636-1"></a><span class="kw">duration</span>(<span class="dt">second =</span> <span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;50s&quot;</code></pre>
 <p>As you can see, the output is same in both the cases. Let us increase the timespan to 60 seconds and see what happens.</p>
-<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" title="1"><span class="kw">duration</span>(<span class="dt">second =</span> <span class="dv">60</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="lubridate.html#cb638-1"></a><span class="kw">duration</span>(<span class="dt">second =</span> <span class="dv">60</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;60s (~1 minutes)&quot;</code></pre>
 <p>Although the timespan is primarily measured in seconds, it also shows <code>~1 minutes</code> in the brackets. As the length of the timespan increases i.e. the number becomes large, it is represented using larger units such as hours and days. In the below examples, as the number of seconds increases, you can observe larger units being used to represent the timespan.</p>
-<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb634-1" title="1"><span class="co"># minutes</span></a>
-<a class="sourceLine" id="cb634-2" title="2"><span class="kw">duration</span>(<span class="dt">minute =</span> <span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="lubridate.html#cb640-1"></a><span class="co"># minutes</span></span>
+<span id="cb640-2"><a href="lubridate.html#cb640-2"></a><span class="kw">duration</span>(<span class="dt">minute =</span> <span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;3000s (~50 minutes)&quot;</code></pre>
-<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb636-1" title="1"><span class="kw">duration</span>(<span class="dt">minute =</span> <span class="dv">60</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="lubridate.html#cb642-1"></a><span class="kw">duration</span>(<span class="dt">minute =</span> <span class="dv">60</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;3600s (~1 hours)&quot;</code></pre>
-<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb638-1" title="1"><span class="co"># hours</span></a>
-<a class="sourceLine" id="cb638-2" title="2"><span class="kw">duration</span>(<span class="dt">hour =</span> <span class="dv">23</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="lubridate.html#cb644-1"></a><span class="co"># hours</span></span>
+<span id="cb644-2"><a href="lubridate.html#cb644-2"></a><span class="kw">duration</span>(<span class="dt">hour =</span> <span class="dv">23</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;82800s (~23 hours)&quot;</code></pre>
-<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb640-1" title="1"><span class="kw">duration</span>(<span class="dt">hour =</span> <span class="dv">24</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb646-1"><a href="lubridate.html#cb646-1"></a><span class="kw">duration</span>(<span class="dt">hour =</span> <span class="dv">24</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;86400s (~1 days)&quot;</code></pre>
 <p>The following helper functions can be used to create duration objects as well.</p>
-<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" title="1"><span class="co"># default</span></a>
-<a class="sourceLine" id="cb642-2" title="2"><span class="kw">dseconds</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="lubridate.html#cb648-1"></a><span class="co"># default</span></span>
+<span id="cb648-2"><a href="lubridate.html#cb648-2"></a><span class="kw">dseconds</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;1s&quot;</code></pre>
-<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" title="1"><span class="kw">dminutes</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="lubridate.html#cb650-1"></a><span class="kw">dminutes</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;60s (~1 minutes)&quot;</code></pre>
-<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb646-1" title="1"><span class="co"># seconds</span></a>
-<a class="sourceLine" id="cb646-2" title="2"><span class="kw">duration</span>(<span class="dt">second =</span> <span class="dv">59</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb652-1"><a href="lubridate.html#cb652-1"></a><span class="co"># seconds</span></span>
+<span id="cb652-2"><a href="lubridate.html#cb652-2"></a><span class="kw">duration</span>(<span class="dt">second =</span> <span class="dv">59</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;59s&quot;</code></pre>
-<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb648-1" title="1"><span class="kw">dseconds</span>(<span class="dv">59</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb654-1"><a href="lubridate.html#cb654-1"></a><span class="kw">dseconds</span>(<span class="dv">59</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;59s&quot;</code></pre>
-<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb650-1" title="1"><span class="co"># minutes</span></a>
-<a class="sourceLine" id="cb650-2" title="2"><span class="kw">duration</span>(<span class="dt">minute =</span> <span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb656-1"><a href="lubridate.html#cb656-1"></a><span class="co"># minutes</span></span>
+<span id="cb656-2"><a href="lubridate.html#cb656-2"></a><span class="kw">duration</span>(<span class="dt">minute =</span> <span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;3000s (~50 minutes)&quot;</code></pre>
-<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb652-1" title="1"><span class="kw">dminutes</span>(<span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb658"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb658-1"><a href="lubridate.html#cb658-1"></a><span class="kw">dminutes</span>(<span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;3000s (~50 minutes)&quot;</code></pre>
-<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb654-1" title="1"><span class="co"># hours</span></a>
-<a class="sourceLine" id="cb654-2" title="2"><span class="kw">duration</span>(<span class="dt">hour =</span> <span class="dv">36</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb660-1"><a href="lubridate.html#cb660-1"></a><span class="co"># hours</span></span>
+<span id="cb660-2"><a href="lubridate.html#cb660-2"></a><span class="kw">duration</span>(<span class="dt">hour =</span> <span class="dv">36</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;129600s (~1.5 days)&quot;</code></pre>
-<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb656-1" title="1"><span class="kw">dhours</span>(<span class="dv">36</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb662-1"><a href="lubridate.html#cb662-1"></a><span class="kw">dhours</span>(<span class="dv">36</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;129600s (~1.5 days)&quot;</code></pre>
-<div class="sourceCode" id="cb658"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb658-1" title="1"><span class="co"># weeks</span></a>
-<a class="sourceLine" id="cb658-2" title="2"><span class="kw">duration</span>(<span class="dt">week =</span> <span class="dv">56</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb664-1"><a href="lubridate.html#cb664-1"></a><span class="co"># weeks</span></span>
+<span id="cb664-2"><a href="lubridate.html#cb664-2"></a><span class="kw">duration</span>(<span class="dt">week =</span> <span class="dv">56</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;33868800s (~1.07 years)&quot;</code></pre>
-<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb660-1" title="1"><span class="kw">dweeks</span>(<span class="dv">56</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb666"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb666-1"><a href="lubridate.html#cb666-1"></a><span class="kw">dweeks</span>(<span class="dv">56</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;33868800s (~1.07 years)&quot;</code></pre>
 <p>Let us use the above helper functions to get the course length in different units.</p>
 <p><img src="img/convert.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb662-1" title="1"><span class="co"># course length in seconds </span></a>
-<a class="sourceLine" id="cb662-2" title="2">course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dseconds</span>()</a>
-<a class="sourceLine" id="cb662-3" title="3"><span class="co">## [1] 777600</span></a>
-<a class="sourceLine" id="cb662-4" title="4"></a>
-<a class="sourceLine" id="cb662-5" title="5"><span class="co"># course length in minutes</span></a>
-<a class="sourceLine" id="cb662-6" title="6">course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dminutes</span>()</a>
-<a class="sourceLine" id="cb662-7" title="7"><span class="co">## [1] 12960</span></a>
-<a class="sourceLine" id="cb662-8" title="8"></a>
-<a class="sourceLine" id="cb662-9" title="9"><span class="co"># course length in hours</span></a>
-<a class="sourceLine" id="cb662-10" title="10">course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dhours</span>()</a>
-<a class="sourceLine" id="cb662-11" title="11"><span class="co">## [1] 216</span></a>
-<a class="sourceLine" id="cb662-12" title="12"></a>
-<a class="sourceLine" id="cb662-13" title="13"><span class="co"># course length in weeks</span></a>
-<a class="sourceLine" id="cb662-14" title="14">course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dweeks</span>()</a>
-<a class="sourceLine" id="cb662-15" title="15"><span class="co">## [1] 1.285714</span></a>
-<a class="sourceLine" id="cb662-16" title="16"></a>
-<a class="sourceLine" id="cb662-17" title="17"><span class="co"># course length in years</span></a>
-<a class="sourceLine" id="cb662-18" title="18">course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dyears</span>()</a>
-<a class="sourceLine" id="cb662-19" title="19"><span class="co">## [1] 0.02465753</span></a></code></pre></div>
+<div class="sourceCode" id="cb668"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb668-1"><a href="lubridate.html#cb668-1"></a><span class="co"># course length in seconds </span></span>
+<span id="cb668-2"><a href="lubridate.html#cb668-2"></a>course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dseconds</span>()</span>
+<span id="cb668-3"><a href="lubridate.html#cb668-3"></a><span class="co">## [1] 777600</span></span>
+<span id="cb668-4"><a href="lubridate.html#cb668-4"></a></span>
+<span id="cb668-5"><a href="lubridate.html#cb668-5"></a><span class="co"># course length in minutes</span></span>
+<span id="cb668-6"><a href="lubridate.html#cb668-6"></a>course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dminutes</span>()</span>
+<span id="cb668-7"><a href="lubridate.html#cb668-7"></a><span class="co">## [1] 12960</span></span>
+<span id="cb668-8"><a href="lubridate.html#cb668-8"></a></span>
+<span id="cb668-9"><a href="lubridate.html#cb668-9"></a><span class="co"># course length in hours</span></span>
+<span id="cb668-10"><a href="lubridate.html#cb668-10"></a>course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dhours</span>()</span>
+<span id="cb668-11"><a href="lubridate.html#cb668-11"></a><span class="co">## [1] 216</span></span>
+<span id="cb668-12"><a href="lubridate.html#cb668-12"></a></span>
+<span id="cb668-13"><a href="lubridate.html#cb668-13"></a><span class="co"># course length in weeks</span></span>
+<span id="cb668-14"><a href="lubridate.html#cb668-14"></a>course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dweeks</span>()</span>
+<span id="cb668-15"><a href="lubridate.html#cb668-15"></a><span class="co">## [1] 1.285714</span></span>
+<span id="cb668-16"><a href="lubridate.html#cb668-16"></a></span>
+<span id="cb668-17"><a href="lubridate.html#cb668-17"></a><span class="co"># course length in years</span></span>
+<span id="cb668-18"><a href="lubridate.html#cb668-18"></a>course_interval <span class="op">/</span><span class="st"> </span><span class="kw">dyears</span>()</span>
+<span id="cb668-19"><a href="lubridate.html#cb668-19"></a><span class="co">## [1] 0.02464066</span></span></code></pre></div>
 </div>
 <div id="period" class="section level3">
 <h3><span class="header-section-number">9.10.4</span> Period</h3>
 <p>A <code>period</code> is a timespan defined in units such as years, months, and days. In
 the below examples, we use <code>period()</code> to represent timespan using different
 units.</p>
-<div class="sourceCode" id="cb663"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb663-1" title="1"><span class="co"># second</span></a>
-<a class="sourceLine" id="cb663-2" title="2"><span class="kw">period</span>(<span class="dv">5</span>, <span class="st">&quot;second&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb669-1"><a href="lubridate.html#cb669-1"></a><span class="co"># second</span></span>
+<span id="cb669-2"><a href="lubridate.html#cb669-2"></a><span class="kw">period</span>(<span class="dv">5</span>, <span class="st">&quot;second&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;5S&quot;</code></pre>
-<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb665-1" title="1"><span class="kw">period</span>(<span class="dt">second =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb671-1"><a href="lubridate.html#cb671-1"></a><span class="kw">period</span>(<span class="dt">second =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;5S&quot;</code></pre>
-<div class="sourceCode" id="cb667"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb667-1" title="1"><span class="co"># minute &amp; second</span></a>
-<a class="sourceLine" id="cb667-2" title="2"><span class="kw">period</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>), <span class="kw">c</span>(<span class="st">&quot;minute&quot;</span>, <span class="st">&quot;second&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb673"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb673-1"><a href="lubridate.html#cb673-1"></a><span class="co"># minute &amp; second</span></span>
+<span id="cb673-2"><a href="lubridate.html#cb673-2"></a><span class="kw">period</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>), <span class="kw">c</span>(<span class="st">&quot;minute&quot;</span>, <span class="st">&quot;second&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;3M 5S&quot;</code></pre>
-<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb669-1" title="1"><span class="kw">period</span>(<span class="dt">minute =</span> <span class="dv">3</span>, <span class="dt">second =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb675-1"><a href="lubridate.html#cb675-1"></a><span class="kw">period</span>(<span class="dt">minute =</span> <span class="dv">3</span>, <span class="dt">second =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;3M 5S&quot;</code></pre>
-<div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb671-1" title="1"><span class="co"># hour, minte &amp; second</span></a>
-<a class="sourceLine" id="cb671-2" title="2"><span class="kw">period</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), <span class="kw">c</span>(<span class="st">&quot;hour&quot;</span>, <span class="st">&quot;minute&quot;</span>, <span class="st">&quot;second&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb677-1"><a href="lubridate.html#cb677-1"></a><span class="co"># hour, minte &amp; second</span></span>
+<span id="cb677-2"><a href="lubridate.html#cb677-2"></a><span class="kw">period</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), <span class="kw">c</span>(<span class="st">&quot;hour&quot;</span>, <span class="st">&quot;minute&quot;</span>, <span class="st">&quot;second&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;1H 3M 5S&quot;</code></pre>
-<div class="sourceCode" id="cb673"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb673-1" title="1"><span class="kw">period</span>(<span class="dt">hour =</span> <span class="dv">1</span>, <span class="dt">minute =</span> <span class="dv">3</span>, <span class="dt">second =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="lubridate.html#cb679-1"></a><span class="kw">period</span>(<span class="dt">hour =</span> <span class="dv">1</span>, <span class="dt">minute =</span> <span class="dv">3</span>, <span class="dt">second =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;1H 3M 5S&quot;</code></pre>
-<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb675-1" title="1"><span class="co"># day, hour, minute &amp; second</span></a>
-<a class="sourceLine" id="cb675-2" title="2"><span class="kw">period</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), <span class="kw">c</span>(<span class="st">&quot;day&quot;</span>, <span class="st">&quot;hour&quot;</span>, <span class="st">&quot;minute&quot;</span>, <span class="st">&quot;second&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb681-1"><a href="lubridate.html#cb681-1"></a><span class="co"># day, hour, minute &amp; second</span></span>
+<span id="cb681-2"><a href="lubridate.html#cb681-2"></a><span class="kw">period</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), <span class="kw">c</span>(<span class="st">&quot;day&quot;</span>, <span class="st">&quot;hour&quot;</span>, <span class="st">&quot;minute&quot;</span>, <span class="st">&quot;second&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;3d 1H 3M 5S&quot;</code></pre>
-<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb677-1" title="1"><span class="kw">period</span>(<span class="dt">day =</span> <span class="dv">3</span>, <span class="dt">hour =</span> <span class="dv">1</span>, <span class="dt">minute =</span> <span class="dv">3</span>, <span class="dt">second =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb683-1"><a href="lubridate.html#cb683-1"></a><span class="kw">period</span>(<span class="dt">day =</span> <span class="dv">3</span>, <span class="dt">hour =</span> <span class="dv">1</span>, <span class="dt">minute =</span> <span class="dv">3</span>, <span class="dt">second =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;3d 1H 3M 5S&quot;</code></pre>
 <p><br></p>
 <p><img src="img/as_period.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
 <p>Let us get the course length in different units using <code>as.period()</code>.</p>
-<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb679-1" title="1"><span class="co"># course length in second</span></a>
-<a class="sourceLine" id="cb679-2" title="2"><span class="kw">as.period</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;seconds&quot;</span>)</a>
-<a class="sourceLine" id="cb679-3" title="3"><span class="co">## [1] &quot;777600S&quot;</span></a>
-<a class="sourceLine" id="cb679-4" title="4"></a>
-<a class="sourceLine" id="cb679-5" title="5"><span class="co"># course length in hours and minutes</span></a>
-<a class="sourceLine" id="cb679-6" title="6"><span class="kw">as.period</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;minutes&quot;</span>)</a>
-<a class="sourceLine" id="cb679-7" title="7"><span class="co">## [1] &quot;12960M 0S&quot;</span></a>
-<a class="sourceLine" id="cb679-8" title="8"></a>
-<a class="sourceLine" id="cb679-9" title="9"><span class="co"># course length in hours, minutes and seconds</span></a>
-<a class="sourceLine" id="cb679-10" title="10"><span class="kw">as.period</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;hours&quot;</span>)</a>
-<a class="sourceLine" id="cb679-11" title="11"><span class="co">## [1] &quot;216H 0M 0S&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="lubridate.html#cb685-1"></a><span class="co"># course length in second</span></span>
+<span id="cb685-2"><a href="lubridate.html#cb685-2"></a><span class="kw">as.period</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;seconds&quot;</span>)</span>
+<span id="cb685-3"><a href="lubridate.html#cb685-3"></a><span class="co">## [1] &quot;777600S&quot;</span></span>
+<span id="cb685-4"><a href="lubridate.html#cb685-4"></a></span>
+<span id="cb685-5"><a href="lubridate.html#cb685-5"></a><span class="co"># course length in hours and minutes</span></span>
+<span id="cb685-6"><a href="lubridate.html#cb685-6"></a><span class="kw">as.period</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;minutes&quot;</span>)</span>
+<span id="cb685-7"><a href="lubridate.html#cb685-7"></a><span class="co">## [1] &quot;12960M 0S&quot;</span></span>
+<span id="cb685-8"><a href="lubridate.html#cb685-8"></a></span>
+<span id="cb685-9"><a href="lubridate.html#cb685-9"></a><span class="co"># course length in hours, minutes and seconds</span></span>
+<span id="cb685-10"><a href="lubridate.html#cb685-10"></a><span class="kw">as.period</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;hours&quot;</span>)</span>
+<span id="cb685-11"><a href="lubridate.html#cb685-11"></a><span class="co">## [1] &quot;216H 0M 0S&quot;</span></span></code></pre></div>
 <p><code>time_length()</code> computes the exact length of a timespan i.e. <code>duration</code>, <code>interval</code> or <code>period</code>. Let us use <code>time_length()</code> to compute the length of the
 course in different units.</p>
 <p><br></p>
 <p><img src="img/time_length.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb680"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb680-1" title="1"><span class="co"># course length in seconds</span></a>
-<a class="sourceLine" id="cb680-2" title="2"><span class="kw">time_length</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;seconds&quot;</span>)</a>
-<a class="sourceLine" id="cb680-3" title="3"><span class="co">## [1] 777600</span></a>
-<a class="sourceLine" id="cb680-4" title="4"></a>
-<a class="sourceLine" id="cb680-5" title="5"><span class="co"># course length in minutes</span></a>
-<a class="sourceLine" id="cb680-6" title="6"><span class="kw">time_length</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;minutes&quot;</span>)</a>
-<a class="sourceLine" id="cb680-7" title="7"><span class="co">## [1] 12960</span></a>
-<a class="sourceLine" id="cb680-8" title="8"></a>
-<a class="sourceLine" id="cb680-9" title="9"><span class="co"># course length in hours</span></a>
-<a class="sourceLine" id="cb680-10" title="10"><span class="kw">time_length</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;hours&quot;</span>)</a>
-<a class="sourceLine" id="cb680-11" title="11"><span class="co">## [1] 216</span></a></code></pre></div>
+<div class="sourceCode" id="cb686"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb686-1"><a href="lubridate.html#cb686-1"></a><span class="co"># course length in seconds</span></span>
+<span id="cb686-2"><a href="lubridate.html#cb686-2"></a><span class="kw">time_length</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;seconds&quot;</span>)</span>
+<span id="cb686-3"><a href="lubridate.html#cb686-3"></a><span class="co">## [1] 777600</span></span>
+<span id="cb686-4"><a href="lubridate.html#cb686-4"></a></span>
+<span id="cb686-5"><a href="lubridate.html#cb686-5"></a><span class="co"># course length in minutes</span></span>
+<span id="cb686-6"><a href="lubridate.html#cb686-6"></a><span class="kw">time_length</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;minutes&quot;</span>)</span>
+<span id="cb686-7"><a href="lubridate.html#cb686-7"></a><span class="co">## [1] 12960</span></span>
+<span id="cb686-8"><a href="lubridate.html#cb686-8"></a></span>
+<span id="cb686-9"><a href="lubridate.html#cb686-9"></a><span class="co"># course length in hours</span></span>
+<span id="cb686-10"><a href="lubridate.html#cb686-10"></a><span class="kw">time_length</span>(course_interval, <span class="dt">unit =</span> <span class="st">&quot;hours&quot;</span>)</span>
+<span id="cb686-11"><a href="lubridate.html#cb686-11"></a><span class="co">## [1] 216</span></span></code></pre></div>
 </div>
 </div>
 <div id="others" class="section level2">
@@ -2949,29 +2963,29 @@ back dates.</p>
 </ul>
 <p>We will look at a few examples using <code>round_date()</code> and you will then practice
 using the other two functions.</p>
-<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb681-1" title="1"><span class="co"># minute</span></a>
-<a class="sourceLine" id="cb681-2" title="2"><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;minute&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb687-1"><a href="lubridate.html#cb687-1"></a><span class="co"># minute</span></span>
+<span id="cb687-2"><a href="lubridate.html#cb687-2"></a><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;minute&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:05:00 UTC&quot;</code></pre>
-<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb683-1" title="1"><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;mins&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb689-1"><a href="lubridate.html#cb689-1"></a><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;mins&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:05:00 UTC&quot;</code></pre>
-<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb685-1" title="1"><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;5 mins&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb691-1"><a href="lubridate.html#cb691-1"></a><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;5 mins&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:05:00 UTC&quot;</code></pre>
-<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb687-1" title="1"><span class="co"># hour</span></a>
-<a class="sourceLine" id="cb687-2" title="2"><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;hour&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb693"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb693-1"><a href="lubridate.html#cb693-1"></a><span class="co"># hour</span></span>
+<span id="cb693-2"><a href="lubridate.html#cb693-2"></a><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;hour&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 08:00:00 UTC&quot;</code></pre>
-<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb689-1" title="1"><span class="co"># day</span></a>
-<a class="sourceLine" id="cb689-2" title="2"><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;day&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb695"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb695-1"><a href="lubridate.html#cb695-1"></a><span class="co"># day</span></span>
+<span id="cb695-2"><a href="lubridate.html#cb695-2"></a><span class="kw">round_date</span>(release_date, <span class="dt">unit =</span> <span class="st">&quot;day&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-12 UTC&quot;</code></pre>
 </div>
 <div id="rollback" class="section level3">
 <h3><span class="header-section-number">9.11.2</span> Rollback</h3>
 <p>Use <code>rollback()</code> if you want to change the date to the last day of the previous
 month or the first day of the month.</p>
-<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb691-1" title="1"><span class="kw">rollback</span>(release_date)</a></code></pre></div>
+<div class="sourceCode" id="cb697"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb697-1"><a href="lubridate.html#cb697-1"></a><span class="kw">rollback</span>(release_date)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-11-30 08:05:03 UTC&quot;</code></pre>
 <p>To change the date to the first day of the month, use the <code>roll_to_first</code>
 argument and set it to <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb693"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb693-1" title="1"><span class="kw">rollback</span>(release_date, <span class="dt">roll_to_first =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb699"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb699-1"><a href="lubridate.html#cb699-1"></a><span class="kw">rollback</span>(release_date, <span class="dt">roll_to_first =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2019-12-01 08:05:03 UTC&quot;</code></pre>
 </div>
 <div id="your-turn-9" class="section level3">
@@ -2996,11 +3010,13 @@ argument and set it to <code>TRUE</code>.</p>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -3008,12 +3024,11 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -3025,6 +3040,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
