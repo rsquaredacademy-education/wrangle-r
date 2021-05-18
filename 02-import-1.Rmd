@@ -208,9 +208,9 @@ data type specification.
 
 ```{r col_types}
 read_csv('hsb2.csv', col_types = list(
-  col_integer(), col_factor(levels = c(0, 1)), 
-  col_factor(levels = c(1, 2, 3, 4)), col_factor(levels = c(1, 2, 3)), 
-  col_factor(levels = c(1, 2)), col_factor(levels = c(1, 2, 3)),
+  col_integer(), col_factor(levels = c("0", "1")), 
+  col_factor(levels = c("1", "2", "3", "4")), col_factor(levels = c("1", "2", "3")), 
+  col_factor(levels = c("1", "2")), col_factor(levels = c("1", "2", "3")),
   col_integer(), col_integer(), col_integer(), col_integer(),
   col_integer())            
 )
@@ -241,7 +241,7 @@ will use `cols_only()` and provide the following details:
 
 ```{r specific_cols}
 read_csv('hsb2.csv', col_types = cols_only(id = col_integer(),
-  prog = col_factor(levels = c(1, 2, 3)), read = col_integer())
+  prog = col_factor(levels = c("1", "2", "3")), read = col_integer())
 )
 ```
 

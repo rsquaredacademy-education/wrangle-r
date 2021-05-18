@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>About the Author | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="About the Author | Data Wrangling with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2020-06-20" />
+<meta name="date" content="2021-05-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="import1.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +52,7 @@
 
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-57270671-37"></script>
 <script>
@@ -63,18 +65,17 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -94,7 +95,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -143,14 +144,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://github.com/rsquaredacademy-education/wrangle-r/">Data Wrangling with R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i>Structure of the book</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information"><i class="fa fa-check"></i>Software information</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
-<li class="chapter" data-level="1" data-path="import1.html"><a href="import1.html"><i class="fa fa-check"></i><b>1</b> Import Data - 1</a><ul>
+<li class="chapter" data-level="1" data-path="import1.html"><a href="import1.html"><i class="fa fa-check"></i><b>1</b> Import Data - 1</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="import1.html"><a href="import1.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
-<li class="chapter" data-level="1.2" data-path="import1.html"><a href="import1.html#delimiters"><i class="fa fa-check"></i><b>1.2</b> Delimiters</a><ul>
+<li class="chapter" data-level="1.2" data-path="import1.html"><a href="import1.html#delimiters"><i class="fa fa-check"></i><b>1.2</b> Delimiters</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="import1.html"><a href="import1.html#comma-separated-values"><i class="fa fa-check"></i><b>1.2.1</b> Comma Separated Values</a></li>
 <li class="chapter" data-level="1.2.2" data-path="import1.html"><a href="import1.html#semi-colon-separated-values"><i class="fa fa-check"></i><b>1.2.2</b> Semi Colon Separated Values</a></li>
 <li class="chapter" data-level="1.2.3" data-path="import1.html"><a href="import1.html#space-separated-values"><i class="fa fa-check"></i><b>1.2.3</b> Space Separated Values</a></li>
@@ -164,14 +168,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.8" data-path="import1.html"><a href="import1.html#select-columns"><i class="fa fa-check"></i><b>1.8</b> Select Columns</a></li>
 <li class="chapter" data-level="1.9" data-path="import1.html"><a href="import1.html#summary"><i class="fa fa-check"></i><b>1.9</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="import2.html"><a href="import2.html"><i class="fa fa-check"></i><b>2</b> Import Data - 2</a><ul>
+<li class="chapter" data-level="2" data-path="import2.html"><a href="import2.html"><i class="fa fa-check"></i><b>2</b> Import Data - 2</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="import2.html"><a href="import2.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
 <li class="chapter" data-level="2.2" data-path="import2.html"><a href="import2.html#list-sheets"><i class="fa fa-check"></i><b>2.2</b> List Sheets</a></li>
-<li class="chapter" data-level="2.3" data-path="import2.html"><a href="import2.html#read-sheet"><i class="fa fa-check"></i><b>2.3</b> Read Sheet</a><ul>
+<li class="chapter" data-level="2.3" data-path="import2.html"><a href="import2.html#read-sheet"><i class="fa fa-check"></i><b>2.3</b> Read Sheet</a>
+<ul>
 <li class="chapter" data-level="2.3.1" data-path="import2.html"><a href="import2.html#case-1-specify-the-sheet-number"><i class="fa fa-check"></i><b>2.3.1</b> Case 1: Specify the sheet number</a></li>
 <li class="chapter" data-level="2.3.2" data-path="import2.html"><a href="import2.html#case-2-specify-the-sheet-name"><i class="fa fa-check"></i><b>2.3.2</b> Case 2: Specify the sheet name</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="import2.html"><a href="import2.html#read-specific-cells"><i class="fa fa-check"></i><b>2.4</b> Read Specific Cells</a><ul>
+<li class="chapter" data-level="2.4" data-path="import2.html"><a href="import2.html#read-specific-cells"><i class="fa fa-check"></i><b>2.4</b> Read Specific Cells</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="import2.html"><a href="import2.html#method-1"><i class="fa fa-check"></i><b>2.4.1</b> Method 1</a></li>
 <li class="chapter" data-level="2.4.2" data-path="import2.html"><a href="import2.html#method-2"><i class="fa fa-check"></i><b>2.4.2</b> Method 2</a></li>
 <li class="chapter" data-level="2.4.3" data-path="import2.html"><a href="import2.html#method-3"><i class="fa fa-check"></i><b>2.4.3</b> Method 3</a></li>
@@ -181,75 +188,94 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="import2.html"><a href="import2.html#read-specific-rows"><i class="fa fa-check"></i><b>2.5</b> Read Specific Rows</a></li>
 <li class="chapter" data-level="2.6" data-path="import2.html"><a href="import2.html#read-single-column"><i class="fa fa-check"></i><b>2.6</b> Read Single Column</a></li>
-<li class="chapter" data-level="2.7" data-path="import2.html"><a href="import2.html#read-multiple-columns"><i class="fa fa-check"></i><b>2.7</b> Read Multiple Columns</a><ul>
+<li class="chapter" data-level="2.7" data-path="import2.html"><a href="import2.html#read-multiple-columns"><i class="fa fa-check"></i><b>2.7</b> Read Multiple Columns</a>
+<ul>
 <li class="chapter" data-level="2.7.1" data-path="import2.html"><a href="import2.html#summary-1"><i class="fa fa-check"></i><b>2.7.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="2.8" data-path="import2.html"><a href="import2.html#statistical-softwares"><i class="fa fa-check"></i><b>2.8</b> Statistical Softwares</a><ul>
+<li class="chapter" data-level="2.8" data-path="import2.html"><a href="import2.html#statistical-softwares"><i class="fa fa-check"></i><b>2.8</b> Statistical Softwares</a>
+<ul>
 <li class="chapter" data-level="2.8.1" data-path="import2.html"><a href="import2.html#stata"><i class="fa fa-check"></i><b>2.8.1</b> STATA</a></li>
 <li class="chapter" data-level="2.8.2" data-path="import2.html"><a href="import2.html#spss"><i class="fa fa-check"></i><b>2.8.2</b> SPSS</a></li>
 <li class="chapter" data-level="2.8.3" data-path="import2.html"><a href="import2.html#sas"><i class="fa fa-check"></i><b>2.8.3</b> SAS</a></li>
 </ul></li>
 <li class="chapter" data-level="2.9" data-path="import2.html"><a href="import2.html#summary-2"><i class="fa fa-check"></i><b>2.9</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="dplyr1.html"><a href="dplyr1.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling - 1</a><ul>
+<li class="chapter" data-level="3" data-path="dplyr1.html"><a href="dplyr1.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling - 1</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="dplyr1.html"><a href="dplyr1.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
 <li class="chapter" data-level="3.2" data-path="dplyr1.html"><a href="dplyr1.html#dplyr-verbs"><i class="fa fa-check"></i><b>3.2</b> dplyr Verbs</a></li>
-<li class="chapter" data-level="3.3" data-path="dplyr1.html"><a href="dplyr1.html#data"><i class="fa fa-check"></i><b>3.3</b> Data</a><ul>
+<li class="chapter" data-level="3.3" data-path="dplyr1.html"><a href="dplyr1.html#data"><i class="fa fa-check"></i><b>3.3</b> Data</a>
+<ul>
 <li class="chapter" data-level="3.3.1" data-path="dplyr1.html"><a href="dplyr1.html#data-dictionary"><i class="fa fa-check"></i><b>3.3.1</b> Data Dictionary</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="dplyr1.html"><a href="dplyr1.html#case-study"><i class="fa fa-check"></i><b>3.4</b> Case Study</a></li>
 <li class="chapter" data-level="3.5" data-path="dplyr1.html"><a href="dplyr1.html#average-order-value"><i class="fa fa-check"></i><b>3.5</b> Average Order Value</a></li>
 <li class="chapter" data-level="3.6" data-path="dplyr1.html"><a href="dplyr1.html#aov-by-devices"><i class="fa fa-check"></i><b>3.6</b> AOV by Devices</a></li>
 <li class="chapter" data-level="3.7" data-path="dplyr1.html"><a href="dplyr1.html#syntax"><i class="fa fa-check"></i><b>3.7</b> Syntax</a></li>
-<li class="chapter" data-level="3.8" data-path="dplyr1.html"><a href="dplyr1.html#filter-rows"><i class="fa fa-check"></i><b>3.8</b> Filter Rows</a><ul>
+<li class="chapter" data-level="3.8" data-path="dplyr1.html"><a href="dplyr1.html#filter-rows"><i class="fa fa-check"></i><b>3.8</b> Filter Rows</a>
+<ul>
 <li class="chapter" data-level="3.8.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-1"><i class="fa fa-check"></i><b>3.8.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.9" data-path="dplyr1.html"><a href="dplyr1.html#select-columns-1"><i class="fa fa-check"></i><b>3.9</b> Select Columns</a><ul>
+<li class="chapter" data-level="3.9" data-path="dplyr1.html"><a href="dplyr1.html#select-columns-1"><i class="fa fa-check"></i><b>3.9</b> Select Columns</a>
+<ul>
 <li class="chapter" data-level="3.9.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-2"><i class="fa fa-check"></i><b>3.9.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.10" data-path="dplyr1.html"><a href="dplyr1.html#grouping-data"><i class="fa fa-check"></i><b>3.10</b> Grouping Data</a><ul>
+<li class="chapter" data-level="3.10" data-path="dplyr1.html"><a href="dplyr1.html#grouping-data"><i class="fa fa-check"></i><b>3.10</b> Grouping Data</a>
+<ul>
 <li class="chapter" data-level="3.10.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-3"><i class="fa fa-check"></i><b>3.10.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.11" data-path="dplyr1.html"><a href="dplyr1.html#summarise-data"><i class="fa fa-check"></i><b>3.11</b> Summarise Data</a><ul>
+<li class="chapter" data-level="3.11" data-path="dplyr1.html"><a href="dplyr1.html#summarise-data"><i class="fa fa-check"></i><b>3.11</b> Summarise Data</a>
+<ul>
 <li class="chapter" data-level="3.11.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-4"><i class="fa fa-check"></i><b>3.11.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.12" data-path="dplyr1.html"><a href="dplyr1.html#create-columns"><i class="fa fa-check"></i><b>3.12</b> Create Columns</a><ul>
+<li class="chapter" data-level="3.12" data-path="dplyr1.html"><a href="dplyr1.html#create-columns"><i class="fa fa-check"></i><b>3.12</b> Create Columns</a>
+<ul>
 <li class="chapter" data-level="3.12.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-5"><i class="fa fa-check"></i><b>3.12.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.13" data-path="dplyr1.html"><a href="dplyr1.html#arrange-data"><i class="fa fa-check"></i><b>3.13</b> Arrange Data</a><ul>
+<li class="chapter" data-level="3.13" data-path="dplyr1.html"><a href="dplyr1.html#arrange-data"><i class="fa fa-check"></i><b>3.13</b> Arrange Data</a>
+<ul>
 <li class="chapter" data-level="3.13.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-6"><i class="fa fa-check"></i><b>3.13.1</b> Case Study</a></li>
 </ul></li>
 <li class="chapter" data-level="3.14" data-path="dplyr1.html"><a href="dplyr1.html#aov-by-devices-1"><i class="fa fa-check"></i><b>3.14</b> AOV by Devices</a></li>
 <li class="chapter" data-level="3.15" data-path="dplyr1.html"><a href="dplyr1.html#your-turn"><i class="fa fa-check"></i><b>3.15</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="dplyr2.html"><a href="dplyr2.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling - 2</a><ul>
+<li class="chapter" data-level="4" data-path="dplyr2.html"><a href="dplyr2.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling - 2</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="dplyr2.html"><a href="dplyr2.html#introduction-3"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
-<li class="chapter" data-level="4.2" data-path="dplyr2.html"><a href="dplyr2.html#case-study-7"><i class="fa fa-check"></i><b>4.2</b> Case Study</a><ul>
+<li class="chapter" data-level="4.2" data-path="dplyr2.html"><a href="dplyr2.html#case-study-7"><i class="fa fa-check"></i><b>4.2</b> Case Study</a>
+<ul>
 <li class="chapter" data-level="4.2.1" data-path="dplyr2.html"><a href="dplyr2.html#data-orders"><i class="fa fa-check"></i><b>4.2.1</b> Data: Orders</a></li>
 <li class="chapter" data-level="4.2.2" data-path="dplyr2.html"><a href="dplyr2.html#data-customers"><i class="fa fa-check"></i><b>4.2.2</b> Data: Customers</a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="dplyr2.html"><a href="dplyr2.html#example-data"><i class="fa fa-check"></i><b>4.3</b> Example Data</a></li>
-<li class="chapter" data-level="4.4" data-path="dplyr2.html"><a href="dplyr2.html#inner-join"><i class="fa fa-check"></i><b>4.4</b> Inner Join</a><ul>
+<li class="chapter" data-level="4.4" data-path="dplyr2.html"><a href="dplyr2.html#inner-join"><i class="fa fa-check"></i><b>4.4</b> Inner Join</a>
+<ul>
 <li class="chapter" data-level="4.4.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-placed-orders-and-their-order-details"><i class="fa fa-check"></i><b>4.4.1</b> Case Study: Details of customers who have placed orders and their order details</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="dplyr2.html"><a href="dplyr2.html#left-join"><i class="fa fa-check"></i><b>4.5</b> Left Join</a></li>
 <li class="chapter" data-level="4.6" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-and-their-orders-irrespective-of-whether-a-customer-has"><i class="fa fa-check"></i><b>4.6</b> Case Study: Details of customers and their orders irrespective of whether a customer has</a></li>
-<li class="chapter" data-level="4.7" data-path="dplyr2.html"><a href="dplyr2.html#right-join"><i class="fa fa-check"></i><b>4.7</b> Right Join</a><ul>
+<li class="chapter" data-level="4.7" data-path="dplyr2.html"><a href="dplyr2.html#right-join"><i class="fa fa-check"></i><b>4.7</b> Right Join</a>
+<ul>
 <li class="chapter" data-level="4.7.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-customer-details-for-each-order"><i class="fa fa-check"></i><b>4.7.1</b> Case Study: Customer details for each order</a></li>
 </ul></li>
-<li class="chapter" data-level="4.8" data-path="dplyr2.html"><a href="dplyr2.html#semi-join"><i class="fa fa-check"></i><b>4.8</b> Semi Join</a><ul>
+<li class="chapter" data-level="4.8" data-path="dplyr2.html"><a href="dplyr2.html#semi-join"><i class="fa fa-check"></i><b>4.8</b> Semi Join</a>
+<ul>
 <li class="chapter" data-level="4.8.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-placed-orders"><i class="fa fa-check"></i><b>4.8.1</b> Case Study: Details of customers who have placed orders</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="dplyr2.html"><a href="dplyr2.html#anti-join"><i class="fa fa-check"></i><b>4.9</b> Anti Join</a><ul>
+<li class="chapter" data-level="4.9" data-path="dplyr2.html"><a href="dplyr2.html#anti-join"><i class="fa fa-check"></i><b>4.9</b> Anti Join</a>
+<ul>
 <li class="chapter" data-level="4.9.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-not-placed-orders"><i class="fa fa-check"></i><b>4.9.1</b> Case Study: Details of customers who have not placed orders</a></li>
 </ul></li>
-<li class="chapter" data-level="4.10" data-path="dplyr2.html"><a href="dplyr2.html#full-join"><i class="fa fa-check"></i><b>4.10</b> Full Join</a><ul>
+<li class="chapter" data-level="4.10" data-path="dplyr2.html"><a href="dplyr2.html#full-join"><i class="fa fa-check"></i><b>4.10</b> Full Join</a>
+<ul>
 <li class="chapter" data-level="4.10.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-all-customers-and-all-orders"><i class="fa fa-check"></i><b>4.10.1</b> Case Study: Details of all customers and all orders</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dplyr3.html"><a href="dplyr3.html"><i class="fa fa-check"></i><b>5</b> Data Wrangling - 3</a><ul>
+<li class="chapter" data-level="5" data-path="dplyr3.html"><a href="dplyr3.html"><i class="fa fa-check"></i><b>5</b> Data Wrangling - 3</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="dplyr3.html"><a href="dplyr3.html#introduction-4"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
-<li class="chapter" data-level="5.2" data-path="dplyr3.html"><a href="dplyr3.html#case-study-8"><i class="fa fa-check"></i><b>5.2</b> Case Study</a><ul>
+<li class="chapter" data-level="5.2" data-path="dplyr3.html"><a href="dplyr3.html#case-study-8"><i class="fa fa-check"></i><b>5.2</b> Case Study</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="dplyr3.html"><a href="dplyr3.html#data-1"><i class="fa fa-check"></i><b>5.2.1</b> Data</a></li>
 <li class="chapter" data-level="5.2.2" data-path="dplyr3.html"><a href="dplyr3.html#data-dictionary-1"><i class="fa fa-check"></i><b>5.2.2</b> Data Dictionary</a></li>
 </ul></li>
@@ -257,49 +283,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="dplyr3.html"><a href="dplyr3.html#rename-columns"><i class="fa fa-check"></i><b>5.4</b> Rename Columns</a></li>
 <li class="chapter" data-level="5.5" data-path="dplyr3.html"><a href="dplyr3.html#data-tabulation"><i class="fa fa-check"></i><b>5.5</b> Data Tabulation</a></li>
 <li class="chapter" data-level="5.6" data-path="dplyr3.html"><a href="dplyr3.html#sampling-data"><i class="fa fa-check"></i><b>5.6</b> Sampling Data</a></li>
-<li class="chapter" data-level="5.7" data-path="dplyr3.html"><a href="dplyr3.html#data-extraction"><i class="fa fa-check"></i><b>5.7</b> Data Extraction</a><ul>
+<li class="chapter" data-level="5.7" data-path="dplyr3.html"><a href="dplyr3.html#data-extraction"><i class="fa fa-check"></i><b>5.7</b> Data Extraction</a>
+<ul>
 <li class="chapter" data-level="5.7.1" data-path="dplyr3.html"><a href="dplyr3.html#sample-data"><i class="fa fa-check"></i><b>5.7.1</b> Sample Data</a></li>
 </ul></li>
 <li class="chapter" data-level="5.8" data-path="dplyr3.html"><a href="dplyr3.html#between"><i class="fa fa-check"></i><b>5.8</b> Between</a></li>
 <li class="chapter" data-level="5.9" data-path="dplyr3.html"><a href="dplyr3.html#case-when"><i class="fa fa-check"></i><b>5.9</b> Case When</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>6</b> Pipes</a><ul>
+<li class="chapter" data-level="6" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>6</b> Pipes</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="pipes.html"><a href="pipes.html#introduction-5"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
 <li class="chapter" data-level="6.2" data-path="pipes.html"><a href="pipes.html#pipes-1"><i class="fa fa-check"></i><b>6.2</b> Pipes</a></li>
-<li class="chapter" data-level="6.3" data-path="pipes.html"><a href="pipes.html#data-2"><i class="fa fa-check"></i><b>6.3</b> Data</a><ul>
+<li class="chapter" data-level="6.3" data-path="pipes.html"><a href="pipes.html#data-2"><i class="fa fa-check"></i><b>6.3</b> Data</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="pipes.html"><a href="pipes.html#data-dictionary-2"><i class="fa fa-check"></i><b>6.3.1</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="pipes.html"><a href="pipes.html#head"><i class="fa fa-check"></i><b>6.4</b> head()</a><ul>
+<li class="chapter" data-level="6.4" data-path="pipes.html"><a href="pipes.html#head"><i class="fa fa-check"></i><b>6.4</b> head()</a>
+<ul>
 <li class="chapter" data-level="6.4.1" data-path="pipes.html"><a href="pipes.html#using-pipe"><i class="fa fa-check"></i><b>6.4.1</b> Using Pipe</a></li>
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="pipes.html"><a href="pipes.html#square-root"><i class="fa fa-check"></i><b>6.5</b> Square Root</a></li>
-<li class="chapter" data-level="6.6" data-path="pipes.html"><a href="pipes.html#visualization"><i class="fa fa-check"></i><b>6.6</b> Visualization</a><ul>
+<li class="chapter" data-level="6.6" data-path="pipes.html"><a href="pipes.html#visualization"><i class="fa fa-check"></i><b>6.6</b> Visualization</a>
+<ul>
 <li class="chapter" data-level="6.6.1" data-path="pipes.html"><a href="pipes.html#using-pipe-1"><i class="fa fa-check"></i><b>6.6.1</b> Using pipe</a></li>
 </ul></li>
 <li class="chapter" data-level="6.7" data-path="pipes.html"><a href="pipes.html#correlation"><i class="fa fa-check"></i><b>6.7</b> Correlation</a></li>
-<li class="chapter" data-level="6.8" data-path="pipes.html"><a href="pipes.html#regression"><i class="fa fa-check"></i><b>6.8</b> Regression</a><ul>
+<li class="chapter" data-level="6.8" data-path="pipes.html"><a href="pipes.html#regression"><i class="fa fa-check"></i><b>6.8</b> Regression</a>
+<ul>
 <li class="chapter" data-level="6.8.1" data-path="pipes.html"><a href="pipes.html#using-pipe-2"><i class="fa fa-check"></i><b>6.8.1</b> Using pipe</a></li>
 </ul></li>
 <li class="chapter" data-level="6.9" data-path="pipes.html"><a href="pipes.html#string-manipulation"><i class="fa fa-check"></i><b>6.9</b> String Manipulation</a></li>
-<li class="chapter" data-level="6.10" data-path="pipes.html"><a href="pipes.html#data-extraction-1"><i class="fa fa-check"></i><b>6.10</b> Data Extraction</a><ul>
+<li class="chapter" data-level="6.10" data-path="pipes.html"><a href="pipes.html#data-extraction-1"><i class="fa fa-check"></i><b>6.10</b> Data Extraction</a>
+<ul>
 <li class="chapter" data-level="6.10.1" data-path="pipes.html"><a href="pipes.html#extract-column"><i class="fa fa-check"></i><b>6.10.1</b> Extract Column</a></li>
 <li class="chapter" data-level="6.10.2" data-path="pipes.html"><a href="pipes.html#extract-list-element"><i class="fa fa-check"></i><b>6.10.2</b> Extract List Element</a></li>
 </ul></li>
-<li class="chapter" data-level="6.11" data-path="pipes.html"><a href="pipes.html#arithmetic-operations"><i class="fa fa-check"></i><b>6.11</b> Arithmetic Operations</a><ul>
+<li class="chapter" data-level="6.11" data-path="pipes.html"><a href="pipes.html#arithmetic-operations"><i class="fa fa-check"></i><b>6.11</b> Arithmetic Operations</a>
+<ul>
 <li class="chapter" data-level="6.11.1" data-path="pipes.html"><a href="pipes.html#addition"><i class="fa fa-check"></i><b>6.11.1</b> Addition</a></li>
 <li class="chapter" data-level="6.11.2" data-path="pipes.html"><a href="pipes.html#multiplication"><i class="fa fa-check"></i><b>6.11.2</b> Multiplication</a></li>
 <li class="chapter" data-level="6.11.3" data-path="pipes.html"><a href="pipes.html#division"><i class="fa fa-check"></i><b>6.11.3</b> Division</a></li>
 <li class="chapter" data-level="6.11.4" data-path="pipes.html"><a href="pipes.html#power"><i class="fa fa-check"></i><b>6.11.4</b> Power</a></li>
 </ul></li>
-<li class="chapter" data-level="6.12" data-path="pipes.html"><a href="pipes.html#logical-operators"><i class="fa fa-check"></i><b>6.12</b> Logical Operators</a><ul>
+<li class="chapter" data-level="6.12" data-path="pipes.html"><a href="pipes.html#logical-operators"><i class="fa fa-check"></i><b>6.12</b> Logical Operators</a>
+<ul>
 <li class="chapter" data-level="6.12.1" data-path="pipes.html"><a href="pipes.html#greater-than"><i class="fa fa-check"></i><b>6.12.1</b> Greater Than</a></li>
 <li class="chapter" data-level="6.12.2" data-path="pipes.html"><a href="pipes.html#weakly-greater-than"><i class="fa fa-check"></i><b>6.12.2</b> Weakly Greater Than</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>7</b> tibbles</a><ul>
+<li class="chapter" data-level="7" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>7</b> tibbles</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="tibbles.html"><a href="tibbles.html#introduction-6"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
 <li class="chapter" data-level="7.2" data-path="tibbles.html"><a href="tibbles.html#creating-tibbles"><i class="fa fa-check"></i><b>7.2</b> Creating tibbles</a></li>
-<li class="chapter" data-level="7.3" data-path="tibbles.html"><a href="tibbles.html#tibble-features"><i class="fa fa-check"></i><b>7.3</b> tibble features</a><ul>
+<li class="chapter" data-level="7.3" data-path="tibbles.html"><a href="tibbles.html#tibble-features"><i class="fa fa-check"></i><b>7.3</b> tibble features</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="tibbles.html"><a href="tibbles.html#never-changes-inputs-types"><i class="fa fa-check"></i><b>7.3.1</b> never changes input’s types</a></li>
 <li class="chapter" data-level="7.3.2" data-path="tibbles.html"><a href="tibbles.html#never-adjusts-variable-names"><i class="fa fa-check"></i><b>7.3.2</b> never adjusts variable names</a></li>
 <li class="chapter" data-level="7.3.3" data-path="tibbles.html"><a href="tibbles.html#never-prints-all-rows"><i class="fa fa-check"></i><b>7.3.3</b> never prints all rows</a></li>
@@ -310,45 +347,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.6" data-path="tibbles.html"><a href="tibbles.html#column-names-1"><i class="fa fa-check"></i><b>7.6</b> Column Names</a></li>
 <li class="chapter" data-level="7.7" data-path="tibbles.html"><a href="tibbles.html#add-rows"><i class="fa fa-check"></i><b>7.7</b> Add Rows</a></li>
 <li class="chapter" data-level="7.8" data-path="tibbles.html"><a href="tibbles.html#add-columns"><i class="fa fa-check"></i><b>7.8</b> Add Columns</a></li>
-<li class="chapter" data-level="7.9" data-path="tibbles.html"><a href="tibbles.html#rownames"><i class="fa fa-check"></i><b>7.9</b> Rownames</a><ul>
+<li class="chapter" data-level="7.9" data-path="tibbles.html"><a href="tibbles.html#rownames"><i class="fa fa-check"></i><b>7.9</b> Rownames</a>
+<ul>
 <li class="chapter" data-level="7.9.1" data-path="tibbles.html"><a href="tibbles.html#remove-rownames"><i class="fa fa-check"></i><b>7.9.1</b> Remove Rownames</a></li>
 <li class="chapter" data-level="7.9.2" data-path="tibbles.html"><a href="tibbles.html#rownames-to-column"><i class="fa fa-check"></i><b>7.9.2</b> Rownames to Column</a></li>
 <li class="chapter" data-level="7.9.3" data-path="tibbles.html"><a href="tibbles.html#column-to-rownames"><i class="fa fa-check"></i><b>7.9.3</b> Column to Rownames</a></li>
 </ul></li>
 <li class="chapter" data-level="7.10" data-path="tibbles.html"><a href="tibbles.html#glimpse"><i class="fa fa-check"></i><b>7.10</b> Glimpse</a></li>
 <li class="chapter" data-level="7.11" data-path="tibbles.html"><a href="tibbles.html#check-column"><i class="fa fa-check"></i><b>7.11</b> Check Column</a></li>
-<li class="chapter" data-level="7.12" data-path="tibbles.html"><a href="tibbles.html#summary-3"><i class="fa fa-check"></i><b>7.12</b> Summary</a><ul>
+<li class="chapter" data-level="7.12" data-path="tibbles.html"><a href="tibbles.html#summary-3"><i class="fa fa-check"></i><b>7.12</b> Summary</a>
+<ul>
 <li class="chapter" data-level="7.12.1" data-path="tibbles.html"><a href="tibbles.html#creating-tibbles-1"><i class="fa fa-check"></i><b>7.12.1</b> Creating tibbles</a></li>
 <li class="chapter" data-level="7.12.2" data-path="tibbles.html"><a href="tibbles.html#modifying-tibbles"><i class="fa fa-check"></i><b>7.12.2</b> Modifying tibbles</a></li>
 <li class="chapter" data-level="7.12.3" data-path="tibbles.html"><a href="tibbles.html#testing-tibbles"><i class="fa fa-check"></i><b>7.12.3</b> Testing tibbles</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="stringr.html"><a href="stringr.html"><i class="fa fa-check"></i><b>8</b> Handling String Data</a><ul>
+<li class="chapter" data-level="8" data-path="stringr.html"><a href="stringr.html"><i class="fa fa-check"></i><b>8</b> Handling String Data</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="stringr.html"><a href="stringr.html#introduction-7"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
-<li class="chapter" data-level="8.2" data-path="stringr.html"><a href="stringr.html#case-study-9"><i class="fa fa-check"></i><b>8.2</b> Case Study</a><ul>
+<li class="chapter" data-level="8.2" data-path="stringr.html"><a href="stringr.html#case-study-9"><i class="fa fa-check"></i><b>8.2</b> Case Study</a>
+<ul>
 <li class="chapter" data-level="8.2.1" data-path="stringr.html"><a href="stringr.html#data-3"><i class="fa fa-check"></i><b>8.2.1</b> Data</a></li>
 <li class="chapter" data-level="8.2.2" data-path="stringr.html"><a href="stringr.html#data-dictionary-3"><i class="fa fa-check"></i><b>8.2.2</b> Data Dictionary</a></li>
 </ul></li>
 <li class="chapter" data-level="8.3" data-path="stringr.html"><a href="stringr.html#overview"><i class="fa fa-check"></i><b>8.3</b> Overview</a></li>
-<li class="chapter" data-level="8.4" data-path="stringr.html"><a href="stringr.html#extract-domain-name-from-email-ids"><i class="fa fa-check"></i><b>8.4</b> Extract domain name from email ids</a><ul>
+<li class="chapter" data-level="8.4" data-path="stringr.html"><a href="stringr.html#extract-domain-name-from-email-ids"><i class="fa fa-check"></i><b>8.4</b> Extract domain name from email ids</a>
+<ul>
 <li class="chapter" data-level="8.4.1" data-path="stringr.html"><a href="stringr.html#steps"><i class="fa fa-check"></i><b>8.4.1</b> Steps</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="stringr.html"><a href="stringr.html#extract-domain-extension"><i class="fa fa-check"></i><b>8.5</b> Extract Domain Extension</a></li>
-<li class="chapter" data-level="8.6" data-path="stringr.html"><a href="stringr.html#extract-image-type-from-url"><i class="fa fa-check"></i><b>8.6</b> Extract image type from URL</a><ul>
+<li class="chapter" data-level="8.6" data-path="stringr.html"><a href="stringr.html#extract-image-type-from-url"><i class="fa fa-check"></i><b>8.6</b> Extract image type from URL</a>
+<ul>
 <li class="chapter" data-level="8.6.1" data-path="stringr.html"><a href="stringr.html#steps-1"><i class="fa fa-check"></i><b>8.6.1</b> Steps</a></li>
 </ul></li>
-<li class="chapter" data-level="8.7" data-path="stringr.html"><a href="stringr.html#extract-image-dimesion-from-url"><i class="fa fa-check"></i><b>8.7</b> Extract Image Dimesion from URL</a><ul>
+<li class="chapter" data-level="8.7" data-path="stringr.html"><a href="stringr.html#extract-image-dimesion-from-url"><i class="fa fa-check"></i><b>8.7</b> Extract Image Dimesion from URL</a>
+<ul>
 <li class="chapter" data-level="8.7.1" data-path="stringr.html"><a href="stringr.html#steps-2"><i class="fa fa-check"></i><b>8.7.1</b> Steps</a></li>
 </ul></li>
-<li class="chapter" data-level="8.8" data-path="stringr.html"><a href="stringr.html#extract-http-protocol-from-url"><i class="fa fa-check"></i><b>8.8</b> Extract HTTP Protocol from URL</a><ul>
+<li class="chapter" data-level="8.8" data-path="stringr.html"><a href="stringr.html#extract-http-protocol-from-url"><i class="fa fa-check"></i><b>8.8</b> Extract HTTP Protocol from URL</a>
+<ul>
 <li class="chapter" data-level="8.8.1" data-path="stringr.html"><a href="stringr.html#steps-3"><i class="fa fa-check"></i><b>8.8.1</b> Steps</a></li>
 </ul></li>
-<li class="chapter" data-level="8.9" data-path="stringr.html"><a href="stringr.html#extract-file-type"><i class="fa fa-check"></i><b>8.9</b> Extract file type</a><ul>
+<li class="chapter" data-level="8.9" data-path="stringr.html"><a href="stringr.html#extract-file-type"><i class="fa fa-check"></i><b>8.9</b> Extract file type</a>
+<ul>
 <li class="chapter" data-level="8.9.1" data-path="stringr.html"><a href="stringr.html#steps-4"><i class="fa fa-check"></i><b>8.9.1</b> Steps</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>9</b> Working with Date &amp; Time</a><ul>
-<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a><ul>
+<li class="chapter" data-level="9" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>9</b> Working with Date &amp; Time</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="lubridate.html"><a href="lubridate.html#date"><i class="fa fa-check"></i><b>9.1.1</b> Date</a></li>
 <li class="chapter" data-level="9.1.2" data-path="lubridate.html"><a href="lubridate.html#time"><i class="fa fa-check"></i><b>9.1.2</b> Time</a></li>
 <li class="chapter" data-level="9.1.3" data-path="lubridate.html"><a href="lubridate.html#am-or-pm"><i class="fa fa-check"></i><b>9.1.3</b> AM or PM?</a></li>
@@ -356,39 +404,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1.5" data-path="lubridate.html"><a href="lubridate.html#summary-4"><i class="fa fa-check"></i><b>9.1.5</b> Summary</a></li>
 <li class="chapter" data-level="9.1.6" data-path="lubridate.html"><a href="lubridate.html#your-turn-1"><i class="fa fa-check"></i><b>9.1.6</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.2</b> Case Study</a><ul>
+<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.2</b> Case Study</a>
+<ul>
 <li class="chapter" data-level="9.2.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>9.2.1</b> Data</a></li>
 <li class="chapter" data-level="9.2.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.2.2</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#date-time-classes"><i class="fa fa-check"></i><b>9.3</b> Date &amp; Time Classes</a><ul>
+<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#date-time-classes"><i class="fa fa-check"></i><b>9.3</b> Date &amp; Time Classes</a>
+<ul>
 <li class="chapter" data-level="9.3.1" data-path="lubridate.html"><a href="lubridate.html#introduction-9"><i class="fa fa-check"></i><b>9.3.1</b> Introduction</a></li>
 <li class="chapter" data-level="9.3.2" data-path="lubridate.html"><a href="lubridate.html#date-1"><i class="fa fa-check"></i><b>9.3.2</b> Date</a></li>
 <li class="chapter" data-level="9.3.3" data-path="lubridate.html"><a href="lubridate.html#iso-8601"><i class="fa fa-check"></i><b>9.3.3</b> ISO 8601</a></li>
 <li class="chapter" data-level="9.3.4" data-path="lubridate.html"><a href="lubridate.html#posix"><i class="fa fa-check"></i><b>9.3.4</b> POSIX</a></li>
 <li class="chapter" data-level="9.3.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-2"><i class="fa fa-check"></i><b>9.3.5</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#date-arithmetic"><i class="fa fa-check"></i><b>9.4</b> Date Arithmetic</a><ul>
+<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#date-arithmetic"><i class="fa fa-check"></i><b>9.4</b> Date Arithmetic</a>
+<ul>
 <li class="chapter" data-level="9.4.1" data-path="lubridate.html"><a href="lubridate.html#introduction-11"><i class="fa fa-check"></i><b>9.4.1</b> Introduction</a></li>
 <li class="chapter" data-level="9.4.2" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>9.4.2</b> Shift Date</a></li>
 <li class="chapter" data-level="9.4.3" data-path="lubridate.html"><a href="lubridate.html#case-study-11"><i class="fa fa-check"></i><b>9.4.3</b> Case Study</a></li>
 <li class="chapter" data-level="9.4.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-3"><i class="fa fa-check"></i><b>9.4.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#time-zones"><i class="fa fa-check"></i><b>9.5</b> Time Zones</a><ul>
+<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#time-zones"><i class="fa fa-check"></i><b>9.5</b> Time Zones</a>
+<ul>
 <li class="chapter" data-level="9.5.1" data-path="lubridate.html"><a href="lubridate.html#introduction-12"><i class="fa fa-check"></i><b>9.5.1</b> Introduction</a></li>
 <li class="chapter" data-level="9.5.2" data-path="lubridate.html"><a href="lubridate.html#time-zones-1"><i class="fa fa-check"></i><b>9.5.2</b> Time Zones</a></li>
 <li class="chapter" data-level="9.5.3" data-path="lubridate.html"><a href="lubridate.html#daylight-savings"><i class="fa fa-check"></i><b>9.5.3</b> Daylight Savings</a></li>
 <li class="chapter" data-level="9.5.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-4"><i class="fa fa-check"></i><b>9.5.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#date-time-formats"><i class="fa fa-check"></i><b>9.6</b> Date &amp; Time Formats</a><ul>
+<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#date-time-formats"><i class="fa fa-check"></i><b>9.6</b> Date &amp; Time Formats</a>
+<ul>
 <li class="chapter" data-level="9.6.1" data-path="lubridate.html"><a href="lubridate.html#introduction-13"><i class="fa fa-check"></i><b>9.6.1</b> Introduction</a></li>
 <li class="chapter" data-level="9.6.2" data-path="lubridate.html"><a href="lubridate.html#conversion-specifications"><i class="fa fa-check"></i><b>9.6.2</b> Conversion Specifications</a></li>
 <li class="chapter" data-level="9.6.3" data-path="lubridate.html"><a href="lubridate.html#guess-format"><i class="fa fa-check"></i><b>9.6.3</b> Guess Format</a></li>
 <li class="chapter" data-level="9.6.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-5"><i class="fa fa-check"></i><b>9.6.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#parse-date-time"><i class="fa fa-check"></i><b>9.7</b> Parse Date &amp; Time</a><ul>
+<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#parse-date-time"><i class="fa fa-check"></i><b>9.7</b> Parse Date &amp; Time</a>
+<ul>
 <li class="chapter" data-level="9.7.1" data-path="lubridate.html"><a href="lubridate.html#your-turn-6"><i class="fa fa-check"></i><b>9.7.1</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#date-time-components"><i class="fa fa-check"></i><b>9.8</b> Date &amp; Time Components</a><ul>
+<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#date-time-components"><i class="fa fa-check"></i><b>9.8</b> Date &amp; Time Components</a>
+<ul>
 <li class="chapter" data-level="9.8.1" data-path="lubridate.html"><a href="lubridate.html#year"><i class="fa fa-check"></i><b>9.8.1</b> Year</a></li>
 <li class="chapter" data-level="9.8.2" data-path="lubridate.html"><a href="lubridate.html#month"><i class="fa fa-check"></i><b>9.8.2</b> Month</a></li>
 <li class="chapter" data-level="9.8.3" data-path="lubridate.html"><a href="lubridate.html#week"><i class="fa fa-check"></i><b>9.8.3</b> Week</a></li>
@@ -399,51 +454,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.8.8" data-path="lubridate.html"><a href="lubridate.html#case-study-12"><i class="fa fa-check"></i><b>9.8.8</b> Case Study</a></li>
 <li class="chapter" data-level="9.8.9" data-path="lubridate.html"><a href="lubridate.html#your-turn-7"><i class="fa fa-check"></i><b>9.8.9</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#create-update-verify"><i class="fa fa-check"></i><b>9.9</b> Create, Update &amp; Verify</a><ul>
+<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#create-update-verify"><i class="fa fa-check"></i><b>9.9</b> Create, Update &amp; Verify</a>
+<ul>
 <li class="chapter" data-level="9.9.1" data-path="lubridate.html"><a href="lubridate.html#create"><i class="fa fa-check"></i><b>9.9.1</b> Create</a></li>
 <li class="chapter" data-level="9.9.2" data-path="lubridate.html"><a href="lubridate.html#update"><i class="fa fa-check"></i><b>9.9.2</b> Update</a></li>
 <li class="chapter" data-level="9.9.3" data-path="lubridate.html"><a href="lubridate.html#date-sequence"><i class="fa fa-check"></i><b>9.9.3</b> Date Sequence</a></li>
 <li class="chapter" data-level="9.9.4" data-path="lubridate.html"><a href="lubridate.html#verify-type"><i class="fa fa-check"></i><b>9.9.4</b> Verify Type</a></li>
 <li class="chapter" data-level="9.9.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-8"><i class="fa fa-check"></i><b>9.9.5</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#intervals-duration-period"><i class="fa fa-check"></i><b>9.10</b> Intervals, Duration &amp; Period</a><ul>
+<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#intervals-duration-period"><i class="fa fa-check"></i><b>9.10</b> Intervals, Duration &amp; Period</a>
+<ul>
 <li class="chapter" data-level="9.10.1" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>9.10.1</b> Interval</a></li>
 <li class="chapter" data-level="9.10.2" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>9.10.2</b> Within</a></li>
 <li class="chapter" data-level="9.10.3" data-path="lubridate.html"><a href="lubridate.html#duration"><i class="fa fa-check"></i><b>9.10.3</b> Duration</a></li>
 <li class="chapter" data-level="9.10.4" data-path="lubridate.html"><a href="lubridate.html#period"><i class="fa fa-check"></i><b>9.10.4</b> Period</a></li>
 </ul></li>
-<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#others"><i class="fa fa-check"></i><b>9.11</b> Others</a><ul>
+<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#others"><i class="fa fa-check"></i><b>9.11</b> Others</a>
+<ul>
 <li class="chapter" data-level="9.11.1" data-path="lubridate.html"><a href="lubridate.html#rounding-dates"><i class="fa fa-check"></i><b>9.11.1</b> Rounding Dates</a></li>
 <li class="chapter" data-level="9.11.2" data-path="lubridate.html"><a href="lubridate.html#rollback"><i class="fa fa-check"></i><b>9.11.2</b> Rollback</a></li>
 <li class="chapter" data-level="9.11.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-9"><i class="fa fa-check"></i><b>9.11.3</b> Your Turn</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>10</b> Categorical Data Analysis</a><ul>
-<li class="chapter" data-level="10.1" data-path="forcats.html"><a href="forcats.html#introduction-14"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
-<li class="chapter" data-level="10.2" data-path="forcats.html"><a href="forcats.html#case-study-13"><i class="fa fa-check"></i><b>10.2</b> Case Study</a><ul>
-<li class="chapter" data-level="10.2.1" data-path="forcats.html"><a href="forcats.html#data-5"><i class="fa fa-check"></i><b>10.2.1</b> Data</a></li>
+<li class="chapter" data-level="10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html"><i class="fa fa-check"></i><b>10</b> Categorical Data in R</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#intro"><i class="fa fa-check"></i><b>10.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-types"><i class="fa fa-check"></i><b>10.1.1</b> Data Types</a></li>
+<li class="chapter" data-level="10.1.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#categorical-data"><i class="fa fa-check"></i><b>10.1.2</b> Categorical Data</a></li>
+<li class="chapter" data-level="10.1.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#dichotomous"><i class="fa fa-check"></i><b>10.1.3</b> Dichotomous</a></li>
+<li class="chapter" data-level="10.1.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#polychotomous"><i class="fa fa-check"></i><b>10.1.4</b> Polychotomous</a></li>
+<li class="chapter" data-level="10.1.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#ordinal"><i class="fa fa-check"></i><b>10.1.5</b> Ordinal</a></li>
+<li class="chapter" data-level="10.1.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#nominal"><i class="fa fa-check"></i><b>10.1.6</b> Nominal</a></li>
+<li class="chapter" data-level="10.1.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-5"><i class="fa fa-check"></i><b>10.1.7</b> Summary</a></li>
+<li class="chapter" data-level="10.1.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-10"><i class="fa fa-check"></i><b>10.1.8</b> Your Turn…</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="forcats.html"><a href="forcats.html#tabulate-referrers"><i class="fa fa-check"></i><b>10.3</b> Tabulate Referrers</a></li>
-<li class="chapter" data-level="10.4" data-path="forcats.html"><a href="forcats.html#reorder-referrers"><i class="fa fa-check"></i><b>10.4</b> Reorder Referrers</a></li>
-<li class="chapter" data-level="10.5" data-path="forcats.html"><a href="forcats.html#plot-referrer-frequency-descending-order"><i class="fa fa-check"></i><b>10.5</b> Plot Referrer Frequency (Descending Order)</a></li>
-<li class="chapter" data-level="10.6" data-path="forcats.html"><a href="forcats.html#plot-referrer-frequency-ascending-order"><i class="fa fa-check"></i><b>10.6</b> Plot Referrer Frequency (Ascending Order)</a></li>
-<li class="chapter" data-level="10.7" data-path="forcats.html"><a href="forcats.html#case-study-2-1"><i class="fa fa-check"></i><b>10.7</b> Case Study 2</a><ul>
-<li class="chapter" data-level="10.7.1" data-path="forcats.html"><a href="forcats.html#data-6"><i class="fa fa-check"></i><b>10.7.1</b> Data</a></li>
+<li class="chapter" data-level="10.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#casestudy"><i class="fa fa-check"></i><b>10.2</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-5"><i class="fa fa-check"></i><b>10.2.1</b> Data</a></li>
+<li class="chapter" data-level="10.2.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-dictionary-5"><i class="fa fa-check"></i><b>10.2.2</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="10.8" data-path="forcats.html"><a href="forcats.html#tabulate-referrer"><i class="fa fa-check"></i><b>10.8</b> Tabulate Referrer</a></li>
-<li class="chapter" data-level="10.9" data-path="forcats.html"><a href="forcats.html#collapse-referrer-categories"><i class="fa fa-check"></i><b>10.9</b> Collapse Referrer Categories</a></li>
-<li class="chapter" data-level="10.10" data-path="forcats.html"><a href="forcats.html#lump-infrequent-referrer-types"><i class="fa fa-check"></i><b>10.10</b> Lump Infrequent Referrer Types</a></li>
-<li class="chapter" data-level="10.11" data-path="forcats.html"><a href="forcats.html#retain-top-3-referrers"><i class="fa fa-check"></i><b>10.11</b> Retain top 3 referrers</a></li>
-<li class="chapter" data-level="10.12" data-path="forcats.html"><a href="forcats.html#lump-referrer-types-with-less-than-10-traffic"><i class="fa fa-check"></i><b>10.12</b> Lump Referrer Types with less than 10% traffic</a></li>
-<li class="chapter" data-level="10.13" data-path="forcats.html"><a href="forcats.html#retain-3-referrer-types-with-lowest-traffic"><i class="fa fa-check"></i><b>10.13</b> Retain 3 Referrer Types with lowest traffic</a></li>
-<li class="chapter" data-level="10.14" data-path="forcats.html"><a href="forcats.html#retain-3-referrer-types-with-less-than-10-traffic"><i class="fa fa-check"></i><b>10.14</b> Retain 3 Referrer Types with less than 10% traffic</a></li>
-<li class="chapter" data-level="10.15" data-path="forcats.html"><a href="forcats.html#replace-levels"><i class="fa fa-check"></i><b>10.15</b> Replace Levels</a></li>
-<li class="chapter" data-level="10.16" data-path="forcats.html"><a href="forcats.html#drop-levels"><i class="fa fa-check"></i><b>10.16</b> Drop Levels</a></li>
-<li class="chapter" data-level="10.17" data-path="forcats.html"><a href="forcats.html#reorder-levels"><i class="fa fa-check"></i><b>10.17</b> Reorder Levels</a></li>
-<li class="chapter" data-level="10.18" data-path="forcats.html"><a href="forcats.html#case-study-3-1"><i class="fa fa-check"></i><b>10.18</b> Case Study 3</a><ul>
-<li class="chapter" data-level="10.18.1" data-path="forcats.html"><a href="forcats.html#data-7"><i class="fa fa-check"></i><b>10.18.1</b> Data</a></li>
+<li class="chapter" data-level="10.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#factors"><i class="fa fa-check"></i><b>10.3</b> Factors</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-14"><i class="fa fa-check"></i><b>10.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.3.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#membership-testing-1"><i class="fa fa-check"></i><b>10.3.2</b> Membership Testing</a></li>
+<li class="chapter" data-level="10.3.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#coercion"><i class="fa fa-check"></i><b>10.3.3</b> Coercion</a></li>
+<li class="chapter" data-level="10.3.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#factor-function"><i class="fa fa-check"></i><b>10.3.4</b> Factor Function</a></li>
+<li class="chapter" data-level="10.3.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#modify-labels"><i class="fa fa-check"></i><b>10.3.5</b> Modify Labels</a></li>
+<li class="chapter" data-level="10.3.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#missing-values"><i class="fa fa-check"></i><b>10.3.6</b> Missing Values</a></li>
+<li class="chapter" data-level="10.3.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#ordered-factors"><i class="fa fa-check"></i><b>10.3.7</b> Ordered Factors</a></li>
+<li class="chapter" data-level="10.3.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#modify-order-of-levels"><i class="fa fa-check"></i><b>10.3.8</b> Modify Order of Levels</a></li>
+<li class="chapter" data-level="10.3.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions"><i class="fa fa-check"></i><b>10.3.9</b> Key Functions</a></li>
+<li class="chapter" data-level="10.3.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-6"><i class="fa fa-check"></i><b>10.3.10</b> Summary</a></li>
+<li class="chapter" data-level="10.3.11" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-11"><i class="fa fa-check"></i><b>10.3.11</b> Your Turn…</a></li>
+<li class="chapter" data-level="10.3.12" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#operations"><i class="fa fa-check"></i><b>10.3.12</b> Summarize</a></li>
+<li class="chapter" data-level="10.3.13" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-15"><i class="fa fa-check"></i><b>10.3.13</b> Introduction</a></li>
+<li class="chapter" data-level="10.3.14" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#number-of-categories"><i class="fa fa-check"></i><b>10.3.14</b> Number of Categories</a></li>
+<li class="chapter" data-level="10.3.15" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#category-names"><i class="fa fa-check"></i><b>10.3.15</b> Category Names</a></li>
+<li class="chapter" data-level="10.3.16" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#names-counts"><i class="fa fa-check"></i><b>10.3.16</b> Names &amp; Counts</a></li>
+<li class="chapter" data-level="10.3.17" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#tables"><i class="fa fa-check"></i><b>10.3.17</b> Tables</a></li>
+<li class="chapter" data-level="10.3.18" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#contingency-table"><i class="fa fa-check"></i><b>10.3.18</b> Contingency Table</a></li>
+<li class="chapter" data-level="10.3.19" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-1"><i class="fa fa-check"></i><b>10.3.19</b> Key Functions</a></li>
+<li class="chapter" data-level="10.3.20" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-12"><i class="fa fa-check"></i><b>10.3.20</b> Your Turn…</a></li>
 </ul></li>
-<li class="chapter" data-level="10.19" data-path="forcats.html"><a href="forcats.html#shift-levels"><i class="fa fa-check"></i><b>10.19</b> Shift Levels</a></li>
+<li class="chapter" data-level="10.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#manipulate"><i class="fa fa-check"></i><b>10.4</b> Data Manipulation</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-16"><i class="fa fa-check"></i><b>10.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.4.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-13"><i class="fa fa-check"></i><b>10.4.2</b> Your Turn…</a></li>
+<li class="chapter" data-level="10.4.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-value-of-levels"><i class="fa fa-check"></i><b>10.4.3</b> Change Value of Levels</a></li>
+<li class="chapter" data-level="10.4.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#combine-both-paid-organic-search-into-a-single-level-search"><i class="fa fa-check"></i><b>10.4.4</b> Combine both Paid &amp; Organic Search into a single level, Search</a></li>
+<li class="chapter" data-level="10.4.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-2"><i class="fa fa-check"></i><b>10.4.5</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn.."><i class="fa fa-check"></i><b>10.4.6</b> Your Turn..</a></li>
+<li class="chapter" data-level="10.4.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-remove-levels"><i class="fa fa-check"></i><b>10.4.7</b> Add / Remove Levels</a></li>
+<li class="chapter" data-level="10.4.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-a-new-level-blog"><i class="fa fa-check"></i><b>10.4.8</b> Add a new level, Blog</a></li>
+<li class="chapter" data-level="10.4.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-3"><i class="fa fa-check"></i><b>10.4.9</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-order-of-levels"><i class="fa fa-check"></i><b>10.4.10</b> Change Order of Levels</a></li>
+<li class="chapter" data-level="10.4.11" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-4"><i class="fa fa-check"></i><b>10.4.11</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.12" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-14"><i class="fa fa-check"></i><b>10.4.12</b> Your Turn…</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#dataviz"><i class="fa fa-check"></i><b>10.5</b> Data Visualization</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-17"><i class="fa fa-check"></i><b>10.5.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.5.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#bar-plot"><i class="fa fa-check"></i><b>10.5.2</b> Bar Plot</a></li>
+<li class="chapter" data-level="10.5.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#grouped-bar-plot"><i class="fa fa-check"></i><b>10.5.3</b> Grouped Bar Plot</a></li>
+<li class="chapter" data-level="10.5.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#stacked-bar-plot"><i class="fa fa-check"></i><b>10.5.4</b> Stacked Bar Plot</a></li>
+<li class="chapter" data-level="10.5.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#proportional-bar-plot"><i class="fa fa-check"></i><b>10.5.5</b> Proportional Bar Plot</a></li>
+<li class="chapter" data-level="10.5.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#mosaic-plot"><i class="fa fa-check"></i><b>10.5.6</b> Mosaic Plot</a></li>
+<li class="chapter" data-level="10.5.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#pie-chart"><i class="fa fa-check"></i><b>10.5.7</b> Pie Chart</a></li>
+<li class="chapter" data-level="10.5.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#donut-chart"><i class="fa fa-check"></i><b>10.5.8</b> Donut Chart</a></li>
+<li class="chapter" data-level="10.5.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-7"><i class="fa fa-check"></i><b>10.5.9</b> Summary</a></li>
+<li class="chapter" data-level="10.5.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-15"><i class="fa fa-check"></i><b>10.5.10</b> Your Turn…</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#conclusion"><i class="fa fa-check"></i><b>10.6</b> Useful R Packages</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summarize-variables"><i class="fa fa-check"></i><b>10.6.1</b> Summarize Variables</a></li>
+<li class="chapter" data-level="10.6.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summarize-data-set"><i class="fa fa-check"></i><b>10.6.2</b> Summarize Data Set</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Import Data - 2 | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Import Data - 2 | Data Wrangling with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2020-06-20" />
+<meta name="date" content="2021-05-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="import1.html"/>
 <link rel="next" href="dplyr1.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +52,7 @@
 
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-57270671-37"></script>
 <script>
@@ -63,18 +65,17 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -94,7 +95,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -143,14 +144,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://github.com/rsquaredacademy-education/wrangle-r/">Data Wrangling with R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i>Structure of the book</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information"><i class="fa fa-check"></i>Software information</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
-<li class="chapter" data-level="1" data-path="import1.html"><a href="import1.html"><i class="fa fa-check"></i><b>1</b> Import Data - 1</a><ul>
+<li class="chapter" data-level="1" data-path="import1.html"><a href="import1.html"><i class="fa fa-check"></i><b>1</b> Import Data - 1</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="import1.html"><a href="import1.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
-<li class="chapter" data-level="1.2" data-path="import1.html"><a href="import1.html#delimiters"><i class="fa fa-check"></i><b>1.2</b> Delimiters</a><ul>
+<li class="chapter" data-level="1.2" data-path="import1.html"><a href="import1.html#delimiters"><i class="fa fa-check"></i><b>1.2</b> Delimiters</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="import1.html"><a href="import1.html#comma-separated-values"><i class="fa fa-check"></i><b>1.2.1</b> Comma Separated Values</a></li>
 <li class="chapter" data-level="1.2.2" data-path="import1.html"><a href="import1.html#semi-colon-separated-values"><i class="fa fa-check"></i><b>1.2.2</b> Semi Colon Separated Values</a></li>
 <li class="chapter" data-level="1.2.3" data-path="import1.html"><a href="import1.html#space-separated-values"><i class="fa fa-check"></i><b>1.2.3</b> Space Separated Values</a></li>
@@ -164,14 +168,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.8" data-path="import1.html"><a href="import1.html#select-columns"><i class="fa fa-check"></i><b>1.8</b> Select Columns</a></li>
 <li class="chapter" data-level="1.9" data-path="import1.html"><a href="import1.html#summary"><i class="fa fa-check"></i><b>1.9</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="import2.html"><a href="import2.html"><i class="fa fa-check"></i><b>2</b> Import Data - 2</a><ul>
+<li class="chapter" data-level="2" data-path="import2.html"><a href="import2.html"><i class="fa fa-check"></i><b>2</b> Import Data - 2</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="import2.html"><a href="import2.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
 <li class="chapter" data-level="2.2" data-path="import2.html"><a href="import2.html#list-sheets"><i class="fa fa-check"></i><b>2.2</b> List Sheets</a></li>
-<li class="chapter" data-level="2.3" data-path="import2.html"><a href="import2.html#read-sheet"><i class="fa fa-check"></i><b>2.3</b> Read Sheet</a><ul>
+<li class="chapter" data-level="2.3" data-path="import2.html"><a href="import2.html#read-sheet"><i class="fa fa-check"></i><b>2.3</b> Read Sheet</a>
+<ul>
 <li class="chapter" data-level="2.3.1" data-path="import2.html"><a href="import2.html#case-1-specify-the-sheet-number"><i class="fa fa-check"></i><b>2.3.1</b> Case 1: Specify the sheet number</a></li>
 <li class="chapter" data-level="2.3.2" data-path="import2.html"><a href="import2.html#case-2-specify-the-sheet-name"><i class="fa fa-check"></i><b>2.3.2</b> Case 2: Specify the sheet name</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="import2.html"><a href="import2.html#read-specific-cells"><i class="fa fa-check"></i><b>2.4</b> Read Specific Cells</a><ul>
+<li class="chapter" data-level="2.4" data-path="import2.html"><a href="import2.html#read-specific-cells"><i class="fa fa-check"></i><b>2.4</b> Read Specific Cells</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="import2.html"><a href="import2.html#method-1"><i class="fa fa-check"></i><b>2.4.1</b> Method 1</a></li>
 <li class="chapter" data-level="2.4.2" data-path="import2.html"><a href="import2.html#method-2"><i class="fa fa-check"></i><b>2.4.2</b> Method 2</a></li>
 <li class="chapter" data-level="2.4.3" data-path="import2.html"><a href="import2.html#method-3"><i class="fa fa-check"></i><b>2.4.3</b> Method 3</a></li>
@@ -181,75 +188,94 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="import2.html"><a href="import2.html#read-specific-rows"><i class="fa fa-check"></i><b>2.5</b> Read Specific Rows</a></li>
 <li class="chapter" data-level="2.6" data-path="import2.html"><a href="import2.html#read-single-column"><i class="fa fa-check"></i><b>2.6</b> Read Single Column</a></li>
-<li class="chapter" data-level="2.7" data-path="import2.html"><a href="import2.html#read-multiple-columns"><i class="fa fa-check"></i><b>2.7</b> Read Multiple Columns</a><ul>
+<li class="chapter" data-level="2.7" data-path="import2.html"><a href="import2.html#read-multiple-columns"><i class="fa fa-check"></i><b>2.7</b> Read Multiple Columns</a>
+<ul>
 <li class="chapter" data-level="2.7.1" data-path="import2.html"><a href="import2.html#summary-1"><i class="fa fa-check"></i><b>2.7.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="2.8" data-path="import2.html"><a href="import2.html#statistical-softwares"><i class="fa fa-check"></i><b>2.8</b> Statistical Softwares</a><ul>
+<li class="chapter" data-level="2.8" data-path="import2.html"><a href="import2.html#statistical-softwares"><i class="fa fa-check"></i><b>2.8</b> Statistical Softwares</a>
+<ul>
 <li class="chapter" data-level="2.8.1" data-path="import2.html"><a href="import2.html#stata"><i class="fa fa-check"></i><b>2.8.1</b> STATA</a></li>
 <li class="chapter" data-level="2.8.2" data-path="import2.html"><a href="import2.html#spss"><i class="fa fa-check"></i><b>2.8.2</b> SPSS</a></li>
 <li class="chapter" data-level="2.8.3" data-path="import2.html"><a href="import2.html#sas"><i class="fa fa-check"></i><b>2.8.3</b> SAS</a></li>
 </ul></li>
 <li class="chapter" data-level="2.9" data-path="import2.html"><a href="import2.html#summary-2"><i class="fa fa-check"></i><b>2.9</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="dplyr1.html"><a href="dplyr1.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling - 1</a><ul>
+<li class="chapter" data-level="3" data-path="dplyr1.html"><a href="dplyr1.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling - 1</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="dplyr1.html"><a href="dplyr1.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
 <li class="chapter" data-level="3.2" data-path="dplyr1.html"><a href="dplyr1.html#dplyr-verbs"><i class="fa fa-check"></i><b>3.2</b> dplyr Verbs</a></li>
-<li class="chapter" data-level="3.3" data-path="dplyr1.html"><a href="dplyr1.html#data"><i class="fa fa-check"></i><b>3.3</b> Data</a><ul>
+<li class="chapter" data-level="3.3" data-path="dplyr1.html"><a href="dplyr1.html#data"><i class="fa fa-check"></i><b>3.3</b> Data</a>
+<ul>
 <li class="chapter" data-level="3.3.1" data-path="dplyr1.html"><a href="dplyr1.html#data-dictionary"><i class="fa fa-check"></i><b>3.3.1</b> Data Dictionary</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="dplyr1.html"><a href="dplyr1.html#case-study"><i class="fa fa-check"></i><b>3.4</b> Case Study</a></li>
 <li class="chapter" data-level="3.5" data-path="dplyr1.html"><a href="dplyr1.html#average-order-value"><i class="fa fa-check"></i><b>3.5</b> Average Order Value</a></li>
 <li class="chapter" data-level="3.6" data-path="dplyr1.html"><a href="dplyr1.html#aov-by-devices"><i class="fa fa-check"></i><b>3.6</b> AOV by Devices</a></li>
 <li class="chapter" data-level="3.7" data-path="dplyr1.html"><a href="dplyr1.html#syntax"><i class="fa fa-check"></i><b>3.7</b> Syntax</a></li>
-<li class="chapter" data-level="3.8" data-path="dplyr1.html"><a href="dplyr1.html#filter-rows"><i class="fa fa-check"></i><b>3.8</b> Filter Rows</a><ul>
+<li class="chapter" data-level="3.8" data-path="dplyr1.html"><a href="dplyr1.html#filter-rows"><i class="fa fa-check"></i><b>3.8</b> Filter Rows</a>
+<ul>
 <li class="chapter" data-level="3.8.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-1"><i class="fa fa-check"></i><b>3.8.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.9" data-path="dplyr1.html"><a href="dplyr1.html#select-columns-1"><i class="fa fa-check"></i><b>3.9</b> Select Columns</a><ul>
+<li class="chapter" data-level="3.9" data-path="dplyr1.html"><a href="dplyr1.html#select-columns-1"><i class="fa fa-check"></i><b>3.9</b> Select Columns</a>
+<ul>
 <li class="chapter" data-level="3.9.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-2"><i class="fa fa-check"></i><b>3.9.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.10" data-path="dplyr1.html"><a href="dplyr1.html#grouping-data"><i class="fa fa-check"></i><b>3.10</b> Grouping Data</a><ul>
+<li class="chapter" data-level="3.10" data-path="dplyr1.html"><a href="dplyr1.html#grouping-data"><i class="fa fa-check"></i><b>3.10</b> Grouping Data</a>
+<ul>
 <li class="chapter" data-level="3.10.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-3"><i class="fa fa-check"></i><b>3.10.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.11" data-path="dplyr1.html"><a href="dplyr1.html#summarise-data"><i class="fa fa-check"></i><b>3.11</b> Summarise Data</a><ul>
+<li class="chapter" data-level="3.11" data-path="dplyr1.html"><a href="dplyr1.html#summarise-data"><i class="fa fa-check"></i><b>3.11</b> Summarise Data</a>
+<ul>
 <li class="chapter" data-level="3.11.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-4"><i class="fa fa-check"></i><b>3.11.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.12" data-path="dplyr1.html"><a href="dplyr1.html#create-columns"><i class="fa fa-check"></i><b>3.12</b> Create Columns</a><ul>
+<li class="chapter" data-level="3.12" data-path="dplyr1.html"><a href="dplyr1.html#create-columns"><i class="fa fa-check"></i><b>3.12</b> Create Columns</a>
+<ul>
 <li class="chapter" data-level="3.12.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-5"><i class="fa fa-check"></i><b>3.12.1</b> Case Study</a></li>
 </ul></li>
-<li class="chapter" data-level="3.13" data-path="dplyr1.html"><a href="dplyr1.html#arrange-data"><i class="fa fa-check"></i><b>3.13</b> Arrange Data</a><ul>
+<li class="chapter" data-level="3.13" data-path="dplyr1.html"><a href="dplyr1.html#arrange-data"><i class="fa fa-check"></i><b>3.13</b> Arrange Data</a>
+<ul>
 <li class="chapter" data-level="3.13.1" data-path="dplyr1.html"><a href="dplyr1.html#case-study-6"><i class="fa fa-check"></i><b>3.13.1</b> Case Study</a></li>
 </ul></li>
 <li class="chapter" data-level="3.14" data-path="dplyr1.html"><a href="dplyr1.html#aov-by-devices-1"><i class="fa fa-check"></i><b>3.14</b> AOV by Devices</a></li>
 <li class="chapter" data-level="3.15" data-path="dplyr1.html"><a href="dplyr1.html#your-turn"><i class="fa fa-check"></i><b>3.15</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="dplyr2.html"><a href="dplyr2.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling - 2</a><ul>
+<li class="chapter" data-level="4" data-path="dplyr2.html"><a href="dplyr2.html"><i class="fa fa-check"></i><b>4</b> Data Wrangling - 2</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="dplyr2.html"><a href="dplyr2.html#introduction-3"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
-<li class="chapter" data-level="4.2" data-path="dplyr2.html"><a href="dplyr2.html#case-study-7"><i class="fa fa-check"></i><b>4.2</b> Case Study</a><ul>
+<li class="chapter" data-level="4.2" data-path="dplyr2.html"><a href="dplyr2.html#case-study-7"><i class="fa fa-check"></i><b>4.2</b> Case Study</a>
+<ul>
 <li class="chapter" data-level="4.2.1" data-path="dplyr2.html"><a href="dplyr2.html#data-orders"><i class="fa fa-check"></i><b>4.2.1</b> Data: Orders</a></li>
 <li class="chapter" data-level="4.2.2" data-path="dplyr2.html"><a href="dplyr2.html#data-customers"><i class="fa fa-check"></i><b>4.2.2</b> Data: Customers</a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="dplyr2.html"><a href="dplyr2.html#example-data"><i class="fa fa-check"></i><b>4.3</b> Example Data</a></li>
-<li class="chapter" data-level="4.4" data-path="dplyr2.html"><a href="dplyr2.html#inner-join"><i class="fa fa-check"></i><b>4.4</b> Inner Join</a><ul>
+<li class="chapter" data-level="4.4" data-path="dplyr2.html"><a href="dplyr2.html#inner-join"><i class="fa fa-check"></i><b>4.4</b> Inner Join</a>
+<ul>
 <li class="chapter" data-level="4.4.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-placed-orders-and-their-order-details"><i class="fa fa-check"></i><b>4.4.1</b> Case Study: Details of customers who have placed orders and their order details</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="dplyr2.html"><a href="dplyr2.html#left-join"><i class="fa fa-check"></i><b>4.5</b> Left Join</a></li>
 <li class="chapter" data-level="4.6" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-and-their-orders-irrespective-of-whether-a-customer-has"><i class="fa fa-check"></i><b>4.6</b> Case Study: Details of customers and their orders irrespective of whether a customer has</a></li>
-<li class="chapter" data-level="4.7" data-path="dplyr2.html"><a href="dplyr2.html#right-join"><i class="fa fa-check"></i><b>4.7</b> Right Join</a><ul>
+<li class="chapter" data-level="4.7" data-path="dplyr2.html"><a href="dplyr2.html#right-join"><i class="fa fa-check"></i><b>4.7</b> Right Join</a>
+<ul>
 <li class="chapter" data-level="4.7.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-customer-details-for-each-order"><i class="fa fa-check"></i><b>4.7.1</b> Case Study: Customer details for each order</a></li>
 </ul></li>
-<li class="chapter" data-level="4.8" data-path="dplyr2.html"><a href="dplyr2.html#semi-join"><i class="fa fa-check"></i><b>4.8</b> Semi Join</a><ul>
+<li class="chapter" data-level="4.8" data-path="dplyr2.html"><a href="dplyr2.html#semi-join"><i class="fa fa-check"></i><b>4.8</b> Semi Join</a>
+<ul>
 <li class="chapter" data-level="4.8.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-placed-orders"><i class="fa fa-check"></i><b>4.8.1</b> Case Study: Details of customers who have placed orders</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="dplyr2.html"><a href="dplyr2.html#anti-join"><i class="fa fa-check"></i><b>4.9</b> Anti Join</a><ul>
+<li class="chapter" data-level="4.9" data-path="dplyr2.html"><a href="dplyr2.html#anti-join"><i class="fa fa-check"></i><b>4.9</b> Anti Join</a>
+<ul>
 <li class="chapter" data-level="4.9.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-customers-who-have-not-placed-orders"><i class="fa fa-check"></i><b>4.9.1</b> Case Study: Details of customers who have not placed orders</a></li>
 </ul></li>
-<li class="chapter" data-level="4.10" data-path="dplyr2.html"><a href="dplyr2.html#full-join"><i class="fa fa-check"></i><b>4.10</b> Full Join</a><ul>
+<li class="chapter" data-level="4.10" data-path="dplyr2.html"><a href="dplyr2.html#full-join"><i class="fa fa-check"></i><b>4.10</b> Full Join</a>
+<ul>
 <li class="chapter" data-level="4.10.1" data-path="dplyr2.html"><a href="dplyr2.html#case-study-details-of-all-customers-and-all-orders"><i class="fa fa-check"></i><b>4.10.1</b> Case Study: Details of all customers and all orders</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="dplyr3.html"><a href="dplyr3.html"><i class="fa fa-check"></i><b>5</b> Data Wrangling - 3</a><ul>
+<li class="chapter" data-level="5" data-path="dplyr3.html"><a href="dplyr3.html"><i class="fa fa-check"></i><b>5</b> Data Wrangling - 3</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="dplyr3.html"><a href="dplyr3.html#introduction-4"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
-<li class="chapter" data-level="5.2" data-path="dplyr3.html"><a href="dplyr3.html#case-study-8"><i class="fa fa-check"></i><b>5.2</b> Case Study</a><ul>
+<li class="chapter" data-level="5.2" data-path="dplyr3.html"><a href="dplyr3.html#case-study-8"><i class="fa fa-check"></i><b>5.2</b> Case Study</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="dplyr3.html"><a href="dplyr3.html#data-1"><i class="fa fa-check"></i><b>5.2.1</b> Data</a></li>
 <li class="chapter" data-level="5.2.2" data-path="dplyr3.html"><a href="dplyr3.html#data-dictionary-1"><i class="fa fa-check"></i><b>5.2.2</b> Data Dictionary</a></li>
 </ul></li>
@@ -257,49 +283,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="dplyr3.html"><a href="dplyr3.html#rename-columns"><i class="fa fa-check"></i><b>5.4</b> Rename Columns</a></li>
 <li class="chapter" data-level="5.5" data-path="dplyr3.html"><a href="dplyr3.html#data-tabulation"><i class="fa fa-check"></i><b>5.5</b> Data Tabulation</a></li>
 <li class="chapter" data-level="5.6" data-path="dplyr3.html"><a href="dplyr3.html#sampling-data"><i class="fa fa-check"></i><b>5.6</b> Sampling Data</a></li>
-<li class="chapter" data-level="5.7" data-path="dplyr3.html"><a href="dplyr3.html#data-extraction"><i class="fa fa-check"></i><b>5.7</b> Data Extraction</a><ul>
+<li class="chapter" data-level="5.7" data-path="dplyr3.html"><a href="dplyr3.html#data-extraction"><i class="fa fa-check"></i><b>5.7</b> Data Extraction</a>
+<ul>
 <li class="chapter" data-level="5.7.1" data-path="dplyr3.html"><a href="dplyr3.html#sample-data"><i class="fa fa-check"></i><b>5.7.1</b> Sample Data</a></li>
 </ul></li>
 <li class="chapter" data-level="5.8" data-path="dplyr3.html"><a href="dplyr3.html#between"><i class="fa fa-check"></i><b>5.8</b> Between</a></li>
 <li class="chapter" data-level="5.9" data-path="dplyr3.html"><a href="dplyr3.html#case-when"><i class="fa fa-check"></i><b>5.9</b> Case When</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>6</b> Pipes</a><ul>
+<li class="chapter" data-level="6" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>6</b> Pipes</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="pipes.html"><a href="pipes.html#introduction-5"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
 <li class="chapter" data-level="6.2" data-path="pipes.html"><a href="pipes.html#pipes-1"><i class="fa fa-check"></i><b>6.2</b> Pipes</a></li>
-<li class="chapter" data-level="6.3" data-path="pipes.html"><a href="pipes.html#data-2"><i class="fa fa-check"></i><b>6.3</b> Data</a><ul>
+<li class="chapter" data-level="6.3" data-path="pipes.html"><a href="pipes.html#data-2"><i class="fa fa-check"></i><b>6.3</b> Data</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="pipes.html"><a href="pipes.html#data-dictionary-2"><i class="fa fa-check"></i><b>6.3.1</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="pipes.html"><a href="pipes.html#head"><i class="fa fa-check"></i><b>6.4</b> head()</a><ul>
+<li class="chapter" data-level="6.4" data-path="pipes.html"><a href="pipes.html#head"><i class="fa fa-check"></i><b>6.4</b> head()</a>
+<ul>
 <li class="chapter" data-level="6.4.1" data-path="pipes.html"><a href="pipes.html#using-pipe"><i class="fa fa-check"></i><b>6.4.1</b> Using Pipe</a></li>
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="pipes.html"><a href="pipes.html#square-root"><i class="fa fa-check"></i><b>6.5</b> Square Root</a></li>
-<li class="chapter" data-level="6.6" data-path="pipes.html"><a href="pipes.html#visualization"><i class="fa fa-check"></i><b>6.6</b> Visualization</a><ul>
+<li class="chapter" data-level="6.6" data-path="pipes.html"><a href="pipes.html#visualization"><i class="fa fa-check"></i><b>6.6</b> Visualization</a>
+<ul>
 <li class="chapter" data-level="6.6.1" data-path="pipes.html"><a href="pipes.html#using-pipe-1"><i class="fa fa-check"></i><b>6.6.1</b> Using pipe</a></li>
 </ul></li>
 <li class="chapter" data-level="6.7" data-path="pipes.html"><a href="pipes.html#correlation"><i class="fa fa-check"></i><b>6.7</b> Correlation</a></li>
-<li class="chapter" data-level="6.8" data-path="pipes.html"><a href="pipes.html#regression"><i class="fa fa-check"></i><b>6.8</b> Regression</a><ul>
+<li class="chapter" data-level="6.8" data-path="pipes.html"><a href="pipes.html#regression"><i class="fa fa-check"></i><b>6.8</b> Regression</a>
+<ul>
 <li class="chapter" data-level="6.8.1" data-path="pipes.html"><a href="pipes.html#using-pipe-2"><i class="fa fa-check"></i><b>6.8.1</b> Using pipe</a></li>
 </ul></li>
 <li class="chapter" data-level="6.9" data-path="pipes.html"><a href="pipes.html#string-manipulation"><i class="fa fa-check"></i><b>6.9</b> String Manipulation</a></li>
-<li class="chapter" data-level="6.10" data-path="pipes.html"><a href="pipes.html#data-extraction-1"><i class="fa fa-check"></i><b>6.10</b> Data Extraction</a><ul>
+<li class="chapter" data-level="6.10" data-path="pipes.html"><a href="pipes.html#data-extraction-1"><i class="fa fa-check"></i><b>6.10</b> Data Extraction</a>
+<ul>
 <li class="chapter" data-level="6.10.1" data-path="pipes.html"><a href="pipes.html#extract-column"><i class="fa fa-check"></i><b>6.10.1</b> Extract Column</a></li>
 <li class="chapter" data-level="6.10.2" data-path="pipes.html"><a href="pipes.html#extract-list-element"><i class="fa fa-check"></i><b>6.10.2</b> Extract List Element</a></li>
 </ul></li>
-<li class="chapter" data-level="6.11" data-path="pipes.html"><a href="pipes.html#arithmetic-operations"><i class="fa fa-check"></i><b>6.11</b> Arithmetic Operations</a><ul>
+<li class="chapter" data-level="6.11" data-path="pipes.html"><a href="pipes.html#arithmetic-operations"><i class="fa fa-check"></i><b>6.11</b> Arithmetic Operations</a>
+<ul>
 <li class="chapter" data-level="6.11.1" data-path="pipes.html"><a href="pipes.html#addition"><i class="fa fa-check"></i><b>6.11.1</b> Addition</a></li>
 <li class="chapter" data-level="6.11.2" data-path="pipes.html"><a href="pipes.html#multiplication"><i class="fa fa-check"></i><b>6.11.2</b> Multiplication</a></li>
 <li class="chapter" data-level="6.11.3" data-path="pipes.html"><a href="pipes.html#division"><i class="fa fa-check"></i><b>6.11.3</b> Division</a></li>
 <li class="chapter" data-level="6.11.4" data-path="pipes.html"><a href="pipes.html#power"><i class="fa fa-check"></i><b>6.11.4</b> Power</a></li>
 </ul></li>
-<li class="chapter" data-level="6.12" data-path="pipes.html"><a href="pipes.html#logical-operators"><i class="fa fa-check"></i><b>6.12</b> Logical Operators</a><ul>
+<li class="chapter" data-level="6.12" data-path="pipes.html"><a href="pipes.html#logical-operators"><i class="fa fa-check"></i><b>6.12</b> Logical Operators</a>
+<ul>
 <li class="chapter" data-level="6.12.1" data-path="pipes.html"><a href="pipes.html#greater-than"><i class="fa fa-check"></i><b>6.12.1</b> Greater Than</a></li>
 <li class="chapter" data-level="6.12.2" data-path="pipes.html"><a href="pipes.html#weakly-greater-than"><i class="fa fa-check"></i><b>6.12.2</b> Weakly Greater Than</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>7</b> tibbles</a><ul>
+<li class="chapter" data-level="7" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>7</b> tibbles</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="tibbles.html"><a href="tibbles.html#introduction-6"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
 <li class="chapter" data-level="7.2" data-path="tibbles.html"><a href="tibbles.html#creating-tibbles"><i class="fa fa-check"></i><b>7.2</b> Creating tibbles</a></li>
-<li class="chapter" data-level="7.3" data-path="tibbles.html"><a href="tibbles.html#tibble-features"><i class="fa fa-check"></i><b>7.3</b> tibble features</a><ul>
+<li class="chapter" data-level="7.3" data-path="tibbles.html"><a href="tibbles.html#tibble-features"><i class="fa fa-check"></i><b>7.3</b> tibble features</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="tibbles.html"><a href="tibbles.html#never-changes-inputs-types"><i class="fa fa-check"></i><b>7.3.1</b> never changes input’s types</a></li>
 <li class="chapter" data-level="7.3.2" data-path="tibbles.html"><a href="tibbles.html#never-adjusts-variable-names"><i class="fa fa-check"></i><b>7.3.2</b> never adjusts variable names</a></li>
 <li class="chapter" data-level="7.3.3" data-path="tibbles.html"><a href="tibbles.html#never-prints-all-rows"><i class="fa fa-check"></i><b>7.3.3</b> never prints all rows</a></li>
@@ -310,45 +347,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.6" data-path="tibbles.html"><a href="tibbles.html#column-names-1"><i class="fa fa-check"></i><b>7.6</b> Column Names</a></li>
 <li class="chapter" data-level="7.7" data-path="tibbles.html"><a href="tibbles.html#add-rows"><i class="fa fa-check"></i><b>7.7</b> Add Rows</a></li>
 <li class="chapter" data-level="7.8" data-path="tibbles.html"><a href="tibbles.html#add-columns"><i class="fa fa-check"></i><b>7.8</b> Add Columns</a></li>
-<li class="chapter" data-level="7.9" data-path="tibbles.html"><a href="tibbles.html#rownames"><i class="fa fa-check"></i><b>7.9</b> Rownames</a><ul>
+<li class="chapter" data-level="7.9" data-path="tibbles.html"><a href="tibbles.html#rownames"><i class="fa fa-check"></i><b>7.9</b> Rownames</a>
+<ul>
 <li class="chapter" data-level="7.9.1" data-path="tibbles.html"><a href="tibbles.html#remove-rownames"><i class="fa fa-check"></i><b>7.9.1</b> Remove Rownames</a></li>
 <li class="chapter" data-level="7.9.2" data-path="tibbles.html"><a href="tibbles.html#rownames-to-column"><i class="fa fa-check"></i><b>7.9.2</b> Rownames to Column</a></li>
 <li class="chapter" data-level="7.9.3" data-path="tibbles.html"><a href="tibbles.html#column-to-rownames"><i class="fa fa-check"></i><b>7.9.3</b> Column to Rownames</a></li>
 </ul></li>
 <li class="chapter" data-level="7.10" data-path="tibbles.html"><a href="tibbles.html#glimpse"><i class="fa fa-check"></i><b>7.10</b> Glimpse</a></li>
 <li class="chapter" data-level="7.11" data-path="tibbles.html"><a href="tibbles.html#check-column"><i class="fa fa-check"></i><b>7.11</b> Check Column</a></li>
-<li class="chapter" data-level="7.12" data-path="tibbles.html"><a href="tibbles.html#summary-3"><i class="fa fa-check"></i><b>7.12</b> Summary</a><ul>
+<li class="chapter" data-level="7.12" data-path="tibbles.html"><a href="tibbles.html#summary-3"><i class="fa fa-check"></i><b>7.12</b> Summary</a>
+<ul>
 <li class="chapter" data-level="7.12.1" data-path="tibbles.html"><a href="tibbles.html#creating-tibbles-1"><i class="fa fa-check"></i><b>7.12.1</b> Creating tibbles</a></li>
 <li class="chapter" data-level="7.12.2" data-path="tibbles.html"><a href="tibbles.html#modifying-tibbles"><i class="fa fa-check"></i><b>7.12.2</b> Modifying tibbles</a></li>
 <li class="chapter" data-level="7.12.3" data-path="tibbles.html"><a href="tibbles.html#testing-tibbles"><i class="fa fa-check"></i><b>7.12.3</b> Testing tibbles</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="stringr.html"><a href="stringr.html"><i class="fa fa-check"></i><b>8</b> Handling String Data</a><ul>
+<li class="chapter" data-level="8" data-path="stringr.html"><a href="stringr.html"><i class="fa fa-check"></i><b>8</b> Handling String Data</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="stringr.html"><a href="stringr.html#introduction-7"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
-<li class="chapter" data-level="8.2" data-path="stringr.html"><a href="stringr.html#case-study-9"><i class="fa fa-check"></i><b>8.2</b> Case Study</a><ul>
+<li class="chapter" data-level="8.2" data-path="stringr.html"><a href="stringr.html#case-study-9"><i class="fa fa-check"></i><b>8.2</b> Case Study</a>
+<ul>
 <li class="chapter" data-level="8.2.1" data-path="stringr.html"><a href="stringr.html#data-3"><i class="fa fa-check"></i><b>8.2.1</b> Data</a></li>
 <li class="chapter" data-level="8.2.2" data-path="stringr.html"><a href="stringr.html#data-dictionary-3"><i class="fa fa-check"></i><b>8.2.2</b> Data Dictionary</a></li>
 </ul></li>
 <li class="chapter" data-level="8.3" data-path="stringr.html"><a href="stringr.html#overview"><i class="fa fa-check"></i><b>8.3</b> Overview</a></li>
-<li class="chapter" data-level="8.4" data-path="stringr.html"><a href="stringr.html#extract-domain-name-from-email-ids"><i class="fa fa-check"></i><b>8.4</b> Extract domain name from email ids</a><ul>
+<li class="chapter" data-level="8.4" data-path="stringr.html"><a href="stringr.html#extract-domain-name-from-email-ids"><i class="fa fa-check"></i><b>8.4</b> Extract domain name from email ids</a>
+<ul>
 <li class="chapter" data-level="8.4.1" data-path="stringr.html"><a href="stringr.html#steps"><i class="fa fa-check"></i><b>8.4.1</b> Steps</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="stringr.html"><a href="stringr.html#extract-domain-extension"><i class="fa fa-check"></i><b>8.5</b> Extract Domain Extension</a></li>
-<li class="chapter" data-level="8.6" data-path="stringr.html"><a href="stringr.html#extract-image-type-from-url"><i class="fa fa-check"></i><b>8.6</b> Extract image type from URL</a><ul>
+<li class="chapter" data-level="8.6" data-path="stringr.html"><a href="stringr.html#extract-image-type-from-url"><i class="fa fa-check"></i><b>8.6</b> Extract image type from URL</a>
+<ul>
 <li class="chapter" data-level="8.6.1" data-path="stringr.html"><a href="stringr.html#steps-1"><i class="fa fa-check"></i><b>8.6.1</b> Steps</a></li>
 </ul></li>
-<li class="chapter" data-level="8.7" data-path="stringr.html"><a href="stringr.html#extract-image-dimesion-from-url"><i class="fa fa-check"></i><b>8.7</b> Extract Image Dimesion from URL</a><ul>
+<li class="chapter" data-level="8.7" data-path="stringr.html"><a href="stringr.html#extract-image-dimesion-from-url"><i class="fa fa-check"></i><b>8.7</b> Extract Image Dimesion from URL</a>
+<ul>
 <li class="chapter" data-level="8.7.1" data-path="stringr.html"><a href="stringr.html#steps-2"><i class="fa fa-check"></i><b>8.7.1</b> Steps</a></li>
 </ul></li>
-<li class="chapter" data-level="8.8" data-path="stringr.html"><a href="stringr.html#extract-http-protocol-from-url"><i class="fa fa-check"></i><b>8.8</b> Extract HTTP Protocol from URL</a><ul>
+<li class="chapter" data-level="8.8" data-path="stringr.html"><a href="stringr.html#extract-http-protocol-from-url"><i class="fa fa-check"></i><b>8.8</b> Extract HTTP Protocol from URL</a>
+<ul>
 <li class="chapter" data-level="8.8.1" data-path="stringr.html"><a href="stringr.html#steps-3"><i class="fa fa-check"></i><b>8.8.1</b> Steps</a></li>
 </ul></li>
-<li class="chapter" data-level="8.9" data-path="stringr.html"><a href="stringr.html#extract-file-type"><i class="fa fa-check"></i><b>8.9</b> Extract file type</a><ul>
+<li class="chapter" data-level="8.9" data-path="stringr.html"><a href="stringr.html#extract-file-type"><i class="fa fa-check"></i><b>8.9</b> Extract file type</a>
+<ul>
 <li class="chapter" data-level="8.9.1" data-path="stringr.html"><a href="stringr.html#steps-4"><i class="fa fa-check"></i><b>8.9.1</b> Steps</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>9</b> Working with Date &amp; Time</a><ul>
-<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a><ul>
+<li class="chapter" data-level="9" data-path="lubridate.html"><a href="lubridate.html"><i class="fa fa-check"></i><b>9</b> Working with Date &amp; Time</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="lubridate.html"><a href="lubridate.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="lubridate.html"><a href="lubridate.html#date"><i class="fa fa-check"></i><b>9.1.1</b> Date</a></li>
 <li class="chapter" data-level="9.1.2" data-path="lubridate.html"><a href="lubridate.html#time"><i class="fa fa-check"></i><b>9.1.2</b> Time</a></li>
 <li class="chapter" data-level="9.1.3" data-path="lubridate.html"><a href="lubridate.html#am-or-pm"><i class="fa fa-check"></i><b>9.1.3</b> AM or PM?</a></li>
@@ -356,39 +404,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1.5" data-path="lubridate.html"><a href="lubridate.html#summary-4"><i class="fa fa-check"></i><b>9.1.5</b> Summary</a></li>
 <li class="chapter" data-level="9.1.6" data-path="lubridate.html"><a href="lubridate.html#your-turn-1"><i class="fa fa-check"></i><b>9.1.6</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.2</b> Case Study</a><ul>
+<li class="chapter" data-level="9.2" data-path="lubridate.html"><a href="lubridate.html#case-study-10"><i class="fa fa-check"></i><b>9.2</b> Case Study</a>
+<ul>
 <li class="chapter" data-level="9.2.1" data-path="lubridate.html"><a href="lubridate.html#data-4"><i class="fa fa-check"></i><b>9.2.1</b> Data</a></li>
 <li class="chapter" data-level="9.2.2" data-path="lubridate.html"><a href="lubridate.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.2.2</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#date-time-classes"><i class="fa fa-check"></i><b>9.3</b> Date &amp; Time Classes</a><ul>
+<li class="chapter" data-level="9.3" data-path="lubridate.html"><a href="lubridate.html#date-time-classes"><i class="fa fa-check"></i><b>9.3</b> Date &amp; Time Classes</a>
+<ul>
 <li class="chapter" data-level="9.3.1" data-path="lubridate.html"><a href="lubridate.html#introduction-9"><i class="fa fa-check"></i><b>9.3.1</b> Introduction</a></li>
 <li class="chapter" data-level="9.3.2" data-path="lubridate.html"><a href="lubridate.html#date-1"><i class="fa fa-check"></i><b>9.3.2</b> Date</a></li>
 <li class="chapter" data-level="9.3.3" data-path="lubridate.html"><a href="lubridate.html#iso-8601"><i class="fa fa-check"></i><b>9.3.3</b> ISO 8601</a></li>
 <li class="chapter" data-level="9.3.4" data-path="lubridate.html"><a href="lubridate.html#posix"><i class="fa fa-check"></i><b>9.3.4</b> POSIX</a></li>
 <li class="chapter" data-level="9.3.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-2"><i class="fa fa-check"></i><b>9.3.5</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#date-arithmetic"><i class="fa fa-check"></i><b>9.4</b> Date Arithmetic</a><ul>
+<li class="chapter" data-level="9.4" data-path="lubridate.html"><a href="lubridate.html#date-arithmetic"><i class="fa fa-check"></i><b>9.4</b> Date Arithmetic</a>
+<ul>
 <li class="chapter" data-level="9.4.1" data-path="lubridate.html"><a href="lubridate.html#introduction-11"><i class="fa fa-check"></i><b>9.4.1</b> Introduction</a></li>
 <li class="chapter" data-level="9.4.2" data-path="lubridate.html"><a href="lubridate.html#shift-date"><i class="fa fa-check"></i><b>9.4.2</b> Shift Date</a></li>
 <li class="chapter" data-level="9.4.3" data-path="lubridate.html"><a href="lubridate.html#case-study-11"><i class="fa fa-check"></i><b>9.4.3</b> Case Study</a></li>
 <li class="chapter" data-level="9.4.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-3"><i class="fa fa-check"></i><b>9.4.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#time-zones"><i class="fa fa-check"></i><b>9.5</b> Time Zones</a><ul>
+<li class="chapter" data-level="9.5" data-path="lubridate.html"><a href="lubridate.html#time-zones"><i class="fa fa-check"></i><b>9.5</b> Time Zones</a>
+<ul>
 <li class="chapter" data-level="9.5.1" data-path="lubridate.html"><a href="lubridate.html#introduction-12"><i class="fa fa-check"></i><b>9.5.1</b> Introduction</a></li>
 <li class="chapter" data-level="9.5.2" data-path="lubridate.html"><a href="lubridate.html#time-zones-1"><i class="fa fa-check"></i><b>9.5.2</b> Time Zones</a></li>
 <li class="chapter" data-level="9.5.3" data-path="lubridate.html"><a href="lubridate.html#daylight-savings"><i class="fa fa-check"></i><b>9.5.3</b> Daylight Savings</a></li>
 <li class="chapter" data-level="9.5.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-4"><i class="fa fa-check"></i><b>9.5.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#date-time-formats"><i class="fa fa-check"></i><b>9.6</b> Date &amp; Time Formats</a><ul>
+<li class="chapter" data-level="9.6" data-path="lubridate.html"><a href="lubridate.html#date-time-formats"><i class="fa fa-check"></i><b>9.6</b> Date &amp; Time Formats</a>
+<ul>
 <li class="chapter" data-level="9.6.1" data-path="lubridate.html"><a href="lubridate.html#introduction-13"><i class="fa fa-check"></i><b>9.6.1</b> Introduction</a></li>
 <li class="chapter" data-level="9.6.2" data-path="lubridate.html"><a href="lubridate.html#conversion-specifications"><i class="fa fa-check"></i><b>9.6.2</b> Conversion Specifications</a></li>
 <li class="chapter" data-level="9.6.3" data-path="lubridate.html"><a href="lubridate.html#guess-format"><i class="fa fa-check"></i><b>9.6.3</b> Guess Format</a></li>
 <li class="chapter" data-level="9.6.4" data-path="lubridate.html"><a href="lubridate.html#your-turn-5"><i class="fa fa-check"></i><b>9.6.4</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#parse-date-time"><i class="fa fa-check"></i><b>9.7</b> Parse Date &amp; Time</a><ul>
+<li class="chapter" data-level="9.7" data-path="lubridate.html"><a href="lubridate.html#parse-date-time"><i class="fa fa-check"></i><b>9.7</b> Parse Date &amp; Time</a>
+<ul>
 <li class="chapter" data-level="9.7.1" data-path="lubridate.html"><a href="lubridate.html#your-turn-6"><i class="fa fa-check"></i><b>9.7.1</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#date-time-components"><i class="fa fa-check"></i><b>9.8</b> Date &amp; Time Components</a><ul>
+<li class="chapter" data-level="9.8" data-path="lubridate.html"><a href="lubridate.html#date-time-components"><i class="fa fa-check"></i><b>9.8</b> Date &amp; Time Components</a>
+<ul>
 <li class="chapter" data-level="9.8.1" data-path="lubridate.html"><a href="lubridate.html#year"><i class="fa fa-check"></i><b>9.8.1</b> Year</a></li>
 <li class="chapter" data-level="9.8.2" data-path="lubridate.html"><a href="lubridate.html#month"><i class="fa fa-check"></i><b>9.8.2</b> Month</a></li>
 <li class="chapter" data-level="9.8.3" data-path="lubridate.html"><a href="lubridate.html#week"><i class="fa fa-check"></i><b>9.8.3</b> Week</a></li>
@@ -399,51 +454,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.8.8" data-path="lubridate.html"><a href="lubridate.html#case-study-12"><i class="fa fa-check"></i><b>9.8.8</b> Case Study</a></li>
 <li class="chapter" data-level="9.8.9" data-path="lubridate.html"><a href="lubridate.html#your-turn-7"><i class="fa fa-check"></i><b>9.8.9</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#create-update-verify"><i class="fa fa-check"></i><b>9.9</b> Create, Update &amp; Verify</a><ul>
+<li class="chapter" data-level="9.9" data-path="lubridate.html"><a href="lubridate.html#create-update-verify"><i class="fa fa-check"></i><b>9.9</b> Create, Update &amp; Verify</a>
+<ul>
 <li class="chapter" data-level="9.9.1" data-path="lubridate.html"><a href="lubridate.html#create"><i class="fa fa-check"></i><b>9.9.1</b> Create</a></li>
 <li class="chapter" data-level="9.9.2" data-path="lubridate.html"><a href="lubridate.html#update"><i class="fa fa-check"></i><b>9.9.2</b> Update</a></li>
 <li class="chapter" data-level="9.9.3" data-path="lubridate.html"><a href="lubridate.html#date-sequence"><i class="fa fa-check"></i><b>9.9.3</b> Date Sequence</a></li>
 <li class="chapter" data-level="9.9.4" data-path="lubridate.html"><a href="lubridate.html#verify-type"><i class="fa fa-check"></i><b>9.9.4</b> Verify Type</a></li>
 <li class="chapter" data-level="9.9.5" data-path="lubridate.html"><a href="lubridate.html#your-turn-8"><i class="fa fa-check"></i><b>9.9.5</b> Your Turn</a></li>
 </ul></li>
-<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#intervals-duration-period"><i class="fa fa-check"></i><b>9.10</b> Intervals, Duration &amp; Period</a><ul>
+<li class="chapter" data-level="9.10" data-path="lubridate.html"><a href="lubridate.html#intervals-duration-period"><i class="fa fa-check"></i><b>9.10</b> Intervals, Duration &amp; Period</a>
+<ul>
 <li class="chapter" data-level="9.10.1" data-path="lubridate.html"><a href="lubridate.html#interval"><i class="fa fa-check"></i><b>9.10.1</b> Interval</a></li>
 <li class="chapter" data-level="9.10.2" data-path="lubridate.html"><a href="lubridate.html#within"><i class="fa fa-check"></i><b>9.10.2</b> Within</a></li>
 <li class="chapter" data-level="9.10.3" data-path="lubridate.html"><a href="lubridate.html#duration"><i class="fa fa-check"></i><b>9.10.3</b> Duration</a></li>
 <li class="chapter" data-level="9.10.4" data-path="lubridate.html"><a href="lubridate.html#period"><i class="fa fa-check"></i><b>9.10.4</b> Period</a></li>
 </ul></li>
-<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#others"><i class="fa fa-check"></i><b>9.11</b> Others</a><ul>
+<li class="chapter" data-level="9.11" data-path="lubridate.html"><a href="lubridate.html#others"><i class="fa fa-check"></i><b>9.11</b> Others</a>
+<ul>
 <li class="chapter" data-level="9.11.1" data-path="lubridate.html"><a href="lubridate.html#rounding-dates"><i class="fa fa-check"></i><b>9.11.1</b> Rounding Dates</a></li>
 <li class="chapter" data-level="9.11.2" data-path="lubridate.html"><a href="lubridate.html#rollback"><i class="fa fa-check"></i><b>9.11.2</b> Rollback</a></li>
 <li class="chapter" data-level="9.11.3" data-path="lubridate.html"><a href="lubridate.html#your-turn-9"><i class="fa fa-check"></i><b>9.11.3</b> Your Turn</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="forcats.html"><a href="forcats.html"><i class="fa fa-check"></i><b>10</b> Categorical Data Analysis</a><ul>
-<li class="chapter" data-level="10.1" data-path="forcats.html"><a href="forcats.html#introduction-14"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
-<li class="chapter" data-level="10.2" data-path="forcats.html"><a href="forcats.html#case-study-13"><i class="fa fa-check"></i><b>10.2</b> Case Study</a><ul>
-<li class="chapter" data-level="10.2.1" data-path="forcats.html"><a href="forcats.html#data-5"><i class="fa fa-check"></i><b>10.2.1</b> Data</a></li>
+<li class="chapter" data-level="10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html"><i class="fa fa-check"></i><b>10</b> Categorical Data in R</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#intro"><i class="fa fa-check"></i><b>10.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-types"><i class="fa fa-check"></i><b>10.1.1</b> Data Types</a></li>
+<li class="chapter" data-level="10.1.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#categorical-data"><i class="fa fa-check"></i><b>10.1.2</b> Categorical Data</a></li>
+<li class="chapter" data-level="10.1.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#dichotomous"><i class="fa fa-check"></i><b>10.1.3</b> Dichotomous</a></li>
+<li class="chapter" data-level="10.1.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#polychotomous"><i class="fa fa-check"></i><b>10.1.4</b> Polychotomous</a></li>
+<li class="chapter" data-level="10.1.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#ordinal"><i class="fa fa-check"></i><b>10.1.5</b> Ordinal</a></li>
+<li class="chapter" data-level="10.1.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#nominal"><i class="fa fa-check"></i><b>10.1.6</b> Nominal</a></li>
+<li class="chapter" data-level="10.1.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-5"><i class="fa fa-check"></i><b>10.1.7</b> Summary</a></li>
+<li class="chapter" data-level="10.1.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-10"><i class="fa fa-check"></i><b>10.1.8</b> Your Turn…</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="forcats.html"><a href="forcats.html#tabulate-referrers"><i class="fa fa-check"></i><b>10.3</b> Tabulate Referrers</a></li>
-<li class="chapter" data-level="10.4" data-path="forcats.html"><a href="forcats.html#reorder-referrers"><i class="fa fa-check"></i><b>10.4</b> Reorder Referrers</a></li>
-<li class="chapter" data-level="10.5" data-path="forcats.html"><a href="forcats.html#plot-referrer-frequency-descending-order"><i class="fa fa-check"></i><b>10.5</b> Plot Referrer Frequency (Descending Order)</a></li>
-<li class="chapter" data-level="10.6" data-path="forcats.html"><a href="forcats.html#plot-referrer-frequency-ascending-order"><i class="fa fa-check"></i><b>10.6</b> Plot Referrer Frequency (Ascending Order)</a></li>
-<li class="chapter" data-level="10.7" data-path="forcats.html"><a href="forcats.html#case-study-2-1"><i class="fa fa-check"></i><b>10.7</b> Case Study 2</a><ul>
-<li class="chapter" data-level="10.7.1" data-path="forcats.html"><a href="forcats.html#data-6"><i class="fa fa-check"></i><b>10.7.1</b> Data</a></li>
+<li class="chapter" data-level="10.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#casestudy"><i class="fa fa-check"></i><b>10.2</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-5"><i class="fa fa-check"></i><b>10.2.1</b> Data</a></li>
+<li class="chapter" data-level="10.2.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-dictionary-5"><i class="fa fa-check"></i><b>10.2.2</b> Data Dictionary</a></li>
 </ul></li>
-<li class="chapter" data-level="10.8" data-path="forcats.html"><a href="forcats.html#tabulate-referrer"><i class="fa fa-check"></i><b>10.8</b> Tabulate Referrer</a></li>
-<li class="chapter" data-level="10.9" data-path="forcats.html"><a href="forcats.html#collapse-referrer-categories"><i class="fa fa-check"></i><b>10.9</b> Collapse Referrer Categories</a></li>
-<li class="chapter" data-level="10.10" data-path="forcats.html"><a href="forcats.html#lump-infrequent-referrer-types"><i class="fa fa-check"></i><b>10.10</b> Lump Infrequent Referrer Types</a></li>
-<li class="chapter" data-level="10.11" data-path="forcats.html"><a href="forcats.html#retain-top-3-referrers"><i class="fa fa-check"></i><b>10.11</b> Retain top 3 referrers</a></li>
-<li class="chapter" data-level="10.12" data-path="forcats.html"><a href="forcats.html#lump-referrer-types-with-less-than-10-traffic"><i class="fa fa-check"></i><b>10.12</b> Lump Referrer Types with less than 10% traffic</a></li>
-<li class="chapter" data-level="10.13" data-path="forcats.html"><a href="forcats.html#retain-3-referrer-types-with-lowest-traffic"><i class="fa fa-check"></i><b>10.13</b> Retain 3 Referrer Types with lowest traffic</a></li>
-<li class="chapter" data-level="10.14" data-path="forcats.html"><a href="forcats.html#retain-3-referrer-types-with-less-than-10-traffic"><i class="fa fa-check"></i><b>10.14</b> Retain 3 Referrer Types with less than 10% traffic</a></li>
-<li class="chapter" data-level="10.15" data-path="forcats.html"><a href="forcats.html#replace-levels"><i class="fa fa-check"></i><b>10.15</b> Replace Levels</a></li>
-<li class="chapter" data-level="10.16" data-path="forcats.html"><a href="forcats.html#drop-levels"><i class="fa fa-check"></i><b>10.16</b> Drop Levels</a></li>
-<li class="chapter" data-level="10.17" data-path="forcats.html"><a href="forcats.html#reorder-levels"><i class="fa fa-check"></i><b>10.17</b> Reorder Levels</a></li>
-<li class="chapter" data-level="10.18" data-path="forcats.html"><a href="forcats.html#case-study-3-1"><i class="fa fa-check"></i><b>10.18</b> Case Study 3</a><ul>
-<li class="chapter" data-level="10.18.1" data-path="forcats.html"><a href="forcats.html#data-7"><i class="fa fa-check"></i><b>10.18.1</b> Data</a></li>
+<li class="chapter" data-level="10.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#factors"><i class="fa fa-check"></i><b>10.3</b> Factors</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-14"><i class="fa fa-check"></i><b>10.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.3.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#membership-testing-1"><i class="fa fa-check"></i><b>10.3.2</b> Membership Testing</a></li>
+<li class="chapter" data-level="10.3.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#coercion"><i class="fa fa-check"></i><b>10.3.3</b> Coercion</a></li>
+<li class="chapter" data-level="10.3.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#factor-function"><i class="fa fa-check"></i><b>10.3.4</b> Factor Function</a></li>
+<li class="chapter" data-level="10.3.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#modify-labels"><i class="fa fa-check"></i><b>10.3.5</b> Modify Labels</a></li>
+<li class="chapter" data-level="10.3.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#missing-values"><i class="fa fa-check"></i><b>10.3.6</b> Missing Values</a></li>
+<li class="chapter" data-level="10.3.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#ordered-factors"><i class="fa fa-check"></i><b>10.3.7</b> Ordered Factors</a></li>
+<li class="chapter" data-level="10.3.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#modify-order-of-levels"><i class="fa fa-check"></i><b>10.3.8</b> Modify Order of Levels</a></li>
+<li class="chapter" data-level="10.3.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions"><i class="fa fa-check"></i><b>10.3.9</b> Key Functions</a></li>
+<li class="chapter" data-level="10.3.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-6"><i class="fa fa-check"></i><b>10.3.10</b> Summary</a></li>
+<li class="chapter" data-level="10.3.11" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-11"><i class="fa fa-check"></i><b>10.3.11</b> Your Turn…</a></li>
+<li class="chapter" data-level="10.3.12" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#operations"><i class="fa fa-check"></i><b>10.3.12</b> Summarize</a></li>
+<li class="chapter" data-level="10.3.13" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-15"><i class="fa fa-check"></i><b>10.3.13</b> Introduction</a></li>
+<li class="chapter" data-level="10.3.14" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#number-of-categories"><i class="fa fa-check"></i><b>10.3.14</b> Number of Categories</a></li>
+<li class="chapter" data-level="10.3.15" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#category-names"><i class="fa fa-check"></i><b>10.3.15</b> Category Names</a></li>
+<li class="chapter" data-level="10.3.16" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#names-counts"><i class="fa fa-check"></i><b>10.3.16</b> Names &amp; Counts</a></li>
+<li class="chapter" data-level="10.3.17" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#tables"><i class="fa fa-check"></i><b>10.3.17</b> Tables</a></li>
+<li class="chapter" data-level="10.3.18" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#contingency-table"><i class="fa fa-check"></i><b>10.3.18</b> Contingency Table</a></li>
+<li class="chapter" data-level="10.3.19" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-1"><i class="fa fa-check"></i><b>10.3.19</b> Key Functions</a></li>
+<li class="chapter" data-level="10.3.20" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-12"><i class="fa fa-check"></i><b>10.3.20</b> Your Turn…</a></li>
 </ul></li>
-<li class="chapter" data-level="10.19" data-path="forcats.html"><a href="forcats.html#shift-levels"><i class="fa fa-check"></i><b>10.19</b> Shift Levels</a></li>
+<li class="chapter" data-level="10.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#manipulate"><i class="fa fa-check"></i><b>10.4</b> Data Manipulation</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-16"><i class="fa fa-check"></i><b>10.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.4.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-13"><i class="fa fa-check"></i><b>10.4.2</b> Your Turn…</a></li>
+<li class="chapter" data-level="10.4.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-value-of-levels"><i class="fa fa-check"></i><b>10.4.3</b> Change Value of Levels</a></li>
+<li class="chapter" data-level="10.4.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#combine-both-paid-organic-search-into-a-single-level-search"><i class="fa fa-check"></i><b>10.4.4</b> Combine both Paid &amp; Organic Search into a single level, Search</a></li>
+<li class="chapter" data-level="10.4.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-2"><i class="fa fa-check"></i><b>10.4.5</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn.."><i class="fa fa-check"></i><b>10.4.6</b> Your Turn..</a></li>
+<li class="chapter" data-level="10.4.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-remove-levels"><i class="fa fa-check"></i><b>10.4.7</b> Add / Remove Levels</a></li>
+<li class="chapter" data-level="10.4.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-a-new-level-blog"><i class="fa fa-check"></i><b>10.4.8</b> Add a new level, Blog</a></li>
+<li class="chapter" data-level="10.4.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-3"><i class="fa fa-check"></i><b>10.4.9</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-order-of-levels"><i class="fa fa-check"></i><b>10.4.10</b> Change Order of Levels</a></li>
+<li class="chapter" data-level="10.4.11" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-4"><i class="fa fa-check"></i><b>10.4.11</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.12" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-14"><i class="fa fa-check"></i><b>10.4.12</b> Your Turn…</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#dataviz"><i class="fa fa-check"></i><b>10.5</b> Data Visualization</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-17"><i class="fa fa-check"></i><b>10.5.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.5.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#bar-plot"><i class="fa fa-check"></i><b>10.5.2</b> Bar Plot</a></li>
+<li class="chapter" data-level="10.5.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#grouped-bar-plot"><i class="fa fa-check"></i><b>10.5.3</b> Grouped Bar Plot</a></li>
+<li class="chapter" data-level="10.5.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#stacked-bar-plot"><i class="fa fa-check"></i><b>10.5.4</b> Stacked Bar Plot</a></li>
+<li class="chapter" data-level="10.5.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#proportional-bar-plot"><i class="fa fa-check"></i><b>10.5.5</b> Proportional Bar Plot</a></li>
+<li class="chapter" data-level="10.5.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#mosaic-plot"><i class="fa fa-check"></i><b>10.5.6</b> Mosaic Plot</a></li>
+<li class="chapter" data-level="10.5.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#pie-chart"><i class="fa fa-check"></i><b>10.5.7</b> Pie Chart</a></li>
+<li class="chapter" data-level="10.5.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#donut-chart"><i class="fa fa-check"></i><b>10.5.8</b> Donut Chart</a></li>
+<li class="chapter" data-level="10.5.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-7"><i class="fa fa-check"></i><b>10.5.9</b> Summary</a></li>
+<li class="chapter" data-level="10.5.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-15"><i class="fa fa-check"></i><b>10.5.10</b> Your Turn…</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#conclusion"><i class="fa fa-check"></i><b>10.6</b> Useful R Packages</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summarize-variables"><i class="fa fa-check"></i><b>10.6.1</b> Summarize Variables</a></li>
+<li class="chapter" data-level="10.6.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summarize-data-set"><i class="fa fa-check"></i><b>10.6.2</b> Summarize Data Set</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -464,9 +570,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="import2" class="section level1">
+<div id="import2" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Import Data - 2</h1>
-<div id="introduction-1" class="section level2">
+<div id="introduction-1" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Introduction</h2>
 <p>In this chapter, we will:</p>
 <ul>
@@ -481,24 +587,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 - STATA</li>
 </ul>
 <p>We will use the following R packages:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="import2.html#cb27-1"></a><span class="kw">library</span>(readxl)</span>
-<span id="cb27-2"><a href="import2.html#cb27-2"></a><span class="kw">library</span>(haven)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="import2.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb27-2"><a href="import2.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span></code></pre></div>
 </div>
-<div id="list-sheets" class="section level2">
+<div id="list-sheets" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> List Sheets</h2>
 <p>An excel file may contain several sheets. Let us see how many sheets are
 present in <code>sample.xls</code> file and their respective names using <code>excel_sheets()</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="import2.html#cb28-1"></a><span class="kw">excel_sheets</span>(<span class="st">&#39;sample.xls&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="import2.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">excel_sheets</span>(<span class="st">&#39;sample.xls&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;ecom&quot;</code></pre>
 </div>
-<div id="read-sheet" class="section level2">
+<div id="read-sheet" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Read Sheet</h2>
 <p>Now that we know the number of sheets and their names, let us read data from
 the <code>ecom</code> sheet of the <code>sample.xls</code> file using <code>read_excel()</code>. We will specify
 the file name, and the sheet name or sheet number.</p>
-<div id="case-1-specify-the-sheet-number" class="section level3">
+<div id="case-1-specify-the-sheet-number" class="section level3" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Case 1: Specify the sheet number</h3>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="import2.html#cb30-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="import2.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -510,9 +616,9 @@ the file name, and the sheet name or sheet number.</p>
 ## 6 Paid Search     2687      2205     3438 38.02%     
 ## 7 Affiliates      1773      1585     2167 55.75%</code></pre>
 </div>
-<div id="case-2-specify-the-sheet-name" class="section level3">
+<div id="case-2-specify-the-sheet-name" class="section level3" number="2.3.2">
 <h3><span class="header-section-number">2.3.2</span> Case 2: Specify the sheet name</h3>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="import2.html#cb32-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="st">&#39;ecom&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="import2.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="st">&#39;ecom&#39;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -527,21 +633,21 @@ the file name, and the sheet name or sheet number.</p>
 single/double quotes.</p>
 </div>
 </div>
-<div id="read-specific-cells" class="section level2">
+<div id="read-specific-cells" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Read Specific Cells</h2>
 <p>You may not always want to read all the columns or rows from the excel sheet.
 In such cases, you can specify the cells from which the data must be read
 which can be achieved using the <code>range</code> argument. So how do we specify the
 cells from which to read data? There are different ways of specifying the
 cell range and we will look at them one by one:</p>
-<div id="method-1" class="section level3">
+<div id="method-1" class="section level3" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> Method 1</h3>
 <p><img src="img/readxl_range.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
 <p>The first method uses the cell names along with <code>:</code> to specify the cell range.
 For example, to read data from first 4 rows of columns <strong>B</strong> and <strong>C</strong>, we will
 specify the range as <code>"B1:C4"</code>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="import2.html#cb34-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="import2.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -549,7 +655,7 @@ specify the range as <code>"B1:C4"</code>.</p>
 ## 2 12916     12311
 ## 3 10983      7636</code></pre>
 <p>To read data from first 5 rows of columns <strong>A</strong>, <strong>B</strong> and <strong>C</strong>, we will specify the range as <code>"A1:C5"</code>.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="import2.html#cb36-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:C5&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="import2.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="st">&quot;A1:C5&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   channel        users new_users
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;
@@ -558,7 +664,7 @@ specify the range as <code>"B1:C4"</code>.</p>
 ## 3 Referral       10983      7636
 ## 4 Social         10346     10029</code></pre>
 </div>
-<div id="method-2" class="section level3">
+<div id="method-2" class="section level3" number="2.4.2">
 <h3><span class="header-section-number">2.4.2</span> Method 2</h3>
 <p><img src="img/readxl_anchored_lucid.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
@@ -566,8 +672,8 @@ specify the range as <code>"B1:C4"</code>.</p>
 of rows and columns to be covered keeping the initial cell as anchorage.
 In the below example, we want to read 3 rows and 2 columns starting from the
 cell <code>A4</code>.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="import2.html#cb38-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb38-2"><a href="import2.html#cb38-2"></a>  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;A4&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="import2.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb38-2"><a href="import2.html#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">anchored</span>(<span class="st">&quot;A4&quot;</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   ...1      ...2
 ##   &lt;chr&gt;    &lt;dbl&gt;
@@ -575,7 +681,7 @@ cell <code>A4</code>.</p>
 ## 2 Social   10346
 ## 3 Display   5564</code></pre>
 </div>
-<div id="method-3" class="section level3">
+<div id="method-3" class="section level3" number="2.4.3">
 <h3><span class="header-section-number">2.4.3</span> Method 3</h3>
 <p>In this method, we use the <code>cell_limit()</code> and specify the location of two ends
 of a rectangle covering the cells we want to read. For example, to read data
@@ -586,8 +692,8 @@ from the first 6 rows and 4 columns, we will specify the range as following:</p>
 </ul>
 <p><img src="img/readxl_cell_limits_lucid.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="import2.html#cb40-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
-<span id="cb40-2"><a href="import2.html#cb40-2"></a>  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">4</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="import2.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb40-2"><a href="import2.html#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">cell_limits</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">4</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 4
 ##   channel        users new_users sessions
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
@@ -598,8 +704,8 @@ from the first 6 rows and 4 columns, we will specify the range as following:</p>
 ## 5 Display         5564      4790     7220</code></pre>
 <p>You can use <code>NA</code> to indicate the first and last row/column. For example, to
 read data from all the rows from the second column onwards:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="import2.html#cb42-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
-<span id="cb42-2"><a href="import2.html#cb42-2"></a>  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="import2.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb42-2"><a href="import2.html#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">cell_limits</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 4
 ##   users new_users sessions bounce_rate
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -613,10 +719,10 @@ read data from all the rows from the second column onwards:</p>
 <p>Let us quickly look at how we will specify range of cells using the above 3
 methods when we want to read data from the first 4 rows of columns <code>B</code> and <code>C</code>:</p>
 </div>
-<div id="method-1-1" class="section level3">
+<div id="method-1-1" class="section level3" number="2.4.4">
 <h3><span class="header-section-number">2.4.4</span> Method 1</h3>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="import2.html#cb44-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
-<span id="cb44-2"><a href="import2.html#cb44-2"></a>  <span class="dt">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="import2.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb44-2"><a href="import2.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="st">&quot;B1:C4&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -624,10 +730,10 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 ## 2 12916     12311
 ## 3 10983      7636</code></pre>
 </div>
-<div id="method-2-1" class="section level3">
+<div id="method-2-1" class="section level3" number="2.4.5">
 <h3><span class="header-section-number">2.4.5</span> Method 2</h3>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="import2.html#cb46-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
-<span id="cb46-2"><a href="import2.html#cb46-2"></a>  <span class="dt">range =</span> <span class="kw">anchored</span>(<span class="st">&quot;B1&quot;</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="import2.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb46-2"><a href="import2.html#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">anchored</span>(<span class="st">&quot;B1&quot;</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -635,10 +741,10 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 ## 2 12916     12311
 ## 3 10983      7636</code></pre>
 </div>
-<div id="method-3-1" class="section level3">
+<div id="method-3-1" class="section level3" number="2.4.6">
 <h3><span class="header-section-number">2.4.6</span> Method 3</h3>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="import2.html#cb48-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>,</span>
-<span id="cb48-2"><a href="import2.html#cb48-2"></a>  <span class="dt">range =</span> <span class="kw">cell_limits</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">3</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="import2.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb48-2"><a href="import2.html#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">cell_limits</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   users new_users
 ##   &lt;dbl&gt;     &lt;dbl&gt;
@@ -647,12 +753,12 @@ methods when we want to read data from the first 4 rows of columns <code>B</code
 ## 3 10983      7636</code></pre>
 </div>
 </div>
-<div id="read-specific-rows" class="section level2">
+<div id="read-specific-rows" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Read Specific Rows</h2>
 <p>When you want to read a subset of rows from the data, use <code>cell_rows()</code> and
 specify the row numbers or the range. In the below example, we want to read
 the first 4 rows of data from the file.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="import2.html#cb50-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_rows</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="import2.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="fu">cell_rows</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   channel        users new_users sessions bounce_rate
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
@@ -660,12 +766,12 @@ the first 4 rows of data from the file.</p>
 ## 2 Direct         12916     12311    16419 49.27%     
 ## 3 Referral       10983      7636    18105 22.26%</code></pre>
 </div>
-<div id="read-single-column" class="section level2">
+<div id="read-single-column" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Read Single Column</h2>
 <p>If you want to read a single column from the data, use <code>cell_cols()</code> and
 specify the column number. In the below example, we read the second column
 from the <code>sample.xls</code> file.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="import2.html#cb52-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="import2.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 1
 ##   users
 ##   &lt;dbl&gt;
@@ -677,12 +783,12 @@ from the <code>sample.xls</code> file.</p>
 ## 6  2687
 ## 7  1773</code></pre>
 </div>
-<div id="read-multiple-columns" class="section level2">
+<div id="read-multiple-columns" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> Read Multiple Columns</h2>
 <p>In case of multiple columns, we need to specify the column numbers or the
 column range. In the below example, we want to read the 2nd, 4th and 6th column from
 the <code>sample.xls</code> file.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="import2.html#cb54-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="import2.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   users new_users sessions bounce_rate ...5 
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
@@ -695,7 +801,7 @@ the <code>sample.xls</code> file.</p>
 ## 7  1773      1585     2167 55.75%      NA</code></pre>
 <p>In the next example, we want to read data from the 2nd column upto and
 including the 6th column.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="import2.html#cb56-1"></a><span class="kw">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="kw">cell_cols</span>(<span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="import2.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&#39;sample.xls&#39;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 7 x 5
 ##   users new_users sessions bounce_rate ...5 
 ##   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
@@ -706,12 +812,12 @@ including the 6th column.</p>
 ## 5  5564      4790     7220 83.30%      NA   
 ## 6  2687      2205     3438 38.02%      NA   
 ## 7  1773      1585     2167 55.75%      NA</code></pre>
-<div id="summary-1" class="section level3">
+<div id="summary-1" class="section level3" number="2.7.1">
 <h3><span class="header-section-number">2.7.1</span> Summary</h3>
 <p><img src="img/range_summary.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
-<div id="statistical-softwares" class="section level2">
+<div id="statistical-softwares" class="section level2" number="2.8">
 <h2><span class="header-section-number">2.8</span> Statistical Softwares</h2>
 <p>We will use the <a href="https://haven.tidyverse.org">haven</a> package to read data from files of other statistical softwares such as:</p>
 <ul>
@@ -719,9 +825,9 @@ including the 6th column.</p>
 <li>SPSS</li>
 <li>STATA</li>
 </ul>
-<div id="stata" class="section level3">
+<div id="stata" class="section level3" number="2.8.1">
 <h3><span class="header-section-number">2.8.1</span> STATA</h3>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="import2.html#cb58-1"></a><span class="kw">read_stata</span>(<span class="st">&#39;airline.dta&#39;</span>)  </span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="import2.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_stata</span>(<span class="st">&#39;airline.dta&#39;</span>)  </span></code></pre></div>
 <pre><code>## # A tibble: 32 x 6
 ##     year     y     w     r     l     k
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -737,9 +843,9 @@ including the 6th column.</p>
 ## 10  1957  4.42 0.379 0.305  2.71 0.921
 ## # ... with 22 more rows</code></pre>
 </div>
-<div id="spss" class="section level3">
+<div id="spss" class="section level3" number="2.8.2">
 <h3><span class="header-section-number">2.8.2</span> SPSS</h3>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="import2.html#cb60-1"></a><span class="kw">read_spss</span>(<span class="st">&#39;employee.sav&#39;</span>)  </span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="import2.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_spss</span>(<span class="st">&#39;employee.sav&#39;</span>)  </span></code></pre></div>
 <pre><code>## # A tibble: 474 x 9
 ##       id gender       educ    jobcat  salary salbegin jobtime   prevexp minority
 ##    &lt;dbl&gt; &lt;chr+lb&gt; &lt;dbl+lb&gt; &lt;dbl+lbl&gt; &lt;dbl+l&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl+lbl&gt; &lt;dbl+lb&gt;
@@ -755,9 +861,9 @@ including the 6th column.</p>
 ## 10    10 f [Fema~  12 [12] 1 [Cleri~   24000    13500      98 244         0 [No]
 ## # ... with 464 more rows</code></pre>
 </div>
-<div id="sas" class="section level3">
+<div id="sas" class="section level3" number="2.8.3">
 <h3><span class="header-section-number">2.8.3</span> SAS</h3>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="import2.html#cb62-1"></a><span class="kw">read_sas</span>(<span class="st">&#39;airline.sas7bdat&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="import2.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sas</span>(<span class="st">&#39;airline.sas7bdat&#39;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 32 x 6
 ##     YEAR     Y     W     R     L     K
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -774,7 +880,7 @@ including the 6th column.</p>
 ## # ... with 22 more rows</code></pre>
 </div>
 </div>
-<div id="summary-2" class="section level2">
+<div id="summary-2" class="section level2" number="2.9">
 <h2><span class="header-section-number">2.9</span> Summary</h2>
 <p><img src="img/readxl_summary_lucid.png" width="100%" style="display: block; margin: auto;" /></p>
 

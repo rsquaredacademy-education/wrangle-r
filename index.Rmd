@@ -23,7 +23,7 @@ flat/delimited files and spreadsheets. Chapters \@ref(dplyr1), \@ref(dplyr2)
 and \@ref(dplyr3) focus on wrangling data using the **dplyr** package. Chapter 
 \@ref(pipes) introduces the pipe operator from the **magrittr** package. 
 Chapter \@ref(tibbles) explores `tibble()`, an alternative for `data.frame()`.
-Chapters \@ref(stringr), \@ref(lubridate) and \@ref(forcats) explore ways to 
+Chapters \@ref(stringr), \@ref(lubridate) and \@ref(categorical-data-in-r) explore ways to 
 handle text, date/time and categorical data.
 
 ## Software information {-}
