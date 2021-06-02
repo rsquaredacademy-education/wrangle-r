@@ -1,4 +1,4 @@
-# Handling String Data {#stringr}
+# Hacking Strings {#strings-in-r}
 
 ## Introduction
 

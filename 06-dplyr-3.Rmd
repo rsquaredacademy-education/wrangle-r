@@ -1,4 +1,4 @@
-# Data Wrangling - 3 {#dplyr3}
+# dplyr Helpers {#dplyr-helper-functions}
 
 ## Introduction
 

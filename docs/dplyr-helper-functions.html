@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data Wrangling with R</title>
+  <title>Chapter 5 dplyr Helpers | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Wrangling with R" />
+  <meta property="og:title" content="Chapter 5 dplyr Helpers | Data Wrangling with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Wrangling with R" />
+  <meta name="twitter:title" content="Chapter 5 dplyr Helpers | Data Wrangling with R" />
   
   <meta name="twitter:description" content="Learn to wrangle data with R." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="about-the-author.html"/>
+<link rel="prev" href="joining-tables-in-r-dplyr.html"/>
+<link rel="next" href="r-pipe-magrittr.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -574,53 +574,325 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data Wrangling with R</h1>
-<p class="author"><em>Aravind Hebbali</em></p>
-<p class="date" style="margin-top: 1.5em;"><em>2021-06-02</em></p>
+<div id="dplyr-helper-functions" class="section level1" number="5">
+<h1><span class="header-section-number">Chapter 5</span> dplyr Helpers</h1>
+<div id="introduction-4" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Introduction</h2>
+<p>In this chapter, we will explore a set of helper functions in order to:</p>
+<ul>
+<li>extract unique rows</li>
+<li>rename columns</li>
+<li>sample data</li>
+<li>extract columns</li>
+<li>slice rows</li>
+<li>arrange rows</li>
+<li>compare tables</li>
+<li>extract/mutate data using predicate functions</li>
+<li>count observations for different levels of a variable</li>
+</ul>
+<p>We will use the following R packages:</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="dplyr-helper-functions.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb147-2"><a href="dplyr-helper-functions.html#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code></pre></div>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p><img src="img/wrangle-r.png" width="60%" style="display: block; margin: auto;" /></p>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-<div id="structure-of-the-book" class="section level2 unnumbered">
-<h2>Structure of the book</h2>
-<p>Chapters <a href="#import1"><strong>??</strong></a> and <a href="#import2"><strong>??</strong></a> focus on reading data from
-flat/delimited files and spreadsheets. Chapters <a href="#dplyr1"><strong>??</strong></a>, <a href="#dplyr2"><strong>??</strong></a>
-and <a href="#dplyr3"><strong>??</strong></a> focus on wrangling data using the <strong>dplyr</strong> package. Chapter
-<a href="r-pipe-magrittr.html#pipes">6.2</a> introduces the pipe operator from the <strong>magrittr</strong> package.
-Chapter <a href="#tibbles"><strong>??</strong></a> explores <code>tibble()</code>, an alternative for <code>data.frame()</code>.
-Chapters <a href="#stringr"><strong>??</strong></a>, <a href="#lubridate"><strong>??</strong></a> and <a href="categorical-data-in-r.html#categorical-data-in-r">10</a> explore ways to
-handle text, date/time and categorical data.</p>
+<div id="case-study-8" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Case Study</h2>
+<p>Let us look at a case study (e-commerce data) and see how we can use dplyr
+helper functions to answer questions we have about and to modify/transform the
+underlying data set.</p>
+<div id="data-1" class="section level3" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Data</h3>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="dplyr-helper-functions.html#cb148-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="ot">&lt;-</span> </span>
+<span id="cb148-2"><a href="dplyr-helper-functions.html#cb148-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</span>
+<span id="cb148-3"><a href="dplyr-helper-functions.html#cb148-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols_only</span>(<span class="at">device =</span> <span class="fu">col_factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</span>
+<span id="cb148-4"><a href="dplyr-helper-functions.html#cb148-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">referrer =</span> <span class="fu">col_factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</span>
+<span id="cb148-5"><a href="dplyr-helper-functions.html#cb148-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">purchase =</span> <span class="fu">col_logical</span>(), <span class="at">bouncers =</span> <span class="fu">col_logical</span>(), <span class="at">duration =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb148-6"><a href="dplyr-helper-functions.html#cb148-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_visit =</span> <span class="fu">col_double</span>(), <span class="at">n_pages =</span> <span class="fu">col_double</span>()</span>
+<span id="cb148-7"><a href="dplyr-helper-functions.html#cb148-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb148-8"><a href="dplyr-helper-functions.html#cb148-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb148-9"><a href="dplyr-helper-functions.html#cb148-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-10"><a href="dplyr-helper-functions.html#cb148-10" aria-hidden="true" tabindex="-1"></a>ecom</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 7
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 google   laptop TRUE          10       1      693 FALSE   
+##  2 yahoo    tablet TRUE           9       1      459 FALSE   
+##  3 direct   laptop TRUE           0       1      996 FALSE   
+##  4 bing     tablet FALSE          3      18      468 TRUE    
+##  5 yahoo    mobile TRUE           9       1      955 FALSE   
+##  6 yahoo    laptop FALSE          5       5      135 FALSE   
+##  7 yahoo    mobile TRUE          10       1       75 FALSE   
+##  8 direct   mobile TRUE          10       1      908 FALSE   
+##  9 bing     mobile FALSE          3      19      209 FALSE   
+## 10 google   mobile TRUE           6       1      208 FALSE   
+## # ... with 990 more rows</code></pre>
 </div>
-<div id="software-information" class="section level2 unnumbered">
-<h2>Software information</h2>
-<p>The R session information when compiling this book is shown below:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.1.0 (2021-05-18)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.1252 
-## [2] LC_CTYPE=English_United States.1252   
-## [3] LC_MONETARY=English_United States.1252
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.1252    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## loaded via a namespace (and not attached):
-##  [1] bookdown_0.22     digest_0.6.27     R6_2.5.0          jsonlite_1.7.2   
-##  [5] magrittr_2.0.1    evaluate_0.14     highr_0.9         stringi_1.6.2    
-##  [9] rlang_0.4.11      rstudioapi_0.13   jquerylib_0.1.4   bslib_0.2.5.1    
-## [13] rmarkdown_2.8     tools_4.1.0       stringr_1.4.0     xfun_0.23        
-## [17] yaml_2.2.1        compiler_4.1.0    htmltools_0.5.1.1 knitr_1.33       
-## [21] sass_0.4.0</code></pre>
-<p>We do not add prompts (<code>&gt;</code> and <code>+</code>) to R source code in this book, and we comment out the text output with two hashes <code>##</code> by default, as you can see from the R session information above. This is for your convenience when you want to copy and run the code (the text output will be ignored since it is commented out). Package names are in bold text (e.g., <strong>rmarkdown</strong>), and function names are followed by parentheses (e.g., <code>bookdown::render_book()</code>). The double-colon operator <code>::</code> means accessing an object from a package.</p>
+<div id="data-dictionary-1" class="section level3" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Data Dictionary</h3>
+<ul>
+<li>referrer: referrer website/search engine</li>
+<li>device: device used to visit the website</li>
+<li>bouncers: whether a visit bounced (exited from landing page)</li>
+<li>duration: time spent on the website (in seconds)</li>
+<li>purchase: whether visitor purchased</li>
+<li>n_visit: number of visits</li>
+<li>n_pages: number of pages visited/browsed</li>
+</ul>
+</div>
+</div>
+<div id="data-sanitization" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Data Sanitization</h2>
+<p>Let us ensure that the data is sanitized by checking the sources of traffic
+and devices used to visit the site. We will use <code>distinct</code> to examine the
+values in the <code>referrer</code> column</p>
+<p><img src="img/distinct_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="dplyr-helper-functions.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distinct</span>(ecom, referrer)</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 1
+##   referrer
+##   &lt;fct&gt;   
+## 1 google  
+## 2 yahoo   
+## 3 direct  
+## 4 bing    
+## 5 social</code></pre>
+<p>and the <code>device</code> column as well.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="dplyr-helper-functions.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distinct</span>(ecom, device)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 1
+##   device
+##   &lt;fct&gt; 
+## 1 laptop
+## 2 tablet
+## 3 mobile</code></pre>
+</div>
+<div id="rename-columns" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Rename Columns</h2>
+<p>Columns can be renamed using <code>rename()</code>.</p>
+<p><img src="img/rename_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="dplyr-helper-functions.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(ecom, <span class="at">time_on_site =</span> duration)</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 7
+##    referrer device bouncers n_visit n_pages time_on_site purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt; &lt;lgl&gt;   
+##  1 google   laptop TRUE          10       1          693 FALSE   
+##  2 yahoo    tablet TRUE           9       1          459 FALSE   
+##  3 direct   laptop TRUE           0       1          996 FALSE   
+##  4 bing     tablet FALSE          3      18          468 TRUE    
+##  5 yahoo    mobile TRUE           9       1          955 FALSE   
+##  6 yahoo    laptop FALSE          5       5          135 FALSE   
+##  7 yahoo    mobile TRUE          10       1           75 FALSE   
+##  8 direct   mobile TRUE          10       1          908 FALSE   
+##  9 bing     mobile FALSE          3      19          209 FALSE   
+## 10 google   mobile TRUE           6       1          208 FALSE   
+## # ... with 990 more rows</code></pre>
+</div>
+<div id="data-tabulation" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> Data Tabulation</h2>
+<p>Let us now look at the proportion or share of visits driven by different sources
+of traffic.</p>
+<p><img src="img/tally_count.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="dplyr-helper-functions.html#cb156-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb156-2"><a href="dplyr-helper-functions.html#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(referrer) <span class="sc">%&gt;%</span></span>
+<span id="cb156-3"><a href="dplyr-helper-functions.html#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   referrer     n
+##   &lt;fct&gt;    &lt;int&gt;
+## 1 bing       194
+## 2 direct     191
+## 3 social     200
+## 4 yahoo      207
+## 5 google     208</code></pre>
+<p>We would also like to know the number of bouncers driven by the different
+sources of traffic.</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="dplyr-helper-functions.html#cb158-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb158-2"><a href="dplyr-helper-functions.html#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(referrer, bouncers) <span class="sc">%&gt;%</span></span>
+<span id="cb158-3"><a href="dplyr-helper-functions.html#cb158-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 3
+## # Groups:   referrer [5]
+##    referrer bouncers     n
+##    &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
+##  1 bing     FALSE      104
+##  2 bing     TRUE        90
+##  3 direct   FALSE       98
+##  4 direct   TRUE        93
+##  5 social   FALSE       93
+##  6 social   TRUE       107
+##  7 yahoo    FALSE      110
+##  8 yahoo    TRUE        97
+##  9 google   FALSE      101
+## 10 google   TRUE       107</code></pre>
+<p>Let us look at how many conversions happen across different devices.</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="dplyr-helper-functions.html#cb160-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb160-2"><a href="dplyr-helper-functions.html#cb160-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(device, purchase) <span class="sc">%&gt;%</span></span>
+<span id="cb160-3"><a href="dplyr-helper-functions.html#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb160-4"><a href="dplyr-helper-functions.html#cb160-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(purchase)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+## # Groups:   device [3]
+##   device purchase     n
+##   &lt;fct&gt;  &lt;lgl&gt;    &lt;int&gt;
+## 1 laptop TRUE        31
+## 2 tablet TRUE        36
+## 3 mobile TRUE        36</code></pre>
+<p>Another way to extract the above information is by using <code>count</code></p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="dplyr-helper-functions.html#cb162-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb162-2"><a href="dplyr-helper-functions.html#cb162-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(referrer, purchase) <span class="sc">%&gt;%</span></span>
+<span id="cb162-3"><a href="dplyr-helper-functions.html#cb162-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(purchase)</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   referrer purchase     n
+##   &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
+## 1 bing     TRUE        17
+## 2 direct   TRUE        25
+## 3 social   TRUE        20
+## 4 yahoo    TRUE        22
+## 5 google   TRUE        19</code></pre>
+</div>
+<div id="sampling-data" class="section level2" number="5.6">
+<h2><span class="header-section-number">5.6</span> Sampling Data</h2>
+<p>dplyr offers sampling functions which allow us to specify either the
+number or percentage of observations. <code>sample_n()</code> allows sampling a specific
+number of observations.</p>
+<p><img src="img/sample_frac_n.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="dplyr-helper-functions.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(ecom, <span class="dv">700</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 700 x 7
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 bing     laptop FALSE          8       6      180 FALSE   
+##  2 social   tablet TRUE           6       1      133 FALSE   
+##  3 direct   tablet FALSE          6      13      338 TRUE    
+##  4 direct   tablet FALSE          1       2       48 FALSE   
+##  5 social   mobile FALSE          0       8      160 FALSE   
+##  6 yahoo    laptop FALSE          7       4       88 FALSE   
+##  7 direct   mobile FALSE          2       9      243 FALSE   
+##  8 google   mobile FALSE          4      16      416 FALSE   
+##  9 yahoo    laptop FALSE          1       2       30 FALSE   
+## 10 social   mobile TRUE          10       1      866 FALSE   
+## # ... with 690 more rows</code></pre>
+<p>We can combine the sampling functions with other dplyr functions as shown below
+where we sample observation after grouping them according to the source of
+traffic.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="dplyr-helper-functions.html#cb166-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb166-2"><a href="dplyr-helper-functions.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(referrer) <span class="sc">%&gt;%</span></span>
+<span id="cb166-3"><a href="dplyr-helper-functions.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 500 x 7
+## # Groups:   referrer [5]
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 bing     tablet FALSE          8      19      570 TRUE    
+##  2 bing     mobile FALSE          5      15      405 TRUE    
+##  3 bing     mobile TRUE           1       1      905 FALSE   
+##  4 bing     laptop FALSE          0      12      144 FALSE   
+##  5 bing     tablet FALSE          2      11      220 FALSE   
+##  6 bing     laptop TRUE           4       1      748 FALSE   
+##  7 bing     laptop TRUE           3       1      682 FALSE   
+##  8 bing     mobile FALSE          8      20      380 FALSE   
+##  9 bing     mobile TRUE           9       1      574 FALSE   
+## 10 bing     mobile TRUE           3       1      490 FALSE   
+## # ... with 490 more rows</code></pre>
+<p><code>sample_frac()</code> allows a specific percentage of observations.</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="dplyr-helper-functions.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_frac</span>(ecom, <span class="at">size =</span> <span class="fl">0.7</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 700 x 7
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 direct   tablet TRUE           2       1      184 FALSE   
+##  2 google   laptop TRUE           5       1      951 FALSE   
+##  3 direct   tablet TRUE           4       1      141 FALSE   
+##  4 direct   mobile TRUE          10       1      908 FALSE   
+##  5 bing     tablet FALSE          1      19      361 TRUE    
+##  6 yahoo    tablet FALSE          5      20      500 FALSE   
+##  7 google   tablet TRUE          10       1      512 FALSE   
+##  8 social   laptop FALSE          5       2       26 FALSE   
+##  9 direct   tablet FALSE          6      13      338 TRUE    
+## 10 bing     mobile TRUE           3       1      490 FALSE   
+## # ... with 690 more rows</code></pre>
+</div>
+<div id="data-extraction" class="section level2" number="5.7">
+<h2><span class="header-section-number">5.7</span> Data Extraction</h2>
+<p>In the first <a href="https://blog.aravindhebbali.com/2017/12/25/data-wrangling-with-dplyr-part-1/">chapter</a>,
+we had observed that dplyr verbs always returned a tibble. What if you want to
+extract a specific column or a bunch of rows but not as a tibble?</p>
+<p>Use <code>pull</code> to extract columns either by name or position. It will return a
+vector. In the below example, we extract the <code>device</code> column as a vector. I am
+using <code>head</code> in addition to limit the output printed.</p>
+<div id="sample-data" class="section level3" number="5.7.1">
+<h3><span class="header-section-number">5.7.1</span> Sample Data</h3>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="dplyr-helper-functions.html#cb170-1" aria-hidden="true" tabindex="-1"></a>ecom_mini <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(ecom, <span class="at">size =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="img/pull_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="dplyr-helper-functions.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, device)</span></code></pre></div>
+<pre><code>##  [1] laptop tablet tablet mobile laptop laptop tablet tablet mobile laptop
+## Levels: laptop tablet mobile</code></pre>
+<p>Let us extract the first column from <code>ecom</code> using column position instead of
+name.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="dplyr-helper-functions.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="dv">1</span>) </span></code></pre></div>
+<pre><code>##  [1] google bing   social direct yahoo  bing   social social yahoo  yahoo 
+## Levels: bing direct social yahoo google</code></pre>
+<p>You can use <code>-</code> before the column position to indicate the position in reverse.
+The below example extracts data from the last column.</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="dplyr-helper-functions.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="sc">-</span><span class="dv">1</span>) </span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
+<p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we
+extract data starting from the 5th row and upto the 15th row.</p>
+<p><img src="img/slice_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="dplyr-helper-functions.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice</span>(ecom, <span class="dv">5</span><span class="sc">:</span><span class="dv">15</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 11 x 7
+##    referrer device bouncers n_visit n_pages duration purchase
+##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 yahoo    mobile TRUE           9       1      955 FALSE   
+##  2 yahoo    laptop FALSE          5       5      135 FALSE   
+##  3 yahoo    mobile TRUE          10       1       75 FALSE   
+##  4 direct   mobile TRUE          10       1      908 FALSE   
+##  5 bing     mobile FALSE          3      19      209 FALSE   
+##  6 google   mobile TRUE           6       1      208 FALSE   
+##  7 direct   laptop TRUE           9       1      738 FALSE   
+##  8 direct   tablet FALSE          6      12      132 FALSE   
+##  9 direct   mobile FALSE          9      14      406 TRUE    
+## 10 yahoo    tablet FALSE          5       8       80 FALSE   
+## 11 yahoo    mobile FALSE          7       1       19 FALSE</code></pre>
+<p>Use <code>n()</code> inside <code>slice()</code> to extract the last row.</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="dplyr-helper-functions.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice</span>(ecom, <span class="fu">n</span>())</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 7
+##   referrer device bouncers n_visit n_pages duration purchase
+##   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+## 1 google   mobile TRUE           9       1      269 FALSE</code></pre>
+</div>
+</div>
+<div id="between" class="section level2" number="5.8">
+<h2><span class="header-section-number">5.8</span> Between</h2>
+<p><code>between()</code> allows us to test if the values in a column lie between two specific
+values. In the below example, we check how many visits browsed pages between 5
+and 15.</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="dplyr-helper-functions.html#cb181-1" aria-hidden="true" tabindex="-1"></a>ecom_sample <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(ecom, <span class="dv">30</span>)</span>
+<span id="cb181-2"><a href="dplyr-helper-functions.html#cb181-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb181-3"><a href="dplyr-helper-functions.html#cb181-3" aria-hidden="true" tabindex="-1"></a>ecom_sample <span class="sc">%&gt;%</span></span>
+<span id="cb181-4"><a href="dplyr-helper-functions.html#cb181-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n_pages) <span class="sc">%&gt;%</span></span>
+<span id="cb181-5"><a href="dplyr-helper-functions.html#cb181-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </span></code></pre></div>
+<pre><code>##  [1]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE
+## [13] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE
+## [25] FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
+</div>
+<div id="case-when" class="section level2" number="5.9">
+<h2><span class="header-section-number">5.9</span> Case When</h2>
+<p><code>case_when()</code> is an alternative to <code>if else</code>. It allows us to lay down the
+conditions clearly and makes the code more readable. In the below example, we
+create a new column <code>repeat_visit</code> from <code>n_visit</code> (the number of previous visits).</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="dplyr-helper-functions.html#cb183-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb183-2"><a href="dplyr-helper-functions.html#cb183-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb183-3"><a href="dplyr-helper-functions.html#cb183-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">repeat_visit =</span> <span class="fu">case_when</span>(</span>
+<span id="cb183-4"><a href="dplyr-helper-functions.html#cb183-4" aria-hidden="true" tabindex="-1"></a>      n_visit <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="cn">TRUE</span>,</span>
+<span id="cb183-5"><a href="dplyr-helper-functions.html#cb183-5" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">FALSE</span></span>
+<span id="cb183-6"><a href="dplyr-helper-functions.html#cb183-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb183-7"><a href="dplyr-helper-functions.html#cb183-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb183-8"><a href="dplyr-helper-functions.html#cb183-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(n_visit, repeat_visit) </span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 2
+##    n_visit repeat_visit
+##      &lt;dbl&gt; &lt;lgl&gt;       
+##  1      10 TRUE        
+##  2       9 TRUE        
+##  3       0 FALSE       
+##  4       3 TRUE        
+##  5       9 TRUE        
+##  6       5 TRUE        
+##  7      10 TRUE        
+##  8      10 TRUE        
+##  9       3 TRUE        
+## 10       6 TRUE        
+## # ... with 990 more rows</code></pre>
 
 </div>
 </div>
@@ -629,8 +901,8 @@ handle text, date/time and categorical data.</p>
           </div>
         </div>
       </div>
-
-<a href="about-the-author.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="joining-tables-in-r-dplyr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r-pipe-magrittr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

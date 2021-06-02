@@ -1,4 +1,4 @@
-import1
+import-data-in-r-basics
 introduction
 delimiters
 comma-separated-values
@@ -12,7 +12,7 @@ maximum-lines
 column-types
 select-columns
 summary
-import2
+import-data-in-r-advanced
 introduction-1
 list-sheets
 read-sheet
@@ -34,7 +34,7 @@ stata
 spss
 sas
 summary-2
-dplyr1
+dplyr-basics
 introduction-2
 dplyr-verbs
 data
@@ -57,7 +57,7 @@ arrange-data
 case-study-6
 aov-by-devices-1
 your-turn
-dplyr2
+joining-tables-in-r-dplyr
 introduction-3
 case-study-7
 data-orders
@@ -75,7 +75,7 @@ anti-join
 case-study-details-of-customers-who-have-not-placed-orders
 full-join
 case-study-details-of-all-customers-and-all-orders
-dplyr3
+dplyr-helper-functions
 introduction-4
 case-study-8
 data-1
@@ -88,9 +88,9 @@ data-extraction
 sample-data
 between
 case-when
-pipes
+r-pipe-magrittr
 introduction-5
-pipes-1
+pipes
 data-2
 data-dictionary-2
 head
@@ -113,7 +113,7 @@ power
 logical-operators
 greater-than
 weakly-greater-than
-tibbles
+tibbles-in-r
 introduction-6
 creating-tibbles
 tibble-features
@@ -136,7 +136,7 @@ summary-3
 creating-tibbles-1
 modifying-tibbles
 testing-tibbles
-stringr
+strings-in-r
 introduction-7
 case-study-9
 data-3
@@ -171,7 +171,7 @@ step-2-check-if-there-is-only-1-question-mark-in-the-url
 step-3-detect-the-staritng-position-of-file-type
 step-4-detect-the-ending-position-of-file-type
 step-5-specify-the-index-position-for-extracting-file-type
-lubridate
+date-and-time-in-r
 introduction-8
 date
 time

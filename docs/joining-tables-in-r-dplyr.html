@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data Wrangling with R</title>
+  <title>Chapter 4 Joining Tables using dplyr | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Wrangling with R" />
+  <meta property="og:title" content="Chapter 4 Joining Tables using dplyr | Data Wrangling with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Wrangling with R" />
+  <meta name="twitter:title" content="Chapter 4 Joining Tables using dplyr | Data Wrangling with R" />
   
   <meta name="twitter:description" content="Learn to wrangle data with R." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="about-the-author.html"/>
+<link rel="prev" href="dplyr-basics.html"/>
+<link rel="next" href="dplyr-helper-functions.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -574,54 +574,246 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data Wrangling with R</h1>
-<p class="author"><em>Aravind Hebbali</em></p>
-<p class="date" style="margin-top: 1.5em;"><em>2021-06-02</em></p>
+<div id="joining-tables-in-r-dplyr" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Joining Tables using dplyr</h1>
+<div id="introduction-3" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Introduction</h2>
+<p>In this chapter, we will learn to combine tables using different <code>*_join</code>
+functions provided in dplyr.</p>
+<p>We will use the following R packages:</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="joining-tables-in-r-dplyr.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb130-2"><a href="joining-tables-in-r-dplyr.html#cb130-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb130-3"><a href="joining-tables-in-r-dplyr.html#cb130-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tibble.width =</span> <span class="cn">Inf</span>)</span></code></pre></div>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p><img src="img/wrangle-r.png" width="60%" style="display: block; margin: auto;" /></p>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-<div id="structure-of-the-book" class="section level2 unnumbered">
-<h2>Structure of the book</h2>
-<p>Chapters <a href="#import1"><strong>??</strong></a> and <a href="#import2"><strong>??</strong></a> focus on reading data from
-flat/delimited files and spreadsheets. Chapters <a href="#dplyr1"><strong>??</strong></a>, <a href="#dplyr2"><strong>??</strong></a>
-and <a href="#dplyr3"><strong>??</strong></a> focus on wrangling data using the <strong>dplyr</strong> package. Chapter
-<a href="r-pipe-magrittr.html#pipes">6.2</a> introduces the pipe operator from the <strong>magrittr</strong> package.
-Chapter <a href="#tibbles"><strong>??</strong></a> explores <code>tibble()</code>, an alternative for <code>data.frame()</code>.
-Chapters <a href="#stringr"><strong>??</strong></a>, <a href="#lubridate"><strong>??</strong></a> and <a href="categorical-data-in-r.html#categorical-data-in-r">10</a> explore ways to
-handle text, date/time and categorical data.</p>
+<div id="case-study-7" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Case Study</h2>
+<p>For our case study, we will use two data sets. The first one, <code>order</code>, contains
+details of orders placed by different customers. The second data set, <code>customer</code>
+contains details of each customer. The below table displays the details stored
+in each data set.</p>
+<p><img src="img/join_data.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Let us import both the data sets using <code>read_csv</code>.</p>
+<div id="data-orders" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Data: Orders</h3>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="joining-tables-in-r-dplyr.html#cb131-1" aria-hidden="true" tabindex="-1"></a>order <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/order.csv&#39;</span>, <span class="at">delim =</span> <span class="st">&#39;;&#39;</span>)</span>
+<span id="cb131-2"><a href="joining-tables-in-r-dplyr.html#cb131-2" aria-hidden="true" tabindex="-1"></a>order</span></code></pre></div>
+<pre><code>## # A tibble: 300 x 3
+##       id order_date amount
+##    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
+##  1   368 7/2/2016     365.
+##  2   286 11/2/2016   2064.
+##  3    28 2/22/2017    432.
+##  4   309 3/5/2017     480.
+##  5     2 12/28/2016   235.
+##  6    31 12/30/2016  2745.
+##  7   179 12/21/2016  2358.
+##  8   484 11/24/2016  1031.
+##  9   115 9/9/2016    1218.
+## 10   340 5/6/2017    1184.
+## # ... with 290 more rows</code></pre>
 </div>
-<div id="software-information" class="section level2 unnumbered">
-<h2>Software information</h2>
-<p>The R session information when compiling this book is shown below:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.1.0 (2021-05-18)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.1252 
-## [2] LC_CTYPE=English_United States.1252   
-## [3] LC_MONETARY=English_United States.1252
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.1252    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## loaded via a namespace (and not attached):
-##  [1] bookdown_0.22     digest_0.6.27     R6_2.5.0          jsonlite_1.7.2   
-##  [5] magrittr_2.0.1    evaluate_0.14     highr_0.9         stringi_1.6.2    
-##  [9] rlang_0.4.11      rstudioapi_0.13   jquerylib_0.1.4   bslib_0.2.5.1    
-## [13] rmarkdown_2.8     tools_4.1.0       stringr_1.4.0     xfun_0.23        
-## [17] yaml_2.2.1        compiler_4.1.0    htmltools_0.5.1.1 knitr_1.33       
-## [21] sass_0.4.0</code></pre>
-<p>We do not add prompts (<code>&gt;</code> and <code>+</code>) to R source code in this book, and we comment out the text output with two hashes <code>##</code> by default, as you can see from the R session information above. This is for your convenience when you want to copy and run the code (the text output will be ignored since it is commented out). Package names are in bold text (e.g., <strong>rmarkdown</strong>), and function names are followed by parentheses (e.g., <code>bookdown::render_book()</code>). The double-colon operator <code>::</code> means accessing an object from a package.</p>
+<div id="data-customers" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Data: Customers</h3>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="joining-tables-in-r-dplyr.html#cb133-1" aria-hidden="true" tabindex="-1"></a>customer <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/customer.csv&#39;</span>, <span class="at">delim =</span> <span class="st">&#39;;&#39;</span>)</span>
+<span id="cb133-2"><a href="joining-tables-in-r-dplyr.html#cb133-2" aria-hidden="true" tabindex="-1"></a>customer</span></code></pre></div>
+<pre><code>## # A tibble: 91 x 3
+##       id first_name city      
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
+##  1     1 Elbertine  California
+##  2     2 Marcella   Colorado  
+##  3     3 Daria      Florida   
+##  4     4 Sherilyn   Distric...
+##  5     5 Ketty      Texas     
+##  6     6 Jethro     California
+##  7     7 Jeremiah   California
+##  8     8 Constancia Texas     
+##  9     9 Muire      Idaho     
+## 10    10 Abigail    Texas     
+## # ... with 81 more rows</code></pre>
+<p>We will explore the following in the case study:</p>
+<ul>
+<li>details of customers who have placed orders and their order details</li>
+<li>details of customers and their orders irrespective of whether a customer has
+placed orders or not</li>
+<li>customer details for each order</li>
+<li>details of customers who have placed orders</li>
+<li>details of customers who have not placed orders</li>
+<li>details of all customers and all orders</li>
+</ul>
+</div>
+</div>
+<div id="example-data" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Example Data</h2>
+<p>We will use another data set to illustrate how the different joins work. You can
+view the example data sets below.</p>
+<p><img src="img/join.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="inner-join" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Inner Join</h2>
+<p>Inner join return all rows from <code>Age</code> where there are matching values in
+<code>Height</code>, and all columns from <code>Age</code> and <code>Height</code>. If there are multiple matches
+between <code>Age</code> and <code>Height</code>, all combination of the matches are returned.</p>
+<p><img src="img/draw_inner.png" width="100%" style="display: block; margin: auto;" /></p>
+<div id="case-study-details-of-customers-who-have-placed-orders-and-their-order-details" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Case Study: Details of customers who have placed orders and their order details</h3>
+<p>To get data for all those customers who have placed orders in the past let us
+join the <code>order</code> data with the <code>customer</code> data using <code>inner_join</code>.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="joining-tables-in-r-dplyr.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(customer, order, <span class="at">by =</span> <span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 55 x 5
+##       id first_name city       order_date amount
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
+##  1     2 Marcella   Colorado   12/28/2016   235.
+##  2     2 Marcella   Colorado   8/31/2016   1150.
+##  3     5 Ketty      Texas      1/17/2017    346.
+##  4     6 Jethro     California 1/27/2017   2317.
+##  5     7 Jeremiah   California 6/21/2016    136.
+##  6     7 Jeremiah   California 2/13/2017   1407.
+##  7     7 Jeremiah   California 7/8/2016    1914.
+##  8     8 Constancia Texas      11/5/2016   2461.
+##  9     8 Constancia Texas      5/19/2017   2714.
+## 10     9 Muire      Idaho      12/28/2016   187.
+## # ... with 45 more rows</code></pre>
+</div>
+</div>
+<div id="left-join" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Left Join</h2>
+<p>Left join return all rows from <code>Age</code>, and all columns from <code>Age</code> and <code>Height</code>.
+Rows in <code>Age</code> with no match in <code>Height</code> will have NA values in the new columns.
+If there are multiple matches between <code>Age</code> and <code>Height</code>, all combinations of
+the matches are returned.</p>
+<p><img src="img/draw_left.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="case-study-details-of-customers-and-their-orders-irrespective-of-whether-a-customer-has" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Case Study: Details of customers and their orders irrespective of whether a customer has</h2>
+<p>placed orders or not.</p>
+<p>To get data for all those customers and their orders irrespective of whether a
+customer has placed orders or not let us join the <code>order</code> data with the
+<code>customer</code> data using <code>left_join</code>.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="joining-tables-in-r-dplyr.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(customer, order, <span class="at">by =</span> <span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 104 x 5
+##       id first_name city       order_date amount
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
+##  1     1 Elbertine  California &lt;NA&gt;          NA 
+##  2     2 Marcella   Colorado   12/28/2016   235.
+##  3     2 Marcella   Colorado   8/31/2016   1150.
+##  4     3 Daria      Florida    &lt;NA&gt;          NA 
+##  5     4 Sherilyn   Distric... &lt;NA&gt;          NA 
+##  6     5 Ketty      Texas      1/17/2017    346.
+##  7     6 Jethro     California 1/27/2017   2317.
+##  8     7 Jeremiah   California 6/21/2016    136.
+##  9     7 Jeremiah   California 2/13/2017   1407.
+## 10     7 Jeremiah   California 7/8/2016    1914.
+## # ... with 94 more rows</code></pre>
+</div>
+<div id="right-join" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Right Join</h2>
+<p>Right join return all rows from <code>Height</code>, and all columns from <code>Age</code> and
+<code>Height</code>. Rows in <code>Height</code> with no match in <code>Age</code> will have NA values in the
+new columns. If there are multiple matches between <code>Age</code> and <code>Height</code>, all
+combinations of the matches are returned.</p>
+<p><img src="img/draw_right.png" width="100%" style="display: block; margin: auto;" /></p>
+<div id="case-study-customer-details-for-each-order" class="section level3" number="4.7.1">
+<h3><span class="header-section-number">4.7.1</span> Case Study: Customer details for each order</h3>
+<p>To get customer data for all orders, let us join the <code>order</code> data with the
+<code>customer</code> data using <code>right_join</code>.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="joining-tables-in-r-dplyr.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(customer, order, <span class="at">by =</span> <span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 300 x 5
+##       id first_name city       order_date amount
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
+##  1     2 Marcella   Colorado   12/28/2016   235.
+##  2     2 Marcella   Colorado   8/31/2016   1150.
+##  3     5 Ketty      Texas      1/17/2017    346.
+##  4     6 Jethro     California 1/27/2017   2317.
+##  5     7 Jeremiah   California 6/21/2016    136.
+##  6     7 Jeremiah   California 2/13/2017   1407.
+##  7     7 Jeremiah   California 7/8/2016    1914.
+##  8     8 Constancia Texas      11/5/2016   2461.
+##  9     8 Constancia Texas      5/19/2017   2714.
+## 10     9 Muire      Idaho      12/28/2016   187.
+## # ... with 290 more rows</code></pre>
+</div>
+</div>
+<div id="semi-join" class="section level2" number="4.8">
+<h2><span class="header-section-number">4.8</span> Semi Join</h2>
+<p>Semi join return all rows from <code>Age</code> where there are matching values in <code>Height</code>,
+keeping just columns from <code>Age</code>. A semi join differs from an inner join because
+an inner join will return one row of <code>Age</code> for each matching row of <code>Height</code>,
+where a semi join will never duplicate rows of <code>Age</code>.</p>
+<p><img src="img/draw_semi.png" width="100%" style="display: block; margin: auto;" /></p>
+<div id="case-study-details-of-customers-who-have-placed-orders" class="section level3" number="4.8.1">
+<h3><span class="header-section-number">4.8.1</span> Case Study: Details of customers who have placed orders</h3>
+<p>To get customer data for all orders where customer data exists, let us join the <code>order</code> data with the
+<code>customer</code> data using <code>semi_join</code>. You can observe that data is returned only for those
+cases where customer data is present.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="joining-tables-in-r-dplyr.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semi_join</span>(customer, order, <span class="at">by =</span> <span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 42 x 3
+##       id first_name city      
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
+##  1     2 Marcella   Colorado  
+##  2     5 Ketty      Texas     
+##  3     6 Jethro     California
+##  4     7 Jeremiah   California
+##  5     8 Constancia Texas     
+##  6     9 Muire      Idaho     
+##  7    15 Valentijn  California
+##  8    16 Monique    Missouri  
+##  9    20 Colette    Texas     
+## 10    28 Avrit      Texas     
+## # ... with 32 more rows</code></pre>
+</div>
+</div>
+<div id="anti-join" class="section level2" number="4.9">
+<h2><span class="header-section-number">4.9</span> Anti Join</h2>
+<p>Anti join return all rows from <code>Age</code> where there are not matching values in
+<code>Height</code>, keeping just columns from <code>Age</code>.</p>
+<p><img src="img/draw_anti.png" width="100%" style="display: block; margin: auto;" /></p>
+<div id="case-study-details-of-customers-who-have-not-placed-orders" class="section level3" number="4.9.1">
+<h3><span class="header-section-number">4.9.1</span> Case Study: Details of customers who have not placed orders</h3>
+<p>To get details of customers who have not placed orders, let us join the <code>order</code>
+data with the <code>customer</code> data using <code>anti_join</code>.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="joining-tables-in-r-dplyr.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(customer, order, <span class="at">by =</span> <span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 49 x 3
+##       id first_name city      
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
+##  1     1 Elbertine  California
+##  2     3 Daria      Florida   
+##  3     4 Sherilyn   Distric...
+##  4    10 Abigail    Texas     
+##  5    11 Wynne      Georgia   
+##  6    12 Pietra     Minnesota 
+##  7    13 Bram       Iowa      
+##  8    14 Rees       New York  
+##  9    17 Orazio     Louisiana 
+## 10    18 Mason      Texas     
+## # ... with 39 more rows</code></pre>
+</div>
+</div>
+<div id="full-join" class="section level2" number="4.10">
+<h2><span class="header-section-number">4.10</span> Full Join</h2>
+<p>Full join return all rows and all columns from both <code>Age</code> and <code>Height</code>. Where
+there are not matching values, returns NA for the one missing.</p>
+<p><img src="img/draw_full.png" width="100%" style="display: block; margin: auto;" /></p>
+<div id="case-study-details-of-all-customers-and-all-orders" class="section level3" number="4.10.1">
+<h3><span class="header-section-number">4.10.1</span> Case Study: Details of all customers and all orders</h3>
+<p>To get details of all customers and all orders, let us join the <code>order</code>
+data with the <code>customer</code> data using <code>full_join</code>.</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="joining-tables-in-r-dplyr.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(customer, order, <span class="at">by =</span> <span class="st">&quot;id&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 349 x 5
+##       id first_name city       order_date amount
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
+##  1     1 Elbertine  California &lt;NA&gt;          NA 
+##  2     2 Marcella   Colorado   12/28/2016   235.
+##  3     2 Marcella   Colorado   8/31/2016   1150.
+##  4     3 Daria      Florida    &lt;NA&gt;          NA 
+##  5     4 Sherilyn   Distric... &lt;NA&gt;          NA 
+##  6     5 Ketty      Texas      1/17/2017    346.
+##  7     6 Jethro     California 1/27/2017   2317.
+##  8     7 Jeremiah   California 6/21/2016    136.
+##  9     7 Jeremiah   California 2/13/2017   1407.
+## 10     7 Jeremiah   California 7/8/2016    1914.
+## # ... with 339 more rows</code></pre>
 
+</div>
 </div>
 </div>
             </section>
@@ -629,8 +821,8 @@ handle text, date/time and categorical data.</p>
           </div>
         </div>
       </div>
-
-<a href="about-the-author.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="dplyr-basics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dplyr-helper-functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

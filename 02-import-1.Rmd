@@ -1,4 +1,4 @@
-# Import Data - 1 {#import1}
+# Import Data - Basics {#import-data-in-r-basics}
 
 ## Introduction
 

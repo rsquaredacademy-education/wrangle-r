@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Hacking Strings | Data Wrangling with R</title>
+  <meta name="description" content="Learn to wrangle data with R." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Hacking Strings | Data Wrangling with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Learn to wrangle data with R." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Hacking Strings | Data Wrangling with R" />
+  
+  <meta name="twitter:description" content="Learn to wrangle data with R." />
+  
+
+<meta name="author" content="Aravind Hebbali" />
+
+
+<meta name="date" content="2021-06-02" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tibbles-in-r.html"/>
+<link rel="next" href="date-and-time-in-r.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-57270671-37"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-57270671-37');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://github.com/rsquaredacademy-education/wrangle-r/">Data Wrangling with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i>Structure of the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information"><i class="fa fa-check"></i>Software information</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
+<li class="chapter" data-level="1" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html"><i class="fa fa-check"></i><b>1</b> Import Data - Basics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#delimiters"><i class="fa fa-check"></i><b>1.2</b> Delimiters</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#comma-separated-values"><i class="fa fa-check"></i><b>1.2.1</b> Comma Separated Values</a></li>
+<li class="chapter" data-level="1.2.2" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#semi-colon-separated-values"><i class="fa fa-check"></i><b>1.2.2</b> Semi Colon Separated Values</a></li>
+<li class="chapter" data-level="1.2.3" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#space-separated-values"><i class="fa fa-check"></i><b>1.2.3</b> Space Separated Values</a></li>
+<li class="chapter" data-level="1.2.4" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#tab-separated-values"><i class="fa fa-check"></i><b>1.2.4</b> Tab Separated Values</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#read-data"><i class="fa fa-check"></i><b>1.3</b> Read Data</a></li>
+<li class="chapter" data-level="1.4" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#column-names"><i class="fa fa-check"></i><b>1.4</b> Column Names</a></li>
+<li class="chapter" data-level="1.5" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#skip-lines"><i class="fa fa-check"></i><b>1.5</b> Skip Lines</a></li>
+<li class="chapter" data-level="1.6" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#maximum-lines"><i class="fa fa-check"></i><b>1.6</b> Maximum Lines</a></li>
+<li class="chapter" data-level="1.7" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#column-types"><i class="fa fa-check"></i><b>1.7</b> Column Types</a></li>
+<li class="chapter" data-level="1.8" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#select-columns"><i class="fa fa-check"></i><b>1.8</b> Select Columns</a></li>
+<li class="chapter" data-level="1.9" data-path="import-data-in-r-basics.html"><a href="import-data-in-r-basics.html#summary"><i class="fa fa-check"></i><b>1.9</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html"><i class="fa fa-check"></i><b>2</b> Import Data - Advanced</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#list-sheets"><i class="fa fa-check"></i><b>2.2</b> List Sheets</a></li>
+<li class="chapter" data-level="2.3" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#read-sheet"><i class="fa fa-check"></i><b>2.3</b> Read Sheet</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#case-1-specify-the-sheet-number"><i class="fa fa-check"></i><b>2.3.1</b> Case 1: Specify the sheet number</a></li>
+<li class="chapter" data-level="2.3.2" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#case-2-specify-the-sheet-name"><i class="fa fa-check"></i><b>2.3.2</b> Case 2: Specify the sheet name</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#read-specific-cells"><i class="fa fa-check"></i><b>2.4</b> Read Specific Cells</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#method-1"><i class="fa fa-check"></i><b>2.4.1</b> Method 1</a></li>
+<li class="chapter" data-level="2.4.2" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#method-2"><i class="fa fa-check"></i><b>2.4.2</b> Method 2</a></li>
+<li class="chapter" data-level="2.4.3" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#method-3"><i class="fa fa-check"></i><b>2.4.3</b> Method 3</a></li>
+<li class="chapter" data-level="2.4.4" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#method-1-1"><i class="fa fa-check"></i><b>2.4.4</b> Method 1</a></li>
+<li class="chapter" data-level="2.4.5" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#method-2-1"><i class="fa fa-check"></i><b>2.4.5</b> Method 2</a></li>
+<li class="chapter" data-level="2.4.6" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#method-3-1"><i class="fa fa-check"></i><b>2.4.6</b> Method 3</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#read-specific-rows"><i class="fa fa-check"></i><b>2.5</b> Read Specific Rows</a></li>
+<li class="chapter" data-level="2.6" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#read-single-column"><i class="fa fa-check"></i><b>2.6</b> Read Single Column</a></li>
+<li class="chapter" data-level="2.7" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#read-multiple-columns"><i class="fa fa-check"></i><b>2.7</b> Read Multiple Columns</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#summary-1"><i class="fa fa-check"></i><b>2.7.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#statistical-softwares"><i class="fa fa-check"></i><b>2.8</b> Statistical Softwares</a>
+<ul>
+<li class="chapter" data-level="2.8.1" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#stata"><i class="fa fa-check"></i><b>2.8.1</b> STATA</a></li>
+<li class="chapter" data-level="2.8.2" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#spss"><i class="fa fa-check"></i><b>2.8.2</b> SPSS</a></li>
+<li class="chapter" data-level="2.8.3" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#sas"><i class="fa fa-check"></i><b>2.8.3</b> SAS</a></li>
+</ul></li>
+<li class="chapter" data-level="2.9" data-path="import-data-in-r-advanced.html"><a href="import-data-in-r-advanced.html#summary-2"><i class="fa fa-check"></i><b>2.9</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dplyr-basics.html"><a href="dplyr-basics.html"><i class="fa fa-check"></i><b>3</b> dplyr Basics</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="dplyr-basics.html"><a href="dplyr-basics.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="dplyr-basics.html"><a href="dplyr-basics.html#dplyr-verbs"><i class="fa fa-check"></i><b>3.2</b> dplyr Verbs</a></li>
+<li class="chapter" data-level="3.3" data-path="dplyr-basics.html"><a href="dplyr-basics.html#data"><i class="fa fa-check"></i><b>3.3</b> Data</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="dplyr-basics.html"><a href="dplyr-basics.html#data-dictionary"><i class="fa fa-check"></i><b>3.3.1</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="dplyr-basics.html"><a href="dplyr-basics.html#case-study"><i class="fa fa-check"></i><b>3.4</b> Case Study</a></li>
+<li class="chapter" data-level="3.5" data-path="dplyr-basics.html"><a href="dplyr-basics.html#average-order-value"><i class="fa fa-check"></i><b>3.5</b> Average Order Value</a></li>
+<li class="chapter" data-level="3.6" data-path="dplyr-basics.html"><a href="dplyr-basics.html#aov-by-devices"><i class="fa fa-check"></i><b>3.6</b> AOV by Devices</a></li>
+<li class="chapter" data-level="3.7" data-path="dplyr-basics.html"><a href="dplyr-basics.html#syntax"><i class="fa fa-check"></i><b>3.7</b> Syntax</a></li>
+<li class="chapter" data-level="3.8" data-path="dplyr-basics.html"><a href="dplyr-basics.html#filter-rows"><i class="fa fa-check"></i><b>3.8</b> Filter Rows</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="dplyr-basics.html"><a href="dplyr-basics.html#case-study-1"><i class="fa fa-check"></i><b>3.8.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="dplyr-basics.html"><a href="dplyr-basics.html#select-columns-1"><i class="fa fa-check"></i><b>3.9</b> Select Columns</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="dplyr-basics.html"><a href="dplyr-basics.html#case-study-2"><i class="fa fa-check"></i><b>3.9.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="dplyr-basics.html"><a href="dplyr-basics.html#grouping-data"><i class="fa fa-check"></i><b>3.10</b> Grouping Data</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="dplyr-basics.html"><a href="dplyr-basics.html#case-study-3"><i class="fa fa-check"></i><b>3.10.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="dplyr-basics.html"><a href="dplyr-basics.html#summarise-data"><i class="fa fa-check"></i><b>3.11</b> Summarise Data</a>
+<ul>
+<li class="chapter" data-level="3.11.1" data-path="dplyr-basics.html"><a href="dplyr-basics.html#case-study-4"><i class="fa fa-check"></i><b>3.11.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="3.12" data-path="dplyr-basics.html"><a href="dplyr-basics.html#create-columns"><i class="fa fa-check"></i><b>3.12</b> Create Columns</a>
+<ul>
+<li class="chapter" data-level="3.12.1" data-path="dplyr-basics.html"><a href="dplyr-basics.html#case-study-5"><i class="fa fa-check"></i><b>3.12.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="3.13" data-path="dplyr-basics.html"><a href="dplyr-basics.html#arrange-data"><i class="fa fa-check"></i><b>3.13</b> Arrange Data</a>
+<ul>
+<li class="chapter" data-level="3.13.1" data-path="dplyr-basics.html"><a href="dplyr-basics.html#case-study-6"><i class="fa fa-check"></i><b>3.13.1</b> Case Study</a></li>
+</ul></li>
+<li class="chapter" data-level="3.14" data-path="dplyr-basics.html"><a href="dplyr-basics.html#aov-by-devices-1"><i class="fa fa-check"></i><b>3.14</b> AOV by Devices</a></li>
+<li class="chapter" data-level="3.15" data-path="dplyr-basics.html"><a href="dplyr-basics.html#your-turn"><i class="fa fa-check"></i><b>3.15</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html"><i class="fa fa-check"></i><b>4</b> Joining Tables using dplyr</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#introduction-3"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#case-study-7"><i class="fa fa-check"></i><b>4.2</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#data-orders"><i class="fa fa-check"></i><b>4.2.1</b> Data: Orders</a></li>
+<li class="chapter" data-level="4.2.2" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#data-customers"><i class="fa fa-check"></i><b>4.2.2</b> Data: Customers</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#example-data"><i class="fa fa-check"></i><b>4.3</b> Example Data</a></li>
+<li class="chapter" data-level="4.4" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#inner-join"><i class="fa fa-check"></i><b>4.4</b> Inner Join</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#case-study-details-of-customers-who-have-placed-orders-and-their-order-details"><i class="fa fa-check"></i><b>4.4.1</b> Case Study: Details of customers who have placed orders and their order details</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#left-join"><i class="fa fa-check"></i><b>4.5</b> Left Join</a></li>
+<li class="chapter" data-level="4.6" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#case-study-details-of-customers-and-their-orders-irrespective-of-whether-a-customer-has"><i class="fa fa-check"></i><b>4.6</b> Case Study: Details of customers and their orders irrespective of whether a customer has</a></li>
+<li class="chapter" data-level="4.7" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#right-join"><i class="fa fa-check"></i><b>4.7</b> Right Join</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#case-study-customer-details-for-each-order"><i class="fa fa-check"></i><b>4.7.1</b> Case Study: Customer details for each order</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#semi-join"><i class="fa fa-check"></i><b>4.8</b> Semi Join</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#case-study-details-of-customers-who-have-placed-orders"><i class="fa fa-check"></i><b>4.8.1</b> Case Study: Details of customers who have placed orders</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#anti-join"><i class="fa fa-check"></i><b>4.9</b> Anti Join</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#case-study-details-of-customers-who-have-not-placed-orders"><i class="fa fa-check"></i><b>4.9.1</b> Case Study: Details of customers who have not placed orders</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#full-join"><i class="fa fa-check"></i><b>4.10</b> Full Join</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="joining-tables-in-r-dplyr.html"><a href="joining-tables-in-r-dplyr.html#case-study-details-of-all-customers-and-all-orders"><i class="fa fa-check"></i><b>4.10.1</b> Case Study: Details of all customers and all orders</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html"><i class="fa fa-check"></i><b>5</b> dplyr Helpers</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#introduction-4"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#case-study-8"><i class="fa fa-check"></i><b>5.2</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#data-1"><i class="fa fa-check"></i><b>5.2.1</b> Data</a></li>
+<li class="chapter" data-level="5.2.2" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#data-dictionary-1"><i class="fa fa-check"></i><b>5.2.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#data-sanitization"><i class="fa fa-check"></i><b>5.3</b> Data Sanitization</a></li>
+<li class="chapter" data-level="5.4" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#rename-columns"><i class="fa fa-check"></i><b>5.4</b> Rename Columns</a></li>
+<li class="chapter" data-level="5.5" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#data-tabulation"><i class="fa fa-check"></i><b>5.5</b> Data Tabulation</a></li>
+<li class="chapter" data-level="5.6" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#sampling-data"><i class="fa fa-check"></i><b>5.6</b> Sampling Data</a></li>
+<li class="chapter" data-level="5.7" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#data-extraction"><i class="fa fa-check"></i><b>5.7</b> Data Extraction</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#sample-data"><i class="fa fa-check"></i><b>5.7.1</b> Sample Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#between"><i class="fa fa-check"></i><b>5.8</b> Between</a></li>
+<li class="chapter" data-level="5.9" data-path="dplyr-helper-functions.html"><a href="dplyr-helper-functions.html#case-when"><i class="fa fa-check"></i><b>5.9</b> Case When</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html"><i class="fa fa-check"></i><b>6</b> Pipe Operator</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#introduction-5"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.2" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#pipes"><i class="fa fa-check"></i><b>6.2</b> Pipes</a></li>
+<li class="chapter" data-level="6.3" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#data-2"><i class="fa fa-check"></i><b>6.3</b> Data</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#data-dictionary-2"><i class="fa fa-check"></i><b>6.3.1</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#head"><i class="fa fa-check"></i><b>6.4</b> head()</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#using-pipe"><i class="fa fa-check"></i><b>6.4.1</b> Using Pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#square-root"><i class="fa fa-check"></i><b>6.5</b> Square Root</a></li>
+<li class="chapter" data-level="6.6" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#visualization"><i class="fa fa-check"></i><b>6.6</b> Visualization</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#using-pipe-1"><i class="fa fa-check"></i><b>6.6.1</b> Using pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#correlation"><i class="fa fa-check"></i><b>6.7</b> Correlation</a></li>
+<li class="chapter" data-level="6.8" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#regression"><i class="fa fa-check"></i><b>6.8</b> Regression</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#using-pipe-2"><i class="fa fa-check"></i><b>6.8.1</b> Using pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#string-manipulation"><i class="fa fa-check"></i><b>6.9</b> String Manipulation</a></li>
+<li class="chapter" data-level="6.10" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#data-extraction-1"><i class="fa fa-check"></i><b>6.10</b> Data Extraction</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#extract-column"><i class="fa fa-check"></i><b>6.10.1</b> Extract Column</a></li>
+<li class="chapter" data-level="6.10.2" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#extract-list-element"><i class="fa fa-check"></i><b>6.10.2</b> Extract List Element</a></li>
+</ul></li>
+<li class="chapter" data-level="6.11" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#arithmetic-operations"><i class="fa fa-check"></i><b>6.11</b> Arithmetic Operations</a>
+<ul>
+<li class="chapter" data-level="6.11.1" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#addition"><i class="fa fa-check"></i><b>6.11.1</b> Addition</a></li>
+<li class="chapter" data-level="6.11.2" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#multiplication"><i class="fa fa-check"></i><b>6.11.2</b> Multiplication</a></li>
+<li class="chapter" data-level="6.11.3" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#division"><i class="fa fa-check"></i><b>6.11.3</b> Division</a></li>
+<li class="chapter" data-level="6.11.4" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#power"><i class="fa fa-check"></i><b>6.11.4</b> Power</a></li>
+</ul></li>
+<li class="chapter" data-level="6.12" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#logical-operators"><i class="fa fa-check"></i><b>6.12</b> Logical Operators</a>
+<ul>
+<li class="chapter" data-level="6.12.1" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#greater-than"><i class="fa fa-check"></i><b>6.12.1</b> Greater Than</a></li>
+<li class="chapter" data-level="6.12.2" data-path="r-pipe-magrittr.html"><a href="r-pipe-magrittr.html#weakly-greater-than"><i class="fa fa-check"></i><b>6.12.2</b> Weakly Greater Than</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html"><i class="fa fa-check"></i><b>7</b> tibbles</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#introduction-6"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#creating-tibbles"><i class="fa fa-check"></i><b>7.2</b> Creating tibbles</a></li>
+<li class="chapter" data-level="7.3" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#tibble-features"><i class="fa fa-check"></i><b>7.3</b> tibble features</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#never-changes-inputs-types"><i class="fa fa-check"></i><b>7.3.1</b> never changes input’s types</a></li>
+<li class="chapter" data-level="7.3.2" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#never-adjusts-variable-names"><i class="fa fa-check"></i><b>7.3.2</b> never adjusts variable names</a></li>
+<li class="chapter" data-level="7.3.3" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#never-prints-all-rows"><i class="fa fa-check"></i><b>7.3.3</b> never prints all rows</a></li>
+<li class="chapter" data-level="7.3.4" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#never-recycles-vector-of-length-greater-than-1"><i class="fa fa-check"></i><b>7.3.4</b> never recycles vector of length greater than 1</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#membership-testing"><i class="fa fa-check"></i><b>7.4</b> Membership Testing</a></li>
+<li class="chapter" data-level="7.5" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#tribble"><i class="fa fa-check"></i><b>7.5</b> Tribble</a></li>
+<li class="chapter" data-level="7.6" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#column-names-1"><i class="fa fa-check"></i><b>7.6</b> Column Names</a></li>
+<li class="chapter" data-level="7.7" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#add-rows"><i class="fa fa-check"></i><b>7.7</b> Add Rows</a></li>
+<li class="chapter" data-level="7.8" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#add-columns"><i class="fa fa-check"></i><b>7.8</b> Add Columns</a></li>
+<li class="chapter" data-level="7.9" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#rownames"><i class="fa fa-check"></i><b>7.9</b> Rownames</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#remove-rownames"><i class="fa fa-check"></i><b>7.9.1</b> Remove Rownames</a></li>
+<li class="chapter" data-level="7.9.2" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#rownames-to-column"><i class="fa fa-check"></i><b>7.9.2</b> Rownames to Column</a></li>
+<li class="chapter" data-level="7.9.3" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#column-to-rownames"><i class="fa fa-check"></i><b>7.9.3</b> Column to Rownames</a></li>
+</ul></li>
+<li class="chapter" data-level="7.10" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#glimpse"><i class="fa fa-check"></i><b>7.10</b> Glimpse</a></li>
+<li class="chapter" data-level="7.11" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#check-column"><i class="fa fa-check"></i><b>7.11</b> Check Column</a></li>
+<li class="chapter" data-level="7.12" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#summary-3"><i class="fa fa-check"></i><b>7.12</b> Summary</a>
+<ul>
+<li class="chapter" data-level="7.12.1" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#creating-tibbles-1"><i class="fa fa-check"></i><b>7.12.1</b> Creating tibbles</a></li>
+<li class="chapter" data-level="7.12.2" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#modifying-tibbles"><i class="fa fa-check"></i><b>7.12.2</b> Modifying tibbles</a></li>
+<li class="chapter" data-level="7.12.3" data-path="tibbles-in-r.html"><a href="tibbles-in-r.html#testing-tibbles"><i class="fa fa-check"></i><b>7.12.3</b> Testing tibbles</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="strings-in-r.html"><a href="strings-in-r.html"><i class="fa fa-check"></i><b>8</b> Hacking Strings</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="strings-in-r.html"><a href="strings-in-r.html#introduction-7"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="strings-in-r.html"><a href="strings-in-r.html#case-study-9"><i class="fa fa-check"></i><b>8.2</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="strings-in-r.html"><a href="strings-in-r.html#data-3"><i class="fa fa-check"></i><b>8.2.1</b> Data</a></li>
+<li class="chapter" data-level="8.2.2" data-path="strings-in-r.html"><a href="strings-in-r.html#data-dictionary-3"><i class="fa fa-check"></i><b>8.2.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="strings-in-r.html"><a href="strings-in-r.html#overview"><i class="fa fa-check"></i><b>8.3</b> Overview</a></li>
+<li class="chapter" data-level="8.4" data-path="strings-in-r.html"><a href="strings-in-r.html#extract-domain-name-from-email-ids"><i class="fa fa-check"></i><b>8.4</b> Extract domain name from email ids</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="strings-in-r.html"><a href="strings-in-r.html#steps"><i class="fa fa-check"></i><b>8.4.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="strings-in-r.html"><a href="strings-in-r.html#extract-domain-extension"><i class="fa fa-check"></i><b>8.5</b> Extract Domain Extension</a></li>
+<li class="chapter" data-level="8.6" data-path="strings-in-r.html"><a href="strings-in-r.html#extract-image-type-from-url"><i class="fa fa-check"></i><b>8.6</b> Extract image type from URL</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="strings-in-r.html"><a href="strings-in-r.html#steps-1"><i class="fa fa-check"></i><b>8.6.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="strings-in-r.html"><a href="strings-in-r.html#extract-image-dimesion-from-url"><i class="fa fa-check"></i><b>8.7</b> Extract Image Dimesion from URL</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="strings-in-r.html"><a href="strings-in-r.html#steps-2"><i class="fa fa-check"></i><b>8.7.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="strings-in-r.html"><a href="strings-in-r.html#extract-http-protocol-from-url"><i class="fa fa-check"></i><b>8.8</b> Extract HTTP Protocol from URL</a>
+<ul>
+<li class="chapter" data-level="8.8.1" data-path="strings-in-r.html"><a href="strings-in-r.html#steps-3"><i class="fa fa-check"></i><b>8.8.1</b> Steps</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="strings-in-r.html"><a href="strings-in-r.html#extract-file-type"><i class="fa fa-check"></i><b>8.9</b> Extract file type</a>
+<ul>
+<li class="chapter" data-level="8.9.1" data-path="strings-in-r.html"><a href="strings-in-r.html#steps-4"><i class="fa fa-check"></i><b>8.9.1</b> Steps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html"><i class="fa fa-check"></i><b>9</b> Date &amp; Time</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#introduction-8"><i class="fa fa-check"></i><b>9.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#date"><i class="fa fa-check"></i><b>9.1.1</b> Date</a></li>
+<li class="chapter" data-level="9.1.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#time"><i class="fa fa-check"></i><b>9.1.2</b> Time</a></li>
+<li class="chapter" data-level="9.1.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#am-or-pm"><i class="fa fa-check"></i><b>9.1.3</b> AM or PM?</a></li>
+<li class="chapter" data-level="9.1.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#leap-year"><i class="fa fa-check"></i><b>9.1.4</b> Leap Year</a></li>
+<li class="chapter" data-level="9.1.5" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#summary-4"><i class="fa fa-check"></i><b>9.1.5</b> Summary</a></li>
+<li class="chapter" data-level="9.1.6" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-1"><i class="fa fa-check"></i><b>9.1.6</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#case-study-10"><i class="fa fa-check"></i><b>9.2</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#data-4"><i class="fa fa-check"></i><b>9.2.1</b> Data</a></li>
+<li class="chapter" data-level="9.2.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#data-dictionary-4"><i class="fa fa-check"></i><b>9.2.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#date-time-classes"><i class="fa fa-check"></i><b>9.3</b> Date &amp; Time Classes</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#introduction-9"><i class="fa fa-check"></i><b>9.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.3.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#date-1"><i class="fa fa-check"></i><b>9.3.2</b> Date</a></li>
+<li class="chapter" data-level="9.3.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#iso-8601"><i class="fa fa-check"></i><b>9.3.3</b> ISO 8601</a></li>
+<li class="chapter" data-level="9.3.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#posix"><i class="fa fa-check"></i><b>9.3.4</b> POSIX</a></li>
+<li class="chapter" data-level="9.3.5" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-2"><i class="fa fa-check"></i><b>9.3.5</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#date-arithmetic"><i class="fa fa-check"></i><b>9.4</b> Date Arithmetic</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#introduction-11"><i class="fa fa-check"></i><b>9.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.4.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#shift-date"><i class="fa fa-check"></i><b>9.4.2</b> Shift Date</a></li>
+<li class="chapter" data-level="9.4.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#case-study-11"><i class="fa fa-check"></i><b>9.4.3</b> Case Study</a></li>
+<li class="chapter" data-level="9.4.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-3"><i class="fa fa-check"></i><b>9.4.4</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#time-zones"><i class="fa fa-check"></i><b>9.5</b> Time Zones</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#introduction-12"><i class="fa fa-check"></i><b>9.5.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.5.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#time-zones-1"><i class="fa fa-check"></i><b>9.5.2</b> Time Zones</a></li>
+<li class="chapter" data-level="9.5.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#daylight-savings"><i class="fa fa-check"></i><b>9.5.3</b> Daylight Savings</a></li>
+<li class="chapter" data-level="9.5.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-4"><i class="fa fa-check"></i><b>9.5.4</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#date-time-formats"><i class="fa fa-check"></i><b>9.6</b> Date &amp; Time Formats</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#introduction-13"><i class="fa fa-check"></i><b>9.6.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.6.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#conversion-specifications"><i class="fa fa-check"></i><b>9.6.2</b> Conversion Specifications</a></li>
+<li class="chapter" data-level="9.6.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#guess-format"><i class="fa fa-check"></i><b>9.6.3</b> Guess Format</a></li>
+<li class="chapter" data-level="9.6.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-5"><i class="fa fa-check"></i><b>9.6.4</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#parse-date-time"><i class="fa fa-check"></i><b>9.7</b> Parse Date &amp; Time</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-6"><i class="fa fa-check"></i><b>9.7.1</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#date-time-components"><i class="fa fa-check"></i><b>9.8</b> Date &amp; Time Components</a>
+<ul>
+<li class="chapter" data-level="9.8.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#year"><i class="fa fa-check"></i><b>9.8.1</b> Year</a></li>
+<li class="chapter" data-level="9.8.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#month"><i class="fa fa-check"></i><b>9.8.2</b> Month</a></li>
+<li class="chapter" data-level="9.8.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#week"><i class="fa fa-check"></i><b>9.8.3</b> Week</a></li>
+<li class="chapter" data-level="9.8.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#day"><i class="fa fa-check"></i><b>9.8.4</b> Day</a></li>
+<li class="chapter" data-level="9.8.5" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#days-in-month"><i class="fa fa-check"></i><b>9.8.5</b> Days in Month</a></li>
+<li class="chapter" data-level="9.8.6" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#hour-minute-seconds"><i class="fa fa-check"></i><b>9.8.6</b> Hour, Minute &amp; Seconds</a></li>
+<li class="chapter" data-level="9.8.7" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#quarter-semester"><i class="fa fa-check"></i><b>9.8.7</b> Quarter &amp; Semester</a></li>
+<li class="chapter" data-level="9.8.8" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#case-study-12"><i class="fa fa-check"></i><b>9.8.8</b> Case Study</a></li>
+<li class="chapter" data-level="9.8.9" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-7"><i class="fa fa-check"></i><b>9.8.9</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#create-update-verify"><i class="fa fa-check"></i><b>9.9</b> Create, Update &amp; Verify</a>
+<ul>
+<li class="chapter" data-level="9.9.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#create"><i class="fa fa-check"></i><b>9.9.1</b> Create</a></li>
+<li class="chapter" data-level="9.9.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#update"><i class="fa fa-check"></i><b>9.9.2</b> Update</a></li>
+<li class="chapter" data-level="9.9.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#date-sequence"><i class="fa fa-check"></i><b>9.9.3</b> Date Sequence</a></li>
+<li class="chapter" data-level="9.9.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#verify-type"><i class="fa fa-check"></i><b>9.9.4</b> Verify Type</a></li>
+<li class="chapter" data-level="9.9.5" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-8"><i class="fa fa-check"></i><b>9.9.5</b> Your Turn</a></li>
+</ul></li>
+<li class="chapter" data-level="9.10" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#intervals-duration-period"><i class="fa fa-check"></i><b>9.10</b> Intervals, Duration &amp; Period</a>
+<ul>
+<li class="chapter" data-level="9.10.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#interval"><i class="fa fa-check"></i><b>9.10.1</b> Interval</a></li>
+<li class="chapter" data-level="9.10.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#within"><i class="fa fa-check"></i><b>9.10.2</b> Within</a></li>
+<li class="chapter" data-level="9.10.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#duration"><i class="fa fa-check"></i><b>9.10.3</b> Duration</a></li>
+<li class="chapter" data-level="9.10.4" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#period"><i class="fa fa-check"></i><b>9.10.4</b> Period</a></li>
+</ul></li>
+<li class="chapter" data-level="9.11" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#others"><i class="fa fa-check"></i><b>9.11</b> Others</a>
+<ul>
+<li class="chapter" data-level="9.11.1" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#rounding-dates"><i class="fa fa-check"></i><b>9.11.1</b> Rounding Dates</a></li>
+<li class="chapter" data-level="9.11.2" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#rollback"><i class="fa fa-check"></i><b>9.11.2</b> Rollback</a></li>
+<li class="chapter" data-level="9.11.3" data-path="date-and-time-in-r.html"><a href="date-and-time-in-r.html#your-turn-9"><i class="fa fa-check"></i><b>9.11.3</b> Your Turn</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html"><i class="fa fa-check"></i><b>10</b> Categorical Data</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#intro"><i class="fa fa-check"></i><b>10.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-types"><i class="fa fa-check"></i><b>10.1.1</b> Data Types</a></li>
+<li class="chapter" data-level="10.1.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#categorical-data"><i class="fa fa-check"></i><b>10.1.2</b> Categorical Data</a></li>
+<li class="chapter" data-level="10.1.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#dichotomous"><i class="fa fa-check"></i><b>10.1.3</b> Dichotomous</a></li>
+<li class="chapter" data-level="10.1.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#polychotomous"><i class="fa fa-check"></i><b>10.1.4</b> Polychotomous</a></li>
+<li class="chapter" data-level="10.1.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#ordinal"><i class="fa fa-check"></i><b>10.1.5</b> Ordinal</a></li>
+<li class="chapter" data-level="10.1.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#nominal"><i class="fa fa-check"></i><b>10.1.6</b> Nominal</a></li>
+<li class="chapter" data-level="10.1.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-5"><i class="fa fa-check"></i><b>10.1.7</b> Summary</a></li>
+<li class="chapter" data-level="10.1.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-10"><i class="fa fa-check"></i><b>10.1.8</b> Your Turn…</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#casestudy"><i class="fa fa-check"></i><b>10.2</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-5"><i class="fa fa-check"></i><b>10.2.1</b> Data</a></li>
+<li class="chapter" data-level="10.2.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#data-dictionary-5"><i class="fa fa-check"></i><b>10.2.2</b> Data Dictionary</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#factors"><i class="fa fa-check"></i><b>10.3</b> Factors</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-14"><i class="fa fa-check"></i><b>10.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.3.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#membership-testing-1"><i class="fa fa-check"></i><b>10.3.2</b> Membership Testing</a></li>
+<li class="chapter" data-level="10.3.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#coercion"><i class="fa fa-check"></i><b>10.3.3</b> Coercion</a></li>
+<li class="chapter" data-level="10.3.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#factor-function"><i class="fa fa-check"></i><b>10.3.4</b> Factor Function</a></li>
+<li class="chapter" data-level="10.3.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#modify-labels"><i class="fa fa-check"></i><b>10.3.5</b> Modify Labels</a></li>
+<li class="chapter" data-level="10.3.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#missing-values"><i class="fa fa-check"></i><b>10.3.6</b> Missing Values</a></li>
+<li class="chapter" data-level="10.3.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#ordered-factors"><i class="fa fa-check"></i><b>10.3.7</b> Ordered Factors</a></li>
+<li class="chapter" data-level="10.3.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#modify-order-of-levels"><i class="fa fa-check"></i><b>10.3.8</b> Modify Order of Levels</a></li>
+<li class="chapter" data-level="10.3.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions"><i class="fa fa-check"></i><b>10.3.9</b> Key Functions</a></li>
+<li class="chapter" data-level="10.3.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-6"><i class="fa fa-check"></i><b>10.3.10</b> Summary</a></li>
+<li class="chapter" data-level="10.3.11" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-11"><i class="fa fa-check"></i><b>10.3.11</b> Your Turn…</a></li>
+<li class="chapter" data-level="10.3.12" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#operations"><i class="fa fa-check"></i><b>10.3.12</b> Summarize</a></li>
+<li class="chapter" data-level="10.3.13" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-15"><i class="fa fa-check"></i><b>10.3.13</b> Introduction</a></li>
+<li class="chapter" data-level="10.3.14" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#number-of-categories"><i class="fa fa-check"></i><b>10.3.14</b> Number of Categories</a></li>
+<li class="chapter" data-level="10.3.15" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#category-names"><i class="fa fa-check"></i><b>10.3.15</b> Category Names</a></li>
+<li class="chapter" data-level="10.3.16" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#names-counts"><i class="fa fa-check"></i><b>10.3.16</b> Names &amp; Counts</a></li>
+<li class="chapter" data-level="10.3.17" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#tables"><i class="fa fa-check"></i><b>10.3.17</b> Tables</a></li>
+<li class="chapter" data-level="10.3.18" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#contingency-table"><i class="fa fa-check"></i><b>10.3.18</b> Contingency Table</a></li>
+<li class="chapter" data-level="10.3.19" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-1"><i class="fa fa-check"></i><b>10.3.19</b> Key Functions</a></li>
+<li class="chapter" data-level="10.3.20" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-12"><i class="fa fa-check"></i><b>10.3.20</b> Your Turn…</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#manipulate"><i class="fa fa-check"></i><b>10.4</b> Data Manipulation</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-16"><i class="fa fa-check"></i><b>10.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.4.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-13"><i class="fa fa-check"></i><b>10.4.2</b> Your Turn…</a></li>
+<li class="chapter" data-level="10.4.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-value-of-levels"><i class="fa fa-check"></i><b>10.4.3</b> Change Value of Levels</a></li>
+<li class="chapter" data-level="10.4.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#combine-both-paid-organic-search-into-a-single-level-search"><i class="fa fa-check"></i><b>10.4.4</b> Combine both Paid &amp; Organic Search into a single level, Search</a></li>
+<li class="chapter" data-level="10.4.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-2"><i class="fa fa-check"></i><b>10.4.5</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn.."><i class="fa fa-check"></i><b>10.4.6</b> Your Turn..</a></li>
+<li class="chapter" data-level="10.4.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-remove-levels"><i class="fa fa-check"></i><b>10.4.7</b> Add / Remove Levels</a></li>
+<li class="chapter" data-level="10.4.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-a-new-level-blog"><i class="fa fa-check"></i><b>10.4.8</b> Add a new level, Blog</a></li>
+<li class="chapter" data-level="10.4.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-3"><i class="fa fa-check"></i><b>10.4.9</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-order-of-levels"><i class="fa fa-check"></i><b>10.4.10</b> Change Order of Levels</a></li>
+<li class="chapter" data-level="10.4.11" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-4"><i class="fa fa-check"></i><b>10.4.11</b> Key Functions</a></li>
+<li class="chapter" data-level="10.4.12" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-14"><i class="fa fa-check"></i><b>10.4.12</b> Your Turn…</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#dataviz"><i class="fa fa-check"></i><b>10.5</b> Data Visualization</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-17"><i class="fa fa-check"></i><b>10.5.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.5.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#bar-plot"><i class="fa fa-check"></i><b>10.5.2</b> Bar Plot</a></li>
+<li class="chapter" data-level="10.5.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#grouped-bar-plot"><i class="fa fa-check"></i><b>10.5.3</b> Grouped Bar Plot</a></li>
+<li class="chapter" data-level="10.5.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#stacked-bar-plot"><i class="fa fa-check"></i><b>10.5.4</b> Stacked Bar Plot</a></li>
+<li class="chapter" data-level="10.5.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#proportional-bar-plot"><i class="fa fa-check"></i><b>10.5.5</b> Proportional Bar Plot</a></li>
+<li class="chapter" data-level="10.5.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#mosaic-plot"><i class="fa fa-check"></i><b>10.5.6</b> Mosaic Plot</a></li>
+<li class="chapter" data-level="10.5.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#pie-chart"><i class="fa fa-check"></i><b>10.5.7</b> Pie Chart</a></li>
+<li class="chapter" data-level="10.5.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#donut-chart"><i class="fa fa-check"></i><b>10.5.8</b> Donut Chart</a></li>
+<li class="chapter" data-level="10.5.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summary-7"><i class="fa fa-check"></i><b>10.5.9</b> Summary</a></li>
+<li class="chapter" data-level="10.5.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-15"><i class="fa fa-check"></i><b>10.5.10</b> Your Turn…</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#conclusion"><i class="fa fa-check"></i><b>10.6</b> Useful R Packages</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summarize-variables"><i class="fa fa-check"></i><b>10.6.1</b> Summarize Variables</a></li>
+<li class="chapter" data-level="10.6.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#summarize-data-set"><i class="fa fa-check"></i><b>10.6.2</b> Summarize Data Set</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Wrangling with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="strings-in-r" class="section level1" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Hacking Strings</h1>
+<div id="introduction-7" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Introduction</h2>
+<p>In this chapter, we will learn to work with string data in R using <a href="https://stringr.tidyverse.org">stringr</a>. As we did in the other chapters, we will use a case study to explore the various features of the stringr package. We will use the following R packages:</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="strings-in-r.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb318-2"><a href="strings-in-r.html#cb318-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb318-3"><a href="strings-in-r.html#cb318-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb318-4"><a href="strings-in-r.html#cb318-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb318-5"><a href="strings-in-r.html#cb318-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb318-6"><a href="strings-in-r.html#cb318-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code></pre></div>
+</div>
+<div id="case-study-9" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Case Study</h2>
+<ul>
+<li>extract domain name from random email ids</li>
+<li>extract image type from url</li>
+<li>extract image dimension from url</li>
+<li>extract extension from domain name</li>
+<li>extract http protocol from url</li>
+<li>extract file type from url</li>
+</ul>
+<div id="data-3" class="section level3" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Data</h3>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="strings-in-r.html#cb319-1" aria-hidden="true" tabindex="-1"></a>mockstring <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/mock_strings.csv&#39;</span>)</span>
+<span id="cb319-2"><a href="strings-in-r.html#cb319-2" aria-hidden="true" tabindex="-1"></a>mockstring</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 12
+##       id
+##    &lt;dbl&gt;
+##  1     1
+##  2     2
+##  3     3
+##  4     4
+##  5     5
+##  6     6
+##  7     7
+##  8     8
+##  9     9
+## 10    10
+##    image_url                                                               
+##    &lt;chr&gt;                                                                   
+##  1 https://robohash.org/providentassumendaexplicabo.jpg?size=50x50&amp;set=set1
+##  2 https://robohash.org/etillumvoluptate.jpg?size=50x50&amp;set=set1           
+##  3 https://robohash.org/nonoptiovoluptatibus.jpg?size=50x50&amp;set=set1       
+##  4 https://robohash.org/voluptatumauthic.jpg?size=50x50&amp;set=set1           
+##  5 https://robohash.org/placeaterrorqui.jpg?size=50x50&amp;set=set1            
+##  6 https://robohash.org/temporeutea.jpg?size=50x50&amp;set=set1                
+##  7 https://robohash.org/maximesaepequi.bmp?size=50x50&amp;set=set1             
+##  8 https://robohash.org/nemoautesse.png?size=50x50&amp;set=set1                
+##  9 https://robohash.org/odiorerumaut.png?size=50x50&amp;set=set1               
+## 10 https://robohash.org/omnismolestiaearchitecto.png?size=50x50&amp;set=set1   
+##    domain           imageurl                                       
+##    &lt;chr&gt;            &lt;chr&gt;                                          
+##  1 addtoany.com     http://dummyimage.com/130x183.jpg/dddddd/000000
+##  2 gmpg.org         http://dummyimage.com/106x217.bmp/dddddd/000000
+##  3 samsung.com      http://dummyimage.com/146x127.bmp/cc0000/ffffff
+##  4 spotify.com      http://dummyimage.com/181x194.png/5fa2dd/ffffff
+##  5 wunderground.com http://dummyimage.com/220x123.jpg/ff4444/ffffff
+##  6 alexa.com        http://dummyimage.com/118x176.bmp/dddddd/000000
+##  7 google.it        http://dummyimage.com/185x202.jpg/ff4444/ffffff
+##  8 ed.gov           http://dummyimage.com/223x163.jpg/ff4444/ffffff
+##  9 jigsy.com        http://dummyimage.com/145x113.jpg/5fa2dd/ffffff
+## 10 jugem.jp         http://dummyimage.com/238x214.png/cc0000/ffffff
+##    email                        filename              phone            
+##    &lt;chr&gt;                        &lt;chr&gt;                 &lt;chr&gt;            
+##  1 mnewburn0@fastcompany.com    PedeMalesuada.xls     66-(777)902-6181 
+##  2 mdankersley1@digg.com        LobortisVel.mp3       351-(422)736-6807
+##  3 hgirhard2@altervista.org     CongueDiamId.pdf      33-(371)684-5114 
+##  4 pmcmenamy3@sciencedirect.com EleifendQuam.avi      86-(410)823-6712 
+##  5 drisbrough4@bandcamp.com     PurusPhasellus.mp3    223-(518)814-6361
+##  6 cphlippi5@surveymonkey.com   ElementumInHac.avi    420-(760)354-8671
+##  7 kdodswell6@un.org            Mattis.doc            1-(712)615-2879  
+##  8 vhourihane7@ovh.net          PurusEu.tiff          62-(437)705-1118 
+##  9 rdike8@timesonline.co.uk     JustoEtiamPretium.xls 1-(683)965-1323  
+## 10 tdudbridge9@clickbank.net    Ante.tiff             30-(553)559-7448 
+##    address                   
+##    &lt;chr&gt;                     
+##  1 8 Anhalt Crossing         
+##  2 697 East Avenue           
+##  3 89 Dottie Circle          
+##  4 98135 Blue Bill Park Drive
+##  5 7814 Pennsylvania Street  
+##  6 4897 Little Fleur Drive   
+##  7 53541 Morrow Center       
+##  8 4819 Hermina Parkway      
+##  9 68096 Monument Park       
+## 10 9595 Spaight Avenue       
+##    url                                                                          
+##    &lt;chr&gt;                                                                        
+##  1 https://engadget.com/nascetur/ridiculus/mus/vivamus/vestibulum.jsp?eu=est&amp;ti~
+##  2 http://delicious.com/phasellus/in/felis/donec.json?interdum=risus&amp;mauris=dap~
+##  3 https://w3.org/sed/augue/aliquam/erat/volutpat.json?dictumst=mi&amp;morbi=sit&amp;ve~
+##  4 http://indiatimes.com/pede/lobortis/ligula/sit/amet.jpg?quam=nullam&amp;sollicit~
+##  5 https://tumblr.com/id/mauris/vulputate/elementum.png?tincidunt=maecenas&amp;eget~
+##  6 https://unblog.fr/est/quam/pharetra.jpg?amet=phasellus&amp;erat=sit&amp;nulla=amet&amp;t~
+##  7 http://vinaora.com/posuere.jpg?convallis=in&amp;nulla=faucibus&amp;neque=orci&amp;libero~
+##  8 https://globo.com/accumsan.png?elementum=eu&amp;pellentesque=mi&amp;quisque=nulla&amp;po~
+##  9 https://xing.com/elementum/eu/interdum/eu/tincidunt.html?sit=proin&amp;amet=eu&amp;s~
+## 10 https://bigcartel.com/tortor/quis/turpis/sed/ante/vivamus.html?in=lorem&amp;elei~
+##    full_name          currency passwords       
+##    &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;           
+##  1 Mufi Ruit          ¥34.37   VybPYpEXUjJh6nQk
+##  2 Leese Furmagier    $67.37   mxET3n6dz42X8YUv
+##  3 Blakelee Wilshire  €33,85   Z9f4WeNVQ28FwKML
+##  4 Terencio McIllrick €42,89   Ndbm8nwCps6jUze3
+##  5 Debee McErlaine    €13,19   U3Lj9xJw8NHzB5Sg
+##  6 Fran Painten       ¥87.35   KEhVAC3QNvjWDFJ7
+##  7 Frasco Bowich      $34.89   jydGPCW7fa2bZpU4
+##  8 Car Ponten         ¥41.66   pytVHesNZjAL8WKc
+##  9 Tades Checcucci    €70,80   Rsw4EQGk9tKTnzDp
+## 10 Wilton Kemmey      €62,76   KvrNGQ7yL3pfsaZA
+## # ... with 990 more rows</code></pre>
+</div>
+<div id="data-dictionary-3" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Data Dictionary</h3>
+<ul>
+<li>domain: dummy website domain</li>
+<li>imageurl: url of an image</li>
+<li>email: dummy email id</li>
+<li>filename: dummy file name with different extensions</li>
+<li>phone: dummy phone number</li>
+<li>address: dummy address with door and street names</li>
+<li>url: randomyly generated urls</li>
+<li>full_name: dummy first and last names</li>
+<li>currency: different currencies</li>
+<li>passwords: dummy passwords</li>
+</ul>
+</div>
+</div>
+<div id="overview" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Overview</h2>
+<p>Before we start with the case study, let us take a quick tour of <strong>stringr</strong> and introduce
+ourselves to some of the functions we will be using later in the case study. One of the
+columns in the case study data is <code>email</code>. It contains random email ids. We want to ensure
+that the email ids adher to a particular format .i.e</p>
+<ul>
+<li>they contain <code>@</code></li>
+<li>they contain only one <code>@</code></li>
+</ul>
+<p>Let us first detect if the email ids contain <code>@</code>. Since the data set has 1000 rows, we will
+use a smaller sample in the examples.</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="strings-in-r.html#cb321-1" aria-hidden="true" tabindex="-1"></a>mockdata <span class="ot">&lt;-</span> <span class="fu">slice</span>(mockstring, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb321-2"><a href="strings-in-r.html#cb321-2" aria-hidden="true" tabindex="-1"></a>mockdata</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 12
+##       id
+##    &lt;dbl&gt;
+##  1     1
+##  2     2
+##  3     3
+##  4     4
+##  5     5
+##  6     6
+##  7     7
+##  8     8
+##  9     9
+## 10    10
+##    image_url                                                               
+##    &lt;chr&gt;                                                                   
+##  1 https://robohash.org/providentassumendaexplicabo.jpg?size=50x50&amp;set=set1
+##  2 https://robohash.org/etillumvoluptate.jpg?size=50x50&amp;set=set1           
+##  3 https://robohash.org/nonoptiovoluptatibus.jpg?size=50x50&amp;set=set1       
+##  4 https://robohash.org/voluptatumauthic.jpg?size=50x50&amp;set=set1           
+##  5 https://robohash.org/placeaterrorqui.jpg?size=50x50&amp;set=set1            
+##  6 https://robohash.org/temporeutea.jpg?size=50x50&amp;set=set1                
+##  7 https://robohash.org/maximesaepequi.bmp?size=50x50&amp;set=set1             
+##  8 https://robohash.org/nemoautesse.png?size=50x50&amp;set=set1                
+##  9 https://robohash.org/odiorerumaut.png?size=50x50&amp;set=set1               
+## 10 https://robohash.org/omnismolestiaearchitecto.png?size=50x50&amp;set=set1   
+##    domain           imageurl                                       
+##    &lt;chr&gt;            &lt;chr&gt;                                          
+##  1 addtoany.com     http://dummyimage.com/130x183.jpg/dddddd/000000
+##  2 gmpg.org         http://dummyimage.com/106x217.bmp/dddddd/000000
+##  3 samsung.com      http://dummyimage.com/146x127.bmp/cc0000/ffffff
+##  4 spotify.com      http://dummyimage.com/181x194.png/5fa2dd/ffffff
+##  5 wunderground.com http://dummyimage.com/220x123.jpg/ff4444/ffffff
+##  6 alexa.com        http://dummyimage.com/118x176.bmp/dddddd/000000
+##  7 google.it        http://dummyimage.com/185x202.jpg/ff4444/ffffff
+##  8 ed.gov           http://dummyimage.com/223x163.jpg/ff4444/ffffff
+##  9 jigsy.com        http://dummyimage.com/145x113.jpg/5fa2dd/ffffff
+## 10 jugem.jp         http://dummyimage.com/238x214.png/cc0000/ffffff
+##    email                        filename              phone            
+##    &lt;chr&gt;                        &lt;chr&gt;                 &lt;chr&gt;            
+##  1 mnewburn0@fastcompany.com    PedeMalesuada.xls     66-(777)902-6181 
+##  2 mdankersley1@digg.com        LobortisVel.mp3       351-(422)736-6807
+##  3 hgirhard2@altervista.org     CongueDiamId.pdf      33-(371)684-5114 
+##  4 pmcmenamy3@sciencedirect.com EleifendQuam.avi      86-(410)823-6712 
+##  5 drisbrough4@bandcamp.com     PurusPhasellus.mp3    223-(518)814-6361
+##  6 cphlippi5@surveymonkey.com   ElementumInHac.avi    420-(760)354-8671
+##  7 kdodswell6@un.org            Mattis.doc            1-(712)615-2879  
+##  8 vhourihane7@ovh.net          PurusEu.tiff          62-(437)705-1118 
+##  9 rdike8@timesonline.co.uk     JustoEtiamPretium.xls 1-(683)965-1323  
+## 10 tdudbridge9@clickbank.net    Ante.tiff             30-(553)559-7448 
+##    address                   
+##    &lt;chr&gt;                     
+##  1 8 Anhalt Crossing         
+##  2 697 East Avenue           
+##  3 89 Dottie Circle          
+##  4 98135 Blue Bill Park Drive
+##  5 7814 Pennsylvania Street  
+##  6 4897 Little Fleur Drive   
+##  7 53541 Morrow Center       
+##  8 4819 Hermina Parkway      
+##  9 68096 Monument Park       
+## 10 9595 Spaight Avenue       
+##    url                                                                          
+##    &lt;chr&gt;                                                                        
+##  1 https://engadget.com/nascetur/ridiculus/mus/vivamus/vestibulum.jsp?eu=est&amp;ti~
+##  2 http://delicious.com/phasellus/in/felis/donec.json?interdum=risus&amp;mauris=dap~
+##  3 https://w3.org/sed/augue/aliquam/erat/volutpat.json?dictumst=mi&amp;morbi=sit&amp;ve~
+##  4 http://indiatimes.com/pede/lobortis/ligula/sit/amet.jpg?quam=nullam&amp;sollicit~
+##  5 https://tumblr.com/id/mauris/vulputate/elementum.png?tincidunt=maecenas&amp;eget~
+##  6 https://unblog.fr/est/quam/pharetra.jpg?amet=phasellus&amp;erat=sit&amp;nulla=amet&amp;t~
+##  7 http://vinaora.com/posuere.jpg?convallis=in&amp;nulla=faucibus&amp;neque=orci&amp;libero~
+##  8 https://globo.com/accumsan.png?elementum=eu&amp;pellentesque=mi&amp;quisque=nulla&amp;po~
+##  9 https://xing.com/elementum/eu/interdum/eu/tincidunt.html?sit=proin&amp;amet=eu&amp;s~
+## 10 https://bigcartel.com/tortor/quis/turpis/sed/ante/vivamus.html?in=lorem&amp;elei~
+##    full_name          currency passwords       
+##    &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;           
+##  1 Mufi Ruit          ¥34.37   VybPYpEXUjJh6nQk
+##  2 Leese Furmagier    $67.37   mxET3n6dz42X8YUv
+##  3 Blakelee Wilshire  €33,85   Z9f4WeNVQ28FwKML
+##  4 Terencio McIllrick €42,89   Ndbm8nwCps6jUze3
+##  5 Debee McErlaine    €13,19   U3Lj9xJw8NHzB5Sg
+##  6 Fran Painten       ¥87.35   KEhVAC3QNvjWDFJ7
+##  7 Frasco Bowich      $34.89   jydGPCW7fa2bZpU4
+##  8 Car Ponten         ¥41.66   pytVHesNZjAL8WKc
+##  9 Tades Checcucci    €70,80   Rsw4EQGk9tKTnzDp
+## 10 Wilton Kemmey      €62,76   KvrNGQ7yL3pfsaZA</code></pre>
+<p><img src="img/str_count.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Use <code>str_detect()</code> to detect <code>@</code> and <code>str_count()</code> to count the number of times
+<code>@</code> appears in the email ids.</p>
+<p><img src="img/str_detect.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="strings-in-r.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="co"># detect @</span></span>
+<span id="cb323-2"><a href="strings-in-r.html#cb323-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(mockdata<span class="sc">$</span>email, <span class="at">pattern =</span> <span class="st">&quot;@&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="strings-in-r.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count @</span></span>
+<span id="cb325-2"><a href="strings-in-r.html#cb325-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_count</span>(mockdata<span class="sc">$</span>email, <span class="at">pattern =</span> <span class="st">&quot;@&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1</code></pre>
+<p>We can use <code>str_c()</code> to concatenate strings. Let us add the string <code>email id:</code> before each
+email id in the data set.</p>
+<p><img src="img/str_c.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="strings-in-r.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_c</span>(<span class="st">&quot;email id:&quot;</span>, mockdata<span class="sc">$</span>email)</span></code></pre></div>
+<pre><code>##  [1] &quot;email id:mnewburn0@fastcompany.com&quot;   
+##  [2] &quot;email id:mdankersley1@digg.com&quot;       
+##  [3] &quot;email id:hgirhard2@altervista.org&quot;    
+##  [4] &quot;email id:pmcmenamy3@sciencedirect.com&quot;
+##  [5] &quot;email id:drisbrough4@bandcamp.com&quot;    
+##  [6] &quot;email id:cphlippi5@surveymonkey.com&quot;  
+##  [7] &quot;email id:kdodswell6@un.org&quot;           
+##  [8] &quot;email id:vhourihane7@ovh.net&quot;         
+##  [9] &quot;email id:rdike8@timesonline.co.uk&quot;    
+## [10] &quot;email id:tdudbridge9@clickbank.net&quot;</code></pre>
+<p>If we want to split a string into two parts using a particular pattern, we use <code>str_split()</code>.
+Let us split the domain name and extension from the domain column in the data. The domain name
+and extension are separated by <code>.</code> and we will use it to split the domain column. Since <code>.</code> is
+a special character, we will use two slashes to escape the special character.</p>
+<p><img src="img/str_split.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="strings-in-r.html#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_split</span>(mockdata<span class="sc">$</span>domain, <span class="at">pattern =</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;addtoany&quot; &quot;com&quot;     
+## 
+## [[2]]
+## [1] &quot;gmpg&quot; &quot;org&quot; 
+## 
+## [[3]]
+## [1] &quot;samsung&quot; &quot;com&quot;    
+## 
+## [[4]]
+## [1] &quot;spotify&quot; &quot;com&quot;    
+## 
+## [[5]]
+## [1] &quot;wunderground&quot; &quot;com&quot;         
+## 
+## [[6]]
+## [1] &quot;alexa&quot; &quot;com&quot;  
+## 
+## [[7]]
+## [1] &quot;google&quot; &quot;it&quot;    
+## 
+## [[8]]
+## [1] &quot;ed&quot;  &quot;gov&quot;
+## 
+## [[9]]
+## [1] &quot;jigsy&quot; &quot;com&quot;  
+## 
+## [[10]]
+## [1] &quot;jugem&quot; &quot;jp&quot;</code></pre>
+<p>We can truncate a string using <code>str_trunc()</code>. The default truncation happens at the beggining
+of the string but we can truncate the central part or the end of the string as well.</p>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="strings-in-r.html#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_trunc</span>(mockdata<span class="sc">$</span>email, <span class="at">width =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;mnewbur...&quot; &quot;mdanker...&quot; &quot;hgirhar...&quot; &quot;pmcmena...&quot; &quot;drisbro...&quot;
+##  [6] &quot;cphlipp...&quot; &quot;kdodswe...&quot; &quot;vhourih...&quot; &quot;rdike8@...&quot; &quot;tdudbri...&quot;</code></pre>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="strings-in-r.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_trunc</span>(mockdata<span class="sc">$</span>email, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">side =</span> <span class="st">&quot;left&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;...any.com&quot; &quot;...igg.com&quot; &quot;...sta.org&quot; &quot;...ect.com&quot; &quot;...amp.com&quot;
+##  [6] &quot;...key.com&quot; &quot;...@un.org&quot; &quot;...ovh.net&quot; &quot;...e.co.uk&quot; &quot;...ank.net&quot;</code></pre>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="strings-in-r.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_trunc</span>(mockdata<span class="sc">$</span>email, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">side =</span> <span class="st">&quot;center&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;mnew...com&quot; &quot;mdan...com&quot; &quot;hgir...org&quot; &quot;pmcm...com&quot; &quot;dris...com&quot;
+##  [6] &quot;cphl...com&quot; &quot;kdod...org&quot; &quot;vhou...net&quot; &quot;rdik....uk&quot; &quot;tdud...net&quot;</code></pre>
+<p><img src="img/str_sort_descending.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Strings can be sorted using <code>str_sort()</code>. Let us quickly sort the emails in both
+ascending and descending orders.</p>
+<p><img src="img/str_sort.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="strings-in-r.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sort</span>(mockdata<span class="sc">$</span>email)</span></code></pre></div>
+<pre><code>##  [1] &quot;cphlippi5@surveymonkey.com&quot;   &quot;drisbrough4@bandcamp.com&quot;    
+##  [3] &quot;hgirhard2@altervista.org&quot;     &quot;kdodswell6@un.org&quot;           
+##  [5] &quot;mdankersley1@digg.com&quot;        &quot;mnewburn0@fastcompany.com&quot;   
+##  [7] &quot;pmcmenamy3@sciencedirect.com&quot; &quot;rdike8@timesonline.co.uk&quot;    
+##  [9] &quot;tdudbridge9@clickbank.net&quot;    &quot;vhourihane7@ovh.net&quot;</code></pre>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="strings-in-r.html#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sort</span>(mockdata<span class="sc">$</span>email, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;vhourihane7@ovh.net&quot;          &quot;tdudbridge9@clickbank.net&quot;   
+##  [3] &quot;rdike8@timesonline.co.uk&quot;     &quot;pmcmenamy3@sciencedirect.com&quot;
+##  [5] &quot;mnewburn0@fastcompany.com&quot;    &quot;mdankersley1@digg.com&quot;       
+##  [7] &quot;kdodswell6@un.org&quot;            &quot;hgirhard2@altervista.org&quot;    
+##  [9] &quot;drisbrough4@bandcamp.com&quot;     &quot;cphlippi5@surveymonkey.com&quot;</code></pre>
+<p>The case of a string can be changed to upper, lower or title case as shown below.</p>
+<p><img src="img/str_to_upper.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="strings-in-r.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_upper</span>(mockdata<span class="sc">$</span>full_name)</span></code></pre></div>
+<pre><code>##  [1] &quot;MUFI RUIT&quot;          &quot;LEESE FURMAGIER&quot;    &quot;BLAKELEE WILSHIRE&quot; 
+##  [4] &quot;TERENCIO MCILLRICK&quot; &quot;DEBEE MCERLAINE&quot;    &quot;FRAN PAINTEN&quot;      
+##  [7] &quot;FRASCO BOWICH&quot;      &quot;CAR PONTEN&quot;         &quot;TADES CHECCUCCI&quot;   
+## [10] &quot;WILTON KEMMEY&quot;</code></pre>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="strings-in-r.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_lower</span>(mockdata<span class="sc">$</span>full_name)</span></code></pre></div>
+<pre><code>##  [1] &quot;mufi ruit&quot;          &quot;leese furmagier&quot;    &quot;blakelee wilshire&quot; 
+##  [4] &quot;terencio mcillrick&quot; &quot;debee mcerlaine&quot;    &quot;fran painten&quot;      
+##  [7] &quot;frasco bowich&quot;      &quot;car ponten&quot;         &quot;tades checcucci&quot;   
+## [10] &quot;wilton kemmey&quot;</code></pre>
+<p>Parts of a string can be replaced using <code>str_replace()</code>. In the <code>address</code> column of the data set,
+let us replace:</p>
+<ul>
+<li>Street with ST</li>
+<li>Road with RD</li>
+</ul>
+<p><img src="img/str_replace.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="strings-in-r.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace</span>(mockdata<span class="sc">$</span>address, <span class="st">&quot;Street&quot;</span>, <span class="st">&quot;ST&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;8 Anhalt Crossing&quot;          &quot;697 East Avenue&quot;           
+##  [3] &quot;89 Dottie Circle&quot;           &quot;98135 Blue Bill Park Drive&quot;
+##  [5] &quot;7814 Pennsylvania ST&quot;       &quot;4897 Little Fleur Drive&quot;   
+##  [7] &quot;53541 Morrow Center&quot;        &quot;4819 Hermina Parkway&quot;      
+##  [9] &quot;68096 Monument Park&quot;        &quot;9595 Spaight Avenue&quot;</code></pre>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="strings-in-r.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace</span>(mockdata<span class="sc">$</span>address, <span class="st">&quot;Road&quot;</span>, <span class="st">&quot;RD&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;8 Anhalt Crossing&quot;          &quot;697 East Avenue&quot;           
+##  [3] &quot;89 Dottie Circle&quot;           &quot;98135 Blue Bill Park Drive&quot;
+##  [5] &quot;7814 Pennsylvania Street&quot;   &quot;4897 Little Fleur Drive&quot;   
+##  [7] &quot;53541 Morrow Center&quot;        &quot;4819 Hermina Parkway&quot;      
+##  [9] &quot;68096 Monument Park&quot;        &quot;9595 Spaight Avenue&quot;</code></pre>
+<p>We can extract parts of the string that match a particular pattern using <code>str_extract()</code>.</p>
+<p><img src="img/str_extract.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="strings-in-r.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_extract</span>(mockdata<span class="sc">$</span>email, <span class="at">pattern =</span> <span class="st">&quot;org&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] NA    NA    &quot;org&quot; NA    NA    NA    &quot;org&quot; NA    NA    NA</code></pre>
+<p>Before we extract, we need to know whether the string contains text that match our pattern.
+Use <code>str_match()</code> to see if the pattern is present in the string.</p>
+<p><img src="img/str_match.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="strings-in-r.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_match</span>(mockdata<span class="sc">$</span>email, <span class="at">pattern =</span> <span class="st">&quot;org&quot;</span>)</span></code></pre></div>
+<pre><code>##       [,1] 
+##  [1,] NA   
+##  [2,] NA   
+##  [3,] &quot;org&quot;
+##  [4,] NA   
+##  [5,] NA   
+##  [6,] NA   
+##  [7,] &quot;org&quot;
+##  [8,] NA   
+##  [9,] NA   
+## [10,] NA</code></pre>
+<p>If we are dealing with a character vector and know that the pattern we are looking at
+is present in the vector, we might want to know the index of the strings in which it is
+present. Use <code>str_which()</code> to identify the index of the strings that match our pattern.</p>
+<p><img src="img/str_which.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="strings-in-r.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_which</span>(mockdata<span class="sc">$</span>email, <span class="at">pattern =</span> <span class="st">&quot;org&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 3 7</code></pre>
+<p>Another objective might be to locate the position of the pattern we are looking for in the
+string. For example, if we want to know the position of <code>@</code> in the email ids, we can use
+<code>str_locate()</code>.</p>
+<p><img src="img/str_locate.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="strings-in-r.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_locate</span>(mockdata<span class="sc">$</span>email, <span class="at">pattern =</span> <span class="st">&quot;@&quot;</span>)</span></code></pre></div>
+<pre><code>##       start end
+##  [1,]    10  10
+##  [2,]    13  13
+##  [3,]    10  10
+##  [4,]    11  11
+##  [5,]    12  12
+##  [6,]    10  10
+##  [7,]    11  11
+##  [8,]    12  12
+##  [9,]     7   7
+## [10,]    12  12</code></pre>
+<p>The length of the string can be computed using <code>str_length()</code>. Let us ensure that the length
+of the strings in the <code>password</code> column is 16.</p>
+<p><img src="img/str_length.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="strings-in-r.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_length</span>(mockdata<span class="sc">$</span>passwords)</span></code></pre></div>
+<pre><code>##  [1] 16 16 16 16 16 16 16 16 16 16</code></pre>
+<p>We can extract parts of a string by specifying the starting and ending position using
+<code>str_sub()</code>. Let us extract the currency type from the <code>currency</code> column.</p>
+<p><img src="img/str_sub.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="strings-in-r.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sub</span>(mockdata<span class="sc">$</span>currency, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;¥&quot; &quot;$&quot; &quot;\200&quot; &quot;\200&quot; &quot;\200&quot; &quot;¥&quot; &quot;$&quot; &quot;¥&quot; &quot;\200&quot; &quot;\200&quot;</code></pre>
+<p>One final function that we will look at before the case study is <code>word()</code>. It extracts
+word(s) from sentences. We do not have any sentences in the data set, but let us use it
+to extract the first and last name from the <code>full_name</code> column.</p>
+<p><img src="img/word.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="strings-in-r.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="fu">word</span>(mockdata<span class="sc">$</span>full_name, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;Mufi&quot;     &quot;Leese&quot;    &quot;Blakelee&quot; &quot;Terencio&quot; &quot;Debee&quot;    &quot;Fran&quot;    
+##  [7] &quot;Frasco&quot;   &quot;Car&quot;      &quot;Tades&quot;    &quot;Wilton&quot;</code></pre>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="strings-in-r.html#cb363-1" aria-hidden="true" tabindex="-1"></a><span class="fu">word</span>(mockdata<span class="sc">$</span>full_name, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;Ruit&quot;      &quot;Furmagier&quot; &quot;Wilshire&quot;  &quot;McIllrick&quot; &quot;McErlaine&quot; &quot;Painten&quot;  
+##  [7] &quot;Bowich&quot;    &quot;Ponten&quot;    &quot;Checcucci&quot; &quot;Kemmey&quot;</code></pre>
+<p>Alright, now let us apply what we have learned so far to our case study.</p>
+</div>
+<div id="extract-domain-name-from-email-ids" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Extract domain name from email ids</h2>
+<div id="steps" class="section level3" number="8.4.1">
+<h3><span class="header-section-number">8.4.1</span> Steps</h3>
+<ul>
+<li>split email using pattern <code>@</code></li>
+<li>extract the second element from the resulting list</li>
+<li>split the above using pattern <code>\\.</code></li>
+<li>extract the first element from the resulting list</li>
+</ul>
+<p>Let us take a look at the emails before we extract the domain names.</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="strings-in-r.html#cb365-1" aria-hidden="true" tabindex="-1"></a>emails <span class="ot">&lt;-</span> </span>
+<span id="cb365-2"><a href="strings-in-r.html#cb365-2" aria-hidden="true" tabindex="-1"></a>  mockstring <span class="sc">%&gt;%</span></span>
+<span id="cb365-3"><a href="strings-in-r.html#cb365-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(email) <span class="sc">%&gt;%</span></span>
+<span id="cb365-4"><a href="strings-in-r.html#cb365-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb365-5"><a href="strings-in-r.html#cb365-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb365-6"><a href="strings-in-r.html#cb365-6" aria-hidden="true" tabindex="-1"></a>emails</span></code></pre></div>
+<pre><code>## [1] &quot;mnewburn0@fastcompany.com&quot;    &quot;mdankersley1@digg.com&quot;       
+## [3] &quot;hgirhard2@altervista.org&quot;     &quot;pmcmenamy3@sciencedirect.com&quot;
+## [5] &quot;drisbrough4@bandcamp.com&quot;     &quot;cphlippi5@surveymonkey.com&quot;</code></pre>
+<div id="step-1-split-email-using-pattern-." class="section level4" number="8.4.1.1">
+<h4><span class="header-section-number">8.4.1.1</span> Step 1: Split email using pattern <code>@</code>.</h4>
+<p>We will split the email using <code>str_split</code>. It will split a string
+using the pattern supplied. In our case the pattern is <code>@</code>.</p>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="strings-in-r.html#cb367-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">str_split</span>(emails, <span class="at">pattern =</span> <span class="st">&#39;@&#39;</span>)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;mnewburn0&quot;       &quot;fastcompany.com&quot;
+## 
+## [[2]]
+## [1] &quot;mdankersley1&quot; &quot;digg.com&quot;    
+## 
+## [[3]]
+## [1] &quot;hgirhard2&quot;      &quot;altervista.org&quot;
+## 
+## [[4]]
+## [1] &quot;pmcmenamy3&quot;        &quot;sciencedirect.com&quot;
+## 
+## [[5]]
+## [1] &quot;drisbrough4&quot;  &quot;bandcamp.com&quot;
+## 
+## [[6]]
+## [1] &quot;cphlippi5&quot;        &quot;surveymonkey.com&quot;</code></pre>
+</div>
+<div id="step-2-extract-the-second-element-from-the-resulting-list." class="section level4" number="8.4.1.2">
+<h4><span class="header-section-number">8.4.1.2</span> Step 2: Extract the second element from the resulting list.</h4>
+<p>Step 1 returned a list. Each element of the list has two values. The first
+one is the username and the second is the domain name. Since we are
+extracting the domain name, we want the second value from each element of
+the list.</p>
+<p>We will use <code>map_chr()</code> from purrr to extract the domain names. It will
+return the second value from each element in the list. Since the domain
+name is a string, <code>map_chr()</code> will return a character vector.</p>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="strings-in-r.html#cb369-1" aria-hidden="true" tabindex="-1"></a>emails <span class="sc">%&gt;%</span></span>
+<span id="cb369-2"><a href="strings-in-r.html#cb369-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb369-3"><a href="strings-in-r.html#cb369-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;fastcompany.com&quot;   &quot;digg.com&quot;          &quot;altervista.org&quot;   
+## [4] &quot;sciencedirect.com&quot; &quot;bandcamp.com&quot;      &quot;surveymonkey.com&quot;</code></pre>
+</div>
+<div id="step-3-split-the-above-using-pattern-.." class="section level4" number="8.4.1.3">
+<h4><span class="header-section-number">8.4.1.3</span> Step 3: Split the above using pattern <code>\\.</code>.</h4>
+<p>We want the domain name and not the extension. Step 2 returned a
+character vector and we need to split the domain name and the domain
+extension. They are separated by <code>.</code>. Since <code>.</code> is a special character,
+we will use <code>\\</code> before <code>.</code> to escape it. Let us split the domain
+name and domain extension using <code>str_split</code> and <code>\\.</code> as the pattern.</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="strings-in-r.html#cb371-1" aria-hidden="true" tabindex="-1"></a>emails <span class="sc">%&gt;%</span></span>
+<span id="cb371-2"><a href="strings-in-r.html#cb371-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb371-3"><a href="strings-in-r.html#cb371-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb371-4"><a href="strings-in-r.html#cb371-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) </span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;fastcompany&quot; &quot;com&quot;        
+## 
+## [[2]]
+## [1] &quot;digg&quot; &quot;com&quot; 
+## 
+## [[3]]
+## [1] &quot;altervista&quot; &quot;org&quot;       
+## 
+## [[4]]
+## [1] &quot;sciencedirect&quot; &quot;com&quot;          
+## 
+## [[5]]
+## [1] &quot;bandcamp&quot; &quot;com&quot;     
+## 
+## [[6]]
+## [1] &quot;surveymonkey&quot; &quot;com&quot;</code></pre>
+</div>
+<div id="step-4-extract-the-first-element-from-the-resulting-list." class="section level4" number="8.4.1.4">
+<h4><span class="header-section-number">8.4.1.4</span> Step 4: Extract the first element from the resulting list.</h4>
+<p>Now that we have separated the domain name from its extension, let us extract
+the first value from each element in the list returned in step 3. We will again
+use <code>map_chr</code> to achieve this.</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="strings-in-r.html#cb373-1" aria-hidden="true" tabindex="-1"></a>emails <span class="sc">%&gt;%</span></span>
+<span id="cb373-2"><a href="strings-in-r.html#cb373-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb373-3"><a href="strings-in-r.html#cb373-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb373-4"><a href="strings-in-r.html#cb373-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb373-5"><a href="strings-in-r.html#cb373-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="fu">extract</span>(<span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;fastcompany&quot;   &quot;digg&quot;          &quot;altervista&quot;    &quot;sciencedirect&quot;
+## [5] &quot;bandcamp&quot;      &quot;surveymonkey&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="extract-domain-extension" class="section level2" number="8.5">
+<h2><span class="header-section-number">8.5</span> Extract Domain Extension</h2>
+<p>The below code extracts the domain extension instead of the domain name.</p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="strings-in-r.html#cb375-1" aria-hidden="true" tabindex="-1"></a>emails <span class="sc">%&gt;%</span></span>
+<span id="cb375-2"><a href="strings-in-r.html#cb375-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb375-3"><a href="strings-in-r.html#cb375-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb375-4"><a href="strings-in-r.html#cb375-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb375-5"><a href="strings-in-r.html#cb375-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract</span>(, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;com&quot; &quot;com&quot; &quot;org&quot; &quot;com&quot; &quot;com&quot; &quot;com&quot;</code></pre>
+</div>
+<div id="extract-image-type-from-url" class="section level2" number="8.6">
+<h2><span class="header-section-number">8.6</span> Extract image type from URL</h2>
+<div id="steps-1" class="section level3" number="8.6.1">
+<h3><span class="header-section-number">8.6.1</span> Steps</h3>
+<ul>
+<li>split imageurl using pattern <code>\\.</code></li>
+<li>extract the third value from each element of the resulting list</li>
+<li>subset the string using the index position</li>
+</ul>
+<p>Let us take a look at the URL of the image.</p>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="strings-in-r.html#cb377-1" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> </span>
+<span id="cb377-2"><a href="strings-in-r.html#cb377-2" aria-hidden="true" tabindex="-1"></a>  mockstring <span class="sc">%&gt;%</span></span>
+<span id="cb377-3"><a href="strings-in-r.html#cb377-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(imageurl) <span class="sc">%&gt;%</span></span>
+<span id="cb377-4"><a href="strings-in-r.html#cb377-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb377-5"><a href="strings-in-r.html#cb377-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb377-6"><a href="strings-in-r.html#cb377-6" aria-hidden="true" tabindex="-1"></a>img</span></code></pre></div>
+<pre><code>## [1] &quot;http://dummyimage.com/130x183.jpg/dddddd/000000&quot;
+## [2] &quot;http://dummyimage.com/106x217.bmp/dddddd/000000&quot;
+## [3] &quot;http://dummyimage.com/146x127.bmp/cc0000/ffffff&quot;
+## [4] &quot;http://dummyimage.com/181x194.png/5fa2dd/ffffff&quot;
+## [5] &quot;http://dummyimage.com/220x123.jpg/ff4444/ffffff&quot;
+## [6] &quot;http://dummyimage.com/118x176.bmp/dddddd/000000&quot;</code></pre>
+<div id="step-1-split-imageurl-using-pattern-." class="section level4" number="8.6.1.1">
+<h4><span class="header-section-number">8.6.1.1</span> Step 1: Split imageurl using pattern <code>\\.</code></h4>
+<p>Let us split imageurl using <code>str_split</code> and the pattern <code>\\.</code>.</p>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="strings-in-r.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_split</span>(img, <span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;http://dummyimage&quot; &quot;com/130x183&quot;       &quot;jpg/dddddd/000000&quot;
+## 
+## [[2]]
+## [1] &quot;http://dummyimage&quot; &quot;com/106x217&quot;       &quot;bmp/dddddd/000000&quot;
+## 
+## [[3]]
+## [1] &quot;http://dummyimage&quot; &quot;com/146x127&quot;       &quot;bmp/cc0000/ffffff&quot;
+## 
+## [[4]]
+## [1] &quot;http://dummyimage&quot; &quot;com/181x194&quot;       &quot;png/5fa2dd/ffffff&quot;
+## 
+## [[5]]
+## [1] &quot;http://dummyimage&quot; &quot;com/220x123&quot;       &quot;jpg/ff4444/ffffff&quot;
+## 
+## [[6]]
+## [1] &quot;http://dummyimage&quot; &quot;com/118x176&quot;       &quot;bmp/dddddd/000000&quot;</code></pre>
+</div>
+<div id="step-2-extract-the-third-value-from-each-element-of-the-resulting-list" class="section level4" number="8.6.1.2">
+<h4><span class="header-section-number">8.6.1.2</span> Step 2: Extract the third value from each element of the resulting list</h4>
+<p>Step 1 returned a list the elements of which have 3 values each. If you
+observe the list, the image type is in the 3rd value. We will now
+extract the third value from each element of the list using <code>map_chr</code>.</p>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="strings-in-r.html#cb381-1" aria-hidden="true" tabindex="-1"></a>img <span class="sc">%&gt;%</span></span>
+<span id="cb381-2"><a href="strings-in-r.html#cb381-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb381-3"><a href="strings-in-r.html#cb381-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="fu">extract</span>(<span class="dv">3</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;jpg/dddddd/000000&quot; &quot;bmp/dddddd/000000&quot; &quot;bmp/cc0000/ffffff&quot;
+## [4] &quot;png/5fa2dd/ffffff&quot; &quot;jpg/ff4444/ffffff&quot; &quot;bmp/dddddd/000000&quot;</code></pre>
+</div>
+<div id="step-3-subset-the-string-using-the-index-position" class="section level4" number="8.6.1.3">
+<h4><span class="header-section-number">8.6.1.3</span> Step 3: Subset the string using the index position</h4>
+<p>We can now extract the image type in two ways:</p>
+<ul>
+<li>subset the first 3 characters of the string</li>
+<li>split the string using pattern <code>/</code> and extract the first value from the
+elements of the resulting list</li>
+</ul>
+<p>Below is the first method. We know that the image type is 3 characters. So
+we use <code>str_sub</code> to subset the first 3 characters. The index positions
+are mentioned using <code>start</code> and <code>stop</code>.</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="strings-in-r.html#cb383-1" aria-hidden="true" tabindex="-1"></a>img <span class="sc">%&gt;%</span></span>
+<span id="cb383-2"><a href="strings-in-r.html#cb383-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb383-3"><a href="strings-in-r.html#cb383-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="fu">extract</span>(<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb383-4"><a href="strings-in-r.html#cb383-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_sub</span>(<span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;jpg&quot; &quot;bmp&quot; &quot;bmp&quot; &quot;png&quot; &quot;jpg&quot; &quot;bmp&quot;</code></pre>
+<p>In case you are not sure about the length of the image type. In such cases,
+we will split the string using pattern <code>/</code> and then use <code>map_chr</code> to
+extract the first value of each element of the resulting list.</p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="strings-in-r.html#cb385-1" aria-hidden="true" tabindex="-1"></a>img <span class="sc">%&gt;%</span></span>
+<span id="cb385-2"><a href="strings-in-r.html#cb385-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb385-3"><a href="strings-in-r.html#cb385-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="fu">extract</span>(<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb385-4"><a href="strings-in-r.html#cb385-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;/&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb385-5"><a href="strings-in-r.html#cb385-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="fu">extract</span>(<span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;jpg&quot; &quot;bmp&quot; &quot;bmp&quot; &quot;png&quot; &quot;jpg&quot; &quot;bmp&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="extract-image-dimesion-from-url" class="section level2" number="8.7">
+<h2><span class="header-section-number">8.7</span> Extract Image Dimesion from URL</h2>
+<div id="steps-2" class="section level3" number="8.7.1">
+<h3><span class="header-section-number">8.7.1</span> Steps</h3>
+<ul>
+<li>locate numbers between 0 and 9</li>
+<li>extract part of url starting with image dimension</li>
+<li>split the string using the pattern <code>\\.</code></li>
+<li>extract the first element</li>
+</ul>
+<div id="step-1-locate-numbers-between-0-and-9." class="section level4" number="8.7.1.1">
+<h4><span class="header-section-number">8.7.1.1</span> Step 1: Locate numbers between 0 and 9.</h4>
+<p>Let us inspect the image url. The dimension of the image appears
+after the domain extension and there are no numbers in the url
+before. We will locate the position or index of the first number
+in the url using <code>str_locate()</code> and using the pattern <code>[0-9]</code>
+which instructs to look for any number between and including 0
+and 9.</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="strings-in-r.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_locate</span>(img, <span class="at">pattern =</span> <span class="st">&quot;[0-9]&quot;</span>) </span></code></pre></div>
+<pre><code>##      start end
+## [1,]    23  23
+## [2,]    23  23
+## [3,]    23  23
+## [4,]    23  23
+## [5,]    23  23
+## [6,]    23  23</code></pre>
+</div>
+<div id="step-2-extract-url" class="section level4" number="8.7.1.2">
+<h4><span class="header-section-number">8.7.1.2</span> Step 2: Extract url</h4>
+<p>We know where the dimension is located in the url. Let us extract the
+part of the url that contains the image dimension using <code>str_sub()</code>.</p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="strings-in-r.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sub</span>(img, <span class="at">start =</span> <span class="dv">23</span>) </span></code></pre></div>
+<pre><code>## [1] &quot;130x183.jpg/dddddd/000000&quot; &quot;106x217.bmp/dddddd/000000&quot;
+## [3] &quot;146x127.bmp/cc0000/ffffff&quot; &quot;181x194.png/5fa2dd/ffffff&quot;
+## [5] &quot;220x123.jpg/ff4444/ffffff&quot; &quot;118x176.bmp/dddddd/000000&quot;</code></pre>
+</div>
+<div id="step-3-split-the-string-using-the-pattern-.." class="section level4" number="8.7.1.3">
+<h4><span class="header-section-number">8.7.1.3</span> Step 3: Split the string using the pattern <code>\\.</code>.</h4>
+<p>From the previous step, we have the part of the url that
+contains the image dimension. To extract the dimension, we
+will split it from the rest of the url using <code>str_split()</code>
+and using the pattern <code>\\.</code> as it separates the dimension
+and the image extension.</p>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="strings-in-r.html#cb391-1" aria-hidden="true" tabindex="-1"></a>img <span class="sc">%&gt;%</span></span>
+<span id="cb391-2"><a href="strings-in-r.html#cb391-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_sub</span>(<span class="at">start =</span> <span class="dv">23</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb391-3"><a href="strings-in-r.html#cb391-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) </span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;130x183&quot;           &quot;jpg/dddddd/000000&quot;
+## 
+## [[2]]
+## [1] &quot;106x217&quot;           &quot;bmp/dddddd/000000&quot;
+## 
+## [[3]]
+## [1] &quot;146x127&quot;           &quot;bmp/cc0000/ffffff&quot;
+## 
+## [[4]]
+## [1] &quot;181x194&quot;           &quot;png/5fa2dd/ffffff&quot;
+## 
+## [[5]]
+## [1] &quot;220x123&quot;           &quot;jpg/ff4444/ffffff&quot;
+## 
+## [[6]]
+## [1] &quot;118x176&quot;           &quot;bmp/dddddd/000000&quot;</code></pre>
+</div>
+<div id="step-4-extract-the-first-element." class="section level4" number="8.7.1.4">
+<h4><span class="header-section-number">8.7.1.4</span> Step 4: Extract the first element.</h4>
+<p>The above step resulted in a list which contains the
+image dimension and the rest of the url. Each element
+of the list is a character vector. We want to extract
+the first value in the character vector. Let us use
+<code>map_chr()</code> to extract the first value from each
+element of the list.</p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="strings-in-r.html#cb393-1" aria-hidden="true" tabindex="-1"></a>img <span class="sc">%&gt;%</span></span>
+<span id="cb393-2"><a href="strings-in-r.html#cb393-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_sub</span>(<span class="at">start =</span> <span class="dv">23</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb393-3"><a href="strings-in-r.html#cb393-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb393-4"><a href="strings-in-r.html#cb393-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="fu">extract</span>(<span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;130x183&quot; &quot;106x217&quot; &quot;146x127&quot; &quot;181x194&quot; &quot;220x123&quot; &quot;118x176&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="extract-http-protocol-from-url" class="section level2" number="8.8">
+<h2><span class="header-section-number">8.8</span> Extract HTTP Protocol from URL</h2>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="strings-in-r.html#cb395-1" aria-hidden="true" tabindex="-1"></a>url1 <span class="ot">&lt;-</span> </span>
+<span id="cb395-2"><a href="strings-in-r.html#cb395-2" aria-hidden="true" tabindex="-1"></a>  mockstring <span class="sc">%&gt;%</span></span>
+<span id="cb395-3"><a href="strings-in-r.html#cb395-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(url) <span class="sc">%&gt;%</span></span>
+<span id="cb395-4"><a href="strings-in-r.html#cb395-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">first</span>()</span>
+<span id="cb395-5"><a href="strings-in-r.html#cb395-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb395-6"><a href="strings-in-r.html#cb395-6" aria-hidden="true" tabindex="-1"></a>url1</span></code></pre></div>
+<pre><code>## [1] &quot;https://engadget.com/nascetur/ridiculus/mus/vivamus/vestibulum.jsp?eu=est&amp;tincidunt=risus&amp;in=auctor&amp;leo=sed&amp;maecenas=tristique&amp;pulvinar=in&amp;lobortis=tempus&amp;est=sit&amp;phasellus=amet&amp;sit=sem&amp;amet=fusce&amp;erat=consequat&amp;nulla=nulla&amp;tempus=nisl&amp;vivamus=nunc&amp;in=nisl&amp;felis=duis&amp;eu=bibendum&amp;sapien=felis&amp;cursus=sed&amp;vestibulum=interdum&amp;proin=venenatis&amp;eu=turpis&amp;mi=enim&amp;nulla=blandit&amp;ac=mi&amp;enim=in&amp;in=porttitor&amp;tempor=pede&amp;turpis=justo&amp;nec=eu&amp;euismod=massa&amp;scelerisque=donec&amp;quam=dapibus&amp;turpis=duis&amp;adipiscing=at&amp;lorem=velit&amp;vitae=eu&amp;mattis=est&amp;nibh=congue&amp;ligula=elementum&amp;nec=in&amp;sem=hac&amp;duis=habitasse&amp;aliquam=platea&amp;convallis=dictumst&amp;nunc=morbi&amp;proin=vestibulum&amp;at=velit&amp;turpis=id&amp;a=pretium&amp;pede=iaculis&amp;posuere=diam&amp;nonummy=erat&amp;integer=fermentum&amp;non=justo&amp;velit=nec&amp;donec=condimentum&amp;diam=neque&amp;neque=sapien&amp;vestibulum=placerat&amp;eget=ante&amp;vulputate=nulla&amp;ut=justo&amp;ultrices=aliquam&amp;vel=quis&amp;augue=turpis&amp;vestibulum=eget&amp;ante=elit&amp;ipsum=sodales&amp;primis=scelerisque&amp;in=mauris&amp;faucibus=sit&amp;orci=amet&amp;luctus=eros&amp;et=suspendisse&amp;ultrices=accumsan&amp;posuere=tortor&amp;cubilia=quis&amp;curae=turpis&amp;donec=sed&amp;pharetra=ante&amp;magna=vivamus&amp;vestibulum=tortor&amp;aliquet=duis&amp;ultrices=mattis&amp;erat=egestas&amp;tortor=metus&amp;sollicitudin=aenean&amp;mi=fermentum&amp;sit=donec&quot;</code></pre>
+<div id="steps-3" class="section level3" number="8.8.1">
+<h3><span class="header-section-number">8.8.1</span> Steps</h3>
+<ul>
+<li>split the url using the pattern <code>://</code></li>
+<li>extract the first element</li>
+</ul>
+<div id="step-1-split-the-url-using-the-pattern-." class="section level4" number="8.8.1.1">
+<h4><span class="header-section-number">8.8.1.1</span> Step 1: Split the url using the pattern <code>://</code>.</h4>
+<p>The HTTP protocol is the first part of the url and is
+separated from the rest of the url by <code>:</code>. Let us
+split the url using <code>str_split()</code> and using the
+pattern <code>:</code>. Since <code>:</code> is a special character, we
+will escape it using <code>\\</code>.</p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="strings-in-r.html#cb397-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_split</span>(url1, <span class="at">pattern =</span> <span class="st">&#39;://&#39;</span>) </span></code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;https&quot;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+## [2] &quot;engadget.com/nascetur/ridiculus/mus/vivamus/vestibulum.jsp?eu=est&amp;tincidunt=risus&amp;in=auctor&amp;leo=sed&amp;maecenas=tristique&amp;pulvinar=in&amp;lobortis=tempus&amp;est=sit&amp;phasellus=amet&amp;sit=sem&amp;amet=fusce&amp;erat=consequat&amp;nulla=nulla&amp;tempus=nisl&amp;vivamus=nunc&amp;in=nisl&amp;felis=duis&amp;eu=bibendum&amp;sapien=felis&amp;cursus=sed&amp;vestibulum=interdum&amp;proin=venenatis&amp;eu=turpis&amp;mi=enim&amp;nulla=blandit&amp;ac=mi&amp;enim=in&amp;in=porttitor&amp;tempor=pede&amp;turpis=justo&amp;nec=eu&amp;euismod=massa&amp;scelerisque=donec&amp;quam=dapibus&amp;turpis=duis&amp;adipiscing=at&amp;lorem=velit&amp;vitae=eu&amp;mattis=est&amp;nibh=congue&amp;ligula=elementum&amp;nec=in&amp;sem=hac&amp;duis=habitasse&amp;aliquam=platea&amp;convallis=dictumst&amp;nunc=morbi&amp;proin=vestibulum&amp;at=velit&amp;turpis=id&amp;a=pretium&amp;pede=iaculis&amp;posuere=diam&amp;nonummy=erat&amp;integer=fermentum&amp;non=justo&amp;velit=nec&amp;donec=condimentum&amp;diam=neque&amp;neque=sapien&amp;vestibulum=placerat&amp;eget=ante&amp;vulputate=nulla&amp;ut=justo&amp;ultrices=aliquam&amp;vel=quis&amp;augue=turpis&amp;vestibulum=eget&amp;ante=elit&amp;ipsum=sodales&amp;primis=scelerisque&amp;in=mauris&amp;faucibus=sit&amp;orci=amet&amp;luctus=eros&amp;et=suspendisse&amp;ultrices=accumsan&amp;posuere=tortor&amp;cubilia=quis&amp;curae=turpis&amp;donec=sed&amp;pharetra=ante&amp;magna=vivamus&amp;vestibulum=tortor&amp;aliquet=duis&amp;ultrices=mattis&amp;erat=egestas&amp;tortor=metus&amp;sollicitudin=aenean&amp;mi=fermentum&amp;sit=donec&quot;</code></pre>
+</div>
+<div id="step-2-extract-the-first-element." class="section level4" number="8.8.1.2">
+<h4><span class="header-section-number">8.8.1.2</span> Step 2: Extract the first element.</h4>
+<p>The HTTP protocol is the first value in each element
+of the list. As we did in the previous example, we
+will extact it using <code>map_chr()</code> and <code>extract()</code>.</p>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="strings-in-r.html#cb399-1" aria-hidden="true" tabindex="-1"></a>url1 <span class="sc">%&gt;%</span></span>
+<span id="cb399-2"><a href="strings-in-r.html#cb399-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;://&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb399-3"><a href="strings-in-r.html#cb399-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="fu">extract</span>(<span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;https&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="extract-file-type" class="section level2" number="8.9">
+<h2><span class="header-section-number">8.9</span> Extract file type</h2>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="strings-in-r.html#cb401-1" aria-hidden="true" tabindex="-1"></a>urls <span class="ot">&lt;-</span></span>
+<span id="cb401-2"><a href="strings-in-r.html#cb401-2" aria-hidden="true" tabindex="-1"></a>  mockstring <span class="sc">%&gt;%</span></span>
+<span id="cb401-3"><a href="strings-in-r.html#cb401-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_series</span>(url) <span class="sc">%&gt;%</span></span>
+<span id="cb401-4"><a href="strings-in-r.html#cb401-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span></code></pre></div>
+<div id="steps-4" class="section level3" number="8.9.1">
+<h3><span class="header-section-number">8.9.1</span> Steps</h3>
+<ul>
+<li>check if there are only 2 dots in the URL</li>
+<li>check if there is only 1 question mark in the URL</li>
+<li>detect the staritng position of file type</li>
+<li>tetect the ending position of file type</li>
+<li>use the locations to specify the index position for extracting file type</li>
+</ul>
+<div id="step-1-check-if-there-are-only-2-dots-in-the-url" class="section level4" number="8.9.1.1">
+<h4><span class="header-section-number">8.9.1.1</span> Step 1: Check if there are only 2 dots in the URL</h4>
+<p>Let us locate all the dots in the url using <code>str_locate_all()</code> and see
+if any of them contain more than 2 dots.</p>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="strings-in-r.html#cb402-1" aria-hidden="true" tabindex="-1"></a>urls <span class="sc">%&gt;%</span></span>
+<span id="cb402-2"><a href="strings-in-r.html#cb402-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_locate_all</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb402-3"><a href="strings-in-r.html#cb402-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_int</span>(nrow) <span class="sc">%&gt;%</span></span>
+<span id="cb402-4"><a href="strings-in-r.html#cb402-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">is_greater_than</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb402-5"><a href="strings-in-r.html#cb402-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>()</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+</div>
+<div id="step-2-check-if-there-is-only-1-question-mark-in-the-url" class="section level4" number="8.9.1.2">
+<h4><span class="header-section-number">8.9.1.2</span> Step 2: Check if there is only 1 question mark in the URL</h4>
+<p>The next step is to check if there is only one <code>?</code> (question mark)
+in the url.</p>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="strings-in-r.html#cb404-1" aria-hidden="true" tabindex="-1"></a>urls <span class="sc">%&gt;%</span></span>
+<span id="cb404-2"><a href="strings-in-r.html#cb404-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_locate_all</span>(<span class="at">pattern =</span> <span class="st">&quot;[?]&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb404-3"><a href="strings-in-r.html#cb404-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_int</span>(nrow) <span class="sc">%&gt;%</span></span>
+<span id="cb404-4"><a href="strings-in-r.html#cb404-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">is_greater_than</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb404-5"><a href="strings-in-r.html#cb404-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>()</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+</div>
+<div id="step-3-detect-the-staritng-position-of-file-type" class="section level4" number="8.9.1.3">
+<h4><span class="header-section-number">8.9.1.3</span> Step 3: Detect the staritng position of file type</h4>
+<p>Since the file type is located between the second dot and
+the first quesiton mark in the url, let us extract the
+location of the second dot and add 1 as the file type
+starts after the dot.</p>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="strings-in-r.html#cb406-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> </span>
+<span id="cb406-2"><a href="strings-in-r.html#cb406-2" aria-hidden="true" tabindex="-1"></a>  urls <span class="sc">%&gt;%</span></span>
+<span id="cb406-3"><a href="strings-in-r.html#cb406-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_locate_all</span>(<span class="at">pattern =</span> <span class="st">&#39;</span><span class="sc">\\</span><span class="st">.&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb406-4"><a href="strings-in-r.html#cb406-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_int</span>(<span class="fu">extract</span>(<span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb406-5"><a href="strings-in-r.html#cb406-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add</span>(<span class="dv">1</span>)</span>
+<span id="cb406-6"><a href="strings-in-r.html#cb406-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb406-7"><a href="strings-in-r.html#cb406-7" aria-hidden="true" tabindex="-1"></a>d  </span></code></pre></div>
+<pre><code>## [1] 64 47 48</code></pre>
+</div>
+<div id="step-4-detect-the-ending-position-of-file-type" class="section level4" number="8.9.1.4">
+<h4><span class="header-section-number">8.9.1.4</span> Step 4: Detect the ending position of file type</h4>
+<p>In step 2, we confirmed that the url has only one question mark.
+Let us locate the question mark in the url and subtract 1 (as the
+file type ends before the question mark) so that we get the
+ending chapterion of the file type.
+.</p>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="strings-in-r.html#cb408-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span>  </span>
+<span id="cb408-2"><a href="strings-in-r.html#cb408-2" aria-hidden="true" tabindex="-1"></a>  urls <span class="sc">%&gt;%</span></span>
+<span id="cb408-3"><a href="strings-in-r.html#cb408-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_locate_all</span>(<span class="at">pattern =</span> <span class="st">&quot;[?]&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb408-4"><a href="strings-in-r.html#cb408-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_int</span>(<span class="fu">extract</span>(<span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb408-5"><a href="strings-in-r.html#cb408-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subtract</span>(<span class="dv">1</span>)</span>
+<span id="cb408-6"><a href="strings-in-r.html#cb408-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb408-7"><a href="strings-in-r.html#cb408-7" aria-hidden="true" tabindex="-1"></a>q</span></code></pre></div>
+<pre><code>## [1] 66 50 51</code></pre>
+</div>
+<div id="step-5-specify-the-index-position-for-extracting-file-type" class="section level4" number="8.9.1.5">
+<h4><span class="header-section-number">8.9.1.5</span> Step 5: Specify the index position for extracting file type</h4>
+<p>From steps 3 and 4, we have the location of the second dot and the
+first question mark in the url. Let us use them with <code>str_sub()</code>
+to extract the file type.</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="strings-in-r.html#cb410-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sub</span>(urls, <span class="at">start =</span> d, <span class="at">end =</span> q)</span></code></pre></div>
+<pre><code>## [1] &quot;jsp&quot;  &quot;json&quot; &quot;json&quot;</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tibbles-in-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="date-and-time-in-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+</body>
+
+</html>

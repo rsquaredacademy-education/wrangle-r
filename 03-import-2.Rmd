@@ -1,4 +1,4 @@
-# Import Data - 2 {#import2}
+# Import Data - Advanced {#import-data-in-r-advanced}
 
 ## Introduction
 

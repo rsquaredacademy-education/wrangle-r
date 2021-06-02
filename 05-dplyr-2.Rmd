@@ -1,4 +1,4 @@
-# Data Wrangling - 2 {#dplyr2}
+# Joining Tables using dplyr {#joining-tables-in-r-dplyr}
 
 ## Introduction
 

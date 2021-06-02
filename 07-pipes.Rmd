@@ -1,4 +1,4 @@
-# Pipes {#pipes}
+# Pipe Operator {#r-pipe-magrittr}
 
 ## Introduction
 

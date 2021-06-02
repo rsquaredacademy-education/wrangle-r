@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data Wrangling with R</title>
+  <title>Chapter 3 dplyr Basics | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Wrangling with R" />
+  <meta property="og:title" content="Chapter 3 dplyr Basics | Data Wrangling with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Wrangling with R" />
+  <meta name="twitter:title" content="Chapter 3 dplyr Basics | Data Wrangling with R" />
   
   <meta name="twitter:description" content="Learn to wrangle data with R." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="about-the-author.html"/>
+<link rel="prev" href="import-data-in-r-advanced.html"/>
+<link rel="next" href="joining-tables-in-r-dplyr.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -574,53 +574,692 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data Wrangling with R</h1>
-<p class="author"><em>Aravind Hebbali</em></p>
-<p class="date" style="margin-top: 1.5em;"><em>2021-06-02</em></p>
+<div id="dplyr-basics" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> dplyr Basics</h1>
+<div id="introduction-2" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Introduction</h2>
+<p>According to a <a href="http://visit.crowdflower.com/rs/416-ZBE-142/images/CrowdFlower_DataScienceReport_2016.pdf">survey</a> by <a href="https://www.crowdflower.com/">CrowdFlower</a>, data scientists spend most of their
+time cleaning and manipulating data rather than mining or modeling them for
+insights. As such, it becomes important to have tools that make data
+manipulation faster and easier. In today’s chapter, we introduce you to
+<a href="http://dplyr.tidyverse.org/">dplyr</a>, a grammar of data manipulation.</p>
+<p><img src="img/crowd_flower.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>We will use the following R packages:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="dplyr-basics.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb64-2"><a href="dplyr-basics.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code></pre></div>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p><img src="img/wrangle-r.png" width="60%" style="display: block; margin: auto;" /></p>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-<div id="structure-of-the-book" class="section level2 unnumbered">
-<h2>Structure of the book</h2>
-<p>Chapters <a href="#import1"><strong>??</strong></a> and <a href="#import2"><strong>??</strong></a> focus on reading data from
-flat/delimited files and spreadsheets. Chapters <a href="#dplyr1"><strong>??</strong></a>, <a href="#dplyr2"><strong>??</strong></a>
-and <a href="#dplyr3"><strong>??</strong></a> focus on wrangling data using the <strong>dplyr</strong> package. Chapter
-<a href="r-pipe-magrittr.html#pipes">6.2</a> introduces the pipe operator from the <strong>magrittr</strong> package.
-Chapter <a href="#tibbles"><strong>??</strong></a> explores <code>tibble()</code>, an alternative for <code>data.frame()</code>.
-Chapters <a href="#stringr"><strong>??</strong></a>, <a href="#lubridate"><strong>??</strong></a> and <a href="categorical-data-in-r.html#categorical-data-in-r">10</a> explore ways to
-handle text, date/time and categorical data.</p>
+<div id="dplyr-verbs" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> dplyr Verbs</h2>
+<p>dplyr provides a set of verbs that help us solve the most common data
+manipulation challenges while working with tabular data (dataframes, tibbles):</p>
+<ul>
+<li><code>select</code></li>
+<li><code>filter</code></li>
+<li><code>arrange</code></li>
+<li><code>mutate</code></li>
+<li><code>summarise</code></li>
+</ul>
 </div>
-<div id="software-information" class="section level2 unnumbered">
-<h2>Software information</h2>
-<p>The R session information when compiling this book is shown below:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.1.0 (2021-05-18)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
+<div id="data" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Data</h2>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="dplyr-basics.html#cb65-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="ot">&lt;-</span> </span>
+<span id="cb65-2"><a href="dplyr-basics.html#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</span>
+<span id="cb65-3"><a href="dplyr-basics.html#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols_only</span>(<span class="at">device =</span> <span class="fu">col_factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;laptop&quot;</span>, <span class="st">&quot;tablet&quot;</span>, <span class="st">&quot;mobile&quot;</span>)),</span>
+<span id="cb65-4"><a href="dplyr-basics.html#cb65-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">referrer =</span> <span class="fu">col_factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</span>
+<span id="cb65-5"><a href="dplyr-basics.html#cb65-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">purchase =</span> <span class="fu">col_logical</span>(), <span class="at">n_pages =</span> <span class="fu">col_double</span>(), <span class="at">n_visit =</span> <span class="fu">col_double</span>(), </span>
+<span id="cb65-6"><a href="dplyr-basics.html#cb65-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">duration =</span> <span class="fu">col_double</span>(), <span class="at">order_value =</span> <span class="fu">col_double</span>(), <span class="at">order_items =</span> <span class="fu">col_double</span>()</span>
+<span id="cb65-7"><a href="dplyr-basics.html#cb65-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb65-8"><a href="dplyr-basics.html#cb65-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb65-9"><a href="dplyr-basics.html#cb65-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-10"><a href="dplyr-basics.html#cb65-10" aria-hidden="true" tabindex="-1"></a>ecom</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 google   laptop      10       1      693 FALSE              0           0
+##  2 yahoo    tablet       9       1      459 FALSE              0           0
+##  3 direct   laptop       0       1      996 FALSE              0           0
+##  4 bing     tablet       3      18      468 TRUE               6         434
+##  5 yahoo    mobile       9       1      955 FALSE              0           0
+##  6 yahoo    laptop       5       5      135 FALSE              0           0
+##  7 yahoo    mobile      10       1       75 FALSE              0           0
+##  8 direct   mobile      10       1      908 FALSE              0           0
+##  9 bing     mobile       3      19      209 FALSE              0           0
+## 10 google   mobile       6       1      208 FALSE              0           0
+## # ... with 990 more rows</code></pre>
+<div id="data-dictionary" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Data Dictionary</h3>
+<p>Below is the description of the data set:</p>
+<ul>
+<li>referrer: referrer website/search engine</li>
+<li>device: device used to visit the website</li>
+<li>n_pages: number of pages visited</li>
+<li>duration: time spent on the website (in seconds)</li>
+<li>purchase: whether visitor purchased</li>
+<li>order_value: order value of visitor (in dollars)</li>
+<li>n_visit: number of visits</li>
+</ul>
+</div>
+</div>
+<div id="case-study" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Case Study</h2>
+<p>We will use dplyr to answer the following:</p>
+<ul>
+<li>what is the average order value by device types?</li>
+<li>what is the average number of pages visited by purchasers and non-purchasers?</li>
+<li>what is the average time on site for purchasers vs non-purchasers?</li>
+<li>what is the average number of pages visited by purchasers and non-purchasers
+using mobile?</li>
+</ul>
+</div>
+<div id="average-order-value" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Average Order Value</h2>
+<p><img src="img/image.jpg" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="aov-by-devices" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> AOV by Devices</h2>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="dplyr-basics.html#cb67-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb67-2"><a href="dplyr-basics.html#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(purchase) <span class="sc">%&gt;%</span></span>
+<span id="cb67-3"><a href="dplyr-basics.html#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(device, order_value) <span class="sc">%&gt;%</span></span>
+<span id="cb67-4"><a href="dplyr-basics.html#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(device) <span class="sc">%&gt;%</span></span>
+<span id="cb67-5"><a href="dplyr-basics.html#cb67-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(<span class="fu">funs</span>(<span class="at">revenue =</span> sum, <span class="at">orders =</span> <span class="fu">n</span>())) <span class="sc">%&gt;%</span></span>
+<span id="cb67-6"><a href="dplyr-basics.html#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb67-7"><a href="dplyr-basics.html#cb67-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">aov =</span> revenue <span class="sc">/</span> orders</span>
+<span id="cb67-8"><a href="dplyr-basics.html#cb67-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb67-9"><a href="dplyr-basics.html#cb67-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(device, aov) <span class="sc">%&gt;%</span></span>
+<span id="cb67-10"><a href="dplyr-basics.html#cb67-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(aov)</span></code></pre></div>
+<pre><code>## Warning: `funs()` was deprecated in dplyr 0.8.0.
+## Please use a list of either functions or lambdas: 
 ## 
-## Matrix products: default
+##   # Simple named list: 
+##   list(mean = mean, median = median)
 ## 
-## locale:
-## [1] LC_COLLATE=English_United States.1252 
-## [2] LC_CTYPE=English_United States.1252   
-## [3] LC_MONETARY=English_United States.1252
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.1252    
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
 ## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## loaded via a namespace (and not attached):
-##  [1] bookdown_0.22     digest_0.6.27     R6_2.5.0          jsonlite_1.7.2   
-##  [5] magrittr_2.0.1    evaluate_0.14     highr_0.9         stringi_1.6.2    
-##  [9] rlang_0.4.11      rstudioapi_0.13   jquerylib_0.1.4   bslib_0.2.5.1    
-## [13] rmarkdown_2.8     tools_4.1.0       stringr_1.4.0     xfun_0.23        
-## [17] yaml_2.2.1        compiler_4.1.0    htmltools_0.5.1.1 knitr_1.33       
-## [21] sass_0.4.0</code></pre>
-<p>We do not add prompts (<code>&gt;</code> and <code>+</code>) to R source code in this book, and we comment out the text output with two hashes <code>##</code> by default, as you can see from the R session information above. This is for your convenience when you want to copy and run the code (the text output will be ignored since it is commented out). Package names are in bold text (e.g., <strong>rmarkdown</strong>), and function names are followed by parentheses (e.g., <code>bookdown::render_book()</code>). The double-colon operator <code>::</code> means accessing an object from a package.</p>
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 tablet 1426.
+## 2 mobile 1431.
+## 3 laptop 1824.</code></pre>
+</div>
+<div id="syntax" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Syntax</h2>
+<p>Before we start exploring the dplyr verbs, let us look at their syntax:</p>
+<ul>
+<li>the first argument is always a <code>data.frame</code> or <code>tibble</code></li>
+<li>the subsequent arguments provide the information required for the verbs to
+take action</li>
+<li>the name of columns in the data need not be surrounded by quotes</li>
+</ul>
+</div>
+<div id="filter-rows" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Filter Rows</h2>
+<p>In order to compute the AOV, we must first separate the purchasers from
+non-purchasers. We will do this by filtering the data related to purchasers
+using the <code>filter()</code> function. It allows us to filter rows that meet a specific
+criteria/condition. The first argument is the name of the data frame and the
+rest of the arguments are expressions for filtering the data. Let us look at a
+few examples:</p>
+<p>The first example we will look at filters all visits from device <strong>mobile</strong>. As
+we had learnt in the previous section, the first argument is our data set <code>ecom</code>
+and the next argument is the condition for filtering rows.</p>
+<p><img src="img/filter_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="dplyr-basics.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ecom, device <span class="sc">==</span> <span class="st">&quot;mobile&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 344 x 8
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 yahoo    mobile       9       1      955 FALSE              0           0
+##  2 yahoo    mobile      10       1       75 FALSE              0           0
+##  3 direct   mobile      10       1      908 FALSE              0           0
+##  4 bing     mobile       3      19      209 FALSE              0           0
+##  5 google   mobile       6       1      208 FALSE              0           0
+##  6 direct   mobile       9      14      406 TRUE               3         651
+##  7 yahoo    mobile       7       1       19 FALSE              7        2423
+##  8 google   mobile       5       1      147 FALSE              0           0
+##  9 bing     mobile       0       7      196 FALSE              4         237
+## 10 google   mobile      10       1      338 FALSE              0           0
+## # ... with 334 more rows</code></pre>
+<p>We can specify multiple filtering conditions as well. In the below example, we
+specify two filter conditions:</p>
+<ul>
+<li>visit from device <strong>mobile</strong></li>
+<li>resulted in a purchase or conversion</li>
+</ul>
+<p><img src="img/filter_2.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="dplyr-basics.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ecom, device <span class="sc">==</span> <span class="st">&quot;mobile&quot;</span>, purchase)</span></code></pre></div>
+<pre><code>## # A tibble: 36 x 8
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 direct   mobile       9      14      406 TRUE               3         651
+##  2 bing     mobile       4      20      440 TRUE               3         184
+##  3 bing     mobile       3      18      288 TRUE               6         764
+##  4 social   mobile      10      11      242 TRUE               4         287
+##  5 yahoo    mobile       6      14      322 TRUE               3        1443
+##  6 google   mobile       1      18      252 TRUE               3        2449
+##  7 social   mobile       7      16      352 TRUE              10        2824
+##  8 direct   mobile       4      18      324 TRUE               3        1670
+##  9 social   mobile       1      20      520 TRUE               5        1021
+## 10 yahoo    mobile       0      13      351 TRUE              10         288
+## # ... with 26 more rows</code></pre>
+<p>Here is another example where we specify multiple conditions:</p>
+<ul>
+<li>visit from device <strong>tablet</strong></li>
+<li>made a purchase</li>
+<li>browsed less than 15 pages</li>
+</ul>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="dplyr-basics.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ecom, device <span class="sc">==</span> <span class="st">&quot;tablet&quot;</span>, purchase, n_pages <span class="sc">&lt;</span> <span class="dv">15</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 12 x 8
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 social   tablet       7      10      290 TRUE               9        1304
+##  2 yahoo    tablet       2      14      364 TRUE               6        1667
+##  3 google   tablet       7      12      324 TRUE               2        1358
+##  4 direct   tablet       3      12      324 TRUE              10        1257
+##  5 yahoo    tablet       0      13      390 TRUE               5        1748
+##  6 social   tablet       2      12      300 TRUE               2        2754
+##  7 direct   tablet       6      13      338 TRUE               5         683
+##  8 yahoo    tablet       2      10      280 TRUE               4         293
+##  9 social   tablet      10      10      290 TRUE               9          37
+## 10 direct   tablet       3      10      260 TRUE               7         980
+## 11 google   tablet       9      14      308 TRUE               7        2436
+## 12 social   tablet      10      11      330 TRUE               1        2171</code></pre>
+<div id="case-study-1" class="section level3" number="3.8.1">
+<h3><span class="header-section-number">3.8.1</span> Case Study</h3>
+<p>Let us apply what we have learnt to the case study. We want to filter all
+visits that resulted in a purchase.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="dplyr-basics.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ecom, purchase)</span></code></pre></div>
+<pre><code>## # A tibble: 103 x 8
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 bing     tablet       3      18      468 TRUE               6         434
+##  2 direct   mobile       9      14      406 TRUE               3         651
+##  3 bing     tablet       5      16      368 TRUE               6        1049
+##  4 social   tablet       7      10      290 TRUE               9        1304
+##  5 direct   tablet       2      19      342 TRUE               5         622
+##  6 social   tablet       9      20      420 TRUE               7        1613
+##  7 bing     mobile       4      20      440 TRUE               3         184
+##  8 yahoo    tablet       2      16      480 TRUE               9         286
+##  9 bing     mobile       3      18      288 TRUE               6         764
+## 10 yahoo    tablet       2      14      364 TRUE               6        1667
+## # ... with 93 more rows</code></pre>
+</div>
+</div>
+<div id="select-columns-1" class="section level2" number="3.9">
+<h2><span class="header-section-number">3.9</span> Select Columns</h2>
+<p>After filtering the data, we need to select relevent variables to compute the
+AOV. Remember, we do not need all the columns in the data to compute a required
+metric (in our case, AOV). The <code>select()</code> function allows us to select a subset
+of columns. The first argument is the name of the data frame and the subsequent
+arguments specify the columns by name or position.</p>
+<p>To select the <code>device</code> and <code>duration</code> columns, we specify the data set i.e. 
+<code>ecom</code> followed by the name of the columns.</p>
+<p><img src="img/select_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="dplyr-basics.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ecom, device, duration)</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 2
+##    device duration
+##    &lt;fct&gt;     &lt;dbl&gt;
+##  1 laptop      693
+##  2 tablet      459
+##  3 laptop      996
+##  4 tablet      468
+##  5 mobile      955
+##  6 laptop      135
+##  7 mobile       75
+##  8 mobile      908
+##  9 mobile      209
+## 10 mobile      208
+## # ... with 990 more rows</code></pre>
+<p>We can select a set of columns using <code>:</code>. In the below example, we select all
+the columns starting from <code>referrer</code> up to <code>order_items</code>. Remember that we can use <code>:</code> only when
+the columns are adjacent to each other in the data set.</p>
+<p><img src="img/select_2.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="dplyr-basics.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ecom, referrer<span class="sc">:</span>order_items)</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 7
+##    referrer device n_visit n_pages duration purchase order_items
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;
+##  1 google   laptop      10       1      693 FALSE              0
+##  2 yahoo    tablet       9       1      459 FALSE              0
+##  3 direct   laptop       0       1      996 FALSE              0
+##  4 bing     tablet       3      18      468 TRUE               6
+##  5 yahoo    mobile       9       1      955 FALSE              0
+##  6 yahoo    laptop       5       5      135 FALSE              0
+##  7 yahoo    mobile      10       1       75 FALSE              0
+##  8 direct   mobile      10       1      908 FALSE              0
+##  9 bing     mobile       3      19      209 FALSE              0
+## 10 google   mobile       6       1      208 FALSE              0
+## # ... with 990 more rows</code></pre>
+<p>What if you want to select all columns except a few? Typing the name of many
+columns can be cumbersome and may also result in spelling errors. We may use <code>:</code>
+only if the columns are adjacent to each other but that may not always be
+the case. dplyr allows us to specify columns that need not be
+selected using <code>-</code>. In the below example, we select all columns except <code>n_pages</code> and
+<code>duration</code>. Notice the <code>-</code> before both of them.</p>
+<p><img src="img/select_3.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="dplyr-basics.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ecom, <span class="sc">-</span>n_pages, <span class="sc">-</span>duration)</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 6
+##    referrer device n_visit purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 google   laptop      10 FALSE              0           0
+##  2 yahoo    tablet       9 FALSE              0           0
+##  3 direct   laptop       0 FALSE              0           0
+##  4 bing     tablet       3 TRUE               6         434
+##  5 yahoo    mobile       9 FALSE              0           0
+##  6 yahoo    laptop       5 FALSE              0           0
+##  7 yahoo    mobile      10 FALSE              0           0
+##  8 direct   mobile      10 FALSE              0           0
+##  9 bing     mobile       3 FALSE              0           0
+## 10 google   mobile       6 FALSE              0           0
+## # ... with 990 more rows</code></pre>
+<div id="case-study-2" class="section level3" number="3.9.1">
+<h3><span class="header-section-number">3.9.1</span> Case Study</h3>
+<p>For our case study, we need to select the column <code>order_value</code>
+to calculate the AOV. We also need to select the <code>device</code> column as we are
+computing the AOV for each device type.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="dplyr-basics.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(ecom, device, order_value)</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 2
+##    device order_value
+##    &lt;fct&gt;        &lt;dbl&gt;
+##  1 laptop           0
+##  2 tablet           0
+##  3 laptop           0
+##  4 tablet         434
+##  5 mobile           0
+##  6 laptop           0
+##  7 mobile           0
+##  8 mobile           0
+##  9 mobile           0
+## 10 mobile           0
+## # ... with 990 more rows</code></pre>
+<p>But we want the above data only for purchasers. Let us combine <code>filter()</code> and
+<code>select()</code> functions to extract <code>order_value</code> and <code>order_items</code> only for those
+visis that resulted in a purchase.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="dplyr-basics.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter all visits that resulted in a purchase</span></span>
+<span id="cb86-2"><a href="dplyr-basics.html#cb86-2" aria-hidden="true" tabindex="-1"></a>ecom1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(ecom, purchase)</span>
+<span id="cb86-3"><a href="dplyr-basics.html#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-4"><a href="dplyr-basics.html#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="co"># select the relevant columns</span></span>
+<span id="cb86-5"><a href="dplyr-basics.html#cb86-5" aria-hidden="true" tabindex="-1"></a>ecom2 <span class="ot">&lt;-</span> <span class="fu">select</span>(ecom1, device, order_value)</span>
+<span id="cb86-6"><a href="dplyr-basics.html#cb86-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-7"><a href="dplyr-basics.html#cb86-7" aria-hidden="true" tabindex="-1"></a><span class="co"># view data</span></span>
+<span id="cb86-8"><a href="dplyr-basics.html#cb86-8" aria-hidden="true" tabindex="-1"></a>ecom2</span></code></pre></div>
+<pre><code>## # A tibble: 103 x 2
+##    device order_value
+##    &lt;fct&gt;        &lt;dbl&gt;
+##  1 tablet         434
+##  2 mobile         651
+##  3 tablet        1049
+##  4 tablet        1304
+##  5 tablet         622
+##  6 tablet        1613
+##  7 mobile         184
+##  8 tablet         286
+##  9 mobile         764
+## 10 tablet        1667
+## # ... with 93 more rows</code></pre>
+</div>
+</div>
+<div id="grouping-data" class="section level2" number="3.10">
+<h2><span class="header-section-number">3.10</span> Grouping Data</h2>
+<p>We need to compute the total order value and total order items for each device
+in order to compute their AOV. To achieve this, we need to group the selected
+<code>order_value</code> and <code>order_items</code> by device type. <code>group_by()</code> allows us to group
+or split data based on particular (discrete) variable. The first argument is the
+name of the data set and the second argument is the name of the column based on
+which the data will be split.</p>
+<p>To split the data by referrer type, we use <code>group_by</code> and specify the data set
+i.e. <code>ecom</code> and the column based on which to split the data i.e. <code>referrer</code>.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="dplyr-basics.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(ecom, referrer)</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+## # Groups:   referrer [5]
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 google   laptop      10       1      693 FALSE              0           0
+##  2 yahoo    tablet       9       1      459 FALSE              0           0
+##  3 direct   laptop       0       1      996 FALSE              0           0
+##  4 bing     tablet       3      18      468 TRUE               6         434
+##  5 yahoo    mobile       9       1      955 FALSE              0           0
+##  6 yahoo    laptop       5       5      135 FALSE              0           0
+##  7 yahoo    mobile      10       1       75 FALSE              0           0
+##  8 direct   mobile      10       1      908 FALSE              0           0
+##  9 bing     mobile       3      19      209 FALSE              0           0
+## 10 google   mobile       6       1      208 FALSE              0           0
+## # ... with 990 more rows</code></pre>
+<div id="case-study-3" class="section level3" number="3.10.1">
+<h3><span class="header-section-number">3.10.1</span> Case Study</h3>
+<p>In the second line in the previous output, you can observe <code>Groups: referrer [5]</code>
+. The data is split into 5 groups as the referrer variable has 5 distinct values.
+For our case study, we need to group the data by <code>device</code> type.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="dplyr-basics.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># split ecom2 by device type</span></span>
+<span id="cb90-2"><a href="dplyr-basics.html#cb90-2" aria-hidden="true" tabindex="-1"></a>ecom3 <span class="ot">&lt;-</span> <span class="fu">group_by</span>(ecom2, device)</span>
+<span id="cb90-3"><a href="dplyr-basics.html#cb90-3" aria-hidden="true" tabindex="-1"></a>ecom3</span></code></pre></div>
+<pre><code>## # A tibble: 103 x 2
+## # Groups:   device [3]
+##    device order_value
+##    &lt;fct&gt;        &lt;dbl&gt;
+##  1 tablet         434
+##  2 mobile         651
+##  3 tablet        1049
+##  4 tablet        1304
+##  5 tablet         622
+##  6 tablet        1613
+##  7 mobile         184
+##  8 tablet         286
+##  9 mobile         764
+## 10 tablet        1667
+## # ... with 93 more rows</code></pre>
+</div>
+</div>
+<div id="summarise-data" class="section level2" number="3.11">
+<h2><span class="header-section-number">3.11</span> Summarise Data</h2>
+<p>The next step is to compute the total order value and total order items for each
+device. i.e. we need to reduce the order value and order items data to a single
+summary. We can achieve this using <code>summarise()</code>. As usual, the first argument
+is the name of a data set and the subsequent arguments are functions that can
+summarise data. For example, we can use <code>min</code>, <code>max</code>, <code>sum</code>, <code>mean</code> etc.</p>
+<p>Let us compute the average number of pages browsed by referrer type:</p>
+<ul>
+<li>split data by <code>referrer</code> type</li>
+<li>compute the average number of pages using <code>mean</code></li>
+</ul>
+<p><img src="img/groupby_summarise.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="dplyr-basics.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># split data by referrer type</span></span>
+<span id="cb92-2"><a href="dplyr-basics.html#cb92-2" aria-hidden="true" tabindex="-1"></a>step_1 <span class="ot">&lt;-</span> <span class="fu">group_by</span>(ecom, referrer)</span>
+<span id="cb92-3"><a href="dplyr-basics.html#cb92-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-4"><a href="dplyr-basics.html#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="co"># compute average number of pages</span></span>
+<span id="cb92-5"><a href="dplyr-basics.html#cb92-5" aria-hidden="true" tabindex="-1"></a>step_2 <span class="ot">&lt;-</span> <span class="fu">summarise</span>(step_1, <span class="fu">mean</span>(n_pages))</span></code></pre></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="dplyr-basics.html#cb94-1" aria-hidden="true" tabindex="-1"></a>step_2</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   referrer `mean(n_pages)`
+##   &lt;fct&gt;              &lt;dbl&gt;
+## 1 bing                6.13
+## 2 direct              6.38
+## 3 social              5.42
+## 4 yahoo               5.99
+## 5 google              5.73</code></pre>
+<p>Now let us compute both the <code>mean</code> and the <code>median</code>.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="dplyr-basics.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># split data by referrer type</span></span>
+<span id="cb96-2"><a href="dplyr-basics.html#cb96-2" aria-hidden="true" tabindex="-1"></a>step_1 <span class="ot">&lt;-</span> <span class="fu">group_by</span>(ecom, referrer)</span>
+<span id="cb96-3"><a href="dplyr-basics.html#cb96-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-4"><a href="dplyr-basics.html#cb96-4" aria-hidden="true" tabindex="-1"></a><span class="co"># compute average number of pages</span></span>
+<span id="cb96-5"><a href="dplyr-basics.html#cb96-5" aria-hidden="true" tabindex="-1"></a>step_2 <span class="ot">&lt;-</span> <span class="fu">summarise</span>(step_1, <span class="fu">mean</span>(n_pages), <span class="fu">median</span>(n_pages))</span></code></pre></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="dplyr-basics.html#cb98-1" aria-hidden="true" tabindex="-1"></a>step_2</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   referrer `mean(n_pages)` `median(n_pages)`
+##   &lt;fct&gt;              &lt;dbl&gt;             &lt;dbl&gt;
+## 1 bing                6.13                 1
+## 2 direct              6.38                 1
+## 3 social              5.42                 1
+## 4 yahoo               5.99                 2
+## 5 google              5.73                 1</code></pre>
+<p>Another way to achieve the above result is to use the
+<code>summarise_all()</code> function. How does that work? It generates the specified
+summary for all the columns in the data set except for the column based on
+which the data has been grouped or split. So we need to ensure that the data
+does not have any irrelevant columns.</p>
+<ul>
+<li>split data by <code>referrer</code> type</li>
+<li>select <code>order_value</code> and <code>order_items</code></li>
+<li>compute the average number of pages by applying the <code>mean</code> function to all
+the columns</li>
+</ul>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="dplyr-basics.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select relevant columns</span></span>
+<span id="cb100-2"><a href="dplyr-basics.html#cb100-2" aria-hidden="true" tabindex="-1"></a>step_1 <span class="ot">&lt;-</span> <span class="fu">select</span>(ecom, referrer, order_value)</span>
+<span id="cb100-3"><a href="dplyr-basics.html#cb100-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-4"><a href="dplyr-basics.html#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="co"># split data by referrer type</span></span>
+<span id="cb100-5"><a href="dplyr-basics.html#cb100-5" aria-hidden="true" tabindex="-1"></a>step_2 <span class="ot">&lt;-</span> <span class="fu">group_by</span>(step_1, referrer)</span>
+<span id="cb100-6"><a href="dplyr-basics.html#cb100-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-7"><a href="dplyr-basics.html#cb100-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute average number of pages</span></span>
+<span id="cb100-8"><a href="dplyr-basics.html#cb100-8" aria-hidden="true" tabindex="-1"></a>step_3 <span class="ot">&lt;-</span> <span class="fu">summarise_all</span>(step_2, <span class="fu">funs</span>(mean))</span>
+<span id="cb100-9"><a href="dplyr-basics.html#cb100-9" aria-hidden="true" tabindex="-1"></a>step_3</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   referrer order_value
+##   &lt;fct&gt;          &lt;dbl&gt;
+## 1 bing            316.
+## 2 direct          441.
+## 3 social          380.
+## 4 yahoo           470.
+## 5 google          328.</code></pre>
+<p>Let us compute <code>mean</code> and <code>median</code> number of pages for each referre type using
+<code>summarise_all</code>.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="dplyr-basics.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select relevant columns</span></span>
+<span id="cb102-2"><a href="dplyr-basics.html#cb102-2" aria-hidden="true" tabindex="-1"></a>step_1 <span class="ot">&lt;-</span> <span class="fu">select</span>(ecom, referrer, order_value)</span>
+<span id="cb102-3"><a href="dplyr-basics.html#cb102-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-4"><a href="dplyr-basics.html#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="co"># split data by referrer type</span></span>
+<span id="cb102-5"><a href="dplyr-basics.html#cb102-5" aria-hidden="true" tabindex="-1"></a>step_2 <span class="ot">&lt;-</span> <span class="fu">group_by</span>(step_1, referrer)</span>
+<span id="cb102-6"><a href="dplyr-basics.html#cb102-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-7"><a href="dplyr-basics.html#cb102-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute mean and median number of pages</span></span>
+<span id="cb102-8"><a href="dplyr-basics.html#cb102-8" aria-hidden="true" tabindex="-1"></a>step_3 <span class="ot">&lt;-</span> <span class="fu">summarise_all</span>(step_2, <span class="fu">funs</span>(mean, median))</span>
+<span id="cb102-9"><a href="dplyr-basics.html#cb102-9" aria-hidden="true" tabindex="-1"></a>step_3</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##   referrer  mean median
+##   &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1 bing      316.      0
+## 2 direct    441.      0
+## 3 social    380.      0
+## 4 yahoo     470.      0
+## 5 google    328.      0</code></pre>
+<div id="case-study-4" class="section level3" number="3.11.1">
+<h3><span class="header-section-number">3.11.1</span> Case Study</h3>
+<p>So far, we have split the data based on the <code>device</code> type and we have selected 2
+columns, <code>order_value</code> and <code>order_items</code>. We need the sum of order value and
+order items. What function can we use to obtain them? The <code>sum()</code> function will
+generate the sum of the values and hence we will use it inside the <code>summarise()</code>
+function. Remember, we need to provide a name to the summary being generated.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="dplyr-basics.html#cb104-1" aria-hidden="true" tabindex="-1"></a>ecom4 <span class="ot">&lt;-</span> <span class="fu">summarise</span>(ecom3, <span class="at">revenue =</span> <span class="fu">sum</span>(order_value),</span>
+<span id="cb104-2"><a href="dplyr-basics.html#cb104-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">orders =</span> <span class="fu">n</span>())</span></code></pre></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="dplyr-basics.html#cb106-1" aria-hidden="true" tabindex="-1"></a>ecom4</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   device revenue orders
+##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt;
+## 1 laptop   56531     31
+## 2 tablet   51321     36
+## 3 mobile   51504     36</code></pre>
+<p>There you go, we have the total order value and total order items for each
+device type. If we use <code>summarise_all()</code>, it will generate the summary for the
+selected columns based on the function specified. To specify the functions, we
+need to use another argument <code>funs</code> and it can take any number of valid
+functions.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="dplyr-basics.html#cb108-1" aria-hidden="true" tabindex="-1"></a>ecom4 <span class="ot">&lt;-</span> <span class="fu">summarise_all</span>(ecom3, <span class="fu">funs</span>(<span class="at">revenue =</span> sum, <span class="at">orders =</span> <span class="fu">n</span>()))</span>
+<span id="cb108-2"><a href="dplyr-basics.html#cb108-2" aria-hidden="true" tabindex="-1"></a>ecom4</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   device revenue orders
+##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt;
+## 1 laptop   56531     31
+## 2 tablet   51321     36
+## 3 mobile   51504     36</code></pre>
+</div>
+</div>
+<div id="create-columns" class="section level2" number="3.12">
+<h2><span class="header-section-number">3.12</span> Create Columns</h2>
+<p>To create a new column, we will use <code>mutate()</code>. The first argument is the name
+of the data set and the subsequent arguments are expressions for creating new
+columns based out of existing columns.</p>
+<p>Let us add a new column <code>avg_page_time</code> i.e. time on site divided by number of
+pages visited.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="dplyr-basics.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select duration and n_pages from ecom</span></span>
+<span id="cb110-2"><a href="dplyr-basics.html#cb110-2" aria-hidden="true" tabindex="-1"></a>mutate_1 <span class="ot">&lt;-</span> <span class="fu">select</span>(ecom, n_pages, duration)</span>
+<span id="cb110-3"><a href="dplyr-basics.html#cb110-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(mutate_1, <span class="at">avg_page_time =</span> duration <span class="sc">/</span> n_pages)</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 3
+##    n_pages duration avg_page_time
+##      &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;
+##  1       1      693           693
+##  2       1      459           459
+##  3       1      996           996
+##  4      18      468            26
+##  5       1      955           955
+##  6       5      135            27
+##  7       1       75            75
+##  8       1      908           908
+##  9      19      209            11
+## 10       1      208           208
+## # ... with 990 more rows</code></pre>
+<p>We can create new columns based on other columns created using <code>mutate</code>. Let us
+create another column <code>sqrt_avg_page_time</code> i.e. square root of the average time
+on page using <code>avg_page_time</code>.</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="dplyr-basics.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(mutate_1,</span>
+<span id="cb112-2"><a href="dplyr-basics.html#cb112-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">avg_page_time =</span> duration <span class="sc">/</span> n_pages,</span>
+<span id="cb112-3"><a href="dplyr-basics.html#cb112-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">sqrt_avg_page_time =</span> <span class="fu">sqrt</span>(avg_page_time))</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 4
+##    n_pages duration avg_page_time sqrt_avg_page_time
+##      &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;              &lt;dbl&gt;
+##  1       1      693           693              26.3 
+##  2       1      459           459              21.4 
+##  3       1      996           996              31.6 
+##  4      18      468            26               5.10
+##  5       1      955           955              30.9 
+##  6       5      135            27               5.20
+##  7       1       75            75               8.66
+##  8       1      908           908              30.1 
+##  9      19      209            11               3.32
+## 10       1      208           208              14.4 
+## # ... with 990 more rows</code></pre>
+<div id="case-study-5" class="section level3" number="3.12.1">
+<h3><span class="header-section-number">3.12.1</span> Case Study</h3>
+<p>Back to our case study, from the last step we have the total order value and
+total order items for each device category and can compute the AOV. We will
+create a new column to store AOV.</p>
+<p><img src="img/mutate_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="dplyr-basics.html#cb114-1" aria-hidden="true" tabindex="-1"></a>ecom5 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ecom4, <span class="at">aov =</span> revenue <span class="sc">/</span> orders)</span>
+<span id="cb114-2"><a href="dplyr-basics.html#cb114-2" aria-hidden="true" tabindex="-1"></a>ecom5</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 4
+##   device revenue orders   aov
+##   &lt;fct&gt;    &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;
+## 1 laptop   56531     31 1824.
+## 2 tablet   51321     36 1426.
+## 3 mobile   51504     36 1431.</code></pre>
+<p>The last step is to select the relevant columns. We will select the device type
+and the corresponding aov while getting rid of other columns. Use <code>select()</code>
+to extract the relevant columns.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="dplyr-basics.html#cb116-1" aria-hidden="true" tabindex="-1"></a>ecom6 <span class="ot">&lt;-</span> <span class="fu">select</span>(ecom5, device, aov)</span>
+<span id="cb116-2"><a href="dplyr-basics.html#cb116-2" aria-hidden="true" tabindex="-1"></a>ecom6</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 laptop 1824.
+## 2 tablet 1426.
+## 3 mobile 1431.</code></pre>
+</div>
+</div>
+<div id="arrange-data" class="section level2" number="3.13">
+<h2><span class="header-section-number">3.13</span> Arrange Data</h2>
+<p>Arranging data in ascending or descending order is one of the most common tasks
+in data manipulation. We can use <code>arrange</code> to arrange data by different columns.
+Let us say we want to arrange data by the number of pages browsed.</p>
+<p><img src="img/arrange_1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="dplyr-basics.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ecom, n_pages)</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 google   laptop      10       1      693 FALSE              0           0
+##  2 yahoo    tablet       9       1      459 FALSE              0           0
+##  3 direct   laptop       0       1      996 FALSE              0           0
+##  4 yahoo    mobile       9       1      955 FALSE              0           0
+##  5 yahoo    mobile      10       1       75 FALSE              0           0
+##  6 direct   mobile      10       1      908 FALSE              0           0
+##  7 google   mobile       6       1      208 FALSE              0           0
+##  8 direct   laptop       9       1      738 FALSE              0           0
+##  9 yahoo    mobile       7       1       19 FALSE              7        2423
+## 10 bing     laptop       1       1      995 FALSE              0           0
+## # ... with 990 more rows</code></pre>
+<p>If we want to arrange the data in descending order, we can use <code>desc()</code>. Let us
+arrange the data in descending order.</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="dplyr-basics.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ecom , <span class="fu">desc</span>(n_pages))</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 social   tablet       9      20      420 TRUE               7        1613
+##  2 bing     mobile       4      20      440 TRUE               3         184
+##  3 yahoo    tablet       0      20      200 FALSE              0           0
+##  4 direct   tablet       6      20      580 TRUE               5        1155
+##  5 social   mobile       1      20      520 TRUE               5        1021
+##  6 google   mobile       8      20      300 TRUE               7        2091
+##  7 social   laptop       4      20      200 FALSE              0           0
+##  8 yahoo    mobile       3      20      480 FALSE              0           0
+##  9 social   laptop      10      20      280 TRUE               1        2011
+## 10 yahoo    mobile       2      20      240 FALSE              0           0
+## # ... with 990 more rows</code></pre>
+<p>Data can be arranged by multiple variables as well. Let us arrange data first by
+number of visits and then by number of pages in a descending order.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="dplyr-basics.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ecom, n_visit, <span class="fu">desc</span>(n_pages))</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 8
+##    referrer device n_visit n_pages duration purchase order_items order_value
+##    &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+##  1 yahoo    tablet       0      20      200 FALSE              0           0
+##  2 google   laptop       0      19      418 TRUE               2         996
+##  3 bing     laptop       0      18      180 FALSE              0           0
+##  4 yahoo    laptop       0      18      522 TRUE               8        1523
+##  5 direct   tablet       0      18      252 FALSE              0           0
+##  6 social   laptop       0      17      204 FALSE              0           0
+##  7 bing     laptop       0      17      272 TRUE               9        1384
+##  8 bing     mobile       0      16      272 FALSE              0           0
+##  9 yahoo    mobile       0      15      255 FALSE              0           0
+## 10 direct   laptop       0      15      255 FALSE              0           0
+## # ... with 990 more rows</code></pre>
+<div id="case-study-6" class="section level3" number="3.13.1">
+<h3><span class="header-section-number">3.13.1</span> Case Study</h3>
+<p>If you observe <code>ecom6</code>, the <code>aov</code> column is arranged in descending order.</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="dplyr-basics.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(ecom6, aov)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 tablet 1426.
+## 2 mobile 1431.
+## 3 laptop 1824.</code></pre>
+</div>
+</div>
+<div id="aov-by-devices-1" class="section level2" number="3.14">
+<h2><span class="header-section-number">3.14</span> AOV by Devices</h2>
+<p>Let us combine all the code from the above steps:</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="dplyr-basics.html#cb126-1" aria-hidden="true" tabindex="-1"></a>ecom1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(ecom, purchase)</span>
+<span id="cb126-2"><a href="dplyr-basics.html#cb126-2" aria-hidden="true" tabindex="-1"></a>ecom2 <span class="ot">&lt;-</span> <span class="fu">select</span>(ecom1, device, order_value)</span>
+<span id="cb126-3"><a href="dplyr-basics.html#cb126-3" aria-hidden="true" tabindex="-1"></a>ecom3 <span class="ot">&lt;-</span> <span class="fu">group_by</span>(ecom2, device)</span>
+<span id="cb126-4"><a href="dplyr-basics.html#cb126-4" aria-hidden="true" tabindex="-1"></a>ecom4 <span class="ot">&lt;-</span> <span class="fu">summarise_all</span>(ecom3, <span class="fu">funs</span>(<span class="at">revenue =</span> sum, <span class="at">orders =</span> <span class="fu">n</span>()))</span>
+<span id="cb126-5"><a href="dplyr-basics.html#cb126-5" aria-hidden="true" tabindex="-1"></a>ecom5 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ecom4, <span class="at">aov =</span> revenue <span class="sc">/</span> orders)</span>
+<span id="cb126-6"><a href="dplyr-basics.html#cb126-6" aria-hidden="true" tabindex="-1"></a>ecom6 <span class="ot">&lt;-</span> <span class="fu">select</span>(ecom5, device, aov)</span>
+<span id="cb126-7"><a href="dplyr-basics.html#cb126-7" aria-hidden="true" tabindex="-1"></a>ecom7 <span class="ot">&lt;-</span> <span class="fu">arrange</span>(ecom6, aov)</span>
+<span id="cb126-8"><a href="dplyr-basics.html#cb126-8" aria-hidden="true" tabindex="-1"></a>ecom7</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 tablet 1426.
+## 2 mobile 1431.
+## 3 laptop 1824.</code></pre>
+<p>If you observe, at each step we create a new variable(data frame) and then use
+it as an input in the next step i.e. the output from one step becomes the input
+for the next. Can we achieve the final outcome i.e. <code>ecom7</code> without creating the
+intermediate data (ecom1 - ecom6)? Yes, we can. We will use the <code>%&gt;%</code> operator
+to chain the steps and get rid of the intermediate data.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="dplyr-basics.html#cb128-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb128-2"><a href="dplyr-basics.html#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(purchase) <span class="sc">%&gt;%</span></span>
+<span id="cb128-3"><a href="dplyr-basics.html#cb128-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(device, order_value) <span class="sc">%&gt;%</span></span>
+<span id="cb128-4"><a href="dplyr-basics.html#cb128-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(device) <span class="sc">%&gt;%</span></span>
+<span id="cb128-5"><a href="dplyr-basics.html#cb128-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(<span class="fu">funs</span>(<span class="at">revenue =</span> sum, <span class="at">orders =</span> <span class="fu">n</span>())) <span class="sc">%&gt;%</span></span>
+<span id="cb128-6"><a href="dplyr-basics.html#cb128-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb128-7"><a href="dplyr-basics.html#cb128-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">aov =</span> revenue <span class="sc">/</span> orders</span>
+<span id="cb128-8"><a href="dplyr-basics.html#cb128-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb128-9"><a href="dplyr-basics.html#cb128-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(device, aov) <span class="sc">%&gt;%</span></span>
+<span id="cb128-10"><a href="dplyr-basics.html#cb128-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(aov)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   device   aov
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 tablet 1426.
+## 2 mobile 1431.
+## 3 laptop 1824.</code></pre>
+<p>Below we map the description of each step to dplyr verbs.</p>
+<p><img src="img/dplyr_aov_map.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="your-turn" class="section level2" number="3.15">
+<h2><span class="header-section-number">3.15</span> Your Turn</h2>
+<ul>
+<li>what is the average number of pages visited by purchasers and non-purchasers?</li>
+<li>what is the average time on site for purchasers vs non-purchasers?</li>
+<li>what is the average number of pages visited by purchasers and non-purchasers using mobile?</li>
+</ul>
 
 </div>
 </div>
@@ -629,8 +1268,8 @@ handle text, date/time and categorical data.</p>
           </div>
         </div>
       </div>
-
-<a href="about-the-author.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="import-data-in-r-advanced.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="joining-tables-in-r-dplyr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

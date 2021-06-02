@@ -1,4 +1,4 @@
-# tibbles {#tibbles}
+# tibbles {#tibbles-in-r}
 
 ## Introduction
 

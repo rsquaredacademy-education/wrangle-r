@@ -1,4 +1,4 @@
-# Working with Date & Time {#lubridate}
+# Date & Time {#date-and-time-in-r}
 
 ## Introduction 
 

@@ -1,4 +1,4 @@
-# Categorical Data in R {#categorical-data-in-r}
+# Categorical Data {#categorical-data-in-r}
 
 ## Introduction {#intro}
 

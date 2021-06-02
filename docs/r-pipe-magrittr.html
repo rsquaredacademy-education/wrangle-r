@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data Wrangling with R</title>
+  <title>Chapter 6 Pipe Operator | Data Wrangling with R</title>
   <meta name="description" content="Learn to wrangle data with R." />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Wrangling with R" />
+  <meta property="og:title" content="Chapter 6 Pipe Operator | Data Wrangling with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Wrangling with R" />
+  <meta name="twitter:title" content="Chapter 6 Pipe Operator | Data Wrangling with R" />
   
   <meta name="twitter:description" content="Learn to wrangle data with R." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="about-the-author.html"/>
+<link rel="prev" href="dplyr-helper-functions.html"/>
+<link rel="next" href="tibbles-in-r.html"/>
 <script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -574,54 +574,499 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data Wrangling with R</h1>
-<p class="author"><em>Aravind Hebbali</em></p>
-<p class="date" style="margin-top: 1.5em;"><em>2021-06-02</em></p>
+<div id="r-pipe-magrittr" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Pipe Operator</h1>
+<div id="introduction-5" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Introduction</h2>
+<p>R code contain a lot of parentheses in case of a sequence of multiple operations. When you are dealing with
+complex code, it results in nested function calls which are hard to read and maintain. The <a href="https://CRAN.R-project.org/package=magrittr">magrittr</a> package by <a href="http://stefanbache.dk/">Stefan Milton Bache</a> provides pipes enabling us to write R code that is readable.</p>
+<p>Pipes allow us to clearly express a sequence of multiple operations by:</p>
+<ul>
+<li>structuring operations from left to right</li>
+<li>avoiding
+<ul>
+<li>nested function calls</li>
+<li>intermediate steps</li>
+<li>overwriting of original data</li>
+</ul></li>
+<li>minimizing creation of local variables</li>
+</ul>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p><img src="img/wrangle-r.png" width="60%" style="display: block; margin: auto;" /></p>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-<div id="structure-of-the-book" class="section level2 unnumbered">
-<h2>Structure of the book</h2>
-<p>Chapters <a href="#import1"><strong>??</strong></a> and <a href="#import2"><strong>??</strong></a> focus on reading data from
-flat/delimited files and spreadsheets. Chapters <a href="#dplyr1"><strong>??</strong></a>, <a href="#dplyr2"><strong>??</strong></a>
-and <a href="#dplyr3"><strong>??</strong></a> focus on wrangling data using the <strong>dplyr</strong> package. Chapter
-<a href="r-pipe-magrittr.html#pipes">6.2</a> introduces the pipe operator from the <strong>magrittr</strong> package.
-Chapter <a href="#tibbles"><strong>??</strong></a> explores <code>tibble()</code>, an alternative for <code>data.frame()</code>.
-Chapters <a href="#stringr"><strong>??</strong></a>, <a href="#lubridate"><strong>??</strong></a> and <a href="categorical-data-in-r.html#categorical-data-in-r">10</a> explore ways to
-handle text, date/time and categorical data.</p>
+<div id="pipes" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Pipes</h2>
+<p>If you are using <a href="https://www.tidyverse.org/">tidyverse</a>, magrittr will be automatically loaded. We will look at 3 different types of pipes:</p>
+<ul>
+<li><code>%&gt;%</code> : pipe a value forward into an expression or function call</li>
+<li><code>%&lt;&gt;%</code>: result assigned to left hand side object instead of returning it</li>
+<li><code>%$%</code> : expose names within left hand side objects to right hand side expressions</li>
+</ul>
+<p>We will use the following R packages:</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="r-pipe-magrittr.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb185-2"><a href="r-pipe-magrittr.html#cb185-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb185-3"><a href="r-pipe-magrittr.html#cb185-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb185-4"><a href="r-pipe-magrittr.html#cb185-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb185-5"><a href="r-pipe-magrittr.html#cb185-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code></pre></div>
 </div>
-<div id="software-information" class="section level2 unnumbered">
-<h2>Software information</h2>
-<p>The R session information when compiling this book is shown below:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 4.1.0 (2021-05-18)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19042)
+<div id="data-2" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Data</h2>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="r-pipe-magrittr.html#cb186-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="ot">&lt;-</span> </span>
+<span id="cb186-2"><a href="r-pipe-magrittr.html#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv&#39;</span>,</span>
+<span id="cb186-3"><a href="r-pipe-magrittr.html#cb186-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols_only</span>(</span>
+<span id="cb186-4"><a href="r-pipe-magrittr.html#cb186-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">referrer =</span> <span class="fu">col_factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;bing&quot;</span>, <span class="st">&quot;direct&quot;</span>, <span class="st">&quot;social&quot;</span>, <span class="st">&quot;yahoo&quot;</span>, <span class="st">&quot;google&quot;</span>)),</span>
+<span id="cb186-5"><a href="r-pipe-magrittr.html#cb186-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_pages =</span> <span class="fu">col_double</span>(), <span class="at">duration =</span> <span class="fu">col_double</span>(), <span class="at">purchase =</span> <span class="fu">col_logical</span>()</span>
+<span id="cb186-6"><a href="r-pipe-magrittr.html#cb186-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb186-7"><a href="r-pipe-magrittr.html#cb186-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb186-8"><a href="r-pipe-magrittr.html#cb186-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-9"><a href="r-pipe-magrittr.html#cb186-9" aria-hidden="true" tabindex="-1"></a>ecom</span></code></pre></div>
+<pre><code>## # A tibble: 1,000 x 4
+##    referrer n_pages duration purchase
+##    &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 google         1      693 FALSE   
+##  2 yahoo          1      459 FALSE   
+##  3 direct         1      996 FALSE   
+##  4 bing          18      468 TRUE    
+##  5 yahoo          1      955 FALSE   
+##  6 yahoo          5      135 FALSE   
+##  7 yahoo          1       75 FALSE   
+##  8 direct         1      908 FALSE   
+##  9 bing          19      209 FALSE   
+## 10 google         1      208 FALSE   
+## # ... with 990 more rows</code></pre>
+<p>We will create a smaller data set from the above data to be used in some examples:</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="r-pipe-magrittr.html#cb188-1" aria-hidden="true" tabindex="-1"></a>ecom_mini <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(ecom, <span class="at">size =</span> <span class="dv">10</span>)</span>
+<span id="cb188-2"><a href="r-pipe-magrittr.html#cb188-2" aria-hidden="true" tabindex="-1"></a>ecom_mini</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 4
+##    referrer n_pages duration purchase
+##    &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 social         2       44 FALSE   
+##  2 direct         1      239 FALSE   
+##  3 yahoo          8      232 FALSE   
+##  4 yahoo         18      270 TRUE    
+##  5 direct         1      244 FALSE   
+##  6 google         1      249 FALSE   
+##  7 bing           7      119 FALSE   
+##  8 google         1      806 FALSE   
+##  9 google         5       75 FALSE   
+## 10 bing           1      169 FALSE</code></pre>
+<div id="data-dictionary-2" class="section level3" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Data Dictionary</h3>
+<ul>
+<li>referrer: referrer website/search engine</li>
+<li>n_pages: number of pages visited</li>
+<li>duration: time spent on the website (in seconds)</li>
+<li>purchase: whether visitor purchased</li>
+</ul>
+</div>
+</div>
+<div id="head" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> head()</h2>
+<p>Let us start with a simple example. You must be aware of <code>head()</code>. If not,
+do not worry. It returns the first few observations/rows of data. We can
+specify the number of observations it should return as well. Let us use
+it to view the first 10 rows of our data set.</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="r-pipe-magrittr.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ecom, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 4
+##    referrer n_pages duration purchase
+##    &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 google         1      693 FALSE   
+##  2 yahoo          1      459 FALSE   
+##  3 direct         1      996 FALSE   
+##  4 bing          18      468 TRUE    
+##  5 yahoo          1      955 FALSE   
+##  6 yahoo          5      135 FALSE   
+##  7 yahoo          1       75 FALSE   
+##  8 direct         1      908 FALSE   
+##  9 bing          19      209 FALSE   
+## 10 google         1      208 FALSE</code></pre>
+<div id="using-pipe" class="section level3" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Using Pipe</h3>
+<p>Now let us do the same but with <code>%&gt;%</code>.</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="r-pipe-magrittr.html#cb192-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 4
+##    referrer n_pages duration purchase
+##    &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
+##  1 google         1      693 FALSE   
+##  2 yahoo          1      459 FALSE   
+##  3 direct         1      996 FALSE   
+##  4 bing          18      468 TRUE    
+##  5 yahoo          1      955 FALSE   
+##  6 yahoo          5      135 FALSE   
+##  7 yahoo          1       75 FALSE   
+##  8 direct         1      908 FALSE   
+##  9 bing          19      209 FALSE   
+## 10 google         1      208 FALSE</code></pre>
+</div>
+</div>
+<div id="square-root" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> Square Root</h2>
+<p>Time to try a slightly more challenging example. We want the square root of
+<code>n_pages</code> column from the data set.</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="r-pipe-magrittr.html#cb194-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(ecom_mini<span class="sc">$</span>n_pages)</span></code></pre></div>
+<p>Let us break down the above computation into small steps:</p>
+<ul>
+<li>select/expose the <code>n_pages</code> column from <code>ecom</code> data</li>
+<li>compute the square root</li>
+<li>assign the first few observations to <code>y</code></li>
+</ul>
+<p><img src="img/pipes_square_root.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Let us reproduce <code>y</code> using pipes.</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="r-pipe-magrittr.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select n_pages variable and assign it to y</span></span>
+<span id="cb195-2"><a href="r-pipe-magrittr.html#cb195-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span></span>
+<span id="cb195-3"><a href="r-pipe-magrittr.html#cb195-3" aria-hidden="true" tabindex="-1"></a>    ecom_mini <span class="sc">%$%</span></span>
+<span id="cb195-4"><a href="r-pipe-magrittr.html#cb195-4" aria-hidden="true" tabindex="-1"></a>    n_pages</span>
+<span id="cb195-5"><a href="r-pipe-magrittr.html#cb195-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb195-6"><a href="r-pipe-magrittr.html#cb195-6" aria-hidden="true" tabindex="-1"></a><span class="co"># compute square root of y and assign it to y </span></span>
+<span id="cb195-7"><a href="r-pipe-magrittr.html#cb195-7" aria-hidden="true" tabindex="-1"></a>y <span class="sc">%&lt;&gt;%</span> sqrt</span></code></pre></div>
+<p>Another way to compute the square root of y is shown below.</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="r-pipe-magrittr.html#cb196-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span></span>
+<span id="cb196-2"><a href="r-pipe-magrittr.html#cb196-2" aria-hidden="true" tabindex="-1"></a>  ecom_mini <span class="sc">%$%</span> </span>
+<span id="cb196-3"><a href="r-pipe-magrittr.html#cb196-3" aria-hidden="true" tabindex="-1"></a>  n_pages <span class="sc">%&gt;%</span> </span>
+<span id="cb196-4"><a href="r-pipe-magrittr.html#cb196-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>()</span></code></pre></div>
+</div>
+<div id="visualization" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> Visualization</h2>
+<p>Let us look at a data visualization example. We will create a bar plot to
+visualize the frequency of different referrer types that drove purchasers
+to the website. Let us look at the steps involved in creating the bar plot:</p>
+<ul>
+<li>extract rows where purchase is TRUE</li>
+<li>select/expose <code>referrer</code> column</li>
+<li>tabulate referrer data using <code>table()</code></li>
+<li>use the tabulated data to create bar plot using <code>barplot()</code></li>
+</ul>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="r-pipe-magrittr.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(<span class="fu">subset</span>(ecom, purchase)<span class="sc">$</span>referrer))</span></code></pre></div>
+<p><img src="data-wrangling-with-r_files/figure-html/mag21-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div id="using-pipe-1" class="section level3" number="6.6.1">
+<h3><span class="header-section-number">6.6.1</span> Using pipe</h3>
+<p><img src="img/pipes_data_visualization.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="r-pipe-magrittr.html#cb198-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb198-2"><a href="r-pipe-magrittr.html#cb198-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subset</span>(purchase) <span class="sc">%&gt;%</span></span>
+<span id="cb198-3"><a href="r-pipe-magrittr.html#cb198-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract</span>(<span class="st">&#39;referrer&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb198-4"><a href="r-pipe-magrittr.html#cb198-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb198-5"><a href="r-pipe-magrittr.html#cb198-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">barplot</span>()</span></code></pre></div>
+<p><img src="data-wrangling-with-r_files/figure-html/mag7-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="correlation" class="section level2" number="6.7">
+<h2><span class="header-section-number">6.7</span> Correlation</h2>
+<p>Correlation is a statistical measure that indicates the extent to which two or more variables
+fluctuate together. In R, correlation is computed using <code>cor()</code>. Let us look at the
+correlation between the number of pages browsed and time spent on the site for
+visitors who purchased some product. Below are the steps for computing correlation:</p>
+<ul>
+<li>extract rows where purchase is TRUE</li>
+<li>select/expose <code>n_pages</code> and <code>duration</code> columns</li>
+<li>use <code>cor()</code> to compute the correlation</li>
+</ul>
+<p><img src="img/pipes_correlation.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="r-pipe-magrittr.html#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="co"># without pipe</span></span>
+<span id="cb199-2"><a href="r-pipe-magrittr.html#cb199-2" aria-hidden="true" tabindex="-1"></a>ecom1 <span class="ot">&lt;-</span> <span class="fu">subset</span>(ecom, purchase)</span>
+<span id="cb199-3"><a href="r-pipe-magrittr.html#cb199-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(ecom1<span class="sc">$</span>n_pages, ecom1<span class="sc">$</span>duration)</span></code></pre></div>
+<pre><code>## [1] 0.4290905</code></pre>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="r-pipe-magrittr.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with pipe</span></span>
+<span id="cb201-2"><a href="r-pipe-magrittr.html#cb201-2" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb201-3"><a href="r-pipe-magrittr.html#cb201-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subset</span>(purchase) <span class="sc">%$%</span> </span>
+<span id="cb201-4"><a href="r-pipe-magrittr.html#cb201-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(n_pages, duration)</span></code></pre></div>
+<pre><code>## [1] 0.4290905</code></pre>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="r-pipe-magrittr.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with pipe</span></span>
+<span id="cb203-2"><a href="r-pipe-magrittr.html#cb203-2" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%&gt;%</span></span>
+<span id="cb203-3"><a href="r-pipe-magrittr.html#cb203-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(purchase) <span class="sc">%$%</span> </span>
+<span id="cb203-4"><a href="r-pipe-magrittr.html#cb203-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(n_pages, duration)</span></code></pre></div>
+<pre><code>## [1] 0.4290905</code></pre>
+</div>
+<div id="regression" class="section level2" number="6.8">
+<h2><span class="header-section-number">6.8</span> Regression</h2>
+<p>Let us look at a regression example. We regress time spent on the site on
+number of pages visited. Below are the steps involved in running the regression:</p>
+<ul>
+<li>use <code>duration</code> and <code>n_pages</code> columns from ecom data</li>
+<li>pass the above data to <code>lm()</code></li>
+<li>pass the output from <code>lm()</code> to <code>summary()</code></li>
+</ul>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="r-pipe-magrittr.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(duration <span class="sc">~</span> n_pages, <span class="at">data =</span> ecom))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = duration ~ n_pages, data = ecom)
 ## 
-## Matrix products: default
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -386.45 -213.03  -38.93  179.31  602.55 
 ## 
-## locale:
-## [1] LC_COLLATE=English_United States.1252 
-## [2] LC_CTYPE=English_United States.1252   
-## [3] LC_MONETARY=English_United States.1252
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.1252    
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  404.803     11.323  35.750  &lt; 2e-16 ***
+## n_pages       -8.355      1.296  -6.449 1.76e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## Residual standard error: 263.3 on 998 degrees of freedom
+## Multiple R-squared:   0.04,  Adjusted R-squared:  0.03904 
+## F-statistic: 41.58 on 1 and 998 DF,  p-value: 1.756e-10</code></pre>
+<div id="using-pipe-2" class="section level3" number="6.8.1">
+<h3><span class="header-section-number">6.8.1</span> Using pipe</h3>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="r-pipe-magrittr.html#cb207-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">%$%</span></span>
+<span id="cb207-2"><a href="r-pipe-magrittr.html#cb207-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(duration <span class="sc">~</span> n_pages) <span class="sc">%&gt;%</span></span>
+<span id="cb207-3"><a href="r-pipe-magrittr.html#cb207-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = duration ~ n_pages)
 ## 
-## loaded via a namespace (and not attached):
-##  [1] bookdown_0.22     digest_0.6.27     R6_2.5.0          jsonlite_1.7.2   
-##  [5] magrittr_2.0.1    evaluate_0.14     highr_0.9         stringi_1.6.2    
-##  [9] rlang_0.4.11      rstudioapi_0.13   jquerylib_0.1.4   bslib_0.2.5.1    
-## [13] rmarkdown_2.8     tools_4.1.0       stringr_1.4.0     xfun_0.23        
-## [17] yaml_2.2.1        compiler_4.1.0    htmltools_0.5.1.1 knitr_1.33       
-## [21] sass_0.4.0</code></pre>
-<p>We do not add prompts (<code>&gt;</code> and <code>+</code>) to R source code in this book, and we comment out the text output with two hashes <code>##</code> by default, as you can see from the R session information above. This is for your convenience when you want to copy and run the code (the text output will be ignored since it is commented out). Package names are in bold text (e.g., <strong>rmarkdown</strong>), and function names are followed by parentheses (e.g., <code>bookdown::render_book()</code>). The double-colon operator <code>::</code> means accessing an object from a package.</p>
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -386.45 -213.03  -38.93  179.31  602.55 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  404.803     11.323  35.750  &lt; 2e-16 ***
+## n_pages       -8.355      1.296  -6.449 1.76e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 263.3 on 998 degrees of freedom
+## Multiple R-squared:   0.04,  Adjusted R-squared:  0.03904 
+## F-statistic: 41.58 on 1 and 998 DF,  p-value: 1.756e-10</code></pre>
+</div>
+</div>
+<div id="string-manipulation" class="section level2" number="6.9">
+<h2><span class="header-section-number">6.9</span> String Manipulation</h2>
+<p>We want to extract the first name (jovial) from the below email id and
+convert it to upper case. Below are the steps to achieve this:</p>
+<ul>
+<li>split the email id using the pattern <code>@</code> using <code>str_split()</code></li>
+<li>extract the first element from the resulting list using <code>extract2()</code></li>
+<li>extract the first element from the character vector using <code>extract()</code></li>
+<li>extract the first six characters using <code>str_sub()</code></li>
+<li>convert to upper case using <code>str_to_upper()</code></li>
+</ul>
+<p><img src="img/pipes_string.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="r-pipe-magrittr.html#cb209-1" aria-hidden="true" tabindex="-1"></a>email <span class="ot">&lt;-</span> <span class="st">&#39;jovialcann@anymail.com&#39;</span></span>
+<span id="cb209-2"><a href="r-pipe-magrittr.html#cb209-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb209-3"><a href="r-pipe-magrittr.html#cb209-3" aria-hidden="true" tabindex="-1"></a><span class="co"># without pipe</span></span>
+<span id="cb209-4"><a href="r-pipe-magrittr.html#cb209-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_upper</span>(<span class="fu">str_sub</span>(<span class="fu">str_split</span>(email, <span class="st">&#39;@&#39;</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>], <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">6</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;JOVIAL&quot;</code></pre>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="r-pipe-magrittr.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with pipe</span></span>
+<span id="cb211-2"><a href="r-pipe-magrittr.html#cb211-2" aria-hidden="true" tabindex="-1"></a>email <span class="sc">%&gt;%</span></span>
+<span id="cb211-3"><a href="r-pipe-magrittr.html#cb211-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb211-4"><a href="r-pipe-magrittr.html#cb211-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract2</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb211-5"><a href="r-pipe-magrittr.html#cb211-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb211-6"><a href="r-pipe-magrittr.html#cb211-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_sub</span>(<span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb211-7"><a href="r-pipe-magrittr.html#cb211-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_to_upper</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;JOVIAL&quot;</code></pre>
+<p>Another method that uses <code>map_chr()</code> from the <a href="https://readr.tidyverse.org/">purrr</a> package.</p>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="r-pipe-magrittr.html#cb213-1" aria-hidden="true" tabindex="-1"></a>email <span class="sc">%&gt;%</span></span>
+<span id="cb213-2"><a href="r-pipe-magrittr.html#cb213-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="at">pattern =</span> <span class="st">&#39;@&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb213-3"><a href="r-pipe-magrittr.html#cb213-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_chr</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb213-4"><a href="r-pipe-magrittr.html#cb213-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_sub</span>(<span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb213-5"><a href="r-pipe-magrittr.html#cb213-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_to_upper</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;JOVIAL&quot;</code></pre>
+</div>
+<div id="data-extraction-1" class="section level2" number="6.10">
+<h2><span class="header-section-number">6.10</span> Data Extraction</h2>
+<p>Let us turn our attention towards data extraction. magrittr provides
+alternatives to <code>$</code>, <code>[</code> and <code>[[</code>.</p>
+<ul>
+<li><code>extract()</code></li>
+<li><code>extract2()</code></li>
+<li><code>use_series()</code></li>
+</ul>
+<div id="extract-column" class="section level3" number="6.10.1">
+<h3><span class="header-section-number">6.10.1</span> Extract Column</h3>
+<p>To extract a specific column using the column name, we mention the name
+of the column in single/double quotes within <code>[</code> or <code>[[</code>. In case of <code>$</code>,
+we do not use quotes.</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="r-pipe-magrittr.html#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
+<span id="cb215-2"><a href="r-pipe-magrittr.html#cb215-2" aria-hidden="true" tabindex="-1"></a>ecom_mini[<span class="st">&#39;n_pages&#39;</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 1
+##    n_pages
+##      &lt;dbl&gt;
+##  1       2
+##  2       1
+##  3       8
+##  4      18
+##  5       1
+##  6       1
+##  7       7
+##  8       1
+##  9       5
+## 10       1</code></pre>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="r-pipe-magrittr.html#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
+<span id="cb217-2"><a href="r-pipe-magrittr.html#cb217-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract</span>(ecom_mini, <span class="st">&#39;n_pages&#39;</span>) </span></code></pre></div>
+<pre><code>## # A tibble: 10 x 1
+##    n_pages
+##      &lt;dbl&gt;
+##  1       2
+##  2       1
+##  3       8
+##  4      18
+##  5       1
+##  6       1
+##  7       7
+##  8       1
+##  9       5
+## 10       1</code></pre>
+<p>We can extract columns using their index position. Keep in mind that index
+position starts from <strong>1</strong> in R. In the below example, we show how to
+extract <code>n_pages</code> column but instead of using the column name, we use the
+column position.</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="r-pipe-magrittr.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
+<span id="cb219-2"><a href="r-pipe-magrittr.html#cb219-2" aria-hidden="true" tabindex="-1"></a>ecom_mini[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 10 x 1
+##    n_pages
+##      &lt;dbl&gt;
+##  1       2
+##  2       1
+##  3       8
+##  4      18
+##  5       1
+##  6       1
+##  7       7
+##  8       1
+##  9       5
+## 10       1</code></pre>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="r-pipe-magrittr.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
+<span id="cb221-2"><a href="r-pipe-magrittr.html#cb221-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract</span>(ecom_mini, <span class="dv">2</span>) </span></code></pre></div>
+<pre><code>## # A tibble: 10 x 1
+##    n_pages
+##      &lt;dbl&gt;
+##  1       2
+##  2       1
+##  3       8
+##  4      18
+##  5       1
+##  6       1
+##  7       7
+##  8       1
+##  9       5
+## 10       1</code></pre>
+<p>One important differentiator between <code>[</code> and <code>[[</code> is that <code>[[</code> will
+return a atomic vector and not a <code>data.frame</code>. <code>$</code> will also return
+a atomic vector. In magrittr, we can use <code>use_series()</code> in place of
+<code>$</code>.</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="r-pipe-magrittr.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
+<span id="cb223-2"><a href="r-pipe-magrittr.html#cb223-2" aria-hidden="true" tabindex="-1"></a>ecom_mini<span class="sc">$</span>n_pages</span></code></pre></div>
+<pre><code>##  [1]  2  1  8 18  1  1  7  1  5  1</code></pre>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="r-pipe-magrittr.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
+<span id="cb225-2"><a href="r-pipe-magrittr.html#cb225-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_series</span>(ecom_mini, <span class="st">&#39;n_pages&#39;</span>) </span></code></pre></div>
+<pre><code>##  [1]  2  1  8 18  1  1  7  1  5  1</code></pre>
+</div>
+<div id="extract-list-element" class="section level3" number="6.10.2">
+<h3><span class="header-section-number">6.10.2</span> Extract List Element</h3>
+<p>Let us convert <code>ecom_mini</code> into a list using as.list() as shown below:</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="r-pipe-magrittr.html#cb227-1" aria-hidden="true" tabindex="-1"></a>ecom_list <span class="ot">&lt;-</span> <span class="fu">as.list</span>(ecom_mini)</span></code></pre></div>
+<p>To extract elements of a list, we can use <code>extract2()</code>. It is an
+alternative for <code>[[</code>.</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="r-pipe-magrittr.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
+<span id="cb228-2"><a href="r-pipe-magrittr.html#cb228-2" aria-hidden="true" tabindex="-1"></a>ecom_list[[<span class="st">&#39;n_pages&#39;</span>]]</span></code></pre></div>
+<pre><code>##  [1]  2  1  8 18  1  1  7  1  5  1</code></pre>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="r-pipe-magrittr.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
+<span id="cb230-2"><a href="r-pipe-magrittr.html#cb230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract2</span>(ecom_list, <span class="st">&#39;n_pages&#39;</span>)</span></code></pre></div>
+<pre><code>##  [1]  2  1  8 18  1  1  7  1  5  1</code></pre>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="r-pipe-magrittr.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
+<span id="cb232-2"><a href="r-pipe-magrittr.html#cb232-2" aria-hidden="true" tabindex="-1"></a>ecom_list[[<span class="dv">1</span>]]</span></code></pre></div>
+<pre><code>##  [1] social direct yahoo  yahoo  direct google bing   google google bing  
+## Levels: bing direct social yahoo google</code></pre>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="r-pipe-magrittr.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
+<span id="cb234-2"><a href="r-pipe-magrittr.html#cb234-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract2</span>(ecom_list, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1] social direct yahoo  yahoo  direct google bing   google google bing  
+## Levels: bing direct social yahoo google</code></pre>
+<p>We can extract the elements of a list using <code>use_series()</code> as well.</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="r-pipe-magrittr.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
+<span id="cb236-2"><a href="r-pipe-magrittr.html#cb236-2" aria-hidden="true" tabindex="-1"></a>ecom_list<span class="sc">$</span>n_pages</span></code></pre></div>
+<pre><code>##  [1]  2  1  8 18  1  1  7  1  5  1</code></pre>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="r-pipe-magrittr.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
+<span id="cb238-2"><a href="r-pipe-magrittr.html#cb238-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_series</span>(ecom_list, n_pages)</span></code></pre></div>
+<pre><code>##  [1]  2  1  8 18  1  1  7  1  5  1</code></pre>
+</div>
+</div>
+<div id="arithmetic-operations" class="section level2" number="6.11">
+<h2><span class="header-section-number">6.11</span> Arithmetic Operations</h2>
+<p>magrittr offer alternatives for arithemtic operations as well. We will look at
+a few examples below.</p>
+<ul>
+<li><code>add()</code></li>
+<li><code>subtract()</code></li>
+<li><code>multiply_by()</code></li>
+<li><code>multiply_by_matrix()</code></li>
+<li><code>divide_by()</code></li>
+<li><code>divide_by_int()</code></li>
+<li><code>mod()</code></li>
+<li><code>raise_to_power()</code></li>
+</ul>
+<div id="addition" class="section level3" number="6.11.1">
+<h3><span class="header-section-number">6.11.1</span> Addition</h3>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="r-pipe-magrittr.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div>
+<pre><code>##  [1]  2  3  4  5  6  7  8  9 10 11</code></pre>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="r-pipe-magrittr.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1]  2  3  4  5  6  7  8  9 10 11</code></pre>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="r-pipe-magrittr.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">+</span><span class="st">`</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##  [1]  2  3  4  5  6  7  8  9 10 11</code></pre>
+</div>
+<div id="multiplication" class="section level3" number="6.11.2">
+<h3><span class="header-section-number">6.11.2</span> Multiplication</h3>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="r-pipe-magrittr.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">*</span> <span class="dv">3</span></span></code></pre></div>
+<pre><code>##  [1]  3  6  9 12 15 18 21 24 27 30</code></pre>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="r-pipe-magrittr.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">multiply_by</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##  [1]  3  6  9 12 15 18 21 24 27 30</code></pre>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="r-pipe-magrittr.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">*</span><span class="st">`</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##  [1]  3  6  9 12 15 18 21 24 27 30</code></pre>
+</div>
+<div id="division" class="section level3" number="6.11.3">
+<h3><span class="header-section-number">6.11.3</span> Division</h3>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="r-pipe-magrittr.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">/</span> <span class="dv">2</span></span></code></pre></div>
+<pre><code>##  [1] 0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0</code></pre>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="r-pipe-magrittr.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">divide_by</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0</code></pre>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="r-pipe-magrittr.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">/</span><span class="st">`</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0</code></pre>
+</div>
+<div id="power" class="section level3" number="6.11.4">
+<h3><span class="header-section-number">6.11.4</span> Power</h3>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="r-pipe-magrittr.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">^</span> <span class="dv">2</span></span></code></pre></div>
+<pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+##  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
+##  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
+##  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
+##  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
+##  [91]  91  92  93  94  95  96  97  98  99 100</code></pre>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="r-pipe-magrittr.html#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="fu">raise_to_power</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##  [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="r-pipe-magrittr.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">^</span><span class="st">`</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##  [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
+</div>
+</div>
+<div id="logical-operators" class="section level2" number="6.12">
+<h2><span class="header-section-number">6.12</span> Logical Operators</h2>
+<p>There are alternatives for logical operators as well. We will look at
+a few examples below.</p>
+<ul>
+<li><code>and()</code></li>
+<li><code>or()</code></li>
+<li><code>equals()</code></li>
+<li><code>not()</code></li>
+<li><code>is_greater_than()</code></li>
+<li><code>is_weakly_greater_than()</code></li>
+<li><code>is_less_than()</code></li>
+<li><code>is_weakly_less_than()</code></li>
+</ul>
+<div id="greater-than" class="section level3" number="6.12.1">
+<h3><span class="header-section-number">6.12.1</span> Greater Than</h3>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="r-pipe-magrittr.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">&gt;</span> <span class="dv">5</span></span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="r-pipe-magrittr.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_greater_than</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="r-pipe-magrittr.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">&gt;</span><span class="st">`</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+</div>
+<div id="weakly-greater-than" class="section level3" number="6.12.2">
+<h3><span class="header-section-number">6.12.2</span> Weakly Greater Than</h3>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="r-pipe-magrittr.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">&gt;=</span> <span class="dv">5</span></span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="r-pipe-magrittr.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_weakly_greater_than</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="r-pipe-magrittr.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">&gt;=</span><span class="st">`</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
 
+</div>
 </div>
 </div>
             </section>
@@ -629,8 +1074,8 @@ handle text, date/time and categorical data.</p>
           </div>
         </div>
       </div>
-
-<a href="about-the-author.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="dplyr-helper-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tibbles-in-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

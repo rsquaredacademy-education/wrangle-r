@@ -1,4 +1,4 @@
-# Data Wrangling - 1 {#dplyr1}
+# dplyr Basics {#dplyr-basics}
 
 ## Introduction
 
