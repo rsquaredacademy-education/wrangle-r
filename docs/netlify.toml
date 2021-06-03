@@ -1,0 +1,53 @@
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/import1.html"
+  to = "https://wrangle-r.rsquaredacademy.com/import-data-in-r-basics.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/import2.html"
+  to = "https://wrangle-r.rsquaredacademy.com/import-data-in-r.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/dplyr1.html"
+  to = "https://wrangle-r.rsquaredacademy.com/dplyr-basics.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/dplyr2.html"
+  to = "https://wrangle-r.rsquaredacademy.com/joining-tables-in-r-dplyr.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/dplyr3.html"
+  to = "https://wrangle-r.rsquaredacademy.com/dplyr-helper-functions.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/pipes.html"
+  to = "https://wrangle-r.rsquaredacademy.com/r-pipe-magrittr.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/tibbles.html"
+  to = "https://wrangle-r.rsquaredacademy.com/tibbles-in-r.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/stringr.html"
+  to = "https://wrangle-r.rsquaredacademy.com/strings-in-r.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://wrangle-r.rsquaredacademy.com/lubridate.html"
+  to = "https://wrangle-r.rsquaredacademy.com/date-and-time-in-r.html"
+  status = 301
+  force = true
