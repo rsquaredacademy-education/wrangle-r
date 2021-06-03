@@ -6,7 +6,7 @@
 
 [[redirects]]
   from = "https://wrangle-r.rsquaredacademy.com/import2.html"
-  to = "https://wrangle-r.rsquaredacademy.com/import-data-in-r.html"
+  to = "https://wrangle-r.rsquaredacademy.com/import-data-in-r-advanced.html"
   status = 301
   force = true
 
