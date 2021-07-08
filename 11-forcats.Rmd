@@ -470,7 +470,7 @@ Use `analytics_raw.rds` data set to answer the below questions.
 
 7. Check if the `user_rating` column is ordered. If not, coerce it to type ordered factor.
 
-### Summarize {#operations}
+## Summarize {#operations}
 
 ### Introduction
 
