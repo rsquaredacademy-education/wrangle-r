@@ -18,12 +18,12 @@ knitr::include_graphics('img/wrangle-r.png')
 
 ## Structure of the book {-}
 
-Chapters \@ref(import1) and \@ref(import2) focus on reading data from
-flat/delimited files and spreadsheets. Chapters \@ref(dplyr1), \@ref(dplyr2)
-and \@ref(dplyr3) focus on wrangling data using the **dplyr** package. Chapter 
-\@ref(pipes) introduces the pipe operator from the **magrittr** package. 
-Chapter \@ref(tibbles) explores `tibble()`, an alternative for `data.frame()`.
-Chapters \@ref(stringr), \@ref(lubridate) and \@ref(categorical-data-in-r) explore ways to 
+Chapters \@ref(import-data-in-r-basics) and \@ref(import-data-in-r-advanced) focus on reading data from
+flat/delimited files and spreadsheets. Chapters \@ref(dplyr-basics), \@ref(joining-tables-in-r-dplyr)
+and \@ref(dplyr-helper-functions) focus on wrangling data using the **dplyr** package. Chapter 
+\@ref(r-pipe-magrittr) introduces the pipe operator from the **magrittr** package. 
+Chapter \@ref(tibbles-in-r) explores `tibble()`, an alternative for `data.frame()`.
+Chapters \@ref(strings-in-r), \@ref(date-and-time-in-r) and \@ref(categorical-data-in-r) explore ways to 
 handle text, date/time and categorical data.
 
 ## Software information {-}
