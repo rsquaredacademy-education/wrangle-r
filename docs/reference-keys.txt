@@ -281,11 +281,9 @@ manipulate
 introduction-16
 your-turn-13
 change-value-of-levels
-combine-both-paid-organic-search-into-a-single-level-search
 key-functions-2
 your-turn..
 add-remove-levels
-add-a-new-level-blog
 key-functions-3
 change-order-of-levels
 key-functions-4

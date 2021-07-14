@@ -854,7 +854,7 @@ table(fct_match(channel, "Social"))
 
 In this section, we will learn how to change the value of the levels. In order to keep it interesting, we will state an objective from our case study and then map it into a function from the [forcats](https://forcats.tidyverse.org/) package.
 
-### Combine both Paid & Organic Search into a single level, Search
+**Combine both Paid & Organic Search into a single level, Search**
 
 ```{r fct_collapse_img, echo=FALSE, fig.align="center"}
 knitr::include_graphics("img/fct_collapse.png")
@@ -993,7 +993,7 @@ In the previous scenario, we said we will compare `fct_other()` with `fct_collap
 fct_count(
   fct_collapse(
   channel,
-  Other = c("(Other)", "Affiliate", "Display", "Paid Search", "Social")
+  Other = c("(Other)", "Affiliates", "Display", "Paid Search", "Social")
   )
 )
 
@@ -1002,7 +1002,7 @@ fct_count(
   fct_recode(
   channel,
   Other = "(Other)", 
-  Other = "Affiliate", 
+  Other = "Affiliates", 
   Other = "Display", 
   Other = "Paid Search", 
   Other = "Social"
@@ -1079,7 +1079,7 @@ In this small section, we will learn to:
 - drop levels
 - make missing values explicit
 
-### Add a new level, Blog
+**Add a new level, Blog**
 
 ```{r fct_expand_img, echo=FALSE, fig.align="center"}
 knitr::include_graphics("img/fct_expand.png")

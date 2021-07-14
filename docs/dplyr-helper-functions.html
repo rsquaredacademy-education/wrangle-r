@@ -24,7 +24,7 @@
 <meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2021-07-08" />
+<meta name="date" content="2021-07-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -528,15 +528,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.5.1" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#introduction-16"><i class="fa fa-check"></i><b>10.5.1</b> Introduction</a></li>
 <li class="chapter" data-level="10.5.2" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-13"><i class="fa fa-check"></i><b>10.5.2</b> Your Turn…</a></li>
 <li class="chapter" data-level="10.5.3" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-value-of-levels"><i class="fa fa-check"></i><b>10.5.3</b> Change Value of Levels</a></li>
-<li class="chapter" data-level="10.5.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#combine-both-paid-organic-search-into-a-single-level-search"><i class="fa fa-check"></i><b>10.5.4</b> Combine both Paid &amp; Organic Search into a single level, Search</a></li>
-<li class="chapter" data-level="10.5.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-2"><i class="fa fa-check"></i><b>10.5.5</b> Key Functions</a></li>
-<li class="chapter" data-level="10.5.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn.."><i class="fa fa-check"></i><b>10.5.6</b> Your Turn..</a></li>
-<li class="chapter" data-level="10.5.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-remove-levels"><i class="fa fa-check"></i><b>10.5.7</b> Add / Remove Levels</a></li>
-<li class="chapter" data-level="10.5.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-a-new-level-blog"><i class="fa fa-check"></i><b>10.5.8</b> Add a new level, Blog</a></li>
-<li class="chapter" data-level="10.5.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-3"><i class="fa fa-check"></i><b>10.5.9</b> Key Functions</a></li>
-<li class="chapter" data-level="10.5.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-order-of-levels"><i class="fa fa-check"></i><b>10.5.10</b> Change Order of Levels</a></li>
-<li class="chapter" data-level="10.5.11" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-4"><i class="fa fa-check"></i><b>10.5.11</b> Key Functions</a></li>
-<li class="chapter" data-level="10.5.12" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-14"><i class="fa fa-check"></i><b>10.5.12</b> Your Turn…</a></li>
+<li class="chapter" data-level="10.5.4" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-2"><i class="fa fa-check"></i><b>10.5.4</b> Key Functions</a></li>
+<li class="chapter" data-level="10.5.5" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn.."><i class="fa fa-check"></i><b>10.5.5</b> Your Turn..</a></li>
+<li class="chapter" data-level="10.5.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#add-remove-levels"><i class="fa fa-check"></i><b>10.5.6</b> Add / Remove Levels</a></li>
+<li class="chapter" data-level="10.5.7" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-3"><i class="fa fa-check"></i><b>10.5.7</b> Key Functions</a></li>
+<li class="chapter" data-level="10.5.8" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#change-order-of-levels"><i class="fa fa-check"></i><b>10.5.8</b> Change Order of Levels</a></li>
+<li class="chapter" data-level="10.5.9" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#key-functions-4"><i class="fa fa-check"></i><b>10.5.9</b> Key Functions</a></li>
+<li class="chapter" data-level="10.5.10" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#your-turn-14"><i class="fa fa-check"></i><b>10.5.10</b> Your Turn…</a></li>
 </ul></li>
 <li class="chapter" data-level="10.6" data-path="categorical-data-in-r.html"><a href="categorical-data-in-r.html#dataviz"><i class="fa fa-check"></i><b>10.6</b> Data Visualization</a>
 <ul>
@@ -755,16 +753,16 @@ number of observations.</p>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 google   tablet TRUE           3       1      652 FALSE   
-##  2 bing     mobile FALSE          0       4       72 FALSE   
-##  3 bing     tablet FALSE          0       3       42 FALSE   
-##  4 google   mobile FALSE          2       9      162 FALSE   
-##  5 social   mobile TRUE           5       1       22 FALSE   
-##  6 social   laptop TRUE           5       1      286 FALSE   
-##  7 social   mobile FALSE          0       3       78 FALSE   
-##  8 google   mobile TRUE           9       1      201 FALSE   
-##  9 yahoo    tablet TRUE           3       1      332 FALSE   
-## 10 yahoo    mobile TRUE          10       1      594 FALSE   
+##  1 google   laptop FALSE         10      18      450 TRUE    
+##  2 google   mobile TRUE           0       1      134 FALSE   
+##  3 social   tablet FALSE         10      10      290 TRUE    
+##  4 google   mobile TRUE           3       1      918 FALSE   
+##  5 google   tablet TRUE           5       1       82 FALSE   
+##  6 social   tablet TRUE           8       1      235 FALSE   
+##  7 yahoo    mobile TRUE           4       1       69 FALSE   
+##  8 yahoo    laptop TRUE           8       1      109 FALSE   
+##  9 google   tablet FALSE          1      11      220 FALSE   
+## 10 google   tablet FALSE          1       9       90 FALSE   
 ## # ... with 690 more rows</code></pre>
 <p>We can combine the sampling functions with other dplyr functions as shown below
 where we sample observation after grouping them according to the source of
@@ -776,32 +774,32 @@ traffic.</p>
 ## # Groups:   referrer [5]
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 bing     tablet FALSE          5      20      540 FALSE   
-##  2 bing     tablet TRUE           0       1      985 FALSE   
-##  3 bing     tablet FALSE          0       2       52 FALSE   
-##  4 bing     mobile FALSE          4      20      440 TRUE    
-##  5 bing     mobile TRUE           4       1      979 FALSE   
-##  6 bing     laptop TRUE           7       1      867 FALSE   
-##  7 bing     mobile TRUE          10       1       98 FALSE   
-##  8 bing     mobile TRUE           6       1      843 FALSE   
-##  9 bing     tablet FALSE          3      15      195 FALSE   
-## 10 bing     mobile TRUE           4       1      366 FALSE   
+##  1 bing     tablet FALSE          9      10      210 FALSE   
+##  2 bing     laptop FALSE          4       3       48 FALSE   
+##  3 bing     tablet FALSE          0       3       42 FALSE   
+##  4 bing     mobile FALSE          4       9      261 FALSE   
+##  5 bing     tablet FALSE          1      14      168 FALSE   
+##  6 bing     mobile FALSE          1       1       25 FALSE   
+##  7 bing     laptop FALSE          5      10      190 FALSE   
+##  8 bing     mobile TRUE           5       1      751 FALSE   
+##  9 bing     mobile FALSE          9       2       24 FALSE   
+## 10 bing     tablet TRUE           2       1       24 FALSE   
 ## # ... with 490 more rows</code></pre>
 <p><code>sample_frac()</code> allows a specific percentage of observations.</p>
 <div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="dplyr-helper-functions.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_frac</span>(ecom, <span class="at">size =</span> <span class="fl">0.7</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 700 x 7
 ##    referrer device bouncers n_visit n_pages duration purchase
 ##    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 bing     tablet TRUE           5       1      765 FALSE   
-##  2 google   mobile TRUE          10       1      221 FALSE   
-##  3 social   tablet TRUE           9       1      352 FALSE   
-##  4 social   laptop FALSE          9      14      224 FALSE   
-##  5 google   tablet TRUE           6       1      966 FALSE   
-##  6 social   laptop TRUE           6       1      986 FALSE   
-##  7 direct   laptop TRUE           0       1       23 FALSE   
-##  8 yahoo    tablet TRUE           5       1      386 FALSE   
-##  9 google   tablet TRUE           6       1      216 FALSE   
-## 10 google   tablet FALSE          1      12      216 FALSE   
+##  1 bing     mobile FALSE          9       2       42 FALSE   
+##  2 bing     laptop TRUE           0       1      897 FALSE   
+##  3 yahoo    laptop TRUE           8       1      109 FALSE   
+##  4 google   laptop FALSE         10      18      450 TRUE    
+##  5 yahoo    mobile TRUE           8       1      160 FALSE   
+##  6 yahoo    mobile FALSE          1      17      442 TRUE    
+##  7 bing     tablet TRUE           7       1      423 FALSE   
+##  8 yahoo    tablet TRUE           0       1       28 FALSE   
+##  9 google   mobile TRUE           2       1      337 FALSE   
+## 10 yahoo    laptop FALSE          8       2       42 FALSE   
 ## # ... with 690 more rows</code></pre>
 </div>
 <div id="data-extraction" class="section level2" number="5.7">
@@ -817,17 +815,17 @@ using <code>head</code> in addition to limit the output printed.</p>
 <div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="dplyr-helper-functions.html#cb170-1" aria-hidden="true" tabindex="-1"></a>ecom_mini <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(ecom, <span class="at">size =</span> <span class="dv">10</span>)</span></code></pre></div>
 <p><img src="img/pull_1.png" width="100%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="dplyr-helper-functions.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, device)</span></code></pre></div>
-<pre><code>##  [1] laptop laptop tablet mobile tablet laptop mobile mobile laptop tablet
+<pre><code>##  [1] mobile laptop tablet mobile mobile tablet tablet mobile mobile laptop
 ## Levels: laptop tablet mobile</code></pre>
 <p>Let us extract the first column from <code>ecom</code> using column position instead of
 name.</p>
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="dplyr-helper-functions.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="dv">1</span>) </span></code></pre></div>
-<pre><code>##  [1] direct social social bing   bing   google direct google yahoo  bing  
+<pre><code>##  [1] direct social direct direct yahoo  social social bing   bing   social
 ## Levels: bing direct social yahoo google</code></pre>
 <p>You can use <code>-</code> before the column position to indicate the position in reverse.
 The below example extracts data from the last column.</p>
 <div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="dplyr-helper-functions.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="sc">-</span><span class="dv">1</span>) </span></code></pre></div>
-<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 <p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we
 extract data starting from the 5th row and upto the 15th row.</p>
 <p><img src="img/slice_1.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -864,9 +862,9 @@ and 15.</p>
 <span id="cb181-3"><a href="dplyr-helper-functions.html#cb181-3" aria-hidden="true" tabindex="-1"></a>ecom_sample <span class="sc">%&gt;%</span></span>
 <span id="cb181-4"><a href="dplyr-helper-functions.html#cb181-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n_pages) <span class="sc">%&gt;%</span></span>
 <span id="cb181-5"><a href="dplyr-helper-functions.html#cb181-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </span></code></pre></div>
-<pre><code>##  [1] FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
-## [13] FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-## [25] FALSE FALSE FALSE FALSE  TRUE FALSE</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+## [13] FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE
+## [25]  TRUE  TRUE  TRUE FALSE FALSE FALSE</code></pre>
 </div>
 <div id="case-when" class="section level2" number="5.9">
 <h2><span class="header-section-number">5.9</span> Case When</h2>
