@@ -24,7 +24,7 @@
 <meta name="author" content="Aravind Hebbali" />
 
 
-<meta name="date" content="2021-07-14" />
+<meta name="date" content="2021-08-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="dplyr-helper-functions.html"/>
 <link rel="next" href="tibbles-in-r.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -638,16 +638,16 @@ complex code, it results in nested function calls which are hard to read and mai
 <pre><code>## # A tibble: 10 x 4
 ##    referrer n_pages duration purchase
 ##    &lt;fct&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-##  1 social        16      288 TRUE    
-##  2 google         1       79 FALSE   
-##  3 google         1      652 FALSE   
-##  4 direct         1      180 FALSE   
-##  5 social         1      133 FALSE   
-##  6 google         1      239 FALSE   
-##  7 google        20      280 TRUE    
-##  8 google         6       72 FALSE   
-##  9 yahoo          1      151 FALSE   
-## 10 direct        16      192 FALSE</code></pre>
+##  1 bing           1      366 FALSE   
+##  2 bing          13      390 TRUE    
+##  3 yahoo         10      110 FALSE   
+##  4 direct        18      324 TRUE    
+##  5 social         5      110 FALSE   
+##  6 direct         1      477 FALSE   
+##  7 social         8      216 FALSE   
+##  8 bing           1      406 FALSE   
+##  9 direct        13      260 TRUE    
+## 10 social         1      866 FALSE</code></pre>
 <div id="data-dictionary-2" class="section level3" number="6.3.1">
 <h3><span class="header-section-number">6.3.1</span> Data Dictionary</h3>
 <ul>
@@ -879,31 +879,31 @@ we do not use quotes.</p>
 <pre><code>## # A tibble: 10 x 1
 ##    n_pages
 ##      &lt;dbl&gt;
-##  1      16
-##  2       1
-##  3       1
-##  4       1
-##  5       1
+##  1       1
+##  2      13
+##  3      10
+##  4      18
+##  5       5
 ##  6       1
-##  7      20
-##  8       6
-##  9       1
-## 10      16</code></pre>
+##  7       8
+##  8       1
+##  9      13
+## 10       1</code></pre>
 <div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="r-pipe-magrittr.html#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
 <span id="cb217-2"><a href="r-pipe-magrittr.html#cb217-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract</span>(ecom_mini, <span class="st">&#39;n_pages&#39;</span>) </span></code></pre></div>
 <pre><code>## # A tibble: 10 x 1
 ##    n_pages
 ##      &lt;dbl&gt;
-##  1      16
-##  2       1
-##  3       1
-##  4       1
-##  5       1
+##  1       1
+##  2      13
+##  3      10
+##  4      18
+##  5       5
 ##  6       1
-##  7      20
-##  8       6
-##  9       1
-## 10      16</code></pre>
+##  7       8
+##  8       1
+##  9      13
+## 10       1</code></pre>
 <p>We can extract columns using their index position. Keep in mind that index
 position starts from <strong>1</strong> in R. In the below example, we show how to
 extract <code>n_pages</code> column but instead of using the column name, we use the
@@ -913,41 +913,41 @@ column position.</p>
 <pre><code>## # A tibble: 10 x 1
 ##    n_pages
 ##      &lt;dbl&gt;
-##  1      16
-##  2       1
-##  3       1
-##  4       1
-##  5       1
+##  1       1
+##  2      13
+##  3      10
+##  4      18
+##  5       5
 ##  6       1
-##  7      20
-##  8       6
-##  9       1
-## 10      16</code></pre>
+##  7       8
+##  8       1
+##  9      13
+## 10       1</code></pre>
 <div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="r-pipe-magrittr.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
 <span id="cb221-2"><a href="r-pipe-magrittr.html#cb221-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract</span>(ecom_mini, <span class="dv">2</span>) </span></code></pre></div>
 <pre><code>## # A tibble: 10 x 1
 ##    n_pages
 ##      &lt;dbl&gt;
-##  1      16
-##  2       1
-##  3       1
-##  4       1
-##  5       1
+##  1       1
+##  2      13
+##  3      10
+##  4      18
+##  5       5
 ##  6       1
-##  7      20
-##  8       6
-##  9       1
-## 10      16</code></pre>
+##  7       8
+##  8       1
+##  9      13
+## 10       1</code></pre>
 <p>One important differentiator between <code>[</code> and <code>[[</code> is that <code>[[</code> will
 return a atomic vector and not a <code>data.frame</code>. <code>$</code> will also return
 a atomic vector. In magrittr, we can use <code>use_series()</code> in place of
 <code>$</code>.</p>
 <div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="r-pipe-magrittr.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
 <span id="cb223-2"><a href="r-pipe-magrittr.html#cb223-2" aria-hidden="true" tabindex="-1"></a>ecom_mini<span class="sc">$</span>n_pages</span></code></pre></div>
-<pre><code>##  [1] 16  1  1  1  1  1 20  6  1 16</code></pre>
+<pre><code>##  [1]  1 13 10 18  5  1  8  1 13  1</code></pre>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="r-pipe-magrittr.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
 <span id="cb225-2"><a href="r-pipe-magrittr.html#cb225-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_series</span>(ecom_mini, <span class="st">&#39;n_pages&#39;</span>) </span></code></pre></div>
-<pre><code>##  [1] 16  1  1  1  1  1 20  6  1 16</code></pre>
+<pre><code>##  [1]  1 13 10 18  5  1  8  1 13  1</code></pre>
 </div>
 <div id="extract-list-element" class="section level3" number="6.10.2">
 <h3><span class="header-section-number">6.10.2</span> Extract List Element</h3>
@@ -957,25 +957,25 @@ a atomic vector. In magrittr, we can use <code>use_series()</code> in place of
 alternative for <code>[[</code>.</p>
 <div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="r-pipe-magrittr.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
 <span id="cb228-2"><a href="r-pipe-magrittr.html#cb228-2" aria-hidden="true" tabindex="-1"></a>ecom_list[[<span class="st">&#39;n_pages&#39;</span>]]</span></code></pre></div>
-<pre><code>##  [1] 16  1  1  1  1  1 20  6  1 16</code></pre>
+<pre><code>##  [1]  1 13 10 18  5  1  8  1 13  1</code></pre>
 <div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="r-pipe-magrittr.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
 <span id="cb230-2"><a href="r-pipe-magrittr.html#cb230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract2</span>(ecom_list, <span class="st">&#39;n_pages&#39;</span>)</span></code></pre></div>
-<pre><code>##  [1] 16  1  1  1  1  1 20  6  1 16</code></pre>
+<pre><code>##  [1]  1 13 10 18  5  1  8  1 13  1</code></pre>
 <div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="r-pipe-magrittr.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
 <span id="cb232-2"><a href="r-pipe-magrittr.html#cb232-2" aria-hidden="true" tabindex="-1"></a>ecom_list[[<span class="dv">1</span>]]</span></code></pre></div>
-<pre><code>##  [1] social google google direct social google google google yahoo  direct
+<pre><code>##  [1] bing   bing   yahoo  direct social direct social bing   direct social
 ## Levels: bing direct social yahoo google</code></pre>
 <div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="r-pipe-magrittr.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
 <span id="cb234-2"><a href="r-pipe-magrittr.html#cb234-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract2</span>(ecom_list, <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>##  [1] social google google direct social google google google yahoo  direct
+<pre><code>##  [1] bing   bing   yahoo  direct social direct social bing   direct social
 ## Levels: bing direct social yahoo google</code></pre>
 <p>We can extract the elements of a list using <code>use_series()</code> as well.</p>
 <div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="r-pipe-magrittr.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base </span></span>
 <span id="cb236-2"><a href="r-pipe-magrittr.html#cb236-2" aria-hidden="true" tabindex="-1"></a>ecom_list<span class="sc">$</span>n_pages</span></code></pre></div>
-<pre><code>##  [1] 16  1  1  1  1  1 20  6  1 16</code></pre>
+<pre><code>##  [1]  1 13 10 18  5  1  8  1 13  1</code></pre>
 <div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="r-pipe-magrittr.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="co"># magrittr</span></span>
 <span id="cb238-2"><a href="r-pipe-magrittr.html#cb238-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_series</span>(ecom_list, n_pages)</span></code></pre></div>
-<pre><code>##  [1] 16  1  1  1  1  1 20  6  1 16</code></pre>
+<pre><code>##  [1]  1 13 10 18  5  1  8  1 13  1</code></pre>
 </div>
 </div>
 <div id="arithmetic-operations" class="section level2" number="6.11">
