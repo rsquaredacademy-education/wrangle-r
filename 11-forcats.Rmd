@@ -239,8 +239,8 @@ descrip <- c("Device used to browse the website",
              "Total revenue",
              "Whether the visitor checked out?",
              "Website UI rating given by visitor")
-data.frame(Column = fname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Column = fname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -837,8 +837,8 @@ fct_count(channel, prop = TRUE)
 One of the important steps in data preparation/sanitization is to check if the levels are valid i.e. only levels which should be present in the data are actually present. `fct_match()` can be used to check validity of levels. It returns a logical vector if the level is present and an error if not.
 
 ```{r fct_match}
-channel %>%
-  fct_match("Social") %>%
+channel |>
+  fct_match("Social") |>
   table()
 ```
 
@@ -870,8 +870,8 @@ In this case, we want to change the value of two levels, *Paid Search* & *Organi
 Let us look at `fct_collapse()` first. After specifying the categorical variable, we specify the new value followed by a character vector of the existing values. Remember, the new value is not enclosed in quotes (single or double) but the existing values must be a `character` vector.
 
 ```{r fct_collapse}
-channel %>% 
-  fct_collapse(Search = c("Paid Search", "Organic Search")) %>% 
+channel |> 
+  fct_collapse(Search = c("Paid Search", "Organic Search")) |> 
   fct_count()
 ```
 
@@ -883,11 +883,11 @@ knitr::include_graphics("img/fct_recode.png")
 ```
 
 ```{r fct_recode}
-channel %>% 
+channel |> 
   fct_recode(
     Search = "Paid Search",
     Search = "Organic Search"
-  ) %>% 
+  ) |> 
   fct_count()
 ```
 
@@ -902,8 +902,8 @@ knitr::include_graphics("img/fct_lump_1.png")
 Instead of having all the channels, we desire to retain only those channels which have driven at least *5000* visits to the website. What about the rest of the channels which have driven less than *5000*? We will recategorize them as **Other**. Keep in mind that we already have a **(Other)** level in our data. `fct_lump_min()` will lump together all levels which do not have a minimum count specified. In our case study, only **Display** drives less than *5000* visits and it will be categorized into **Other**.
 
 ```{r fct_lump_1}
-channel %>% 
-  fct_lump_min(min = 5000) %>% 
+channel |> 
+  fct_lump_min(min = 5000) |> 
   fct_count()
 ```
 
@@ -917,8 +917,8 @@ Suppose you decide to retain only the top 3 channels in terms of the traffic dri
 case study, these are **Direct**, **Organic Search** and **Referral**. We want to retain these 3 levels and categorize the rest as **Other**. `fct_lump_n()` will retain top `n` levels by count/frequency and lump the rest into **Other**.
 
 ```{r fct_lump_2}
-channel %>% 
-  fct_lump_n(n = 3) %>% 
+channel |> 
+  fct_lump_n(n = 3) |> 
   fct_count()
 ```
 
@@ -935,8 +935,8 @@ In the second scenario above, we retained channels based on minimum traffic driv
 The criteria was count of visits. If you want to specify the criteria as a percentage or proportion instead of count, use `fct_lump_prop()`. The criteria is a value between **0** and **1**. In our case study, we want to retain channels that have driven at least **2%** of the overall traffic. Hence, we have specified the criteria as `0.02`.
 
 ```{r fct_lump_3}
-channel %>% 
-  fct_lump_prop(prop = 0.02) %>% 
+channel |> 
+  fct_lump_prop(prop = 0.02) |> 
   fct_count()
 ```
 
@@ -965,8 +965,8 @@ retain and hence we will use the `keep` argument and specify them. **Organic Sea
 # channels to be retained 
 retain <- c("Organic Search", "Direct", "Referral")
 
-channel %>% 
-  fct_other(keep = retain) %>% #<<
+channel |> 
+  fct_other(keep = retain) |> #<<
   fct_count()
 ```
 
@@ -986,8 +986,8 @@ them. **Display** and **Paid Search** will be lumped into **Other** while the re
 # channels to be dropped
 dropped <- c("Display", "Paid Search")
 
-channel %>% 
-  fct_other(drop = dropped) %>% 
+channel |> 
+  fct_other(drop = dropped) |> 
   fct_count()
 ```
 
@@ -995,21 +995,21 @@ In the previous scenario, we said we will compare `fct_other()` with `fct_collap
 
 ```{r fct_other_compare}
 # collapse
-channel %>% 
+channel |> 
   fct_collapse(Other = c("(Other)",     
                          "Affiliates",  
                          "Display",      
                          "Paid Search", 
-                         "Social")) %>% 
+                         "Social")) |> 
   fct_count()
 
 # recode
-channel %>% 
+channel |> 
   fct_recode(Other = "(Other)",     
              Other = "Affiliates",  
              Other = "Display",     
              Other = "Paid Search", 
-             Other = "Social") %>%  
+             Other = "Social") |>  
   fct_count()
 ```
 
@@ -1027,8 +1027,8 @@ divulging the names of the channels. `fct_anon()` allows us to anonymize the lev
 `prefix` argument, we can specify the prefix to be used while anonymizing the data.
 
 ```{r fct_anon}
-channel %>% 
-  fct_anon(prefix = "ch_") %>% 
+channel |> 
+  fct_anon(prefix = "ch_") |> 
   fct_count()
 ```
 
@@ -1045,8 +1045,8 @@ descrip <- c("Collapse factor levels", "Recode factor levels",
              "Lump together least frequent levels",
              "Replace levels with Other level",
              "Anonymize factor levels")
-data.frame(Function = fname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = fname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -1093,8 +1093,8 @@ knitr::include_graphics("img/fct_expand.png")
 `fct_expand()` allows us to add new levels to the data. The label of the new level must be specified after the variable name and must be enclosed in quotes. If the level already exists, it will be ignored. Let us add a new level, `Blog`.
 
 ```{r fct_expand}
-channel %>% 
-  fct_expand("Blog") %>% #<<
+channel |> 
+  fct_expand("Blog") |> #<<
   levels()
 ```
 
@@ -1108,9 +1108,9 @@ On the other hand, `fct_drop()` will drop levels which have no values i.e. unuse
 to drop only specific levels, use the `only` argument and specify the name of the level in quotes. Let us drop the new level we added in the previous example.
 
 ```{r fct_drop}
-channel %>% 
-  fct_expand("Blog") %>% 
-  fct_drop() %>% #<<
+channel |> 
+  fct_expand("Blog") |> 
+  fct_drop() |> #<<
   levels()
 ```
 
@@ -1136,8 +1136,8 @@ fname   <- c("`fct_expand()`", "`fct_drop()`", "`fct_na_value_to_level()`")
 descrip <- c("Add additional levels to a factor", 
              "Drop unused factor levels", 
              "Make missing values explicit")
-data.frame(Function = fname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = fname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -1164,8 +1164,8 @@ In this scenario, we want the levels to appear in a certain order. In the first 
 ```{r fct_relevel_1}
 levels(channel)
 
-channel %>% 
-  fct_relevel("Organic Search") %>% #<<
+channel |> 
+  fct_relevel("Organic Search") |> #<<
   levels()
 ```
 
@@ -1180,8 +1180,8 @@ The `after` argument is useful when we want to move the level to the end or anyw
 ```{r fct_relevel_2}
 levels(channel)
 
-channel %>% 
-  fct_relevel("Referral", after = 2) %>% #<<
+channel |> 
+  fct_relevel("Referral", after = 2) |> #<<
   levels()
 ```
 
@@ -1196,8 +1196,8 @@ In this last case, we want to move **Display** to the end. If you know the numbe
 ```{r fct_relevel_3}
 levels(channel)
 
-channel %>% 
-  fct_relevel("Display", after = Inf) %>% #<<
+channel |> 
+  fct_relevel("Display", after = Inf) |> #<<
   levels()
 ```
 
@@ -1219,8 +1219,8 @@ levels by their frequency.
 levels(channel)
 
 # order levels by frequency
-channel %>% 
-  fct_infreq() %>% #<<
+channel |> 
+  fct_infreq() |> #<<
   levels()
 ```
 
@@ -1236,8 +1236,8 @@ In the second case, the order of the levels should be the same as the order of t
 levels(channel)
 
 # order levels in order of appearance
-channel %>% 
-  fct_inorder() %>% #<<
+channel |> 
+  fct_inorder() |> #<<
   levels()
 ```
 
@@ -1253,8 +1253,8 @@ The order of the levels can be reversed using `fct_rev()`.
 levels(channel)
 
 # reverse order of levels
-channel %>% 
-  fct_rev() %>% #<<
+channel |> 
+  fct_rev() |> #<<
   levels()
 ```
 
@@ -1270,8 +1270,8 @@ The order of the levels can be randomly shuffled using `fct_shuffle()`.
 levels(channel)
 
 # randomly shuffle order of levels
-channel %>% 
-  fct_shuffle() %>% #<<
+channel |> 
+  fct_shuffle() |> #<<
   levels()
 ```
 
@@ -1286,8 +1286,8 @@ descrip <- c("Reorder factor levels",
              "Reverse order of factor levels", 
              "Reorder factor levels by first appearance",
              "Randomly shuffle factor levels")
-data.frame(Function = fname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = fname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -1363,10 +1363,10 @@ ggplot(data) +
 Also known as percent stacked plot, the height of all bars in this plot are the same. The distribution of the second categorical variable is scaled to 1 or 100. The length of each bar is determined by its share in the category. Use this when you want to concurrently observe each of several variables as they fluctuate and as their percentage ratio's change.
 
 ```{r prop_bar_plot}
-data %>% 
-  select(device, gender) %>% 
-  table() %>% 
-  tibble::as_tibble() %>% 
+data |> 
+  select(device, gender) |> 
+  table() |> 
+  tibble::as_tibble() |> 
   ggplot(aes(x = device, y = n, fill = gender)) +
   geom_bar(stat = "identity", position = "fill") +
   xlab("Device") + ylab("Gender")
@@ -1389,28 +1389,28 @@ Pie chart is a circular chart, divided into slices to show relevant sizes of dat
 **Base R**
 
 ```{r pie_chart}
-data %>% 
-  pull(device) %>% 
-  table() %>% 
+data |> 
+  pull(device) |> 
+  table() |> 
   pie()
 ```
 
 **3D Pie Chart**
 
 ```{r pie_chart_3d}
-data %>% 
-  pull(device) %>% 
-  table() %>% 
+data |> 
+  pull(device) |> 
+  table() |> 
   pie3D(explode = 0.1)
 ```
 
 **ggplot2**
 
 ```{r gg_pie_chart}
-data %>% 
-  pull(device) %>% 
-  fct_count() %>% 
-  rename(device = f, count = n) %>% 
+data |> 
+  pull(device) |> 
+  fct_count() |> 
+  rename(device = f, count = n) |> 
   ggplot() +
   geom_bar(aes(x = "", y = count, fill = device), width = 1, stat = "identity") +
   coord_polar("y", start = 0)
@@ -1421,10 +1421,10 @@ data %>%
 Donut chart is a variation of the pie chart. It has a round hole in the middle which makes it look like a donut. The focus is on the length of the arcs and not the proportions of the slices. Blank spaces inside donut chart can be used to display information inside it. 
 
 ```{r gg_donut_chart}
-data %>% 
-  pull(device) %>% 
-  fct_count() %>% 
-  rename(device = f, count = n) %>% 
+data |> 
+  pull(device) |> 
+  fct_count() |> 
+  rename(device = f, count = n) |> 
   ggdonutchart("count", label = "device", fill = "device", color = "white",
                palette = c("#00AFBB", "#E7B800", "#FC4E07"))
 ```
@@ -1474,10 +1474,10 @@ ggplot(data) +
 4. Display proportional bar plot of `channel` by `device`
 
 ```{r plot_4, fig.align='center', fig.height=5, fig.width=7, echo=FALSE}
-data %>% 
-  select(device, channel) %>% 
-  table() %>% 
-  tibble::as_tibble() %>% 
+data |> 
+  select(device, channel) |> 
+  table() |> 
+  tibble::as_tibble() |> 
   ggplot(aes(x = device, y = n, fill = channel)) +
   geom_bar(stat = "identity", position = "fill") +
   ggtitle("Channel by Device") +
@@ -1498,28 +1498,28 @@ ggplot(data) +
 6.1 Pie Chart
 
 ```{r plot_6, fig.align='center', echo=FALSE}
-data %>% 
-  pull(channel) %>% 
-  table() %>% 
+data |> 
+  pull(channel) |> 
+  table() |> 
   pie()
 ```
 
 6.2 3D Pie Chart
 
 ```{r plot_7, fig.align='center', echo=FALSE}
-data %>% 
-  pull(channel) %>% 
-  table() %>% 
+data |> 
+  pull(channel) |> 
+  table() |> 
   pie3D(explode = 0.1)
 ```
 
 6.3 Pie Chart (ggplot2)
 
 ```{r plot_8, fig.align='center', echo=FALSE}
-data %>% 
-  pull(channel) %>% 
-  fct_count() %>% 
-  rename(channel = f, count = n) %>% 
+data |> 
+  pull(channel) |> 
+  fct_count() |> 
+  rename(channel = f, count = n) |> 
   ggplot() +
   geom_bar(aes(x = "", y = count, fill = channel), 
            width = 1, stat = "identity") +
@@ -1529,10 +1529,10 @@ data %>%
 6.4 Donut Chart
 
 ```{r plot_9, fig.align='center', fig.height=8, fig.width=10, echo=FALSE}
-data %>% 
-  pull(channel) %>% 
-  fct_count() %>% 
-  rename(channel = f, count = n) %>% 
+data |> 
+  pull(channel) |> 
+  fct_count() |> 
+  rename(channel = f, count = n) |> 
   ggdonutchart("count", label = "channel", fill = "channel", color = "white")
 ```
 
