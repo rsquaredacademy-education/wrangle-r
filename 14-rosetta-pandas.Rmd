@@ -1,0 +1,58 @@
+# From pandas to dplyr {#pandas-to-dplyr}
+
+## Introduction
+
+Switching from Python? The ideas transfer one-to-one; only the verbs change.
+`pandas` snippets below are static reference (never executed by this book);
+the dplyr side runs on the ecommerce data from \@ref(dplyr-basics).
+
+```{r rosetta_data, message=FALSE}
+library(dplyr)
+library(readr)
+
+ecom <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',
+    col_types = cols_only(device = col_factor(levels = c("laptop", "tablet", "mobile")),
+      referrer = col_factor(levels = c("bing", "direct", "social", "yahoo", "google")),
+      purchase = col_logical(), n_pages = col_double(), n_visit = col_double(),
+      duration = col_double(), order_value = col_double(), order_items = col_double()
+    )
+  )
+```
+
+## Verb map
+
+| Task | pandas | dplyr (this book) |
+|---|---|---|
+| Read CSV | `pd.read_csv("web.csv")` | `read_csv("web.csv")` |
+| First rows | `df.head(10)` | `head(ecom, 10)` / `slice_head(ecom, n = 10)` |
+| Filter rows | `df[df.purchase]` or `df.query("purchase")` | `filter(ecom, purchase)` |
+| Pick columns | `df[["device", "order_value"]]` | `select(ecom, device, order_value)` |
+| Sort | `df.sort_values("n_pages")` | `arrange(ecom, n_pages)` |
+| New column | `df.assign(aov=df.revenue/df.orders)` | `mutate(ecom4, aov = revenue / orders)` |
+| Group + aggregate | `df.groupby("device").agg(revenue=("order_value","sum"))` | `summarise(ecom, revenue = sum(order_value), .by = device)` |
+| Join | `pd.merge(customer, order, on="id", how="left")` | `left_join(customer, order, by = join_by(id))` |
+| Drop missing | `df.dropna()` | `drop_na(df)` |
+| Reshape long/wide | `df.melt(...)` / `df.pivot(...)` | `pivot_longer()` / `pivot_wider()` |
+| Strings | `s.str.contains(pat)`, `s.str.extract(pat)` | `str_detect()`, `str_extract()` |
+| Datetimes | `pd.to_datetime(s)`, `s.dt.year` | `ymd()`, `year()`, `month()`, `day()` |
+| Categories | `astype("category")`, `cat.reorder_categories` | `factor()`, `fct_relevel()`, `fct_lump_*()` |
+
+## Worked pair: grouped means
+
+pandas:
+
+```text
+ecom.groupby("purchase")["n_pages"].mean()
+```
+
+dplyr (runs here):
+
+```{r rosetta_groupby}
+ecom |>
+  summarise(mean_pages = mean(n_pages), .by = purchase)
+```
+
+Same split-apply-combine, same answer. The rest of the grammar maps the same
+way: chain with `|>` where pandas chains with `.`, and reach for Chapters
+\@ref(dplyr-basics)–\@ref(categorical-data-in-r) for the full drill.

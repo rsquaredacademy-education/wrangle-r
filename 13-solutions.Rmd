@@ -1,0 +1,73 @@
+# Exercise Solutions {#exercise-solutions}
+
+## Introduction
+
+Try every **Your Turn** before reading its solution — the struggle is the
+lesson. Worked solutions below are seeded for \@ref(dplyr-basics); solutions
+for the remaining chapters are open stubs. To contribute one, open an issue or
+pull request with the chapter, the question, and a runnable chunk in this
+book's style (`|>`-first, same data as the chapter).
+
+We will use the following R packages:
+
+```{r sol_libs, message=FALSE}
+library(dplyr)
+library(readr)
+```
+
+## dplyr Basics
+
+```{r sol_data, message=FALSE}
+ecom <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',
+    col_types = cols_only(device = col_factor(levels = c("laptop", "tablet", "mobile")),
+      referrer = col_factor(levels = c("bing", "direct", "social", "yahoo", "google")),
+      purchase = col_logical(), n_pages = col_double(), n_visit = col_double(),
+      duration = col_double(), order_value = col_double(), order_items = col_double()
+    )
+  )
+```
+
+**Q1. What is the average number of pages visited by purchasers and
+non-purchasers?**
+
+```{r sol_dplyr1}
+ecom |>
+  summarise(mean_pages = mean(n_pages), .by = purchase)
+```
+
+Purchasers browse far more pages (~16 vs ~5) — the signal behind the AOV case
+study.
+
+**Q2. What is the average time on site for purchasers vs non-purchasers?**
+
+```{r sol_dplyr2}
+ecom |>
+  summarise(mean_time = mean(duration), .by = purchase)
+```
+
+Time on site barely differs (~355 vs ~359 seconds): page depth, not duration,
+separates buyers here.
+
+**Q3. What is the average number of pages visited by purchasers and
+non-purchasers using mobile?**
+
+```{r sol_dplyr3}
+ecom |>
+  filter(device == "mobile") |>
+  summarise(mean_pages = mean(n_pages), .by = purchase)
+```
+
+## Open stubs
+
+Solutions for these chapters are not yet written — contributions welcome
+(see above):
+
+- \@ref(joining-tables-in-r-dplyr): no **Your Turn** block; propose join puzzles on `customer`/`order`
+- \@ref(dplyr-helper-functions): sampling/slicing drills on `ecom`
+- \@ref(r-pipe-magrittr): rewrite-a-chain exercises (`%>%` → `|>`, `_`, `\(x)`)
+- \@ref(tibbles-in-r): tibble vs data.frame edge cases
+- \@ref(tidying-data-with-tidyr): the three **Your Turn** prompts in that chapter
+- \@ref(strings-in-r): URL/email parsing variants on `mockstring`
+- \@ref(date-and-time-in-r): the nine **Your Turn** blocks (intervals, TZ/DST, formats)
+- \@ref(categorical-data-in-r): the seven **Your Turn** blocks (lumping, reordering, recoding)
