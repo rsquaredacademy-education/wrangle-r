@@ -125,6 +125,31 @@ ecom %>%
   filter(purchase)
 ```
 
+The `group_by()` + `tally()` pairs above can also be written with the `.by`
+argument, which groups only for that verb and leaves the data ungrouped
+afterwards:
+
+```{r dplyr17by}
+ecom |>
+  summarise(n = n(), .by = referrer)
+```
+
+Two more helpers round out grouped work. `summarise()` must return a single
+row per group; when a summary needs several rows, use `reframe()` instead:
+
+```{r dplyr21c}
+ecom |>
+  reframe(quartile = quantile(n_pages, c(0.25, 0.75)), .by = purchase)
+```
+
+And `pick()` bundles columns into a data frame inside a verb, so a computation
+needing several columns at once does not repeat the data name:
+
+```{r dplyr22c}
+ecom |>
+  summarise(cor = with(pick(n_pages, duration), cor(n_pages, duration)), .by = purchase)
+```
+
 ## Sampling Data
 
 dplyr offers a sampling function which allows us to specify either the

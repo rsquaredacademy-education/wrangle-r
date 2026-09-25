@@ -295,6 +295,20 @@ step_2 <- summarise(step_1, mean(n_pages), median(n_pages))
 step_2
 ```
 
+The two steps above — split with `group_by()`, then `summarise()` — can also be
+written in one step with the `.by` argument, which groups only for that verb
+and leaves the data ungrouped afterwards:
+
+```{r sumeg_by}
+# compute average number of pages by referrer without group_by()
+step_2 <- summarise(ecom, mean(n_pages), median(n_pages), .by = referrer)
+step_2
+```
+
+One difference to know: `group_by()` sorts the result by group, while `.by`
+keeps the rows in order of first appearance. Use `arrange()` afterwards when
+the order matters.
+
 Another way to achieve the above result is to use
 `across()` inside `summarise()`. It applies the specified summary
 function to all the columns in the data set except for the grouping
