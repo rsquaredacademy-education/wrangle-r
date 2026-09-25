@@ -59,6 +59,20 @@ view the example data sets below.
 knitr::include_graphics("img/join.png")
 ```
 
+## Specifying keys with `join_by()`
+
+Every join below matches rows on the `id` column present in both tables,
+written as `by = join_by(id)`. Use `join_by()` (dplyr >= 1.1) instead of a
+plain string whenever keys need attention:
+
+- same name in both tables: `by = join_by(id)`
+- different names: `by = join_by(customer_id == id)`
+- multiple keys: `by = join_by(id, region)`
+
+> **Audit habit:** before trusting any join, run `anti_join()` in both
+> directions (see Anti Join). Rows on either side with no match are data-quality
+> findings, not join errors — investigate them first.
+
 ## Inner Join
 
 Inner join return all rows from `Age` where there are matching values in 
@@ -75,7 +89,7 @@ To get data for all those customers who have placed orders in the past let us
 join the `order` data with the `customer` data using `inner_join`. 
 
 ```{r dplyr3b}
-inner_join(customer, order, by = "id")
+inner_join(customer, order, by = join_by(id))
 ```
 
 ## Left Join
@@ -97,7 +111,7 @@ customer has placed orders or not let us join the `order` data with the
 `customer` data using `left_join`. 
 
 ```{r dplyr4bb}
-left_join(customer, order, by = "id")
+left_join(customer, order, by = join_by(id))
 ```
 
 ## Right Join
@@ -117,7 +131,7 @@ To get customer data for all orders, let us join the `order` data with the
 `customer` data using `right_join`. 
 
 ```{r dplyr5bb}
-right_join(customer, order, by = "id")
+right_join(customer, order, by = join_by(id))
 ```
 
 ## Semi Join
@@ -138,7 +152,7 @@ To get customer data for all orders where customer data exists, let us join the 
 cases where customer data is present.
 
 ```{r dplyr6bb}
-semi_join(customer, order, by = "id")
+semi_join(customer, order, by = join_by(id))
 ```
 
 ## Anti Join
@@ -156,8 +170,26 @@ To get details of customers who have not placed orders, let us join the `order`
 data with the `customer` data using `anti_join`. 
 
 ```{r dplyr7bb}
-anti_join(customer, order, by = "id")
+anti_join(customer, order, by = join_by(id))
 ```
+
+### Audit pattern: check mismatches in both directions
+
+A single `anti_join()` shows only one side. Before trusting a join, check both:
+
+```{r dplyr7audit}
+# customers with no orders
+anti_join(customer, order, by = join_by(id))
+
+# orders with no matching customer record
+anti_join(order, customer, by = join_by(id))
+```
+
+In this data, 49 customers placed no orders — and 245 orders have no matching
+customer record. Those 245 rows are a data-quality finding (missing or
+mismatched customer data upstream), not a join mistake: an `inner_join()` will
+silently drop them, and a `left_join()`/`right_join()` will carry them with
+`NA`s. Decide deliberately which behavior the analysis needs.
 
 ## Full Join
 
@@ -174,5 +206,16 @@ To get details of all customers and all orders, let us join the `order`
 data with the `customer` data using `full_join`. 
 
 ```{r dplyr8bb}
-full_join(customer, order, by = "id")
+full_join(customer, order, by = join_by(id))
+```
+
+## Cross Join
+
+`cross_join()` returns every combination of rows from both tables (a Cartesian
+product), so it takes no key. Use it for grids — e.g. all size × color
+combinations — never for large tables, since the result has
+`nrow(x) * nrow(y)` rows.
+
+```{r dplyr9bb}
+cross_join(tibble(size = c("S", "M")), tibble(color = c("red", "blue")))
 ```
