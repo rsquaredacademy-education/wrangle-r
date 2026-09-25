@@ -16,11 +16,16 @@ Pipes allow us to clearly express a sequence of multiple operations by:
 
 ## Pipes
 
-If you are using [tidyverse](https://www.tidyverse.org/), magrittr will be automatically loaded. We will look at 3 different types of pipes:
+The examples in this chapter use the base R pipe `|>`, available in R 4.1 and
+later with no extra package. It forwards the value on its left into the first
+argument of the function on its right, letting us read a sequence of
+operations from left to right (or top to bottom).
 
-- `%>%` : pipe a value forward into an expression or function call
-- `%<>%`: result assigned to left hand side object instead of returning it 
-- `%$%` : expose names within left hand side objects to right hand side expressions
+> **Legacy note:** older code — including the first edition of this chapter —
+> used the magrittr pipe `%>%` and its companions documented in
+> `?magrittr::operators`. Those operators are kept only for reading inherited
+> code; every example below uses `|>` together with `pull()`/`pluck()` and
+> base assignment instead (see the data-extraction section).
 
 We will use the following R packages:
 
@@ -73,10 +78,10 @@ head(ecom, 10)
 
 ### Using Pipe
 
-Now let us do the same but with `%>%`. 
+Now let us do the same but with `|>`. 
 
 ```{r mag2}
-ecom %>% head(10)
+ecom |> head(10)
 ```
 
 ## Square Root 
@@ -101,21 +106,21 @@ knitr::include_graphics("img/pipes_square_root.png")
 Let us reproduce `y` using pipes.
 
 ```{r mag4}
-# select n_pages variable and assign it to y
+# extract the n_pages column and assign it to y
 y <-
-    ecom_mini %$%
-    n_pages
+  ecom_mini |>
+  pull(n_pages)
 
-# compute square root of y and assign it to y 
-y %<>% sqrt
+# compute the square root of y and assign it back to y
+y <- sqrt(y)
 ```
 
 Another way to compute the square root of y is shown below.
 
 ```{r mag5}
 y <-
-  ecom_mini %$% 
-  n_pages %>% 
+  ecom_mini |>
+  pull(n_pages) |>
   sqrt()
 ```
 
@@ -141,10 +146,10 @@ knitr::include_graphics("img/pipes_data_visualization.png")
 ```
 
 ```{r mag7, fig.align='center', fig.height=4, fig.width=6}
-ecom %>%
-  subset(purchase) %>%
-  extract('referrer') %>%
-  table() %>%
+ecom |>
+  subset(purchase) |>
+  pull('referrer') |>
+  table() |>
   barplot()
 ```
 
@@ -169,14 +174,9 @@ ecom1 <- subset(ecom, purchase)
 cor(ecom1$n_pages, ecom1$duration)
 
 # with pipe
-ecom %>%
-  subset(purchase) %$% 
-  cor(n_pages, duration)
-
-# with pipe
-ecom %>%
-  filter(purchase) %$% 
-  cor(n_pages, duration)
+ecom |>
+  filter(purchase) |>
+  summarise(cor = cor(n_pages, duration))
 ```
 
 ## Regression
@@ -195,8 +195,8 @@ summary(lm(duration ~ n_pages, data = ecom))
 ### Using pipe
 
 ```{r mag22}
-ecom %$%
-  lm(duration ~ n_pages) %>%
+ecom |>
+  with(lm(duration ~ n_pages)) |>
   summary()
 ```
 
@@ -206,8 +206,8 @@ We want to extract the first name (jovial) from the below email id and
 convert it to upper case. Below are the steps to achieve this:
 
 - split the email id using the pattern `@` using `str_split()`
-- extract the first element from the resulting list using `extract2()`
-- extract the first element from the character vector using `extract()`
+- extract the first element of the resulting list and the first element of
+the character vector using `pluck()`
 - extract the first six characters using `str_sub()`
 - convert to upper case using `str_to_upper()`
 
@@ -222,32 +222,30 @@ email <- 'jovialcann@anymail.com'
 str_to_upper(str_sub(str_split(email, '@')[[1]][1], start = 1, end = 6))
 
 # with pipe
-email %>%
-  str_split(pattern = '@') %>%
-  extract2(1) %>%
-  extract(1) %>%
-  str_sub(start = 1, end = 6) %>%
+email |>
+  str_split(pattern = '@') |>
+  pluck(1, 1) |>
+  str_sub(start = 1, end = 6) |>
   str_to_upper()
 ```
 
 Another method that uses `map_chr()` from the [purrr](https://readr.tidyverse.org/) package.
 
 ```{r map39}
-email %>%
-  str_split(pattern = '@') %>%
-  map_chr(1) %>%
-  str_sub(start = 1, end = 6) %>%
+email |>
+  str_split(pattern = '@') |>
+  map_chr(1) |>
+  str_sub(start = 1, end = 6) |>
   str_to_upper()
 ```
 
 ## Data Extraction
 
-Let us turn our attention towards data extraction. magrittr provides
-alternatives to `$`, `[` and `[[`.
+Let us turn our attention towards data extraction. dplyr and purrr provide
+`pull()` and `pluck()` as readable alternatives to `$`, `[` and `[[`:
 
-- `extract()`
-- `extract2()`
-- `use_series()`
+- `pull()` extracts a column as a vector (like `$`)
+- `pluck()` extracts an element from a list or vector (like `[[`)
 
 ### Extract Column 
 
@@ -259,8 +257,8 @@ we do not use quotes.
 # base 
 ecom_mini['n_pages']
 
-# magrittr
-extract(ecom_mini, 'n_pages') 
+# tidyverse
+select(ecom_mini, n_pages)
 ```
 
 We can extract columns using their index position. Keep in mind that index 
@@ -272,21 +270,20 @@ column position.
 # base 
 ecom_mini[2]
 
-# magrittr
-extract(ecom_mini, 2) 
+# tidyverse
+select(ecom_mini, 2)
 ```
 
 One important differentiator between `[` and `[[` is that `[[` will
-return a atomic vector and not a `data.frame`. `$` will also return
-a atomic vector. In magrittr, we can use `use_series()` in place of
-`$`.
+return an atomic vector and not a `data.frame`. `$` will also return
+an atomic vector. In the tidyverse, we use `pull()` in place of `$`.
 
 ```{r mag11}
 # base 
 ecom_mini$n_pages
 
-# magrittr
-use_series(ecom_mini, 'n_pages') 
+# tidyverse
+pull(ecom_mini, n_pages)
 ```
 
 ### Extract List Element
@@ -297,33 +294,33 @@ Let us convert `ecom_mini` into a list using as.list() as shown below:
 ecom_list <- as.list(ecom_mini)
 ```
 
-To extract elements of a list, we can use `extract2()`. It is an
+To extract elements of a list, we use `pluck()`. It is the tidyverse
 alternative for `[[`.
 
 ```{r mag12}
 # base 
 ecom_list[['n_pages']]
 
-# magrittr
-extract2(ecom_list, 'n_pages')
+# tidyverse
+pluck(ecom_list, 'n_pages')
 ```
 
 ```{r mag13}
 # base 
 ecom_list[[1]]
 
-# magrittr
-extract2(ecom_list, 1)
+# tidyverse
+pluck(ecom_list, 1)
 ```
 
-We can extract the elements of a list using `use_series()` as well.
+We can extract the elements of a list by name using `pluck()` as well.
 
 ```{r mag14}
 # base 
 ecom_list$n_pages
 
-# magrittr
-use_series(ecom_list, n_pages)
+# tidyverse
+pluck(ecom_list, "n_pages")
 ```
 
 ## Arithmetic Operations

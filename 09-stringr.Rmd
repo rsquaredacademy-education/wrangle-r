@@ -500,9 +500,9 @@ url1 %>%
 
 ```{r str14}
 urls <-
-  mockstring %>%
-  use_series(url) %>%
-  extract(1:3)
+  mockstring |>
+  pull(url) |>
+  head(3)
 ```
 
 ### Steps
