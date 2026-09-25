@@ -1120,19 +1120,19 @@ channel %>%
 knitr::include_graphics("img/fct_explicit_na.png")
 ```
 
-In our data set, the gender column has many missing values, and in R, missing values are represented by `NA`. Suppose you are sharing the data or analysis with someone who is not an R user, and does not know what `NA` represents. In such a scenario, we can use the `fct_explicit_na()` function to make the missing values in the gender column explicit i.e. it will appear as `(Missing)` instead of `NA`. This will help non R users to understand that there are missing values in the data.
+In our data set, the gender column has many missing values, and in R, missing values are represented by `NA`. Suppose you are sharing the data or analysis with someone who is not an R user, and does not know what `NA` represents. In such a scenario, we can use the `fct_na_value_to_level()` function to make the missing values in the gender column explicit i.e. it will appear as `(Missing)` instead of `NA`. This will help non R users to understand that there are missing values in the data.
 
-```{r fct_explicit_na}
+```{r fct_na_value_to_level}
 data |> 
   pull(gender) |> 
-  fct_explicit_na() |>  #<<
+  fct_na_value_to_level(level = "(Missing)") |>  #<<
   fct_count()
 ```
 
 ### Key Functions
 
 ```{r key_functions_2, echo=FALSE}
-fname   <- c("`fct_expand()`", "`fct_drop()`", "`fct_explicit_na()`")
+fname   <- c("`fct_expand()`", "`fct_drop()`", "`fct_na_value_to_level()`")
 descrip <- c("Add additional levels to a factor", 
              "Drop unused factor levels", 
              "Make missing values explicit")
