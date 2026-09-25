@@ -249,6 +249,17 @@ If you have a data set with 10 columns and plan to skip only a couple of
 columns, use `col_skip()` instead if you plan to read only a couple of 
 columns, use `cols_only()`.
 
+## Beyond CSV: parquet and quiet reads
+
+Two habits scale beyond this chapter. First, `read_csv()` announces its
+guessed column types on every read; once you trust the spec, silence it with
+`show_col_types = FALSE`. Second, remote files re-download on every knit —
+cache them locally with `download.file()` once and read from disk afterwards.
+And when a CSV grows past comfortable memory (the 35 MB `analytics_raw.csv`
+in later chapters is the first warning sign), switch the format, not the
+workflow: `arrow::read_parquet()` returns the same tibble the dplyr verbs
+expect. See \@ref(arrow-duckdb) for the full quickstart.
+
 ## Summary
 
 ```{r img10, fig.align='center', echo=FALSE, out.width="80%"}

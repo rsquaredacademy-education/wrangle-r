@@ -1,0 +1,82 @@
+# Arrow, Parquet and DuckDB {#arrow-duckdb}
+
+## Introduction
+
+Everything so far fit in memory as CSV. Two tools cover the next scale, and
+both speak the dplyr you already know:
+
+- **Parquet** (via **arrow**) — a compressed columnar file format. The same
+data takes far less disk and reads much faster than CSV.
+- **DuckDB** (via **duckplyr**) — an in-process analytical database. dplyr
+verbs run inside it, so data larger than memory stays on disk until
+`collect()`.
+
+Both are optional: install them with
+`install.packages(c("arrow", "duckdb", "duckplyr"))`. The chunks below run only
+when the packages are present (`eval = requireNamespace(...)`), so the book
+still builds without them. Browser execution of parquet is intentionally
+deferred until WebR binary sizes are checked (see the P2 plan).
+
+## Parquet with arrow
+
+Write `ecom` to parquet and read it back. The round-trip lands in a temporary
+directory, so nothing litters the project:
+
+```{r arrow_parquet, message=FALSE, eval=requireNamespace("arrow", quietly=TRUE)}
+library(dplyr)
+library(readr)
+library(arrow)
+
+ecom <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',
+    col_types = cols_only(device = col_factor(levels = c("laptop", "tablet", "mobile")),
+      referrer = col_factor(levels = c("bing", "direct", "social", "yahoo", "google")),
+      purchase = col_logical(), n_pages = col_double(), n_visit = col_double(),
+      duration = col_double(), order_value = col_double(), order_items = col_double()
+    )
+  )
+
+pq <- file.path(tempdir(), "ecom.parquet")
+cs <- file.path(tempdir(), "ecom.csv")
+write_parquet(ecom, pq)
+write_csv(ecom, cs)
+
+# same rows, roughly half the bytes
+c(csv_bytes = file.size(cs), parquet_bytes = file.size(pq))
+```
+
+`read_parquet()` returns a tibble, so every verb from
+\@ref(dplyr-basics) works unchanged:
+
+```{r arrow_read, eval=requireNamespace("arrow", quietly=TRUE)}
+ecom_pq <- read_parquet(pq)
+class(ecom_pq)
+
+ecom_pq |>
+  filter(purchase) |>
+  summarise(revenue = sum(order_value), orders = n(), .by = device)
+```
+
+## DuckDB with duckplyr
+
+`duckdb_tibble()` (duckplyr >= 1.0) moves a data frame into DuckDB and hands
+back a lazy table: dplyr verbs build the query, nothing runs until
+`collect()`:
+
+```{r duckdb_aov, message=FALSE, eval=requireNamespace("duckplyr", quietly=TRUE)}
+library(duckplyr)
+
+ecom_duck <- duckdb_tibble(ecom)
+class(ecom_duck)
+
+ecom_duck |>
+  filter(purchase) |>
+  summarise(revenue = sum(order_value), orders = n(), .by = device) |>
+  mutate(aov = revenue / orders) |>
+  collect()
+```
+
+The numbers match the Chapter \@ref(dplyr-basics) AOV exactly — the engine
+changed, the answers did not. Reach for this pattern when a single CSV no
+longer fits comfortably in memory: keep the data in DuckDB (or parquet on
+disk), push the verbs down, and `collect()` only the summary.
