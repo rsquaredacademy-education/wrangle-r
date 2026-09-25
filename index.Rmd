@@ -25,6 +25,8 @@ verbs with the base R pipe `|>` (see the primer below). Chapter
 \@ref(r-pipe-magrittr) covers the pipe mechanic in detail, including the `_` placeholder,
 anonymous functions with `\(x)`, and reading older magrittr code.
 Chapter \@ref(tibbles-in-r) explores `tibble()`, an alternative for `data.frame()`.
+Chapter \@ref(tidying-data-with-tidyr) reshapes data with the **tidyr** package
+(pivots, splitting/combining columns, missing-value helpers).
 Chapters \@ref(strings-in-r), \@ref(date-and-time-in-r) and \@ref(categorical-data-in-r) explore ways to 
 handle text, date/time and categorical data.
 

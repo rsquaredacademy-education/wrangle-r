@@ -1,0 +1,176 @@
+# Tidying Data with tidyr {#tidying-data-with-tidyr}
+
+## Introduction
+
+Tidy data has one row per observation and one column per variable. Real data
+rarely arrives that way: metrics sprawl across columns, several values share
+one column, and combinations go missing. In this chapter we reshape data with
+**tidyr**:
+
+- `pivot_longer()` / `pivot_wider()` — move between long and wide layouts
+- `separate_wider_delim()` / `unite()` — split one column into several and back
+- `drop_na()` / `complete()` / `fill()` — handle missing values and combinations
+
+We will use the following R packages:
+
+```{r tidyr_libs, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(readr)
+library(lubridate)
+```
+
+## Data
+
+We reuse the ecommerce data from \@ref(dplyr-basics), so no new data to learn.
+The URL and date examples borrow the `mock_strings` and `transact` data sets
+already used in \@ref(strings-in-r) and \@ref(date-and-time-in-r).
+
+```{r tidyr_data, message=FALSE}
+ecom <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',
+    col_types = cols_only(device = col_factor(levels = c("laptop", "tablet", "mobile")),
+      referrer = col_factor(levels = c("bing", "direct", "social", "yahoo", "google")),
+      purchase = col_logical(), n_pages = col_double(), n_visit = col_double(),
+      duration = col_double(), order_value = col_double(), order_items = col_double()
+    )
+  )
+
+ecom
+```
+
+## Long format with `pivot_longer()`
+
+Suppose we average three metrics by device. The result is *wide*: one column
+per metric, which is awkward to plot or rank.
+
+```{r tidyr_wide}
+wide <- ecom |>
+  summarise(across(c(n_pages, duration, order_value), \(x) mean(x, na.rm = TRUE)), .by = device)
+wide
+```
+
+`pivot_longer()` stacks the metric columns into `metric`/`mean_value` pairs —
+one row per device-metric observation:
+
+```{r tidyr_long}
+long <- wide |>
+  pivot_longer(-device, names_to = "metric", values_to = "mean_value")
+long
+```
+
+## Wide format with `pivot_wider()`
+
+The reverse trip is just as common. Counts by device and purchase come out
+long (one row per combination):
+
+```{r tidyr_counts}
+counts <- ecom |>
+  count(device, purchase)
+counts
+```
+
+`pivot_wider()` spreads `purchase` into columns so each device occupies a
+single row — the layout managers usually want in a report:
+
+```{r tidyr_wider}
+counts |>
+  pivot_wider(names_from = purchase, values_from = n, names_prefix = "purchase_")
+```
+
+## Split columns with `separate_wider_delim()`
+
+The `url` column of `mock_strings` packs the protocol and the address into one
+string, separated by `://`. `separate_wider_delim()` splits it into two
+columns:
+
+```{r tidyr_separate_url, message=FALSE}
+mockstring <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/mock_strings.csv')
+
+tibble(url = head(mockstring$url, 3)) |>
+  separate_wider_delim(url, delim = "://", names = c("protocol", "rest")) |>
+  select(protocol)
+```
+
+The same verb splits calendar dates. The `Due` column of `transact` is
+`YYYY-MM-DD`; splitting on `"-"` recovers the components:
+
+```{r tidyr_separate_date, message=FALSE}
+transact <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv')
+
+tibble(due_iso = as.character(head(transact$Due, 5))) |>
+  separate_wider_delim(due_iso, delim = "-", names = c("due_year", "due_month", "due_day"))
+```
+
+## Combine columns with `unite()`
+
+`unite()` is the inverse: it pastes several columns back into one. Splitting
+the ISO date and reuniting it returns the input exactly — a useful check that
+a separate/unite round-trip loses nothing:
+
+```{r tidyr_unite}
+tibble(due_iso = as.character(head(transact$Due, 5))) |>
+  separate_wider_delim(due_iso, delim = "-", names = c("due_year", "due_month", "due_day")) |>
+  unite("due_rebuilt", due_year, due_month, due_day, sep = "-")
+```
+
+## Drop missing values with `drop_na()`
+
+`ecom` itself has no missing values, but joins create them: the full join of
+`customer` and `order` from \@ref(joining-tables-in-r-dplyr) carries `NA`s for
+every unmatched row. `drop_na()` keeps only complete rows:
+
+```{r tidyr_dropna, message=FALSE}
+order <- read_delim('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/order.csv', delim = ';')
+customer <- read_delim('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/customer.csv', delim = ';')
+
+joined <- full_join(customer, order, by = join_by(id))
+nrow(joined)
+
+nrow(drop_na(joined))
+```
+
+Only the 55 fully matched rows survive — the same rows `inner_join()` returns.
+Use `drop_na()` when a downstream step needs complete cases, and prefer it over
+filtering each column by hand.
+
+## Complete combinations with `complete()`
+
+Counts over a filtered subset can silently omit combinations. Purchasers only
+span `purchase == TRUE`, so the `FALSE` rows are missing rather than zero:
+
+```{r tidyr_complete}
+purchasers <- ecom |>
+  filter(purchase) |>
+  count(device, purchase)
+purchasers
+```
+
+`complete()` adds the missing combinations and fills the count with 0, so
+plots and tables show every device × purchase cell:
+
+```{r tidyr_complete_fill}
+purchasers |>
+  complete(device, purchase = c(TRUE, FALSE), fill = list(n = 0L))
+```
+
+## Fill down labels with `fill()`
+
+Spreadsheet exports often write a group label once and leave the rest blank.
+`fill()` carries the last non-missing value down (or up with
+`.direction = "up"`):
+
+```{r tidyr_fill}
+report <- tibble(device = c("laptop", NA, "tablet", NA),
+                 metric = c("aov", "orders", "aov", "orders"))
+report |>
+  fill(device)
+```
+
+## Your Turn
+
+- reshape the mean of `n_visit` and `order_items` by `referrer` from wide to long
+- split the `email` column of `mockstring` at `"@"` and reunite it — does the round-trip hold?
+- run the `complete()` example without `fill`: what does the missing count become, and why?
