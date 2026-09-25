@@ -59,8 +59,8 @@ cname   <- c("`Sys.Date()`", "`lubridate::today()`", "`Sys.time()`",
 descrip <- c("Current Date", "Current Date", "Current Time", "Current Time",
              "Whether time occurs in am?", "Whether time occurs in pm?",
              "Check if the year is a leap year?")
-data.frame(Function = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -101,8 +101,8 @@ The data set has 3 columns. All the dates are in the format (yyyy-mm-dd).
 ```{r table_data_dict, echo=FALSE}
 cname   <- c("Invoice", "Due", "Payment")
 descrip <- c("Invoice Date", "Due Date", "Payment Date")
-data.frame(Column = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Column = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -389,8 +389,8 @@ descrip <- c("Second", "Minute", "Hour of the day", "Month of the year (0-11",
              "Timezone", "Day of week", "Day of month","Years since 1900", 
              "Day of year", "Daylight saving flag", 
              "Offset is seconds from GMT")
-data.frame(Component = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Component = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -469,7 +469,7 @@ Let us estimate the number of days to settle the invoice by subtracting the
 date of invoice from the date of payment.
 
 ```{r lub3}
-transact %>%
+transact |>
   mutate(
     days_to_pay = Payment - Invoice
   )
@@ -483,14 +483,14 @@ How many of the invoices were settled post the due date? We can find this by:
 - counting the number of rows where delay < 0 
 
 ```{r lub4}
-transact %>%
+transact |>
   mutate(
     delay = Due - Payment
-  ) %>%
-  filter(delay < 0) %>%
+  ) |>
+  filter(delay < 0) |>
   mutate(
     delay = delay * -1
-  ) %>% 
+  ) |> 
   count(delay)
 ```
 
@@ -627,8 +627,8 @@ is a sample
 ```{r table_formats_sample, echo=FALSE}
 cname   <- c("December 12, 2019", "12th Dec, 2019", "Dec 12th, 19", "12-Dec-19",
              "2019 December", "12.12.19") 
-data.frame(Format = cname) %>% 
-  kable() %>% 
+data.frame(Format = cname) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -653,8 +653,8 @@ descrip <- c("Day of the month (decimal number)",
              "Minute",
              "Second")
 example <- c(12, 12, "Dec", "December", 19, 2019, 08, 05, 03)
-data.frame(Specification = cname, Description = descrip, Example = example) %>% 
-  kable() %>% 
+data.frame(Specification = cname, Description = descrip, Example = example) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -669,8 +669,8 @@ the date to the format table shown at the beginning.
 ```{r table_formats_ex_1, echo=FALSE}
 cname   <- c("19", "12", "12")
 descrip <- c("`%y`", "`%m`", "`%d`")
-data.frame(Date = cname, Specification = descrip) %>% 
-  kable() %>% 
+data.frame(Date = cname, Specification = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -696,8 +696,8 @@ Let us map the components to the format table:
 ```{r table_formats_ex_2, echo=FALSE}
 cname   <- c("2019", "Dec", "12")
 descrip <- c("`%Y`", "`%b`", "`%d`")
-data.frame(Date = cname, Specification = descrip) %>% 
-  kable() %>% 
+data.frame(Date = cname, Specification = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -716,8 +716,8 @@ include the time of the latest R release in the next one i.e.
 ```{r table_formats_ex_3, echo=FALSE}
 cname   <- c("19", "12", "12", "08", "05", "03")
 descrip <- c("`%y`", "`%m`", "`%d`", "`%H`", "`%M`", "`%S`")
-data.frame(Date = cname, Specification = descrip) %>% 
-  kable() %>% 
+data.frame(Date = cname, Specification = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -754,8 +754,8 @@ descrip <- c("Abbreviated weekday",
              "Week of year [01 - 53]",
              "Weekday [0 - 6](sunday is 0)",
              "Week of year [00 - 53]")
-data.frame(Specification = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Specification = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -877,8 +877,8 @@ formats. Let us first map the dates to their formats.
 ```{r table_formats_pdt, echo=FALSE}
 cname   <- c("19-07-05", "2019-07-05", "05-07-2019", "07-05-2019")
 descrip <- c("`ymd`", "`ymd`", "`dmy`", "`mdy`")
-data.frame(Date = cname, Specification = descrip) %>% 
-  kable() %>% 
+data.frame(Date = cname, Specification = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -982,8 +982,8 @@ cname   <- c("`year()`", "`month()`", "`month(label = TRUE)`",
              "`month(abbr = FALSE)`", "`months()`", "`week()`")
 descrip <- c("Get year", "Get month (number)", "Get month (abbreviated name)", 
              "Get month (full name)", "Get month", "Get week")
-data.frame(Function = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -1045,8 +1045,8 @@ cname   <- c("`day`", "`mday()`", "`wday()`", "`qday()`", "`yday()`",
              "`weekdays()`", "`days_in_month()`")
 descrip <- c("Get day", "Day of the month", "Day of the week", "Day of quarter",
              "Day of year", "Day of week", "Days in the month")
-data.frame(Function = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -1094,8 +1094,8 @@ days_in_month(release_date)
 cname   <- c("`hour()`", "`minute()`", "`second()`", "`seconds()`")
 descrip <- c("Get hour", "Get minute", "Get second", 
              "Number of seconds since `1970-01-01`")
-data.frame(Function = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -1156,8 +1156,8 @@ cname   <- c("`quarter()`", "`quarter(with_year = TRUE)`",
              "`quarter(fiscal_start = 4)`", "`quarters()`", "`semester()`")
 descrip <- c("Get quarter", "Quarter with year", "Fiscal starts in April",
              "Get quarter", "Get semester")
-data.frame(Function = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -1170,7 +1170,7 @@ data.frame(Function = cname, Description = descrip) %>%
 Let us now extract the date, month and year from the `Due` column.
 
 ```{r lub2}
-transact %>%
+transact |>
   mutate(
     due_day   = day(Due),
     due_month = month(Due),
@@ -1196,14 +1196,14 @@ the year is a leap year else it will be set to `FALSE`
     - `is_leap`
 
 ```{r lub6}
-transact %>%
+transact |>
   mutate(
     due_day   = day(Due),
     due_month = month(Due),
     due_year  = year(Due),
     is_leap   = leap_year(due_year)
-  ) %>%
-  filter(due_month == 2 & due_day == 29) %>%
+  ) |>
+  filter(due_month == 2 & due_day == 29) |>
   select(Due, is_leap) 
 ```
 
@@ -1212,10 +1212,10 @@ transact %>%
 Let us count the invoices due for each quarter.
 
 ```{r lub8}
-transact %>%
+transact |>
   mutate(
     quarter_due = quarter(Due)
-  ) %>%
+  ) |>
   count(quarter_due)
 ```
 
@@ -1285,7 +1285,7 @@ of release of R version 3.6.1 and using `update()`, we will change it to
 
 ```{r update}
 prev_release <- ymd("2019-07-05")
-prev_release %>% 
+prev_release |> 
   update(year  = 2019,
          month = 12,
          mday  = 12)
@@ -1321,8 +1321,8 @@ cname   <- c("`from`", "`by`", "`to`", "`length.out`", "`along.with`")
 descrip <- c("Starting date of the sequence", "End date of the sequence", 
              "Date increment of the sequence", "Length of the sequence",
              "Use length of this value as length of sequence")
-data.frame(Function = cname, Description = descrip) %>% 
-  kable() %>% 
+data.frame(Function = cname, Description = descrip) |> 
+  kable() |> 
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive")
   )
@@ -1490,13 +1490,13 @@ the due date. To do this, we will:
 - if the intervals overlap, the payment was made within the due date 
 
 ```{r lub7}
-transact %>%
+transact |>
   mutate(
     inv_due_interval = interval(Invoice, Due),
     due_next         = Due + days(1),
     due_pay_interval = interval(due_next, Payment),
     overlaps         = int_overlaps(inv_due_interval, due_pay_interval)
-  ) %>%
+  ) |>
   select(Invoice, Due, Payment, overlaps)
 ```
 
@@ -1505,13 +1505,13 @@ due date. Instead of using `days` to change the due date, we use `int_shift`
 to shift it by 1 day.
 
 ```{r lub12}
-transact %>%
+transact |>
   mutate(
     inv_due_interval = interval(Invoice, Due),
     due_pay_interval = interval(Due, Payment),  
     due_pay_next     = int_shift(due_pay_interval, by = days(1)),
     overlaps         = int_overlaps(inv_due_interval, due_pay_next)
-  ) %>%
+  ) |>
   select(Invoice, Due, Payment, overlaps)
 ```
 
@@ -1521,12 +1521,12 @@ both the intervals will share a common date i.e. the due date and they will
 always overlap as shown below:
 
 ```{r lub7a}
-transact %>%
+transact |>
   mutate(
     inv_due_interval = interval(Invoice, Due),
     due_pay_interval = interval(Due, Payment),
     overlaps         = int_overlaps(inv_due_interval, due_pay_interval)
-  ) %>%
+  ) |>
   select(Invoice, Due, Payment, overlaps)
 ```
 
@@ -1588,11 +1588,11 @@ the due date. We will do this by:
 - check if the payment date falls within the above interval
 
 ```{r lub13}
-transact %>%
+transact |>
   mutate(
     inv_due_interval = interval(Invoice, Due),
     overlaps         = Payment %within% inv_due_interval
-  ) %>%
+  ) |>
   select(Due, Payment, overlaps)
 ```
 
