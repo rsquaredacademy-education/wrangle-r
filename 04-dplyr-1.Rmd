@@ -78,6 +78,11 @@ knitr::include_graphics("img/image.jpg")
 
 ## AOV by Devices
 
+> **Reading pipes:** `|>` forwards the tibble on its left into the first
+> argument of the verb on its right (see the Preface primer). Every verb below
+> returns a tibble, so the chain reads as one sentence: keep purchasers,
+> summarise revenue and orders by device, add AOV, keep two columns, sort.
+
 ```{r case}
 ecom |>
   filter(purchase) |>

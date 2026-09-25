@@ -20,11 +20,29 @@ knitr::include_graphics('img/wrangle-r.png')
 
 Chapters \@ref(import-data-in-r-basics) and \@ref(import-data-in-r-advanced) focus on reading data from
 flat/delimited files and spreadsheets. Chapters \@ref(dplyr-basics), \@ref(joining-tables-in-r-dplyr)
-and \@ref(dplyr-helper-functions) focus on wrangling data using the **dplyr** package. Chapter 
-\@ref(r-pipe-magrittr) introduces the pipe operator from the **magrittr** package. 
+and \@ref(dplyr-helper-functions) focus on wrangling data using the **dplyr** package, chaining
+verbs with the base R pipe `|>` (see the primer below). Chapter
+\@ref(r-pipe-magrittr) covers the pipe mechanic in detail, including the `_` placeholder,
+anonymous functions with `\(x)`, and reading older magrittr code.
 Chapter \@ref(tibbles-in-r) explores `tibble()`, an alternative for `data.frame()`.
 Chapters \@ref(strings-in-r), \@ref(date-and-time-in-r) and \@ref(categorical-data-in-r) explore ways to 
 handle text, date/time and categorical data.
+
+## The pipe `|>` in 30 seconds {-}
+
+Every example from \@ref(dplyr-basics) onward chains verbs with the base R
+pipe `|>`, available in R 4.1 and later with no extra package:
+
+- `|>` forwards the value on its left into the **first argument** of the
+function on its right, so `ecom |> filter(purchase)` means `filter(ecom, purchase)`.
+- Every **dplyr** verb takes a data frame (or tibble) first and returns one,
+so a chain like `ecom |> filter(purchase) |> summarise(...)` reads top to
+bottom as "take `ecom`, keep purchasers, then summarise".
+
+> If you inherit code using the older magrittr pipe `%>%`, read it the same
+> way: for first-argument forwarding it behaves identically to `|>`. The
+> differences (`_` placeholder, `\(x)` functions, exposition/assignment
+> variants) are covered in \@ref(r-pipe-magrittr).
 
 ## Software information {-}
 
