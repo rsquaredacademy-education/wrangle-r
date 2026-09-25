@@ -27,6 +27,31 @@ operations from left to right (or top to bottom).
 > code; every example below uses `|>` together with `pull()`/`pluck()` and
 > base assignment instead (see the data-extraction section).
 
+### `|>` vs `%>%` at a glance
+
+| Topic | Base pipe `\|>` (this book) | magrittr `%>%` (inherited code) |
+|---|---|---|
+| Package | None — syntax in R >= 4.1 | `magrittr` (loaded with the tidyverse) |
+| How it works | Implemented in the R parser; no runtime pipe object | A regular function call, with a small overhead per step |
+| Default | Forwards into the **first** argument | Forwards into the first argument |
+| Other argument | Placeholder `_`: `mtcars \|> lm(mpg ~ disp, data = _)` | Dot `.`: `mtcars %>% lm(mpg ~ disp, data = .)` |
+| Inline function | `\(x)`: `1:5 \|> (\(x) x^2)() \|> sum()` | `.` shorthand: `1:5 %>% (function(x) x^2) %>% sum()` |
+
+For first-argument chains — every example in this book — the two pipes read
+identically, so inherited `%>%` code can be read as `|>`:
+
+```{r pipe_compare}
+# placeholder: pipe into a non-first argument
+mtcars |>
+  lm(mpg ~ disp, data = _) |>
+  coef()
+
+# shorthand function of one argument, then continue the chain
+1:5 |>
+  (\(x) x^2)() |>
+  sum()
+```
+
 We will use the following R packages:
 
 ```{r importlib1, message=FALSE}
