@@ -79,15 +79,13 @@ knitr::include_graphics("img/image.jpg")
 ## AOV by Devices
 
 ```{r case}
-ecom %>%
-  filter(purchase) %>%
-  select(device, order_value) %>%
-  group_by(device) %>%
-  summarise_all(funs(revenue = sum, orders = n())) %>%
+ecom |>
+  filter(purchase) |>
+  summarise(revenue = sum(order_value), orders = n(), .by = device) |>
   mutate(
     aov = revenue / orders
-  ) %>%
-  select(device, aov) %>%
+  ) |>
+  select(device, aov) |>
   arrange(aov)
 ```
 
@@ -292,11 +290,11 @@ step_2 <- summarise(step_1, mean(n_pages), median(n_pages))
 step_2
 ```
 
-Another way to achieve the above result is to use the 
-`summarise_all()` function. How does that work? It generates the specified 
-summary for all the columns in the data set except for the column based on 
-which the data has been grouped or split. So we need to ensure that the data 
-does not have any irrelevant columns.
+Another way to achieve the above result is to use
+`across()` inside `summarise()`. It applies the specified summary
+function to all the columns in the data set except for the grouping
+column. So we need to ensure that the data does not have any
+irrelevant columns.
 
 - split data by `referrer` type
 - select `order_value` and `order_items`
@@ -312,12 +310,12 @@ step_1 <- select(ecom, referrer, order_value)
 step_2 <- group_by(step_1, referrer)
 
 # compute average number of pages
-step_3 <- summarise_all(step_2, funs(mean))
+step_3 <- summarise(step_2, across(everything(), mean))
 step_3
 ```
 
-Let us compute `mean` and `median` number of pages for each referre type using 
-`summarise_all`.
+Let us compute `mean` and `median` number of pages for each referre type using
+`summarise()` with `across()`.
 
 ```{r sumall_eg2}
 # select relevant columns
@@ -327,7 +325,7 @@ step_1 <- select(ecom, referrer, order_value)
 step_2 <- group_by(step_1, referrer)
 
 # compute mean and median number of pages
-step_3 <- summarise_all(step_2, funs(mean, median))
+step_3 <- summarise(step_2, across(everything(), list(mean = mean, median = median)))
 step_3
 ```
 
@@ -345,14 +343,13 @@ ecom4 <- summarise(ecom3, revenue = sum(order_value),
 ecom4
 ```
 
-There you go, we have the total order value and total order items for each 
-device type. If we use `summarise_all()`, it will generate the summary for the 
-selected columns based on the function specified. To specify the functions, we 
-need to use another argument `funs` and it can take any number of valid 
-functions.
+There you go, we have the total order value and total order items for each
+device type. The same grouped summary can be written more directly with
+the `.by` argument, which avoids keeping the data grouped with
+`group_by()`/`ungroup()`:
 
 ```{r dplyr14}
-ecom4 <- summarise_all(ecom3, funs(revenue = sum, orders = n()))
+ecom4 <- summarise(ecom2, revenue = sum(order_value), orders = n(), .by = device)
 ecom4
 ```
 
@@ -449,29 +446,27 @@ Let us combine all the code from the above steps:
 ecom1 <- filter(ecom, purchase)
 ecom2 <- select(ecom1, device, order_value)
 ecom3 <- group_by(ecom2, device)
-ecom4 <- summarise_all(ecom3, funs(revenue = sum, orders = n()))
+ecom4 <- summarise(ecom3, revenue = sum(order_value), orders = n())
 ecom5 <- mutate(ecom4, aov = revenue / orders)
 ecom6 <- select(ecom5, device, aov)
 ecom7 <- arrange(ecom6, aov)
 ecom7
 ```
 
-If you observe, at each step we create a new variable(data frame) and then use 
-it as an input in the next step i.e. the output from one step becomes the input 
-for the next. Can we achieve the final outcome i.e. `ecom7` without creating the 
-intermediate data (ecom1 - ecom6)? Yes, we can. We will use the `%>%` operator 
-to chain the steps and get rid of the intermediate data. 
+If you observe, at each step we create a new variable(data frame) and then use
+it as an input in the next step i.e. the output from one step becomes the input
+for the next. Can we achieve the final outcome i.e. `ecom7` without creating the
+intermediate data (ecom1 - ecom6)? Yes, we can. We will use the `|>` operator
+to chain the steps and get rid of the intermediate data.
 
 ```{r dplyr18}
-ecom %>%
-  filter(purchase) %>%
-  select(device, order_value) %>%
-  group_by(device) %>%
-  summarise_all(funs(revenue = sum, orders = n())) %>%
+ecom |>
+  filter(purchase) |>
+  summarise(revenue = sum(order_value), orders = n(), .by = device) |>
   mutate(
     aov = revenue / orders
-  ) %>%
-  select(device, aov) %>%
+  ) |>
+  select(device, aov) |>
   arrange(aov)
 ```
 
