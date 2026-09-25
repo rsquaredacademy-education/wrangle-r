@@ -49,7 +49,7 @@ ecom
 We will create a smaller data set from the above data to be used in some examples:
 
 ```{r show_mini, message=FALSE}
-ecom_mini <- sample_n(ecom, size = 10)
+ecom_mini <- slice_sample(ecom, n = 10)
 ecom_mini
 ```
 

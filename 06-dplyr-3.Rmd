@@ -127,8 +127,8 @@ ecom %>%
 
 ## Sampling Data
 
-dplyr offers sampling functions which allow us to specify either the
-number or percentage of observations. `sample_n()` allows sampling a specific
+dplyr offers a sampling function which allows us to specify either the
+number or percentage of observations. `slice_sample()` allows sampling a specific
 number of observations.  
 
 ```{r img3c, echo=FALSE, out.width="100%", fig.align="center"}
@@ -136,23 +136,21 @@ knitr::include_graphics("img/sample_frac_n.png")
 ```
 
 ```{r dplyr4cc}
-sample_n(ecom, 700)
+slice_sample(ecom, n = 700)
 ```
 
-We can combine the sampling functions with other dplyr functions as shown below 
-where we sample observation after grouping them according to the source of 
+We can combine the sampling function with grouping as shown below
+where we sample observations after grouping them according to the source of
 traffic.
 
 ```{r dplyr5c}
-ecom %>%
-  group_by(referrer) %>%
-  sample_n(100)
+slice_sample(ecom, n = 100, by = referrer)
 ```
 
-`sample_frac()` allows a specific percentage of observations.
+`slice_sample()` with the `prop` argument allows sampling a specific percentage of observations.
 
 ```{r dplyr6c}
-sample_frac(ecom, size = 0.7)
+slice_sample(ecom, prop = 0.7)
 ```
 
 ## Data Extraction
@@ -168,7 +166,7 @@ using `head` in addition to limit the output printed.
 ### Sample Data
 
 ```{r ecom_mini}
-ecom_mini <- sample_n(ecom, size = 10)
+ecom_mini <- slice_sample(ecom, n = 10)
 ```
 
 ```{r img4c, echo=FALSE, out.width="100%", fig.align="center"}
@@ -217,7 +215,7 @@ values. In the below example, we check how many visits browsed pages between 5
 and 15.
 
 ```{r dplyr19c}
-ecom_sample <- sample_n(ecom, 30)
+ecom_sample <- slice_sample(ecom, n = 30)
   
 ecom_sample %>%
   pull(n_pages) %>%
