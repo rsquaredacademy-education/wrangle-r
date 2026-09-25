@@ -250,8 +250,8 @@ Let us take a look at the emails before we extract the domain names.
 
 ```{r str15}
 emails <- 
-  mockstring %>%
-  pull(email) %>%
+  mockstring |>
+  pull(email) |>
   head()
 
 emails
@@ -278,8 +278,8 @@ return the second value from each element in the list. Since the domain
 name is a string, `map_chr()` will return a character vector.
 
 ```{r str17}
-emails %>%
-  str_split(pattern = '@') %>%
+emails |>
+  str_split(pattern = '@') |>
   map_chr(2)
 ```
 
@@ -292,9 +292,9 @@ we will use `\\` before `.` to escape it. Let us split the domain
 name and domain extension using `str_split` and `\\.` as the pattern.
 
 ```{r str18}
-emails %>%
-  str_split(pattern = '@') %>%
-  map_chr(2) %>%
+emails |>
+  str_split(pattern = '@') |>
+  map_chr(2) |>
   str_split(pattern = '\\.') 
 ```
 
@@ -305,11 +305,11 @@ the first value from each element in the list returned in step 3. We will again
 use `map_chr` to achieve this.
 
 ```{r str19}
-emails %>%
-  str_split(pattern = '@') %>%
-  map_chr(2) %>%
-  str_split(pattern = '\\.') %>%
-  map_chr(extract(1))
+emails |>
+  str_split(pattern = '@') |>
+  map_chr(2) |>
+  str_split(pattern = '\\.') |>
+  map_chr(1)
 ```
 
 ## Extract Domain Extension
@@ -317,11 +317,11 @@ emails %>%
 The below code extracts the domain extension instead of the domain name. 
 
 ```{r str20}
-emails %>%
-  str_split(pattern = '@') %>%
-  map_chr(2) %>%
-  str_split(pattern = '\\.', simplify = TRUE) %>%
-  extract(, 2)
+emails |>
+  str_split(pattern = '@') |>
+  map_chr(2) |>
+  str_split(pattern = '\\.', simplify = TRUE) |>
+  (\(m) m[, 2])()
 ```
 
 ## Extract image type from URL
@@ -336,8 +336,8 @@ Let us take a look at the URL of the image.
 
 ```{r str21}
 img <- 
-  mockstring %>%
-  pull(imageurl) %>%
+  mockstring |>
+  pull(imageurl) |>
   head()
 
 img
@@ -358,9 +358,9 @@ observe the list, the image type is in the 3rd value. We will now
 extract the third value from each element of the list using `map_chr`.
 
 ```{r str23}
-img %>%
-  str_split(pattern = '\\.') %>%
-  map_chr(extract(3))
+img |>
+  str_split(pattern = '\\.') |>
+  map_chr(3)
 ```
 
 #### Step 3: Subset the string using the index position 
@@ -376,9 +376,9 @@ we use `str_sub` to subset the first 3 characters. The index positions
 are mentioned using `start` and `stop`.
 
 ```{r str24}  
-img %>%
-  str_split(pattern = '\\.') %>%
-  map_chr(extract(3)) %>%
+img |>
+  str_split(pattern = '\\.') |>
+  map_chr(3) |>
   str_sub(start = 1, end = 3)
 ``` 
 
@@ -387,11 +387,11 @@ we will split the string using pattern `/` and then use `map_chr` to
 extract the first value of each element of the resulting list.
 
 ```{r str25}
-img %>%
-  str_split(pattern = '\\.') %>%
-  map_chr(extract(3)) %>%
-  str_split(pattern = '/') %>%
-  map_chr(extract(1))
+img |>
+  str_split(pattern = '\\.') |>
+  map_chr(3) |>
+  str_split(pattern = '/') |>
+  map_chr(1)
 ```
 
 ## Extract Image Dimesion from URL
@@ -434,8 +434,8 @@ and using the pattern `\\.` as it separates the dimension
 and the image extension.
 
 ```{r str28}
-img %>%
-  str_sub(start = 23) %>%
+img |>
+  str_sub(start = 23) |>
   str_split(pattern = '\\.') 
 ```
 
@@ -449,18 +449,18 @@ the first value in the character vector. Let us use
 element of the list.
 
 ```{r str29}
-img %>%
-  str_sub(start = 23) %>%
-  str_split(pattern = '\\.') %>%
-  map_chr(extract(1))
+img |>
+  str_sub(start = 23) |>
+  str_split(pattern = '\\.') |>
+  map_chr(1)
 ```
 
 ## Extract HTTP Protocol from URL
 
 ```{r str30}
 url1 <- 
-  mockstring %>%
-  pull(url) %>%
+  mockstring |>
+  pull(url) |>
   first()
 
 url1
@@ -486,13 +486,13 @@ str_split(url1, pattern = '://')
 #### Step 2: Extract the first element.
 
 The HTTP protocol is the first value in each element
-of the list. As we did in the previous example, we 
-will extact it using `map_chr()` and `extract()`.
+of the list. As we did in the previous example, we
+will extract it using `map_chr()` with the element position.
 
 ```{r str32}
-url1 %>%
-  str_split(pattern = '://') %>%
-  map_chr(extract(1))
+url1 |>
+  str_split(pattern = '://') |>
+  map_chr(1)
 ```
 
 
@@ -519,10 +519,10 @@ Let us locate all the dots in the url using `str_locate_all()` and see
 if any of them contain more than 2 dots.
 
 ```{r str9}
-urls %>%
-  str_locate_all(pattern = '\\.') %>%
-  map_int(nrow) %>%
-  is_greater_than(2) %>%
+urls |>
+  str_locate_all(pattern = '\\.') |>
+  map_int(nrow) |>
+  is_greater_than(2) |>
   sum()
 ```
 
@@ -532,10 +532,10 @@ The next step is to check if there is only one `?` (question mark)
 in the url. 
 
 ```{r str10}  
-urls %>%
-  str_locate_all(pattern = "[?]") %>%
-  map_int(nrow) %>%
-  is_greater_than(1) %>%
+urls |>
+  str_locate_all(pattern = "[?]") |>
+  map_int(nrow) |>
+  is_greater_than(1) |>
   sum()
 ```
 
@@ -548,9 +548,9 @@ starts after the dot.
 
 ```{r str11}
 d <- 
-  urls %>%
-  str_locate_all(pattern = '\\.') %>%
-  map_int(extract(2)) %>%
+  urls |>
+  str_locate_all(pattern = '\\.') |>
+  map_int(2) |>
   add(1)
 
 d  
@@ -567,9 +567,9 @@ ending chapterion of the file type.
 
 ```{r str12}
 q <-  
-  urls %>%
-  str_locate_all(pattern = "[?]") %>%
-  map_int(extract(1)) %>%
+  urls |>
+  str_locate_all(pattern = "[?]") |>
+  map_int(1) |>
   subtract(1)
 
 q
