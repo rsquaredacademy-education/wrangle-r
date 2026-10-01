@@ -70,6 +70,7 @@ format:
     code-overflow: wrap
     fig-align: center
     fig-dpi: 192
+    include-in-header: includes/head.html
   pdf:
     pdf-engine: typst
     papersize: us-letter
