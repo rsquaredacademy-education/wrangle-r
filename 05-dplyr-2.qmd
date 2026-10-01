@@ -228,3 +228,21 @@ combinations — never for large tables, since the result has
 ```{r dplyr9bb}
 cross_join(tibble(size = c("S", "M")), tibble(color = c("red", "blue")))
 ```
+
+## Try it live {.unnumbered}
+
+:::{.callout-tip}
+## Try it in your browser
+
+Edit the code below and press **Run**. It executes entirely in your browser
+via [WebR](https://docs.r-wasm.org/webr/latest/) — no R installation needed.
+The runtime downloads once, on this page only.
+:::
+
+```{webr-r}
+library(dplyr)
+library(readr)
+order <- read_delim("https://raw.githubusercontent.com/rsquaredacademy/datasets/master/order.csv", delim = ";", show_col_types = FALSE)
+customer <- read_delim("https://raw.githubusercontent.com/rsquaredacademy/datasets/master/customer.csv", delim = ";", show_col_types = FALSE)
+left_join(customer, order, by = join_by(id))
+```
