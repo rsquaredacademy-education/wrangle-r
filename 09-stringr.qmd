@@ -589,3 +589,20 @@ to extract the file type.
 ```{r str13}
 str_sub(urls, start = d, end = q)
 ```
+
+## Try it live {.unnumbered}
+
+:::{.callout-tip}
+## Try it in your browser
+
+Edit the code below and press **Run**. It executes entirely in your browser
+via [WebR](https://docs.r-wasm.org/webr/latest/) — no R installation needed.
+The runtime downloads once, on this page only.
+:::
+
+```{webr-r}
+library(stringr)
+library(readr)
+mock <- read_csv("data-webr/mockstrings_sample.csv", show_col_types = FALSE)
+str_detect(mock$email, pattern = "@")
+```
