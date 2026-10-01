@@ -4,7 +4,7 @@ project:
   resources:
     - "data-webr/*.csv"
     - "robots.txt"
-    - "_redirects"
+    - "netlify.toml"
     - "404.html"
 
 quarto-required: ">=1.6.0"
