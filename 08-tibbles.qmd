@@ -240,3 +240,20 @@ has_name(mtcars, 'gears')
 - use `has_rownames()` to check whether a data set has rownames
 - use `has_name()` to check if tibble has a specific column 
 - use `glimpse()` to get an overview of data
+
+## Try it live {.unnumbered}
+
+:::{.callout-tip}
+## Try it in your browser
+
+Edit the code below and press **Run**. It executes entirely in your browser
+via [WebR](https://docs.r-wasm.org/webr/latest/) — no R installation needed.
+The runtime downloads once, on this page only.
+:::
+
+```{webr-r}
+library(tibble)
+library(readr)
+ecom <- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)
+as_tibble(ecom) |> glimpse()
+```
