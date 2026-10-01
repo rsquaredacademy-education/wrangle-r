@@ -1,0 +1,113 @@
+name: Build & Deploy to Netlify (docs/)
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "release"
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.3"
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            knitr
+            rmarkdown
+            dplyr
+            tidyr
+            readr
+            stringr
+            lubridate
+            forcats
+            tibble
+            ggplot2
+            haven
+            readxl
+            kableExtra
+            magrittr
+            arrow
+            duckdb
+            duckplyr
+            gmodels
+            ggpubr
+            plotrix
+            Hmisc
+            janitor
+            epiDisplay
+            summarytools
+            questionr
+            descriptr
+            psych
+            skimr
+            tableone
+            desctable
+
+      - name: Legacy syntax lint (must be zero hits)
+        run: |
+          ! grep -rn --include='*.qmd' -E 'summarise_all|sample_n\(|sample_frac\(' . || { echo "LEGACY CODE FOUND"; exit 1; }
+          ! grep -rn --include='*.qmd' -E '%\$%|%<>%|extract2\(|use_series\(' --exclude-dir=appendices . \
+            | grep -v 'legacy-magrittr' || { echo "MAGITTR LEAK OUTSIDE APPENDIX"; exit 1; }
+          echo "lint clean"
+
+      - name: WebR static smoke (<30s)
+        run: Rscript scripts/webr-smoke.R
+
+      - name: Render HTML
+        run: quarto render --to html --output-dir /tmp/stage-html
+
+      - name: Render PDF
+        run: quarto render --to pdf --output-dir /tmp/stage-pdf || echo "PDF_FAILED=1" >> $GITHUB_ENV
+
+      - name: Render ePub
+        run: quarto render --to epub --output-dir /tmp/stage-epub || echo "EPUB_FAILED=1" >> $GITHUB_ENV
+
+      - name: Verify preserved slugs
+        run: |
+          for f in index 00-author 02-import-1 03-import-2 07-pipes 04-dplyr-1 05-dplyr-2 06-dplyr-3 08-tibbles 08b-tidyr 09-stringr 10a-lubridate-parsing 10b-lubridate-arithmetic 11a-factors-fundamentals 11b-forcats-manipulation solutions; do
+            test -f "/tmp/stage-html/$f.html" || { echo "MISSING SLUG: /tmp/stage-html/$f.html"; exit 1; }
+          done
+          for f in appendices/arrow-duckdb appendices/legacy-magrittr appendices/rosetta-pandas; do
+            test -f "/tmp/stage-html/$f.html" || { echo "MISSING SLUG: /tmp/stage-html/$f.html"; exit 1; }
+          done
+          test -f /tmp/stage-html/sitemap.xml || { echo "sitemap.xml missing from staged output"; exit 1; }
+          test -d /tmp/stage-html/data-webr || { echo "data-webr missing from staged output"; exit 1; }
+
+      - name: Assemble docs
+        run: |
+          rm -rf docs && mkdir -p docs
+          cp -r /tmp/stage-html/. docs/
+          cp /tmp/stage-pdf/*.pdf docs/ 2>/dev/null || echo "No PDF staged (PDF_FAILED=${PDF_FAILED:-0})"
+          cp /tmp/stage-epub/*.epub docs/ 2>/dev/null || echo "No ePub staged (EPUB_FAILED=${EPUB_FAILED:-0})"
+          cp netlify.toml robots.txt sitemap.xml google02e424888b5e2def.html 404.html docs/ 2>/dev/null || true
+          rm -rf docs/docs
+          test -f docs/sitemap.xml || { echo "sitemap.xml missing after assemble"; exit 1; }
+          ls docs/
+
+      - name: Verify redirects
+        run: bash scripts/test-redirects.sh docs
+
+      - name: Link check (advisory)
+        uses: lycheeverse/lychee-action@v2
+        continue-on-error: true
+        with:
+          args: "docs/**/*.html --root-dir docs --exclude 'mailto:*'"
+
+      - name: Commit docs
+        if: github.event_name != 'pull_request'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: rebuild site via ci"
+          file_pattern: docs/
