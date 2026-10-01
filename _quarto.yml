@@ -73,7 +73,9 @@ format:
     fig-dpi: 192
     include-in-header: includes/head.html
   pdf:
-    pdf-engine: typst
+    # lualatex (not typst): callouts need tcolorbox, which the Typst
+    # template cannot provide (same call as viz-ggplot2).
+    pdf-engine: lualatex
     papersize: us-letter
     toc-depth: 3
     code-overflow: wrap
