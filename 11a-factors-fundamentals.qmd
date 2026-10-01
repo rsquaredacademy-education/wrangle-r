@@ -5,6 +5,13 @@ description: "Data Wrangling in R: factors, levels, frequency tables and base R 
 
 # Categorical Data Fundamentals {#categorical-data-in-r}
 
+:::{.callout-note}
+## Continued in part B
+
+This chapter was split for readability. Reordering, recoding, lumping and
+visualization continue in @forcats-manipulation.
+:::
+
 This chapter is the first of two on categorical data. Here we cover what
 factors are, how R stores them, frequency tabulation and base R pitfalls.
 @forcats-manipulation continues with reordering, recoding, lumping and
