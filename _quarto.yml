@@ -72,7 +72,7 @@ format:
     code-overflow: wrap
     fig-align: center
     fig-dpi: 192
-    include-in-header: includes/head.html
+    include-in-header: [includes/head.html, google-analytics.html]
   pdf:
     # lualatex (not typst): callouts need tcolorbox, which the Typst
     # template cannot provide (same call as viz-ggplot2).
