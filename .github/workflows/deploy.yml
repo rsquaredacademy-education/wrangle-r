@@ -72,6 +72,9 @@ jobs:
       - name: Render HTML
         run: quarto render --to html --output-dir /tmp/stage-html
 
+      - name: Install static sitemap (Quarto reserves the path)
+        run: cp sitemap.xml /tmp/stage-html/sitemap.xml
+
       - name: Render PDF
         run: quarto render --to pdf --output-dir /tmp/stage-pdf || echo "PDF_FAILED=1" >> $GITHUB_ENV
 

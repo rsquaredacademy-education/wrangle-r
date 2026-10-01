@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Data Wrangling in R: read Excel, SPSS, SAS and Stata files with readxl and haven.">
+
+<title>4&nbsp; Import Data - Advanced – Data Wrangling with R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07-pipes.html" rel="next">
+<link href="./02-import-1.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3fccb1efae0c779f8bb3c794ad9fe263.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-9f0510f3fd2ea1c285a3fce2d4521767.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-import-2.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Import Data - Advanced</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Wrangling with R</a> 
+        <div class="sidebar-tools-main">
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Data-Wrangling-with-R.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Data-Wrangling-with-R.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">About the Author</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-import-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Import Data - Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-import-2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Import Data - Advanced</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-pipes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pipe Operator</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-dplyr-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">dplyr Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-dplyr-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Joining Tables with dplyr</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-dplyr-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">dplyr Helper Functions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-tibbles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tibbles in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08b-tidyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Tidying Data with tidyr</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-stringr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Hacking Strings with stringr</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10a-lubridate-parsing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Date &amp; Time: Parsing and Components</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10b-lubridate-arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Date &amp; Time: Arithmetic and Time Zones</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11a-factors-fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Categorical Data Fundamentals</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11b-forcats-manipulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Factor Manipulation with forcats</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Exercise Solutions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendices/arrow-duckdb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Arrow, Parquet and DuckDB</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendices/legacy-magrittr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Legacy magrittr Operators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendices/rosetta-pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">From pandas to dplyr</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#import-data-in-r-advanced" id="toc-import-data-in-r-advanced" class="nav-link active" data-scroll-target="#import-data-in-r-advanced"><span class="header-section-number">5</span> Import Data - Advanced</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
+  <li><a href="#list-sheets" id="toc-list-sheets" class="nav-link" data-scroll-target="#list-sheets"><span class="header-section-number">5.2</span> List Sheets</a></li>
+  <li><a href="#read-sheet" id="toc-read-sheet" class="nav-link" data-scroll-target="#read-sheet"><span class="header-section-number">5.3</span> Read Sheet</a>
+  <ul class="collapse">
+  <li><a href="#case-1-specify-the-sheet-number" id="toc-case-1-specify-the-sheet-number" class="nav-link" data-scroll-target="#case-1-specify-the-sheet-number"><span class="header-section-number">5.3.1</span> Case 1: Specify the sheet number</a></li>
+  <li><a href="#case-2-specify-the-sheet-name" id="toc-case-2-specify-the-sheet-name" class="nav-link" data-scroll-target="#case-2-specify-the-sheet-name"><span class="header-section-number">5.3.2</span> Case 2: Specify the sheet name</a></li>
+  </ul></li>
+  <li><a href="#read-specific-cells" id="toc-read-specific-cells" class="nav-link" data-scroll-target="#read-specific-cells"><span class="header-section-number">5.4</span> Read Specific Cells</a>
+  <ul class="collapse">
+  <li><a href="#method-1" id="toc-method-1" class="nav-link" data-scroll-target="#method-1"><span class="header-section-number">5.4.1</span> Method 1</a></li>
+  <li><a href="#method-2" id="toc-method-2" class="nav-link" data-scroll-target="#method-2"><span class="header-section-number">5.4.2</span> Method 2</a></li>
+  <li><a href="#method-3" id="toc-method-3" class="nav-link" data-scroll-target="#method-3"><span class="header-section-number">5.4.3</span> Method 3</a></li>
+  <li><a href="#method-1-1" id="toc-method-1-1" class="nav-link" data-scroll-target="#method-1-1"><span class="header-section-number">5.4.4</span> Method 1</a></li>
+  <li><a href="#method-2-1" id="toc-method-2-1" class="nav-link" data-scroll-target="#method-2-1"><span class="header-section-number">5.4.5</span> Method 2</a></li>
+  <li><a href="#method-3-1" id="toc-method-3-1" class="nav-link" data-scroll-target="#method-3-1"><span class="header-section-number">5.4.6</span> Method 3</a></li>
+  </ul></li>
+  <li><a href="#read-specific-rows" id="toc-read-specific-rows" class="nav-link" data-scroll-target="#read-specific-rows"><span class="header-section-number">5.5</span> Read Specific Rows</a></li>
+  <li><a href="#read-single-column" id="toc-read-single-column" class="nav-link" data-scroll-target="#read-single-column"><span class="header-section-number">5.6</span> Read Single Column</a></li>
+  <li><a href="#read-multiple-columns" id="toc-read-multiple-columns" class="nav-link" data-scroll-target="#read-multiple-columns"><span class="header-section-number">5.7</span> Read Multiple Columns</a>
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.7.1</span> Summary</a></li>
+  </ul></li>
+  <li><a href="#statistical-softwares" id="toc-statistical-softwares" class="nav-link" data-scroll-target="#statistical-softwares"><span class="header-section-number">5.8</span> Statistical Softwares</a>
+  <ul class="collapse">
+  <li><a href="#stata" id="toc-stata" class="nav-link" data-scroll-target="#stata"><span class="header-section-number">5.8.1</span> STATA</a></li>
+  <li><a href="#spss" id="toc-spss" class="nav-link" data-scroll-target="#spss"><span class="header-section-number">5.8.2</span> SPSS</a></li>
+  <li><a href="#sas" id="toc-sas" class="nav-link" data-scroll-target="#sas"><span class="header-section-number">5.8.3</span> SAS</a></li>
+  </ul></li>
+  <li><a href="#summary-1" id="toc-summary-1" class="nav-link" data-scroll-target="#summary-1"><span class="header-section-number">5.9</span> Summary</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Import Data - Advanced</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="import-data-in-r-advanced" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Import Data - Advanced</h1>
+<section id="introduction" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
+<p>In this chapter, we will:</p>
+<ul>
+<li>list sheets in an excel file</li>
+<li>read data from an excel sheet</li>
+<li>read specific cells from an excel sheet</li>
+<li>read specific rows</li>
+<li>read specific columns</li>
+<li>read data from - SAS - SPSS - STATA</li>
+</ul>
+<p>We will use the following R packages:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="list-sheets" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="list-sheets"><span class="header-section-number">5.2</span> List Sheets</h2>
+<p>An excel file may contain several sheets. Let us see how many sheets are present in <code>sample.xls</code> file and their respective names using <code>excel_sheets()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">excel_sheets</span>(<span class="st">'sample.xls'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ecom"</code></pre>
+</div>
+</div>
+</section>
+<section id="read-sheet" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="read-sheet"><span class="header-section-number">5.3</span> Read Sheet</h2>
+<p>Now that we know the number of sheets and their names, let us read data from the <code>ecom</code> sheet of the <code>sample.xls</code> file using <code>read_excel()</code>. We will specify the file name, and the sheet name or sheet number.</p>
+<section id="case-1-specify-the-sheet-number" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="case-1-specify-the-sheet-number"><span class="header-section-number">5.3.1</span> Case 1: Specify the sheet number</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 5
+  channel        users new_users sessions bounce_rate
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
+1 Organic Search 43296     40238    50810 48.72%     
+2 Direct         12916     12311    16419 49.27%     
+3 Referral       10983      7636    18105 22.26%     
+4 Social         10346     10029    11101 61.92%     
+5 Display         5564      4790     7220 83.30%     
+6 Paid Search     2687      2205     3438 38.02%     
+7 Affiliates      1773      1585     2167 55.75%     </code></pre>
+</div>
+</div>
+</section>
+<section id="case-2-specify-the-sheet-name" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="case-2-specify-the-sheet-name"><span class="header-section-number">5.3.2</span> Case 2: Specify the sheet name</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="st">'ecom'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 5
+  channel        users new_users sessions bounce_rate
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
+1 Organic Search 43296     40238    50810 48.72%     
+2 Direct         12916     12311    16419 49.27%     
+3 Referral       10983      7636    18105 22.26%     
+4 Social         10346     10029    11101 61.92%     
+5 Display         5564      4790     7220 83.30%     
+6 Paid Search     2687      2205     3438 38.02%     
+7 Affiliates      1773      1585     2167 55.75%     </code></pre>
+</div>
+</div>
+<p>Notice when you use the sheet name, the name should be enclosed in single/double quotes.</p>
+</section>
+</section>
+<section id="read-specific-cells" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="read-specific-cells"><span class="header-section-number">5.4</span> Read Specific Cells</h2>
+<p>You may not always want to read all the columns or rows from the excel sheet. In such cases, you can specify the cells from which the data must be read which can be achieved using the <code>range</code> argument. So how do we specify the cells from which to read data? There are different ways of specifying the cell range and we will look at them one by one:</p>
+<section id="method-1" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="method-1"><span class="header-section-number">5.4.1</span> Method 1</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/readxl_range.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>The first method uses the cell names along with <code>:</code> to specify the cell range. For example, to read data from first 4 rows of columns <strong>B</strong> and <strong>C</strong>, we will specify the range as <code>"B1:C4"</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="st">"B1:C4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  users new_users
+  &lt;dbl&gt;     &lt;dbl&gt;
+1 43296     40238
+2 12916     12311
+3 10983      7636</code></pre>
+</div>
+</div>
+<p>To read data from first 5 rows of columns <strong>A</strong>, <strong>B</strong> and <strong>C</strong>, we will specify the range as <code>"A1:C5"</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="st">"A1:C5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  channel        users new_users
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;
+1 Organic Search 43296     40238
+2 Direct         12916     12311
+3 Referral       10983      7636
+4 Social         10346     10029</code></pre>
+</div>
+</div>
+</section>
+<section id="method-2" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="method-2"><span class="header-section-number">5.4.2</span> Method 2</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/readxl_anchored_lucid.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>In the second method, we start from a particular cell and specify the number of rows and columns to be covered keeping the initial cell as anchorage. In the below example, we want to read 3 rows and 2 columns starting from the cell <code>A4</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">anchored</span>(<span class="st">"A4"</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  ...1      ...2
+  &lt;chr&gt;    &lt;dbl&gt;
+1 Referral 10983
+2 Social   10346
+3 Display   5564</code></pre>
+</div>
+</div>
+</section>
+<section id="method-3" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="method-3"><span class="header-section-number">5.4.3</span> Method 3</h3>
+<p>In this method, we use the <code>cell_limit()</code> and specify the location of two ends of a rectangle covering the cells we want to read. For example, to read data from the first 6 rows and 4 columns, we will specify the range as following:</p>
+<ul>
+<li>start from the first row of the first column</li>
+<li>cover all cells upto the 6th row of the 4th column</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/readxl_cell_limits_lucid.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">cell_limits</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 4
+  channel        users new_users sessions
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 Organic Search 43296     40238    50810
+2 Direct         12916     12311    16419
+3 Referral       10983      7636    18105
+4 Social         10346     10029    11101
+5 Display         5564      4790     7220</code></pre>
+</div>
+</div>
+<p>You can use <code>NA</code> to indicate the first and last row/column. For example, to read data from all the rows from the second column onwards:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">cell_limits</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 4
+  users new_users sessions bounce_rate
+  &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
+1 43296     40238    50810 48.72%     
+2 12916     12311    16419 49.27%     
+3 10983      7636    18105 22.26%     
+4 10346     10029    11101 61.92%     
+5  5564      4790     7220 83.30%     
+6  2687      2205     3438 38.02%     
+7  1773      1585     2167 55.75%     </code></pre>
+</div>
+</div>
+<p>Let us quickly look at how we will specify range of cells using the above 3 methods when we want to read data from the first 4 rows of columns <code>B</code> and <code>C</code>:</p>
+</section>
+<section id="method-1-1" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="method-1-1"><span class="header-section-number">5.4.4</span> Method 1</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="st">"B1:C4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  users new_users
+  &lt;dbl&gt;     &lt;dbl&gt;
+1 43296     40238
+2 12916     12311
+3 10983      7636</code></pre>
+</div>
+</div>
+</section>
+<section id="method-2-1" class="level3" data-number="5.4.5">
+<h3 data-number="5.4.5" class="anchored" data-anchor-id="method-2-1"><span class="header-section-number">5.4.5</span> Method 2</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">anchored</span>(<span class="st">"B1"</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  users new_users
+  &lt;dbl&gt;     &lt;dbl&gt;
+1 43296     40238
+2 12916     12311
+3 10983      7636</code></pre>
+</div>
+</div>
+</section>
+<section id="method-3-1" class="level3" data-number="5.4.6">
+<h3 data-number="5.4.6" class="anchored" data-anchor-id="method-3-1"><span class="header-section-number">5.4.6</span> Method 3</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">cell_limits</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  users new_users
+  &lt;dbl&gt;     &lt;dbl&gt;
+1 43296     40238
+2 12916     12311
+3 10983      7636</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="read-specific-rows" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="read-specific-rows"><span class="header-section-number">5.5</span> Read Specific Rows</h2>
+<p>When you want to read a subset of rows from the data, use <code>cell_rows()</code> and specify the row numbers or the range. In the below example, we want to read the first 4 rows of data from the file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="fu">cell_rows</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  channel        users new_users sessions bounce_rate
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      
+1 Organic Search 43296     40238    50810 48.72%     
+2 Direct         12916     12311    16419 49.27%     
+3 Referral       10983      7636    18105 22.26%     </code></pre>
+</div>
+</div>
+</section>
+<section id="read-single-column" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="read-single-column"><span class="header-section-number">5.6</span> Read Single Column</h2>
+<p>If you want to read a single column from the data, use <code>cell_cols()</code> and specify the column number. In the below example, we read the second column from the <code>sample.xls</code> file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 1
+  users
+  &lt;dbl&gt;
+1 43296
+2 12916
+3 10983
+4 10346
+5  5564
+6  2687
+7  1773</code></pre>
+</div>
+</div>
+</section>
+<section id="read-multiple-columns" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="read-multiple-columns"><span class="header-section-number">5.7</span> Read Multiple Columns</h2>
+<p>In case of multiple columns, we need to specify the column numbers or the column range. In the below example, we want to read the 2nd, 4th and 6th column from the <code>sample.xls</code> file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 5
+  users new_users sessions bounce_rate ...5 
+  &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
+1 43296     40238    50810 48.72%      NA   
+2 12916     12311    16419 49.27%      NA   
+3 10983      7636    18105 22.26%      NA   
+4 10346     10029    11101 61.92%      NA   
+5  5564      4790     7220 83.30%      NA   
+6  2687      2205     3438 38.02%      NA   
+7  1773      1585     2167 55.75%      NA   </code></pre>
+</div>
+</div>
+<p>In the next example, we want to read data from the 2nd column upto and including the 6th column.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">'sample.xls'</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="fu">cell_cols</span>(<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 5
+  users new_users sessions bounce_rate ...5 
+  &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
+1 43296     40238    50810 48.72%      NA   
+2 12916     12311    16419 49.27%      NA   
+3 10983      7636    18105 22.26%      NA   
+4 10346     10029    11101 61.92%      NA   
+5  5564      4790     7220 83.30%      NA   
+6  2687      2205     3438 38.02%      NA   
+7  1773      1585     2167 55.75%      NA   </code></pre>
+</div>
+</div>
+<section id="summary" class="level3" data-number="5.7.1">
+<h3 data-number="5.7.1" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.7.1</span> Summary</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/range_summary.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="statistical-softwares" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="statistical-softwares"><span class="header-section-number">5.8</span> Statistical Softwares</h2>
+<p>We will use the <a href="https://haven.tidyverse.org">haven</a> package to read data from files of other statistical softwares such as:</p>
+<ul>
+<li>SAS</li>
+<li>SPSS</li>
+<li>STATA</li>
+</ul>
+<section id="stata" class="level3" data-number="5.8.1">
+<h3 data-number="5.8.1" class="anchored" data-anchor-id="stata"><span class="header-section-number">5.8.1</span> STATA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_stata</span>(<span class="st">'airline.dta'</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32 × 6
+    year     y     w     r     l     k
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  1948  1.21 0.243 0.145  1.41 0.612
+ 2  1949  1.35 0.260 0.218  1.38 0.559
+ 3  1950  1.57 0.278 0.316  1.39 0.573
+ 4  1951  1.95 0.297 0.394  1.55 0.564
+ 5  1952  2.27 0.310 0.356  1.80 0.574
+ 6  1953  2.73 0.322 0.359  1.93 0.711
+ 7  1954  3.03 0.335 0.403  1.96 0.776
+ 8  1955  3.56 0.350 0.396  2.12 0.827
+ 9  1956  3.98 0.361 0.382  2.43 0.800
+10  1957  4.42 0.379 0.305  2.71 0.921
+# ℹ 22 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="spss" class="level3" data-number="5.8.2">
+<h3 data-number="5.8.2" class="anchored" data-anchor-id="spss"><span class="header-section-number">5.8.2</span> SPSS</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_spss</span>(<span class="st">'employee.sav'</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 474 × 9
+      id gender     educ      jobcat  salary salbegin jobtime prevexp   minority
+   &lt;dbl&gt; &lt;chr+lbl&gt;  &lt;dbl+lbl&gt; &lt;dbl+l&gt; &lt;dbl+&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl+lbl&gt; &lt;dbl+lb&gt;
+ 1     1 m [Male]   15 [15]   3 [Man… 57000  27000    98      144       0 [No]  
+ 2     2 m [Male]   16 [16]   1 [Cle… 40200  18750    98       36       0 [No]  
+ 3     3 f [Female] 12 [12]   1 [Cle… 21450  12000    98      381       0 [No]  
+ 4     4 f [Female]  8 [8]    1 [Cle… 21900  13200    98      190       0 [No]  
+ 5     5 m [Male]   15 [15]   1 [Cle… 45000  21000    98      138       0 [No]  
+ 6     6 m [Male]   15 [15]   1 [Cle… 32100  13500    98       67       0 [No]  
+ 7     7 m [Male]   15 [15]   1 [Cle… 36000  18750    98      114       0 [No]  
+ 8     8 f [Female] 12 [12]   1 [Cle… 21900   9750    98        0 [mis… 0 [No]  
+ 9     9 f [Female] 15 [15]   1 [Cle… 27900  12750    98      115       0 [No]  
+10    10 f [Female] 12 [12]   1 [Cle… 24000  13500    98      244       0 [No]  
+# ℹ 464 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="sas" class="level3" data-number="5.8.3">
+<h3 data-number="5.8.3" class="anchored" data-anchor-id="sas"><span class="header-section-number">5.8.3</span> SAS</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_sas</span>(<span class="st">'airline.sas7bdat'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32 × 6
+    YEAR     Y     W     R     L     K
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  1948  1.21 0.243 0.145  1.41 0.612
+ 2  1949  1.35 0.260 0.218  1.38 0.559
+ 3  1950  1.57 0.278 0.316  1.39 0.573
+ 4  1951  1.95 0.297 0.394  1.55 0.564
+ 5  1952  2.27 0.310 0.356  1.80 0.574
+ 6  1953  2.73 0.322 0.359  1.93 0.711
+ 7  1954  3.03 0.335 0.403  1.96 0.776
+ 8  1955  3.56 0.350 0.396  2.12 0.827
+ 9  1956  3.98 0.361 0.382  2.43 0.800
+10  1957  4.42 0.379 0.305  2.71 0.921
+# ℹ 22 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="summary-1" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="summary-1"><span class="header-section-number">5.9</span> Summary</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/readxl_summary_lucid.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-import-1.html" class="pagination-link" aria-label="Import Data - Basics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Import Data - Basics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07-pipes.html" class="pagination-link" aria-label="Pipe Operator">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pipe Operator</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb38" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Import Data - Advanced"</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Data Wrangling in R: read Excel, SPSS, SAS and Stata files with readxl and haven."</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="fu"># Import Data - Advanced {#import-data-in-r-advanced}</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>In this chapter, we will:</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>list sheets in an excel file</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>read data from an excel sheet</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>read specific cells from an excel sheet</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>read specific rows</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>read specific columns</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>read data from</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="ss">        - </span>SAS </span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="ss">        - </span>SPSS</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="ss">        - </span>STATA</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>We will use the following R packages:       </span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r library, message=FALSE}</span></span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a><span class="in">library(readxl)</span></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a><span class="in">library(haven)</span></span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## List Sheets</span></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>An excel file may contain several sheets. Let us see how many sheets are </span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>present in <span class="in">`sample.xls`</span> file and their respective names using <span class="in">`excel_sheets()`</span>.</span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r list_sheets}</span></span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a><span class="in">excel_sheets('sample.xls')</span></span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read Sheet</span></span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a>Now that we know the number of sheets and their names, let us read data from </span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a>the <span class="in">`ecom`</span> sheet of the <span class="in">`sample.xls`</span> file using <span class="in">`read_excel()`</span>. We will specify</span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a>the file name, and the sheet name or sheet number. </span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### Case 1: Specify the sheet number</span></span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import56, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1)</span></span>
+<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-49"><a href="#cb38-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-50"><a href="#cb38-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### Case 2: Specify the sheet name</span></span>
+<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-52"><a href="#cb38-52" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import56a, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-53"><a href="#cb38-53" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 'ecom')</span></span>
+<span id="cb38-54"><a href="#cb38-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-55"><a href="#cb38-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-56"><a href="#cb38-56" aria-hidden="true" tabindex="-1"></a>Notice when you use the sheet name, the name should be enclosed in </span>
+<span id="cb38-57"><a href="#cb38-57" aria-hidden="true" tabindex="-1"></a>single/double quotes.</span>
+<span id="cb38-58"><a href="#cb38-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-59"><a href="#cb38-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read Specific Cells</span></span>
+<span id="cb38-60"><a href="#cb38-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-61"><a href="#cb38-61" aria-hidden="true" tabindex="-1"></a>You may not always want to read all the columns or rows from the excel sheet.</span>
+<span id="cb38-62"><a href="#cb38-62" aria-hidden="true" tabindex="-1"></a>In such cases, you can specify the cells from which the data must be read </span>
+<span id="cb38-63"><a href="#cb38-63" aria-hidden="true" tabindex="-1"></a>which can be achieved using the <span class="in">`range`</span> argument. So how do we specify the </span>
+<span id="cb38-64"><a href="#cb38-64" aria-hidden="true" tabindex="-1"></a>cells from which to read data? There are different ways of specifying the </span>
+<span id="cb38-65"><a href="#cb38-65" aria-hidden="true" tabindex="-1"></a>cell range and we will look at them one by one:</span>
+<span id="cb38-66"><a href="#cb38-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-67"><a href="#cb38-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-68"><a href="#cb38-68" aria-hidden="true" tabindex="-1"></a><span class="fu">### Method 1</span></span>
+<span id="cb38-69"><a href="#cb38-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-70"><a href="#cb38-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import74, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb38-71"><a href="#cb38-71" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/readxl_range.png")</span></span>
+<span id="cb38-72"><a href="#cb38-72" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-73"><a href="#cb38-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-74"><a href="#cb38-74" aria-hidden="true" tabindex="-1"></a>&lt;br&gt;</span>
+<span id="cb38-75"><a href="#cb38-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-76"><a href="#cb38-76" aria-hidden="true" tabindex="-1"></a>The first method uses the cell names along with <span class="in">`:`</span> to specify the cell range. </span>
+<span id="cb38-77"><a href="#cb38-77" aria-hidden="true" tabindex="-1"></a>For example, to read data from first 4 rows of columns **B** and **C**, we will </span>
+<span id="cb38-78"><a href="#cb38-78" aria-hidden="true" tabindex="-1"></a>specify the range as <span class="in">`"B1:C4"`</span>.</span>
+<span id="cb38-79"><a href="#cb38-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-80"><a href="#cb38-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import58, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-81"><a href="#cb38-81" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1, range = "B1:C4")</span></span>
+<span id="cb38-82"><a href="#cb38-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-83"><a href="#cb38-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-84"><a href="#cb38-84" aria-hidden="true" tabindex="-1"></a>To read data from first 5 rows of columns **A**, **B** and **C**, we will specify the range as <span class="in">`"A1:C5"`</span>.</span>
+<span id="cb38-85"><a href="#cb38-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-86"><a href="#cb38-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import59, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-87"><a href="#cb38-87" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1, range = "A1:C5")</span></span>
+<span id="cb38-88"><a href="#cb38-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-89"><a href="#cb38-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-90"><a href="#cb38-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### Method 2</span></span>
+<span id="cb38-91"><a href="#cb38-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-92"><a href="#cb38-92" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import75, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb38-93"><a href="#cb38-93" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/readxl_anchored_lucid.png")</span></span>
+<span id="cb38-94"><a href="#cb38-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-95"><a href="#cb38-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-96"><a href="#cb38-96" aria-hidden="true" tabindex="-1"></a>&lt;br&gt;</span>
+<span id="cb38-97"><a href="#cb38-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-98"><a href="#cb38-98" aria-hidden="true" tabindex="-1"></a>In the second method, we start from a particular cell and specify the number </span>
+<span id="cb38-99"><a href="#cb38-99" aria-hidden="true" tabindex="-1"></a>of rows and columns to be covered keeping the initial cell as anchorage. </span>
+<span id="cb38-100"><a href="#cb38-100" aria-hidden="true" tabindex="-1"></a>In the below example, we want to read 3 rows and 2 columns starting from the </span>
+<span id="cb38-101"><a href="#cb38-101" aria-hidden="true" tabindex="-1"></a>cell <span class="in">`A4`</span>.</span>
+<span id="cb38-102"><a href="#cb38-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-103"><a href="#cb38-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import61, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-104"><a href="#cb38-104" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1, col_names = FALSE,</span></span>
+<span id="cb38-105"><a href="#cb38-105" aria-hidden="true" tabindex="-1"></a><span class="in">  range = anchored("A4", dim = c(3, 2)))</span></span>
+<span id="cb38-106"><a href="#cb38-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-107"><a href="#cb38-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-108"><a href="#cb38-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Method 3</span></span>
+<span id="cb38-109"><a href="#cb38-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-110"><a href="#cb38-110" aria-hidden="true" tabindex="-1"></a>In this method, we use the <span class="in">`cell_limit()`</span> and specify the location of two ends </span>
+<span id="cb38-111"><a href="#cb38-111" aria-hidden="true" tabindex="-1"></a>of a rectangle covering the cells we want to read. For example, to read data </span>
+<span id="cb38-112"><a href="#cb38-112" aria-hidden="true" tabindex="-1"></a>from the first 6 rows and 4 columns, we will specify the range as following:</span>
+<span id="cb38-113"><a href="#cb38-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-114"><a href="#cb38-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>start from the first row of the first column</span>
+<span id="cb38-115"><a href="#cb38-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>cover all cells upto the 6th row of the 4th column</span>
+<span id="cb38-116"><a href="#cb38-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-117"><a href="#cb38-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import76, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb38-118"><a href="#cb38-118" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/readxl_cell_limits_lucid.png")</span></span>
+<span id="cb38-119"><a href="#cb38-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-120"><a href="#cb38-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-121"><a href="#cb38-121" aria-hidden="true" tabindex="-1"></a>&lt;br&gt;</span>
+<span id="cb38-122"><a href="#cb38-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-123"><a href="#cb38-123" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import65, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-124"><a href="#cb38-124" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1,</span></span>
+<span id="cb38-125"><a href="#cb38-125" aria-hidden="true" tabindex="-1"></a><span class="in">  range = cell_limits(c(1, 1), c(6, 4)))</span></span>
+<span id="cb38-126"><a href="#cb38-126" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-127"><a href="#cb38-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-128"><a href="#cb38-128" aria-hidden="true" tabindex="-1"></a>You can use <span class="in">`NA`</span> to indicate the first and last row/column. For example, to </span>
+<span id="cb38-129"><a href="#cb38-129" aria-hidden="true" tabindex="-1"></a>read data from all the rows from the second column onwards:</span>
+<span id="cb38-130"><a href="#cb38-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-131"><a href="#cb38-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import66, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-132"><a href="#cb38-132" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1,</span></span>
+<span id="cb38-133"><a href="#cb38-133" aria-hidden="true" tabindex="-1"></a><span class="in">  range = cell_limits(c(1, 2), c(NA, NA)))</span></span>
+<span id="cb38-134"><a href="#cb38-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-135"><a href="#cb38-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-136"><a href="#cb38-136" aria-hidden="true" tabindex="-1"></a>Let us quickly look at how we will specify range of cells using the above 3 </span>
+<span id="cb38-137"><a href="#cb38-137" aria-hidden="true" tabindex="-1"></a>methods when we want to read data from the first 4 rows of columns <span class="in">`B`</span> and <span class="in">`C`</span>:</span>
+<span id="cb38-138"><a href="#cb38-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-139"><a href="#cb38-139" aria-hidden="true" tabindex="-1"></a><span class="fu">### Method 1</span></span>
+<span id="cb38-140"><a href="#cb38-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-141"><a href="#cb38-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import66a, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-142"><a href="#cb38-142" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1,</span></span>
+<span id="cb38-143"><a href="#cb38-143" aria-hidden="true" tabindex="-1"></a><span class="in">  range = "B1:C4")</span></span>
+<span id="cb38-144"><a href="#cb38-144" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-145"><a href="#cb38-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-146"><a href="#cb38-146" aria-hidden="true" tabindex="-1"></a><span class="fu">### Method 2</span></span>
+<span id="cb38-147"><a href="#cb38-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-148"><a href="#cb38-148" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import66b, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-149"><a href="#cb38-149" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1,</span></span>
+<span id="cb38-150"><a href="#cb38-150" aria-hidden="true" tabindex="-1"></a><span class="in">  range = anchored("B1", dim = c(4, 2)))</span></span>
+<span id="cb38-151"><a href="#cb38-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-152"><a href="#cb38-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-153"><a href="#cb38-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### Method 3</span></span>
+<span id="cb38-154"><a href="#cb38-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-155"><a href="#cb38-155" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import66c, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-156"><a href="#cb38-156" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1,</span></span>
+<span id="cb38-157"><a href="#cb38-157" aria-hidden="true" tabindex="-1"></a><span class="in">  range = cell_limits(c(1, 2), c(4, 3)))</span></span>
+<span id="cb38-158"><a href="#cb38-158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-159"><a href="#cb38-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-160"><a href="#cb38-160" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read Specific Rows</span></span>
+<span id="cb38-161"><a href="#cb38-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-162"><a href="#cb38-162" aria-hidden="true" tabindex="-1"></a>When you want to read a subset of rows from the data, use <span class="in">`cell_rows()`</span> and </span>
+<span id="cb38-163"><a href="#cb38-163" aria-hidden="true" tabindex="-1"></a>specify the row numbers or the range. In the below example, we want to read </span>
+<span id="cb38-164"><a href="#cb38-164" aria-hidden="true" tabindex="-1"></a>the first 4 rows of data from the file.</span>
+<span id="cb38-165"><a href="#cb38-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-166"><a href="#cb38-166" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import62, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-167"><a href="#cb38-167" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1, range = cell_rows(1:4))</span></span>
+<span id="cb38-168"><a href="#cb38-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-169"><a href="#cb38-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-170"><a href="#cb38-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read Single Column</span></span>
+<span id="cb38-171"><a href="#cb38-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-172"><a href="#cb38-172" aria-hidden="true" tabindex="-1"></a>If you want to read a single column from the data, use <span class="in">`cell_cols()`</span> and </span>
+<span id="cb38-173"><a href="#cb38-173" aria-hidden="true" tabindex="-1"></a>specify the column number. In the below example, we read the second column</span>
+<span id="cb38-174"><a href="#cb38-174" aria-hidden="true" tabindex="-1"></a>from the <span class="in">`sample.xls`</span> file.</span>
+<span id="cb38-175"><a href="#cb38-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-176"><a href="#cb38-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import63a, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-177"><a href="#cb38-177" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1, range = cell_cols(2))</span></span>
+<span id="cb38-178"><a href="#cb38-178" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-179"><a href="#cb38-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-180"><a href="#cb38-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read Multiple Columns</span></span>
+<span id="cb38-181"><a href="#cb38-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-182"><a href="#cb38-182" aria-hidden="true" tabindex="-1"></a>In case of multiple columns, we need to specify the column numbers or the</span>
+<span id="cb38-183"><a href="#cb38-183" aria-hidden="true" tabindex="-1"></a>column range. In the below example, we want to read the 2nd, 4th and 6th column from </span>
+<span id="cb38-184"><a href="#cb38-184" aria-hidden="true" tabindex="-1"></a>the <span class="in">`sample.xls`</span> file.</span>
+<span id="cb38-185"><a href="#cb38-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-186"><a href="#cb38-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import63b, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-187"><a href="#cb38-187" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1, range = cell_cols(c(2, 4, 6)))</span></span>
+<span id="cb38-188"><a href="#cb38-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-189"><a href="#cb38-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-190"><a href="#cb38-190" aria-hidden="true" tabindex="-1"></a>In the next example, we want to read data from the 2nd column upto and </span>
+<span id="cb38-191"><a href="#cb38-191" aria-hidden="true" tabindex="-1"></a>including the 6th column.</span>
+<span id="cb38-192"><a href="#cb38-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-193"><a href="#cb38-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import63c, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-194"><a href="#cb38-194" aria-hidden="true" tabindex="-1"></a><span class="in">read_excel('sample.xls', sheet = 1, range = cell_cols(c(2:6)))</span></span>
+<span id="cb38-195"><a href="#cb38-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-196"><a href="#cb38-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-197"><a href="#cb38-197" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summary</span></span>
+<span id="cb38-198"><a href="#cb38-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-199"><a href="#cb38-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import77, echo=FALSE, out.width="80%", fig.align="center"}</span></span>
+<span id="cb38-200"><a href="#cb38-200" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/range_summary.png")</span></span>
+<span id="cb38-201"><a href="#cb38-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-202"><a href="#cb38-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-203"><a href="#cb38-203" aria-hidden="true" tabindex="-1"></a><span class="fu">## Statistical Softwares</span></span>
+<span id="cb38-204"><a href="#cb38-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-205"><a href="#cb38-205" aria-hidden="true" tabindex="-1"></a>We will use the <span class="co">[</span><span class="ot">haven</span><span class="co">](https://haven.tidyverse.org)</span> package to read data from files of other statistical softwares such as:</span>
+<span id="cb38-206"><a href="#cb38-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-207"><a href="#cb38-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SAS</span>
+<span id="cb38-208"><a href="#cb38-208" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SPSS</span>
+<span id="cb38-209"><a href="#cb38-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>STATA</span>
+<span id="cb38-210"><a href="#cb38-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-211"><a href="#cb38-211" aria-hidden="true" tabindex="-1"></a><span class="fu">### STATA</span></span>
+<span id="cb38-212"><a href="#cb38-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-213"><a href="#cb38-213" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import68, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-214"><a href="#cb38-214" aria-hidden="true" tabindex="-1"></a><span class="in">read_stata('airline.dta')  </span></span>
+<span id="cb38-215"><a href="#cb38-215" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-216"><a href="#cb38-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-217"><a href="#cb38-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### SPSS</span></span>
+<span id="cb38-218"><a href="#cb38-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-219"><a href="#cb38-219" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import71, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-220"><a href="#cb38-220" aria-hidden="true" tabindex="-1"></a><span class="in">read_spss('employee.sav')  </span></span>
+<span id="cb38-221"><a href="#cb38-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-222"><a href="#cb38-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-223"><a href="#cb38-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### SAS</span></span>
+<span id="cb38-224"><a href="#cb38-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-225"><a href="#cb38-225" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import73, echo=TRUE, results='markup', message=FALSE}</span></span>
+<span id="cb38-226"><a href="#cb38-226" aria-hidden="true" tabindex="-1"></a><span class="in">read_sas('airline.sas7bdat')</span></span>
+<span id="cb38-227"><a href="#cb38-227" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-228"><a href="#cb38-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-229"><a href="#cb38-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb38-230"><a href="#cb38-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-231"><a href="#cb38-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r import78, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb38-232"><a href="#cb38-232" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/readxl_summary_lucid.png")</span></span>
+<span id="cb38-233"><a href="#cb38-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

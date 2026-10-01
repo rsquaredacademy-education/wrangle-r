@@ -1,0 +1,21 @@
+{
+  "hash": "185b14632960a5b82fd59c481affb55d",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"From pandas to dplyr\"\ndescription: \"Data Wrangling in R: pandas to dplyr verb map for Python switchers, with runnable examples.\"\n---\n\n\n\n\n\n\n\n\n# From pandas to dplyr {#pandas-to-dplyr}\n\n## Introduction\n\nSwitching from Python? The ideas transfer one-to-one; only the verbs change.\n`pandas` snippets below are static reference (never executed by this book);\nthe dplyr side runs on the ecommerce data from @dplyr-basics.\n\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(dplyr)\nlibrary(readr)\n\necom <-\n  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',\n    col_types = cols_only(device = col_factor(levels = c(\"laptop\", \"tablet\", \"mobile\")),\n      referrer = col_factor(levels = c(\"bing\", \"direct\", \"social\", \"yahoo\", \"google\")),\n      purchase = col_logical(), n_pages = col_double(), n_visit = col_double(),\n      duration = col_double(), order_value = col_double(), order_items = col_double()\n    )\n  )\n```\n:::\n\n\n\n\n\n\n\n\n## Verb map\n\n| Task | pandas | dplyr (this book) |\n|---|---|---|\n| Read CSV | `pd.read_csv(\"web.csv\")` | `read_csv(\"web.csv\")` |\n| First rows | `df.head(10)` | `head(ecom, 10)` / `slice_head(ecom, n = 10)` |\n| Filter rows | `df[df.purchase]` or `df.query(\"purchase\")` | `filter(ecom, purchase)` |\n| Pick columns | `df[[\"device\", \"order_value\"]]` | `select(ecom, device, order_value)` |\n| Sort | `df.sort_values(\"n_pages\")` | `arrange(ecom, n_pages)` |\n| New column | `df.assign(aov=df.revenue/df.orders)` | `mutate(ecom4, aov = revenue / orders)` |\n| Group + aggregate | `df.groupby(\"device\").agg(revenue=(\"order_value\",\"sum\"))` | `summarise(ecom, revenue = sum(order_value), .by = device)` |\n| Join | `pd.merge(customer, order, on=\"id\", how=\"left\")` | `left_join(customer, order, by = join_by(id))` |\n| Drop missing | `df.dropna()` | `drop_na(df)` |\n| Reshape long/wide | `df.melt(...)` / `df.pivot(...)` | `pivot_longer()` / `pivot_wider()` |\n| Strings | `s.str.contains(pat)`, `s.str.extract(pat)` | `str_detect()`, `str_extract()` |\n| Datetimes | `pd.to_datetime(s)`, `s.dt.year` | `ymd()`, `year()`, `month()`, `day()` |\n| Categories | `astype(\"category\")`, `cat.reorder_categories` | `factor()`, `fct_relevel()`, `fct_lump_*()` |\n\n## Worked pair: grouped means\n\npandas:\n\n```text\necom.groupby(\"purchase\")[\"n_pages\"].mean()\n```\n\ndplyr (runs here):\n\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\necom |>\n  summarise(mean_pages = mean(n_pages), .by = purchase)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n# A tibble: 2 x 2\n  purchase mean_pages\n  <lgl>         <dbl>\n1 FALSE          4.79\n2 TRUE          15.8 \n```\n\n\n:::\n:::\n\n\n\n\n\n\n\n\nSame split-apply-combine, same answer. The rest of the grammar maps the same\nway: chain with `|>` where pandas chains with `.`, and reach for Chapters\n@dplyr-basics–@categorical-data-in-r for the full drill.\n\n## Try it live {.unnumbered}\n\n:::{.callout-tip}\n## Try it in your browser\n\nEdit the code below and press **Run**. It executes entirely in your browser\nvia [WebR](https://docs.r-wasm.org/webr/latest/) — no R installation needed.\nThe runtime downloads once, on this page only.\n:::\n\n```{webr-r}\nlibrary(dplyr)\nlibrary(readr)\necom <- read_csv(\"data-webr/ecom_sample.csv\", show_col_types = FALSE)\necom |>\n  summarise(mean_pages = mean(n_pages), .by = purchase)\n```\n",
+    "supporting": [
+      "rosetta-pandas_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {
+      "knitr": [
+        "{\"type\":\"list\",\"attributes\":{},\"value\":[]}"
+      ]
+    },
+    "preserve": null,
+    "postProcess": false
+  }
+}

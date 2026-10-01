@@ -1,0 +1,21 @@
+{
+  "hash": "25210083dbf1de68288974945629b6c1",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Exercise Solutions\"\ndescription: \"Data Wrangling in R: worked solutions to chapter exercises, plus open stubs for contributors.\"\n---\n\n\n\n\n\n\n\n\n# Exercise Solutions {#exercise-solutions}\n\n## Introduction\n\nTry every **Your Turn** before reading its solution — the struggle is the\nlesson. Worked solutions below are seeded for @dplyr-basics; solutions\nfor the remaining chapters are open stubs. To contribute one, open an issue or\npull request with the chapter, the question, and a runnable chunk in this\nbook's style (`|>`-first, same data as the chapter).\n\nWe will use the following R packages:\n\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(dplyr)\nlibrary(readr)\n```\n:::\n\n\n\n\n\n\n\n\n## dplyr Basics\n\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\necom <-\n  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',\n    col_types = cols_only(device = col_factor(levels = c(\"laptop\", \"tablet\", \"mobile\")),\n      referrer = col_factor(levels = c(\"bing\", \"direct\", \"social\", \"yahoo\", \"google\")),\n      purchase = col_logical(), n_pages = col_double(), n_visit = col_double(),\n      duration = col_double(), order_value = col_double(), order_items = col_double()\n    )\n  )\n```\n:::\n\n\n\n\n\n\n\n\n**Q1. What is the average number of pages visited by purchasers and\nnon-purchasers?**\n\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\necom |>\n  summarise(mean_pages = mean(n_pages), .by = purchase)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n# A tibble: 2 x 2\n  purchase mean_pages\n  <lgl>         <dbl>\n1 FALSE          4.79\n2 TRUE          15.8 \n```\n\n\n:::\n:::\n\n\n\n\n\n\n\n\nPurchasers browse far more pages (~16 vs ~5) — the signal behind the AOV case\nstudy.\n\n**Q2. What is the average time on site for purchasers vs non-purchasers?**\n\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\necom |>\n  summarise(mean_time = mean(duration), .by = purchase)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n# A tibble: 2 x 2\n  purchase mean_time\n  <lgl>        <dbl>\n1 FALSE         355.\n2 TRUE          359.\n```\n\n\n:::\n:::\n\n\n\n\n\n\n\n\nTime on site barely differs (~355 vs ~359 seconds): page depth, not duration,\nseparates buyers here.\n\n**Q3. What is the average number of pages visited by purchasers and\nnon-purchasers using mobile?**\n\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\necom |>\n  filter(device == \"mobile\") |>\n  summarise(mean_pages = mean(n_pages), .by = purchase)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n# A tibble: 2 x 2\n  purchase mean_pages\n  <lgl>         <dbl>\n1 FALSE          4.99\n2 TRUE          16.2 \n```\n\n\n:::\n:::\n\n\n\n\n\n\n\n\n## Open stubs\n\nSolutions for these chapters are not yet written — contributions welcome\n(see above):\n\n- @joining-tables-in-r-dplyr: no **Your Turn** block; propose join puzzles on `customer`/`order`\n- @dplyr-helper-functions: sampling/slicing drills on `ecom`\n- @r-pipe-magrittr: rewrite-a-chain exercises (`%>%` → `|>`, `_`, `\\(x)`)\n- @tibbles-in-r: tibble vs data.frame edge cases\n- @tidying-data-with-tidyr: the three **Your Turn** prompts in that chapter\n- @strings-in-r: URL/email parsing variants on `mockstring`\n- @date-and-time-in-r: the nine **Your Turn** blocks (intervals, TZ/DST, formats)\n- @categorical-data-in-r: the seven **Your Turn** blocks (lumping, reordering, recoding)\n",
+    "supporting": [
+      "solutions_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {
+      "knitr": [
+        "{\"type\":\"list\",\"attributes\":{},\"value\":[]}"
+      ]
+    },
+    "preserve": null,
+    "postProcess": false
+  }
+}
