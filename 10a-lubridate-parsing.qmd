@@ -1231,3 +1231,23 @@ is.POSIXlt(release_date)
 
 - R 3.0.0 was released on `2013-04-03 07:12:36`. Update the date created in the
 previous step to the above using `update()`
+
+## Try it live {.unnumbered}
+
+:::{.callout-tip}
+## Try it in your browser
+
+Edit the code below and press **Run**. It executes entirely in your browser
+via [WebR](https://docs.r-wasm.org/webr/latest/) — no R installation needed.
+The runtime downloads once, on this page only.
+:::
+
+```{webr-r}
+library(dplyr)
+library(lubridate)
+library(readr)
+transact <- read_csv("data-webr/transact_sample.csv", show_col_types = FALSE)
+transact |>
+  mutate(due_year = year(Due), due_month = month(Due, label = TRUE)) |>
+  head()
+```
