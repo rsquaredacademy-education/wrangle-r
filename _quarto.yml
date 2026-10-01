@@ -1,0 +1,89 @@
+project:
+  type: book
+  output-dir: docs
+  resources:
+    - "robots.txt"
+    - "_redirects"
+    - "404.html"
+
+quarto-required: ">=1.6.0"
+
+sitemap: true
+
+book:
+  title: "Data Wrangling with R"
+  author: "Aravind Hebbali"
+  date: last-modified
+  description: "R for Data Science teaches the whole game. Data Wrangling with R drills the hardest 20%: joins, grouped summaries, messy strings, datetimes, and factors — on one realistic ecommerce dataset, runnable in your browser."
+  chapters:
+    - index.qmd
+    - 00-author.qmd
+    - 02-import-1.qmd
+    - 03-import-2.qmd
+    - 07-pipes.qmd
+    - 04-dplyr-1.qmd
+    - 05-dplyr-2.qmd
+    - 06-dplyr-3.qmd
+    - 08-tibbles.qmd
+    - 08b-tidyr.qmd
+    - 09-stringr.qmd
+    - 10a-lubridate-parsing.qmd
+    - 10b-lubridate-arithmetic.qmd
+    - 11a-factors-fundamentals.qmd
+    - 11b-forcats-manipulation.qmd
+  appendices:
+    - appendices/arrow-duckdb.qmd
+    - appendices/legacy-magrittr.qmd
+    - appendices/rosetta-pandas.qmd
+  downloads: [pdf, epub]
+
+website:
+  site-url: https://wrangle-r.rsquaredacademy.com
+  description: "R for Data Science teaches the whole game. Data Wrangling with R drills the hardest 20%: joins, grouped summaries, messy strings, datetimes, and factors — on one realistic ecommerce dataset, runnable in your browser."
+  open-graph: true
+  twitter-card: true
+  repo-url: https://github.com/rsquaredacademy-education/wrangle-r
+  navbar:
+    right:
+      - text: "GitHub"
+        href: https://github.com/rsquaredacademy-education/wrangle-r
+
+execute:
+  freeze: auto
+  warning: false
+
+format:
+  html:
+    filters:
+      - webr
+    theme:
+      light: flatly
+      dark: darkly
+    toc-depth: 3
+    search: true
+    code-copy: true
+    code-tools: true
+    code-overflow: wrap
+    fig-align: center
+    fig-dpi: 192
+  pdf:
+    pdf-engine: typst
+    papersize: us-letter
+    toc-depth: 3
+    code-overflow: wrap
+    fig-format: png
+    fig-dpi: 300
+  epub:
+    toc-depth: 2
+    code-overflow: wrap
+
+webr:
+  packages: [dplyr, tidyr, readr, stringr, lubridate, forcats, tibble]
+  cell-options:
+    autorun: false
+    edit: true
+  timeout: 30
+
+language:
+  search:
+    placeholder: "Search verbs, e.g. semi_join vs anti_join"
