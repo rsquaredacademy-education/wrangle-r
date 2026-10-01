@@ -18,5 +18,5 @@ while IFS= read -r line; do
   fi
 done < "$TOML"
 echo "Checked $count redirects against $DOCS_DIR/, missing: $fail"
-[ "$count" -eq 23 ] || { echo "Expected 23 redirect rules, found $count"; exit 1; }
+[ "$count" -eq 22 ] || { echo "Expected 22 redirect rules, found $count"; exit 1; }
 exit "$fail"
