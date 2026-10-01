@@ -8,7 +8,7 @@ description: "Data Wrangling in R: worked solutions to chapter exercises, plus o
 ## Introduction
 
 Try every **Your Turn** before reading its solution — the struggle is the
-lesson. Worked solutions below are seeded for @dplyr-basics); solutions
+lesson. Worked solutions below are seeded for @dplyr-basics; solutions
 for the remaining chapters are open stubs. To contribute one, open an issue or
 pull request with the chapter, the question, and a runnable chunk in this
 book's style (`|>`-first, same data as the chapter).
@@ -68,11 +68,11 @@ ecom |>
 Solutions for these chapters are not yet written — contributions welcome
 (see above):
 
-- @joining-tables-in-r-dplyr): no **Your Turn** block; propose join puzzles on `customer`/`order`
-- @dplyr-helper-functions): sampling/slicing drills on `ecom`
-- @r-pipe-magrittr): rewrite-a-chain exercises (`%>%` → `|>`, `_`, `\(x)`)
-- @tibbles-in-r): tibble vs data.frame edge cases
-- @tidying-data-with-tidyr): the three **Your Turn** prompts in that chapter
-- @strings-in-r): URL/email parsing variants on `mockstring`
-- @date-and-time-in-r): the nine **Your Turn** blocks (intervals, TZ/DST, formats)
-- @categorical-data-in-r): the seven **Your Turn** blocks (lumping, reordering, recoding)
+- @joining-tables-in-r-dplyr: no **Your Turn** block; propose join puzzles on `customer`/`order`
+- @dplyr-helper-functions: sampling/slicing drills on `ecom`
+- @r-pipe-magrittr: rewrite-a-chain exercises (`%>%` → `|>`, `_`, `\(x)`)
+- @tibbles-in-r: tibble vs data.frame edge cases
+- @tidying-data-with-tidyr: the three **Your Turn** prompts in that chapter
+- @strings-in-r: URL/email parsing variants on `mockstring`
+- @date-and-time-in-r: the nine **Your Turn** blocks (intervals, TZ/DST, formats)
+- @categorical-data-in-r: the seven **Your Turn** blocks (lumping, reordering, recoding)

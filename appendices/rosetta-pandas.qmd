@@ -9,7 +9,7 @@ description: "Data Wrangling in R: pandas to dplyr verb map for Python switchers
 
 Switching from Python? The ideas transfer one-to-one; only the verbs change.
 `pandas` snippets below are static reference (never executed by this book);
-the dplyr side runs on the ecommerce data from @dplyr-basics).
+the dplyr side runs on the ecommerce data from @dplyr-basics.
 
 ```{r rosetta_data, message=FALSE}
 library(dplyr)
@@ -60,4 +60,4 @@ ecom |>
 
 Same split-apply-combine, same answer. The rest of the grammar maps the same
 way: chain with `|>` where pandas chains with `.`, and reach for Chapters
-@dplyr-basics)–@categorical-data-in-r) for the full drill.
+@dplyr-basics–@categorical-data-in-r for the full drill.

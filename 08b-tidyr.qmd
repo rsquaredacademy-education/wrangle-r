@@ -27,9 +27,9 @@ library(lubridate)
 
 ## Data
 
-We reuse the ecommerce data from @dplyr-basics), so no new data to learn.
+We reuse the ecommerce data from @dplyr-basics, so no new data to learn.
 The URL and date examples borrow the `mock_strings` and `transact` data sets
-already used in @strings-in-r) and @date-and-time-in-r).
+already used in @strings-in-r and @date-and-time-in-r.
 
 ```{r tidyr_data, message=FALSE}
 ecom <-
@@ -124,7 +124,7 @@ tibble(due_iso = as.character(head(transact$Due, 5))) |>
 ## Drop missing values with `drop_na()`
 
 `ecom` itself has no missing values, but joins create them: the full join of
-`customer` and `order` from @joining-tables-in-r-dplyr) carries `NA`s for
+`customer` and `order` from @joining-tables-in-r-dplyr carries `NA`s for
 every unmatched row. `drop_na()` keeps only complete rows:
 
 ```{r tidyr_dropna, message=FALSE}

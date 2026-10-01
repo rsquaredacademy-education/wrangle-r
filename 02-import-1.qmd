@@ -263,7 +263,7 @@ cache them locally with `download.file()` once and read from disk afterwards.
 And when a CSV grows past comfortable memory (the 35 MB `analytics_raw.csv`
 in later chapters is the first warning sign), switch the format, not the
 workflow: `arrow::read_parquet()` returns the same tibble the dplyr verbs
-expect. See @arrow-duckdb) for the full quickstart.
+expect. See @arrow-duckdb for the full quickstart.
 
 ## Summary
 

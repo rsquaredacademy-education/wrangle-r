@@ -51,7 +51,7 @@ c(csv_bytes = file.size(cs), parquet_bytes = file.size(pq))
 ```
 
 `read_parquet()` returns a tibble, so every verb from
-@dplyr-basics) works unchanged:
+@dplyr-basics works unchanged:
 
 ```{r arrow_read, eval=requireNamespace("arrow", quietly=TRUE)}
 ecom_pq <- read_parquet(pq)
@@ -81,7 +81,7 @@ ecom_duck |>
   collect()
 ```
 
-The numbers match the Chapter @dplyr-basics) AOV exactly — the engine
+The numbers match the Chapter @dplyr-basics AOV exactly — the engine
 changed, the answers did not. Reach for this pattern when a single CSV no
 longer fits comfortably in memory: keep the data in DuckDB (or parquet on
 disk), push the verbs down, and `collect()` only the summary.

@@ -56,6 +56,8 @@ execute:
 
 format:
   html:
+    # Interactive R cells via WebAssembly (coatless/webr), scoped to HTML:
+    # the webr lua filter rewrites the AST and breaks Typst callouts in PDF.
     filters:
       - webr
     theme:
@@ -78,13 +80,6 @@ format:
   epub:
     toc-depth: 2
     code-overflow: wrap
-
-webr:
-  packages: [dplyr, tidyr, readr, stringr, lubridate, forcats, tibble]
-  cell-options:
-    autorun: false
-    edit: true
-  timeout: 30
 
 language:
   search:
