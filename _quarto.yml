@@ -4,6 +4,7 @@ project:
   resources:
     - "data-webr/*.csv"
     - "robots.txt"
+    - "sitemap.xml"
     - "netlify.toml"
     - "404.html"
 
