@@ -5,6 +5,13 @@ description: "Data Wrangling in R: parse dates with ymd/mdy/dmy, extract year, m
 
 # Date & Time: Parsing and Components {#date-and-time-in-r}
 
+:::{.callout-note}
+## Continued in part B
+
+This chapter was split for readability. Arithmetic, intervals, time zones
+and rounding continue in @date-arithmetic-time-zones.
+:::
+
 This chapter is the first of two on dates and times. Here we parse
 character data into dates and extract components (year, month, weekday,
 quarter). @date-arithmetic-time-zones continues with arithmetic,
