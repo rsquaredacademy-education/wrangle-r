@@ -27,6 +27,9 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          # hard deps only: duckplyr's Suggested `constructive` was archived
+          # on CRAN (2026-09-27) and breaks full ("all") resolution on fresh CI
+          dependencies: '"hard"'
           packages: |
             knitr
             rmarkdown
