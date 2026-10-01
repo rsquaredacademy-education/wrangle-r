@@ -605,3 +605,24 @@ rollback(release_date, roll_to_first = TRUE)
 - round up the `transact` due dates to weeks
 - round down the `transact` due dates to days
 - rollback the `transact` due dates to the beginning of the month
+
+## Try it live {.unnumbered}
+
+:::{.callout-tip}
+## Try it in your browser
+
+Edit the code below and press **Run**. It executes entirely in your browser
+via [WebR](https://docs.r-wasm.org/webr/latest/) — no R installation needed.
+The runtime downloads once, on this page only.
+:::
+
+```{webr-r}
+library(dplyr)
+library(lubridate)
+library(readr)
+transact <- read_csv("data-webr/transact_sample.csv", show_col_types = FALSE)
+transact |>
+  mutate(days_to_pay = Payment - Invoice) |>
+  select(Invoice, Due, Payment, days_to_pay) |>
+  head()
+```
