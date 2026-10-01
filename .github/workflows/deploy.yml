@@ -22,45 +22,20 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v2
         with:
-          r-version: "4.3"
+          r-version: "4.5"
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          # hard deps only: duckplyr's Suggested `constructive` was archived
-          # on CRAN (2026-09-27) and breaks full ("all") resolution on fresh CI
-          dependencies: '"hard"'
-          packages: |
-            knitr
-            rmarkdown
-            dplyr
-            tidyr
-            readr
-            stringr
-            lubridate
-            forcats
-            tibble
-            ggplot2
-            haven
-            readxl
-            kableExtra
-            magrittr
-            arrow
-            duckdb
-            duckplyr
-            gmodels
-            ggpubr
-            plotrix
-            Hmisc
-            janitor
-            epiDisplay
-            summarytools
-            questionr
-            descriptr
-            psych
-            skimr
-            tableone
-            desctable
+      # Direct binary install from RSPM (no pak resolution): duckplyr's
+      # Suggested `constructive` was archived on CRAN (2026-09-27) and breaks
+      # setup-r-dependencies' full resolution on fresh runners.
+      - name: Install R packages
+        run: >-
+          Rscript -e "install.packages(c('knitr', 'rmarkdown', 'dplyr',
+          'tidyr', 'readr', 'stringr', 'lubridate', 'forcats', 'tibble',
+          'ggplot2', 'haven', 'readxl', 'kableExtra', 'magrittr', 'arrow',
+          'duckdb', 'duckplyr', 'gmodels', 'ggpubr', 'plotrix', 'Hmisc',
+          'janitor', 'epiDisplay', 'summarytools', 'questionr', 'descriptr',
+          'psych', 'skimr', 'tableone', 'desctable'), Ncpus = 4)"
 
       - name: Legacy syntax lint (must be zero hits)
         run: |
