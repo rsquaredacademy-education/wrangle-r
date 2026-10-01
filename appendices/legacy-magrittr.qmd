@@ -1,0 +1,23 @@
+---
+title: "Legacy magrittr Operators"
+description: "Data Wrangling in R: read inherited magrittr code - exposition, assignment and extraction pipes mapped to modern equivalents."
+---
+
+# Legacy magrittr Operators {#legacy-magrittr}
+
+This book teaches the base R pipe `|>` exclusively (see @r-pipe-magrittr for
+the one comparison table). This appendix is a graveyard: a read-only map for
+the magrittr operators you will meet in inherited code. Do not use them in
+new code.
+
+| Inherited operator | Meaning | Modern equivalent (this book) |
+|---|---|---|
+| `x %>% f()` | Forward `x` into first argument of `f` | `x \|> f()` |
+| `x %$% f(col)` | Expose columns of `x` to `f` | `x \|> pull(col) \|> f()` |
+| `x %<>% f()` | Forward and assign back to `x` | `x <- x \|> f()` |
+| `x %>% extract(i)` / `extract2(i)` | Subset by position or name | `x[i]` / `x[[i]]`, or `pull(x, col)` / `pluck(x, i)` |
+| `x %>% use_series(col)` | Extract `col` as vector | `pull(x, col)` or `x$col` |
+
+The pipe chapter's data-extraction section covers `pull()`/`pluck()` with
+runnable examples; the legacy note there explains why `%$%`, `%<>%`,
+`extract()`/`extract2()` and `use_series()` stay out of the main text.
