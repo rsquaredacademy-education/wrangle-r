@@ -1,0 +1,57 @@
+---
+title: "Preface"
+author: "Aravind Hebbali"
+description: "Data Wrangling with R drills the hardest 20%: joins, grouped summaries, messy strings, datetimes, and factors — on one realistic ecommerce dataset, runnable in your browser."
+---
+
+# Preface {.unnumbered}
+
+```{r fig.align='center', echo=FALSE, out.width="60%"}
+knitr::include_graphics('img/wrangle-r.png')
+```
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+## Structure of the book {.unnumbered}
+
+Chapters @import-data-in-r-basics and @import-data-in-r-advanced focus on reading data from
+flat/delimited files and spreadsheets. Chapters @dplyr-basics, @joining-tables-in-r-dplyr
+and @dplyr-helper-functions focus on wrangling data using the **dplyr** package, chaining
+verbs with the base R pipe `|>` (see the primer below). Chapter
+@r-pipe-magrittr covers the pipe mechanic in detail, including the `_` placeholder,
+anonymous functions with `\(x)`, and reading older magrittr code.
+Chapter @tibbles-in-r explores `tibble()`, an alternative for `data.frame()`.
+Chapter @tidying-data-with-tidyr reshapes data with the **tidyr** package
+(pivots, splitting/combining columns, missing-value helpers).
+Chapters @strings-in-r, @date-and-time-in-r and @categorical-data-in-r explore ways to
+handle text, date/time and categorical data.
+
+## The pipe `|>` in 30 seconds {.unnumbered}
+
+Every example from @dplyr-basics onward chains verbs with the base R
+pipe `|>`, available in R 4.1 and later with no extra package:
+
+- `|>` forwards the value on its left into the **first argument** of the
+function on its right, so `ecom |> filter(purchase)` means `filter(ecom, purchase)`.
+- Every **dplyr** verb takes a data frame (or tibble) first and returns one,
+so a chain like `ecom |> filter(purchase) |> summarise(...)` reads top to
+bottom as "take `ecom`, keep purchasers, then summarise".
+
+:::{.callout-tip}
+If you inherit code using the older magrittr pipe `%>%`, read it the same
+way: for first-argument forwarding it behaves identically to `|>`. The
+differences (`_` placeholder, `\(x)` functions, exposition/assignment
+variants) are covered in @r-pipe-magrittr.
+:::
+
+## Software information {.unnumbered}
+
+This book requires R >= 4.1 (for the native pipe `|>`) and dplyr >= 1.1.0
+(for `.by`, `slice_*()` and `join_by()`); package versions are pinned in
+`renv.lock`. The R session information when compiling this book is shown below:
+
+```{r session}
+sessionInfo()
+```
+
+We do not add prompts (`>` and `+`) to R source code in this book, and we comment out the text output with two hashes `##` by default, as you can see from the R session information above. This is for your convenience when you want to copy and run the code (the text output will be ignored since it is commented out). Package names are in bold text (e.g., **rmarkdown**), and function names are followed by parentheses (e.g., `bookdown::render_book()`). The double-colon operator `::` means accessing an object from a package.
