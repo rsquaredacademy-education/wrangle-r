@@ -509,3 +509,24 @@ knitr::include_graphics("img/dplyr_aov_map.png")
 - what is the average number of pages visited by purchasers and non-purchasers?
 - what is the average time on site for purchasers vs non-purchasers?
 - what is the average number of pages visited by purchasers and non-purchasers using mobile?
+
+## Try it live {.unnumbered}
+
+:::{.callout-tip}
+## Try it in your browser
+
+Edit the code below and press **Run**. It executes entirely in your browser
+via [WebR](https://docs.r-wasm.org/webr/latest/) — no R installation needed.
+The runtime downloads once, on this page only.
+:::
+
+```{webr-r}
+library(dplyr)
+library(readr)
+ecom <- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)
+ecom |>
+  filter(purchase) |>
+  summarise(revenue = sum(order_value), orders = n(), .by = device) |>
+  mutate(aov = revenue / orders) |>
+  arrange(desc(aov))
+```
