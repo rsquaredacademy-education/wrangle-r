@@ -2,6 +2,7 @@ project:
   type: book
   output-dir: docs
   resources:
+    - "data-webr/*.csv"
     - "robots.txt"
     - "_redirects"
     - "404.html"
