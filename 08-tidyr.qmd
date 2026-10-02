@@ -82,6 +82,33 @@ counts |>
   pivot_wider(names_from = purchase, values_from = n, names_prefix = "purchase_")
 ```
 
+## pivot_longer vs pivot_wider: which direction?
+
+Reshaping has two directions — pick by what the next step needs:
+
+| Next step | Direction |
+|---|---|
+| Plot or rank several metrics (facets, dodged bars) | `pivot_longer()`: metrics become rows |
+| Report-style table (one row per group) | `pivot_wider()`: groups become rows |
+| Model matrix / spreadsheet handoff | `pivot_wider()` |
+
+The payoff for going long: `ggplot2` maps variables to aesthetics, so one
+long table draws every metric in a single call — no per-metric layers:
+
+```{r tidyr_long_plot, fig.height=4, fig.width=7, message=FALSE}
+library(ggplot2)
+long_metrics <- ecom |>
+  summarise(across(c(n_pages, n_visit, order_items),
+    \(x) mean(x, na.rm = TRUE)), .by = device) |>
+  pivot_longer(-device, names_to = "metric", values_to = "mean_value")
+
+ggplot(long_metrics, aes(x = metric, y = mean_value, fill = device)) +
+  geom_bar(stat = "identity", position = "dodge")
+```
+
+And the trip reverses cleanly — `pivot_wider()` on the long table restores the
+wide summary exactly, so reshaping is safe to do mid-pipeline.
+
 ## Split columns with `separate_wider_delim()`
 
 The `url` column of `mock_strings` packs the protocol and the address into one
