@@ -1,5 +1,4 @@
 ---
-title: "Legacy magrittr Operators"
 description: "Data Wrangling in R: read inherited magrittr code - exposition, assignment and extraction pipes mapped to modern equivalents."
 ---
 

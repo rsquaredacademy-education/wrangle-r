@@ -1,5 +1,4 @@
 ---
-title: "dplyr Basics"
 description: "Data Wrangling in R: filter, arrange, select, mutate and summarise ecommerce data with dplyr."
 ---
 

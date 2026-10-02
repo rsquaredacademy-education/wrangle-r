@@ -1,5 +1,4 @@
 ---
-title: "Import Data - Basics"
 description: "Data Wrangling in R: read flat files with readr - delimiters, headers, skipping lines, column types."
 ---
 

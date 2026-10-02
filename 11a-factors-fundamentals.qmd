@@ -1,5 +1,4 @@
 ---
-title: "Categorical Data Fundamentals"
 description: "Data Wrangling in R: factors, levels, frequency tables and base R pitfalls on ecommerce data."
 ---
 

@@ -1,5 +1,4 @@
 ---
-title: "Exercise Solutions"
 description: "Data Wrangling in R: worked solutions to chapter exercises, plus open stubs for contributors."
 ---
 

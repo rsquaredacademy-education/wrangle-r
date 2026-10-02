@@ -1,5 +1,4 @@
 ---
-title: "Import Data - Advanced"
 description: "Data Wrangling in R: read Excel, SPSS, SAS and Stata files with readxl and haven."
 ---
 

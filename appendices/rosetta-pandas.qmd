@@ -1,5 +1,4 @@
 ---
-title: "From pandas to dplyr"
 description: "Data Wrangling in R: pandas to dplyr verb map for Python switchers, with runnable examples."
 ---
 

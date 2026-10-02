@@ -1,5 +1,4 @@
 ---
-title: "Hacking Strings with stringr"
 description: "Data Wrangling in R: detect, extract and clean URLs, emails and phone numbers with stringr."
 ---
 

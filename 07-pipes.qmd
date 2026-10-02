@@ -1,5 +1,4 @@
 ---
-title: "Pipe Operator"
 description: "Data Wrangling in R: chain verbs with the native pipe, placeholder and anonymous functions."
 ---
 

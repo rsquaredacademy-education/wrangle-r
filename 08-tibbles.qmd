@@ -1,5 +1,4 @@
 ---
-title: "Tibbles in R"
 description: "Data Wrangling in R: modern data frames with tibble - creation, repair and printing."
 ---
 

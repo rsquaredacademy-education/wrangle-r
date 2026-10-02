@@ -1,5 +1,4 @@
 ---
-title: "Factor Manipulation with forcats"
 description: "Data Wrangling in R: reorder, recode, collapse and lump factors with forcats, visualize with ggplot2."
 ---
 

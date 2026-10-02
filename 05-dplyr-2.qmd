@@ -1,5 +1,4 @@
 ---
-title: "Joining Tables with dplyr"
 description: "Data Wrangling in R: inner, left, right, full, semi and anti joins on orders and customers."
 ---
 

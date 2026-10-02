@@ -1,5 +1,4 @@
 ---
-title: "Tidying Data with tidyr"
 description: "Data Wrangling in R: pivot longer and wider, separate and unite columns, handle missing values."
 ---
 

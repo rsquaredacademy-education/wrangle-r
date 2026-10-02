@@ -1,5 +1,4 @@
 ---
-title: "Date & Time: Arithmetic and Time Zones"
 description: "Data Wrangling in R: durations vs periods vs intervals, time zones, DST, rounding and rollback."
 ---
 

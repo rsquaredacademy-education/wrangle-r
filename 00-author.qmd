@@ -1,5 +1,4 @@
 ---
-title: "About the Author"
 description: "About Aravind Hebbali, founder of Rsquared Academy and author of Data Wrangling with R."
 ---
 

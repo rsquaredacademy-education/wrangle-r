@@ -1,5 +1,4 @@
 ---
-title: "Arrow, Parquet and DuckDB"
 description: "Data Wrangling in R: scale beyond memory with arrow parquet and DuckDB, in dplyr verbs."
 ---
 

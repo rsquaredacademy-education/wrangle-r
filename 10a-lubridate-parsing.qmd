@@ -1,5 +1,4 @@
 ---
-title: "Date & Time: Parsing and Components"
 description: "Data Wrangling in R: parse dates with ymd/mdy/dmy, extract year, month and weekday components."
 ---
 

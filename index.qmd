@@ -1,7 +1,5 @@
 ---
-title: "Preface"
-author: "Aravind Hebbali"
-description: "Data Wrangling with R drills the hardest 20%: joins, grouped summaries, messy strings, datetimes, and factors — on one realistic ecommerce dataset, runnable in your browser."
+description: "Data Wrangling with R drills the hardest 20%: joins, grouped summaries, messy strings, datetimes, and factors - on one realistic ecommerce dataset, runnable in your browser."
 ---
 
 # Preface {.unnumbered}

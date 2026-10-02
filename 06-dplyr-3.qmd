@@ -1,5 +1,4 @@
 ---
-title: "dplyr Helper Functions"
 description: "Data Wrangling in R: sampling, slicing, ranking and conditional recoding with dplyr helpers."
 ---
 
