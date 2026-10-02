@@ -540,6 +540,34 @@ time_length(course_interval, unit = "minutes")
 time_length(course_interval, unit = "hours")
 ```
 
+### lubridate interval vs duration vs period
+
+The three timespans answer different questions:
+
+| Timespan | Answers | Clock behavior |
+|---|---|---|
+| `interval` (`%--%`) | When did it start and end? | Anchored to two endpoints |
+| `duration` (`ddays()`, `dyears()`) | How many exact seconds? | Fixed 86,400 s/day, DST-blind |
+| `period` (`days()`, `years()`) | How does the clock read? | Calendar-aware, follows DST |
+
+The difference bites across daylight-saving boundaries. US clocks sprang
+forward on 2020-03-08, so that Sunday lasted 23 hours:
+
+```{r lub_interval_vs_duration}
+t <- ymd_hms("2020-03-07 12:00:00", tz = "America/New_York")
+
+# period: same wall-clock time next day (noon stays noon)
+t + days(1)
+
+# duration: exactly 86,400 seconds later (lands at 1pm)
+t + ddays(1)
+```
+
+Rule of thumb: scheduling and human arithmetic (invoice due in 30 days,
+`days_to_pay` in `transact`) → `period`; elapsed-time measurement and
+benchmarks → `duration`; anchoring and testing overlap (`%within%`,
+`int_overlaps()`) → `interval`.
+
 ## Others 
 
 In this section, we will learn to round date/time to the nearest unit and roll 
