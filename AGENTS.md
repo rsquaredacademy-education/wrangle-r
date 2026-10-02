@@ -7,4 +7,4 @@
 2. Fix one issue at a time.
 3. Commit changes using single line short commit messages.
 4. Use conventional commit style for commit messages.
-5. Push changes only at the end of each phase.
+5. Push changes immediately after fixing bugs so the fix can be verified.
