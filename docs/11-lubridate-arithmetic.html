@@ -2068,6 +2068,7 @@ globalThis.qwebrExecuteCode = async function (
   <li><a href="#within" id="toc-within" class="nav-link" data-scroll-target="#within"><span class="header-section-number">11.3.2</span> Within</a></li>
   <li><a href="#duration" id="toc-duration" class="nav-link" data-scroll-target="#duration"><span class="header-section-number">11.3.3</span> Duration</a></li>
   <li><a href="#period" id="toc-period" class="nav-link" data-scroll-target="#period"><span class="header-section-number">11.3.4</span> Period</a></li>
+  <li><a href="#lubridate-interval-vs-duration-vs-period" id="toc-lubridate-interval-vs-duration-vs-period" class="nav-link" data-scroll-target="#lubridate-interval-vs-duration-vs-period"><span class="header-section-number">11.3.5</span> lubridate interval vs duration vs period</a></li>
   </ul></li>
   <li><a href="#others" id="toc-others" class="nav-link" data-scroll-target="#others"><span class="header-section-number">11.4</span> Others</a>
   <ul class="collapse">
@@ -2572,7 +2573,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">with_tz</span>(<span class="fu">Sys.time</span>(), <span class="st">"UTC"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-10-02 10:53:17 UTC"</code></pre>
+<pre><code>[1] "2026-10-02 11:13:28 UTC"</code></pre>
 </div>
 </div>
 </section>
@@ -3069,6 +3070,57 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 216</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
+<section id="lubridate-interval-vs-duration-vs-period" class="level3" data-number="11.3.5">
+<h3 data-number="11.3.5" class="anchored" data-anchor-id="lubridate-interval-vs-duration-vs-period"><span class="header-section-number">11.3.5</span> lubridate interval vs duration vs period</h3>
+<p>The three timespans answer different questions:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Timespan</th>
+<th>Answers</th>
+<th>Clock behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>interval</code> (<code>%--%</code>)</td>
+<td>When did it start and end?</td>
+<td>Anchored to two endpoints</td>
+</tr>
+<tr class="even">
+<td><code>duration</code> (<code>ddays()</code>, <code>dyears()</code>)</td>
+<td>How many exact seconds?</td>
+<td>Fixed 86,400 s/day, DST-blind</td>
+</tr>
+<tr class="odd">
+<td><code>period</code> (<code>days()</code>, <code>years()</code>)</td>
+<td>How does the clock read?</td>
+<td>Calendar-aware, follows DST</td>
+</tr>
+</tbody>
+</table>
+<p>The difference bites across daylight-saving boundaries. US clocks sprang forward on 2020-03-08, so that Sunday lasted 23 hours:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2020-03-07 12:00:00"</span>, <span class="at">tz =</span> <span class="st">"America/New_York"</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="co"># period: same wall-clock time next day (noon stays noon)</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>t <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2020-03-08 12:00:00 EDT"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># duration: exactly 86,400 seconds later (lands at 1pm)</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>t <span class="sc">+</span> <span class="fu">ddays</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2020-03-08 13:00:00 EDT"</code></pre>
+</div>
+</div>
+<p>Rule of thumb: scheduling and human arithmetic (invoice due in 30 days, <code>days_to_pay</code> in <code>transact</code>) → <code>period</code>; elapsed-time measurement and benchmarks → <code>duration</code>; anchoring and testing overlap (<code>%within%</code>, <code>int_overlaps()</code>) → <code>interval</code>.</p>
+</section>
 </section>
 <section id="others" class="level2" data-number="11.4">
 <h2 data-number="11.4" class="anchored" data-anchor-id="others"><span class="header-section-number">11.4</span> Others</h2>
@@ -3097,26 +3149,26 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ul>
 <p>We will look at a few examples using <code>round_date()</code> and you will then practice using the other two functions.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># minute</span></span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"minute"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># minute</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"minute"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2019-12-12 08:05:00 UTC"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"mins"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"mins"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2019-12-12 08:05:00 UTC"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"5 mins"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"5 mins"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2019-12-12 08:05:00 UTC"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hour</span></span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"hour"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hour</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"hour"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2019-12-12 08:00:00 UTC"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># day</span></span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"day"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># day</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"day"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2019-12-12 UTC"</code></pre>
 </div>
@@ -3126,14 +3178,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h3 data-number="11.4.2" class="anchored" data-anchor-id="rollback"><span class="header-section-number">11.4.2</span> Rollback</h3>
 <p>Use <code>rollback()</code> if you want to change the date to the last day of the previous month or the first day of the month.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(release_date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(release_date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2019-11-30 08:05:03 UTC"</code></pre>
 </div>
 </div>
 <p>To change the date to the first day of the month, use the <code>roll_to_first</code> argument and set it to <code>TRUE</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(release_date, <span class="at">roll_to_first =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(release_date, <span class="at">roll_to_first =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2019-12-01 08:05:03 UTC"</code></pre>
 </div>
@@ -3648,639 +3700,667 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb98" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Data Wrangling in R: durations vs periods vs intervals, time zones, DST, rounding and rollback."</span></span>
-<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a><span class="fu"># Date &amp; Time: Arithmetic and Time Zones {#date-arithmetic-time-zones}</span></span>
-<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a>This chapter continues @date-and-time-in-r. We do arithmetic with dates,</span>
-<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a>compare durations, periods and intervals, handle time zones and DST, and</span>
-<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>round and roll back dates — including the receivables overdue case study.</span>
-<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub_setup_b, echo=FALSE, message=FALSE, warning=FALSE}</span></span>
-<span id="cb98-12"><a href="#cb98-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb98-13"><a href="#cb98-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb98-14"><a href="#cb98-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb98-15"><a href="#cb98-15" aria-hidden="true" tabindex="-1"></a>release_date <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>(<span class="st">"2019-12-12 08:05:03"</span>)</span>
-<span id="cb98-16"><a href="#cb98-16" aria-hidden="true" tabindex="-1"></a>transact <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv'</span>)</span>
-<span id="cb98-17"><a href="#cb98-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-18"><a href="#cb98-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-19"><a href="#cb98-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Date Arithmetic </span></span>
-<span id="cb98-20"><a href="#cb98-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-21"><a href="#cb98-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction </span></span>
-<span id="cb98-22"><a href="#cb98-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-23"><a href="#cb98-23" aria-hidden="true" tabindex="-1"></a>Time to do some arithmetic with the dates. Let us calculate the length of a </span>
-<span id="cb98-24"><a href="#cb98-24" aria-hidden="true" tabindex="-1"></a>course you have enrolled for (Become a Rock Star Data Scientist in 10 Days) by subtracting the course start date from the course end date.</span>
-<span id="cb98-25"><a href="#cb98-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-26"><a href="#cb98-26" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-27"><a href="#cb98-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-28"><a href="#cb98-28" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img2lub, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-29"><a href="#cb98-29" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/course_duration.png"</span>)</span>
-<span id="cb98-30"><a href="#cb98-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-31"><a href="#cb98-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-32"><a href="#cb98-32" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-33"><a href="#cb98-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-34"><a href="#cb98-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub19, collapse = TRUE}</span></span>
-<span id="cb98-35"><a href="#cb98-35" aria-hidden="true" tabindex="-1"></a>course_start    <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-12'</span>)</span>
-<span id="cb98-36"><a href="#cb98-36" aria-hidden="true" tabindex="-1"></a>course_end      <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-21'</span>)</span>
-<span id="cb98-37"><a href="#cb98-37" aria-hidden="true" tabindex="-1"></a>course_duration <span class="ot">&lt;-</span> course_end <span class="sc">-</span> course_start</span>
-<span id="cb98-38"><a href="#cb98-38" aria-hidden="true" tabindex="-1"></a>course_duration</span>
-<span id="cb98-39"><a href="#cb98-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-40"><a href="#cb98-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-41"><a href="#cb98-41" aria-hidden="true" tabindex="-1"></a><span class="fu">### Shift Date</span></span>
-<span id="cb98-42"><a href="#cb98-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-43"><a href="#cb98-43" aria-hidden="true" tabindex="-1"></a>Time to shift the course dates. We can shift a date by days, weeks or months. Let us shift the course start date by:</span>
-<span id="cb98-44"><a href="#cb98-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-45"><a href="#cb98-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>2 days</span>
-<span id="cb98-46"><a href="#cb98-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3 weeks</span>
-<span id="cb98-47"><a href="#cb98-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>1 year</span>
-<span id="cb98-48"><a href="#cb98-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-49"><a href="#cb98-49" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-50"><a href="#cb98-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-51"><a href="#cb98-51" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img3lub, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-52"><a href="#cb98-52" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/shift_dates.png"</span>)</span>
-<span id="cb98-53"><a href="#cb98-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-54"><a href="#cb98-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-55"><a href="#cb98-55" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-56"><a href="#cb98-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-57"><a href="#cb98-57" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lab40, collapse = TRUE}</span></span>
-<span id="cb98-58"><a href="#cb98-58" aria-hidden="true" tabindex="-1"></a>course_start <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">2</span>)</span>
-<span id="cb98-59"><a href="#cb98-59" aria-hidden="true" tabindex="-1"></a>course_start <span class="sc">+</span> <span class="fu">weeks</span>(<span class="dv">3</span>)</span>
-<span id="cb98-60"><a href="#cb98-60" aria-hidden="true" tabindex="-1"></a>course_start <span class="sc">+</span> <span class="fu">years</span>(<span class="dv">1</span>)</span>
-<span id="cb98-61"><a href="#cb98-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-62"><a href="#cb98-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-63"><a href="#cb98-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Case Study</span></span>
-<span id="cb98-64"><a href="#cb98-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-65"><a href="#cb98-65" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Compute days to settle invoice</span></span>
-<span id="cb98-66"><a href="#cb98-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-67"><a href="#cb98-67" aria-hidden="true" tabindex="-1"></a>Let us estimate the number of days to settle the invoice by subtracting the</span>
-<span id="cb98-68"><a href="#cb98-68" aria-hidden="true" tabindex="-1"></a>date of invoice from the date of payment.</span>
-<span id="cb98-69"><a href="#cb98-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-70"><a href="#cb98-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub3}</span></span>
-<span id="cb98-71"><a href="#cb98-71" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
-<span id="cb98-72"><a href="#cb98-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb98-73"><a href="#cb98-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">days_to_pay =</span> Payment <span class="sc">-</span> Invoice</span>
-<span id="cb98-74"><a href="#cb98-74" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb98-75"><a href="#cb98-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-76"><a href="#cb98-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-77"><a href="#cb98-77" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Compute days over due</span></span>
-<span id="cb98-78"><a href="#cb98-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-79"><a href="#cb98-79" aria-hidden="true" tabindex="-1"></a>How many of the invoices were settled post the due date? We can find this by:</span>
-<span id="cb98-80"><a href="#cb98-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-81"><a href="#cb98-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>subtracting the due date from the payment date</span>
-<span id="cb98-82"><a href="#cb98-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>counting the number of rows where delay &lt; 0 </span>
-<span id="cb98-83"><a href="#cb98-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-84"><a href="#cb98-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub4}</span></span>
-<span id="cb98-85"><a href="#cb98-85" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
-<span id="cb98-86"><a href="#cb98-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb98-87"><a href="#cb98-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay =</span> Due <span class="sc">-</span> Payment</span>
-<span id="cb98-88"><a href="#cb98-88" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb98-89"><a href="#cb98-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(delay <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb98-90"><a href="#cb98-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb98-91"><a href="#cb98-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay =</span> delay <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb98-92"><a href="#cb98-92" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb98-93"><a href="#cb98-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(delay)</span>
-<span id="cb98-94"><a href="#cb98-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-95"><a href="#cb98-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-96"><a href="#cb98-96" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your Turn</span></span>
-<span id="cb98-97"><a href="#cb98-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-98"><a href="#cb98-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compute the length of a vacation which begins on <span class="in">`2020-04-19`</span> and ends on <span class="in">`2020-04-25`</span></span>
-<span id="cb98-99"><a href="#cb98-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>recompute the length of the vacation after shifting the vacation start and end date by <span class="in">`10`</span> days and <span class="in">`2`</span> weeks</span>
-<span id="cb98-100"><a href="#cb98-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compute the days to settle invoice and days overdue from the <span class="in">`receivables.csv`</span> data set</span>
-<span id="cb98-101"><a href="#cb98-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compute the length of employment (only for those employees who have been terminated) from the <span class="in">`hr-data.csv`</span> data set (use date of hire and termination)</span>
-<span id="cb98-102"><a href="#cb98-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-103"><a href="#cb98-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Time Zones </span></span>
-<span id="cb98-104"><a href="#cb98-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-105"><a href="#cb98-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction</span></span>
-<span id="cb98-106"><a href="#cb98-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-107"><a href="#cb98-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_timezones, fig.align='center', out.width="200%", echo=FALSE}</span></span>
-<span id="cb98-108"><a href="#cb98-108" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'img/lub_timezones.jpg'</span>)</span>
-<span id="cb98-109"><a href="#cb98-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-110"><a href="#cb98-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-111"><a href="#cb98-111" aria-hidden="true" tabindex="-1"></a>In the previous section, <span class="in">`POSIXlt`</span> stored date/time components as a list. Among </span>
-<span id="cb98-112"><a href="#cb98-112" aria-hidden="true" tabindex="-1"></a>the different components it returned were</span>
-<span id="cb98-113"><a href="#cb98-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-114"><a href="#cb98-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`gmtoff`</span></span>
-<span id="cb98-115"><a href="#cb98-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`zone`</span></span>
-<span id="cb98-116"><a href="#cb98-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-117"><a href="#cb98-117" aria-hidden="true" tabindex="-1"></a><span class="in">`gmtoff`</span> is offset in seconds from GMT i.e. difference in hours and minutes from </span>
-<span id="cb98-118"><a href="#cb98-118" aria-hidden="true" tabindex="-1"></a>UTC. Wait.. What do UTC and GMT stand for?</span>
-<span id="cb98-119"><a href="#cb98-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-120"><a href="#cb98-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Coordinated Universal Time (UTC)</span>
-<span id="cb98-121"><a href="#cb98-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Greenwich Meridian Time (GMT)</span>
-<span id="cb98-122"><a href="#cb98-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-123"><a href="#cb98-123" aria-hidden="true" tabindex="-1"></a>Since we are talking about UTC, GMT etc., let us spend a little time on </span>
-<span id="cb98-124"><a href="#cb98-124" aria-hidden="true" tabindex="-1"></a>understanding the basics of time zones and daylight savings.</span>
-<span id="cb98-125"><a href="#cb98-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-126"><a href="#cb98-126" aria-hidden="true" tabindex="-1"></a><span class="fu">### Time Zones</span></span>
-<span id="cb98-127"><a href="#cb98-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-128"><a href="#cb98-128" aria-hidden="true" tabindex="-1"></a>Timezones exist because different parts of the Earth receive sun light at </span>
-<span id="cb98-129"><a href="#cb98-129" aria-hidden="true" tabindex="-1"></a>different times. If there was a single timezone, noon or morning would mean </span>
-<span id="cb98-130"><a href="#cb98-130" aria-hidden="true" tabindex="-1"></a>different things in different parts of the world. The timezones are based on </span>
-<span id="cb98-131"><a href="#cb98-131" aria-hidden="true" tabindex="-1"></a>Earth's rotation. The Earth moves ~15 degrees every 60 minutes i.e. 360 degrees </span>
-<span id="cb98-132"><a href="#cb98-132" aria-hidden="true" tabindex="-1"></a>in 24 hours. The planet is divided into 24 timezones each 15 degrees of </span>
-<span id="cb98-133"><a href="#cb98-133" aria-hidden="true" tabindex="-1"></a>longitude width. </span>
-<span id="cb98-134"><a href="#cb98-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-135"><a href="#cb98-135" aria-hidden="true" tabindex="-1"></a>Now, you have heard of Greenwich Meridian Time (GMT) right? We just saw GMT off </span>
-<span id="cb98-136"><a href="#cb98-136" aria-hidden="true" tabindex="-1"></a>set in <span class="in">`POSIXlt`</span> and you would have come across it in other time formats as </span>
-<span id="cb98-137"><a href="#cb98-137" aria-hidden="true" tabindex="-1"></a>well. For example, India timezone is given as GMT +5:30. Let us explore GMT in a </span>
-<span id="cb98-138"><a href="#cb98-138" aria-hidden="true" tabindex="-1"></a>little more detail. Greenwich is a suburb of London and the time at Greenwich </span>
-<span id="cb98-139"><a href="#cb98-139" aria-hidden="true" tabindex="-1"></a>is **G**reenwich **M**ean **T**ime. As you move West from Greenwich, every 15 </span>
-<span id="cb98-140"><a href="#cb98-140" aria-hidden="true" tabindex="-1"></a>degree section is one hour earlier than GMT and every 15 degree section to the </span>
-<span id="cb98-141"><a href="#cb98-141" aria-hidden="true" tabindex="-1"></a>East is an hour later. </span>
-<span id="cb98-142"><a href="#cb98-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-143"><a href="#cb98-143" aria-hidden="true" tabindex="-1"></a>Alright! What is **UTC** then? **C**oordinated **U**niversal **T**ime (UTC) , </span>
-<span id="cb98-144"><a href="#cb98-144" aria-hidden="true" tabindex="-1"></a>on the other hand, is the time standard commonly used across the world. Even </span>
-<span id="cb98-145"><a href="#cb98-145" aria-hidden="true" tabindex="-1"></a>though they share the same current time, **GMT** is a **timezone** while </span>
-<span id="cb98-146"><a href="#cb98-146" aria-hidden="true" tabindex="-1"></a>**UTC** is a **time standard**.</span>
-<span id="cb98-147"><a href="#cb98-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-148"><a href="#cb98-148" aria-hidden="true" tabindex="-1"></a>So how do we check the timezone in R? When you run <span class="in">`Sys.timezone()`</span>, you should </span>
-<span id="cb98-149"><a href="#cb98-149" aria-hidden="true" tabindex="-1"></a>be able to see the timezone you are in. </span>
-<span id="cb98-150"><a href="#cb98-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-151"><a href="#cb98-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sys_time_zones}</span></span>
-<span id="cb98-152"><a href="#cb98-152" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.timezone</span>()</span>
-<span id="cb98-153"><a href="#cb98-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-154"><a href="#cb98-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-155"><a href="#cb98-155" aria-hidden="true" tabindex="-1"></a>If you do not see the timezone, use <span class="in">`Sys.getenv()`</span> to get the value of the </span>
-<span id="cb98-156"><a href="#cb98-156" aria-hidden="true" tabindex="-1"></a>**TZ** environment variable.</span>
-<span id="cb98-157"><a href="#cb98-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-158"><a href="#cb98-158" aria-hidden="true" tabindex="-1"></a><span class="in">```{r get_time_zone}</span></span>
-<span id="cb98-159"><a href="#cb98-159" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"TZ"</span>)</span>
-<span id="cb98-160"><a href="#cb98-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-161"><a href="#cb98-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-162"><a href="#cb98-162" aria-hidden="true" tabindex="-1"></a>If nothing is returned, it means we have to set the timezone. Use <span class="in">`Sys.setenv()`</span> </span>
-<span id="cb98-163"><a href="#cb98-163" aria-hidden="true" tabindex="-1"></a>to set the timezone as shown below. The author resides in India and hence the </span>
-<span id="cb98-164"><a href="#cb98-164" aria-hidden="true" tabindex="-1"></a>timezone is set to <span class="in">`Asia/Calcutta`</span>. You need to set the timezone in which you </span>
-<span id="cb98-165"><a href="#cb98-165" aria-hidden="true" tabindex="-1"></a>reside or work.</span>
-<span id="cb98-166"><a href="#cb98-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-167"><a href="#cb98-167" aria-hidden="true" tabindex="-1"></a><span class="in">```{r set_time_zone}</span></span>
-<span id="cb98-168"><a href="#cb98-168" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">TZ =</span> <span class="st">"Asia/Calcutta"</span>)</span>
-<span id="cb98-169"><a href="#cb98-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-170"><a href="#cb98-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-171"><a href="#cb98-171" aria-hidden="true" tabindex="-1"></a>Another way to get the timezone is through <span class="in">`tz()`</span> from the lubridate package.</span>
-<span id="cb98-172"><a href="#cb98-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-173"><a href="#cb98-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tz_release_date}</span></span>
-<span id="cb98-174"><a href="#cb98-174" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">tz</span>(<span class="fu">Sys.time</span>())</span>
-<span id="cb98-175"><a href="#cb98-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-176"><a href="#cb98-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-177"><a href="#cb98-177" aria-hidden="true" tabindex="-1"></a>If you want to view the time in a different timezone, use <span class="in">`with_tz()`</span>. Let us </span>
-<span id="cb98-178"><a href="#cb98-178" aria-hidden="true" tabindex="-1"></a>look at the current time in **UTC** instead of **Indian Standard Time**.</span>
-<span id="cb98-179"><a href="#cb98-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-180"><a href="#cb98-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r with_tz}</span></span>
-<span id="cb98-181"><a href="#cb98-181" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">with_tz</span>(<span class="fu">Sys.time</span>(), <span class="st">"UTC"</span>)</span>
-<span id="cb98-182"><a href="#cb98-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-183"><a href="#cb98-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-184"><a href="#cb98-184" aria-hidden="true" tabindex="-1"></a><span class="fu">### Daylight Savings</span></span>
-<span id="cb98-185"><a href="#cb98-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-186"><a href="#cb98-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_daylight, fig.align='center', out.width="200%", echo=FALSE}</span></span>
-<span id="cb98-187"><a href="#cb98-187" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'img/lub_daylight_savings.png'</span>)</span>
-<span id="cb98-188"><a href="#cb98-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-189"><a href="#cb98-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-190"><a href="#cb98-190" aria-hidden="true" tabindex="-1"></a>Daylight savings also known as </span>
-<span id="cb98-191"><a href="#cb98-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-192"><a href="#cb98-192" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>daylight saving time</span>
-<span id="cb98-193"><a href="#cb98-193" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>daylight savings time</span>
-<span id="cb98-194"><a href="#cb98-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>daylight time</span>
-<span id="cb98-195"><a href="#cb98-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>summer time</span>
-<span id="cb98-196"><a href="#cb98-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-197"><a href="#cb98-197" aria-hidden="true" tabindex="-1"></a>is the practice of advancing clocks during summer months so that darkness falls </span>
-<span id="cb98-198"><a href="#cb98-198" aria-hidden="true" tabindex="-1"></a>later each day according to the clock. In other words</span>
-<span id="cb98-199"><a href="#cb98-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-200"><a href="#cb98-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>advance clock by one hour in spring (spring forward)</span>
-<span id="cb98-201"><a href="#cb98-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>retard clocks by one hour in autumn (fall back)</span>
-<span id="cb98-202"><a href="#cb98-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-203"><a href="#cb98-203" aria-hidden="true" tabindex="-1"></a>In R, the <span class="in">`dst()`</span> function is an indicator for daylight savings. It returns </span>
-<span id="cb98-204"><a href="#cb98-204" aria-hidden="true" tabindex="-1"></a><span class="in">`TRUE`</span> if daylight saving is in force, <span class="in">`FALSE`</span> if not and <span class="in">`NA`</span> if unknown.</span>
-<span id="cb98-205"><a href="#cb98-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-206"><a href="#cb98-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dst}</span></span>
-<span id="cb98-207"><a href="#cb98-207" aria-hidden="true" tabindex="-1"></a><span class="fu">dst</span>(<span class="fu">Sys.Date</span>()) </span>
-<span id="cb98-208"><a href="#cb98-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-209"><a href="#cb98-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-210"><a href="#cb98-210" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your Turn</span></span>
-<span id="cb98-211"><a href="#cb98-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-212"><a href="#cb98-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>check the timezone you live in</span>
-<span id="cb98-213"><a href="#cb98-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>check if daylight savings in on</span>
-<span id="cb98-214"><a href="#cb98-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>check the current time in **UTC** or a different time zone </span>
-<span id="cb98-215"><a href="#cb98-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-216"><a href="#cb98-216" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intervals, Duration &amp; Period </span></span>
-<span id="cb98-217"><a href="#cb98-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-218"><a href="#cb98-218" aria-hidden="true" tabindex="-1"></a>In this chapter, we will learn about </span>
-<span id="cb98-219"><a href="#cb98-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-220"><a href="#cb98-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>intervals</span>
-<span id="cb98-221"><a href="#cb98-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>duration</span>
-<span id="cb98-222"><a href="#cb98-222" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>and period</span>
-<span id="cb98-223"><a href="#cb98-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-224"><a href="#cb98-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interval</span></span>
-<span id="cb98-225"><a href="#cb98-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-226"><a href="#cb98-226" aria-hidden="true" tabindex="-1"></a>An interval is a timespan defined by two date-times. Let us represent the length</span>
-<span id="cb98-227"><a href="#cb98-227" aria-hidden="true" tabindex="-1"></a>of the course using <span class="in">`interval`</span>. </span>
-<span id="cb98-228"><a href="#cb98-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-229"><a href="#cb98-229" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-230"><a href="#cb98-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-231"><a href="#cb98-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_course_interval, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-232"><a href="#cb98-232" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/course_interval.png"</span>)</span>
-<span id="cb98-233"><a href="#cb98-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-234"><a href="#cb98-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-235"><a href="#cb98-235" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-236"><a href="#cb98-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-237"><a href="#cb98-237" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub10}</span></span>
-<span id="cb98-238"><a href="#cb98-238" aria-hidden="true" tabindex="-1"></a>course_start    <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-12'</span>)</span>
-<span id="cb98-239"><a href="#cb98-239" aria-hidden="true" tabindex="-1"></a>course_end      <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-21'</span>)</span>
-<span id="cb98-240"><a href="#cb98-240" aria-hidden="true" tabindex="-1"></a><span class="fu">interval</span>(course_start, course_end)</span>
-<span id="cb98-241"><a href="#cb98-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-242"><a href="#cb98-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-243"><a href="#cb98-243" aria-hidden="true" tabindex="-1"></a>If you observe carefully, the interval is represented by the course start and</span>
-<span id="cb98-244"><a href="#cb98-244" aria-hidden="true" tabindex="-1"></a>end dates. We will learn how to use intervals in the case study.</span>
-<span id="cb98-245"><a href="#cb98-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-246"><a href="#cb98-246" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Overlapping Intervals</span></span>
-<span id="cb98-247"><a href="#cb98-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-248"><a href="#cb98-248" aria-hidden="true" tabindex="-1"></a>Let us say you are planning a vacation and want to check if the vacation</span>
-<span id="cb98-249"><a href="#cb98-249" aria-hidden="true" tabindex="-1"></a>dates overlap with the course dates. You can do this by:</span>
-<span id="cb98-250"><a href="#cb98-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-251"><a href="#cb98-251" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>creating vacation and course intervals</span>
-<span id="cb98-252"><a href="#cb98-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>use <span class="in">`int_overlaps()`</span> to check if two intervals overlap. It returns <span class="in">`TRUE`</span></span>
-<span id="cb98-253"><a href="#cb98-253" aria-hidden="true" tabindex="-1"></a>if the intervals overlap else <span class="in">`FALSE`</span>.</span>
-<span id="cb98-254"><a href="#cb98-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-255"><a href="#cb98-255" aria-hidden="true" tabindex="-1"></a>Let us use the vacation start and end dates to create <span class="in">`vacation_interval`</span></span>
-<span id="cb98-256"><a href="#cb98-256" aria-hidden="true" tabindex="-1"></a>and then check if it overlaps with <span class="in">`course_interval`</span>. </span>
-<span id="cb98-257"><a href="#cb98-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-258"><a href="#cb98-258" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-259"><a href="#cb98-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-260"><a href="#cb98-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_intervals_overlap, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-261"><a href="#cb98-261" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/interval_overlap.png"</span>)</span>
-<span id="cb98-262"><a href="#cb98-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-263"><a href="#cb98-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-264"><a href="#cb98-264" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-265"><a href="#cb98-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-266"><a href="#cb98-266" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub60, collapse = TRUE}</span></span>
-<span id="cb98-267"><a href="#cb98-267" aria-hidden="true" tabindex="-1"></a>vacation_start    <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-19'</span>)</span>
-<span id="cb98-268"><a href="#cb98-268" aria-hidden="true" tabindex="-1"></a>vacation_end      <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-25'</span>)</span>
-<span id="cb98-269"><a href="#cb98-269" aria-hidden="true" tabindex="-1"></a>course_interval   <span class="ot">&lt;-</span> <span class="fu">interval</span>(course_start, course_end)</span>
-<span id="cb98-270"><a href="#cb98-270" aria-hidden="true" tabindex="-1"></a>vacation_interval <span class="ot">&lt;-</span> <span class="fu">interval</span>(vacation_start, vacation_end)</span>
-<span id="cb98-271"><a href="#cb98-271" aria-hidden="true" tabindex="-1"></a><span class="fu">int_overlaps</span>(course_interval, vacation_interval)</span>
-<span id="cb98-272"><a href="#cb98-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-273"><a href="#cb98-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-274"><a href="#cb98-274" aria-hidden="true" tabindex="-1"></a><span class="fu">#### How many invoices were settled within due date?</span></span>
-<span id="cb98-275"><a href="#cb98-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-276"><a href="#cb98-276" aria-hidden="true" tabindex="-1"></a>Let us use intervals to count the number of invoices that were settled within</span>
-<span id="cb98-277"><a href="#cb98-277" aria-hidden="true" tabindex="-1"></a>the due date. To do this, we will:</span>
-<span id="cb98-278"><a href="#cb98-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-279"><a href="#cb98-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>create an interval for the invoice and due date</span>
-<span id="cb98-280"><a href="#cb98-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>create a new column <span class="in">`due_next`</span> by incrementing the due date by 1 day</span>
-<span id="cb98-281"><a href="#cb98-281" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>another interval for <span class="in">`due_next`</span> and the payment date</span>
-<span id="cb98-282"><a href="#cb98-282" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>if the intervals overlap, the payment was made within the due date </span>
-<span id="cb98-283"><a href="#cb98-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-284"><a href="#cb98-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub7}</span></span>
-<span id="cb98-285"><a href="#cb98-285" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
-<span id="cb98-286"><a href="#cb98-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb98-287"><a href="#cb98-287" aria-hidden="true" tabindex="-1"></a>    <span class="at">inv_due_interval =</span> <span class="fu">interval</span>(Invoice, Due),</span>
-<span id="cb98-288"><a href="#cb98-288" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_next         =</span> Due <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">1</span>),</span>
-<span id="cb98-289"><a href="#cb98-289" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_pay_interval =</span> <span class="fu">interval</span>(due_next, Payment),</span>
-<span id="cb98-290"><a href="#cb98-290" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlaps         =</span> <span class="fu">int_overlaps</span>(inv_due_interval, due_pay_interval)</span>
-<span id="cb98-291"><a href="#cb98-291" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb98-292"><a href="#cb98-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Invoice, Due, Payment, overlaps)</span>
-<span id="cb98-293"><a href="#cb98-293" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-294"><a href="#cb98-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-295"><a href="#cb98-295" aria-hidden="true" tabindex="-1"></a>Below we show another method to count the number of invoices paid within the</span>
-<span id="cb98-296"><a href="#cb98-296" aria-hidden="true" tabindex="-1"></a>due date. Instead of using <span class="in">`days`</span> to change the due date, we use <span class="in">`int_shift`</span></span>
-<span id="cb98-297"><a href="#cb98-297" aria-hidden="true" tabindex="-1"></a>to shift it by 1 day.</span>
-<span id="cb98-298"><a href="#cb98-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-299"><a href="#cb98-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub12}</span></span>
-<span id="cb98-300"><a href="#cb98-300" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
-<span id="cb98-301"><a href="#cb98-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb98-302"><a href="#cb98-302" aria-hidden="true" tabindex="-1"></a>    <span class="at">inv_due_interval =</span> <span class="fu">interval</span>(Invoice, Due),</span>
-<span id="cb98-303"><a href="#cb98-303" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_pay_interval =</span> <span class="fu">interval</span>(Due, Payment),  </span>
-<span id="cb98-304"><a href="#cb98-304" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_pay_next     =</span> <span class="fu">int_shift</span>(due_pay_interval, <span class="at">by =</span> <span class="fu">days</span>(<span class="dv">1</span>)),</span>
-<span id="cb98-305"><a href="#cb98-305" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlaps         =</span> <span class="fu">int_overlaps</span>(inv_due_interval, due_pay_next)</span>
-<span id="cb98-306"><a href="#cb98-306" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb98-307"><a href="#cb98-307" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Invoice, Due, Payment, overlaps)</span>
-<span id="cb98-308"><a href="#cb98-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-309"><a href="#cb98-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-310"><a href="#cb98-310" aria-hidden="true" tabindex="-1"></a>You might be thinking why we incremented the due date by a day before creating</span>
-<span id="cb98-311"><a href="#cb98-311" aria-hidden="true" tabindex="-1"></a>the interval between the due day and the payment day. If we do not increment, </span>
-<span id="cb98-312"><a href="#cb98-312" aria-hidden="true" tabindex="-1"></a>both the intervals will share a common date i.e. the due date and they will</span>
-<span id="cb98-313"><a href="#cb98-313" aria-hidden="true" tabindex="-1"></a>always overlap as shown below:</span>
-<span id="cb98-314"><a href="#cb98-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-315"><a href="#cb98-315" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub7a}</span></span>
-<span id="cb98-316"><a href="#cb98-316" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
-<span id="cb98-317"><a href="#cb98-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb98-318"><a href="#cb98-318" aria-hidden="true" tabindex="-1"></a>    <span class="at">inv_due_interval =</span> <span class="fu">interval</span>(Invoice, Due),</span>
-<span id="cb98-319"><a href="#cb98-319" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_pay_interval =</span> <span class="fu">interval</span>(Due, Payment),</span>
-<span id="cb98-320"><a href="#cb98-320" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlaps         =</span> <span class="fu">int_overlaps</span>(inv_due_interval, due_pay_interval)</span>
-<span id="cb98-321"><a href="#cb98-321" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb98-322"><a href="#cb98-322" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Invoice, Due, Payment, overlaps)</span>
-<span id="cb98-323"><a href="#cb98-323" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-324"><a href="#cb98-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-325"><a href="#cb98-325" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Shift Interval</span></span>
-<span id="cb98-326"><a href="#cb98-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-327"><a href="#cb98-327" aria-hidden="true" tabindex="-1"></a>Intervals can be shifted too. In the below example, we shift the course </span>
-<span id="cb98-328"><a href="#cb98-328" aria-hidden="true" tabindex="-1"></a>interval by:</span>
-<span id="cb98-329"><a href="#cb98-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-330"><a href="#cb98-330" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>1 day</span>
-<span id="cb98-331"><a href="#cb98-331" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3 weeks</span>
-<span id="cb98-332"><a href="#cb98-332" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>1 year </span>
-<span id="cb98-333"><a href="#cb98-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-334"><a href="#cb98-334" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-335"><a href="#cb98-335" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-336"><a href="#cb98-336" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_shift_interval, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-337"><a href="#cb98-337" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/shift_interval.png"</span>)</span>
-<span id="cb98-338"><a href="#cb98-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-339"><a href="#cb98-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-340"><a href="#cb98-340" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-341"><a href="#cb98-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-342"><a href="#cb98-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lab50, collapse = TRUE}</span></span>
-<span id="cb98-343"><a href="#cb98-343" aria-hidden="true" tabindex="-1"></a>course_interval <span class="ot">&lt;-</span> <span class="fu">interval</span>(course_start, course_end)</span>
-<span id="cb98-344"><a href="#cb98-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-345"><a href="#cb98-345" aria-hidden="true" tabindex="-1"></a><span class="co"># shift course_interval by 1 day </span></span>
-<span id="cb98-346"><a href="#cb98-346" aria-hidden="true" tabindex="-1"></a><span class="fu">int_shift</span>(course_interval, <span class="at">by =</span> <span class="fu">days</span>(<span class="dv">1</span>))</span>
-<span id="cb98-347"><a href="#cb98-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-348"><a href="#cb98-348" aria-hidden="true" tabindex="-1"></a><span class="co"># shift course_interval by 3 weeks</span></span>
-<span id="cb98-349"><a href="#cb98-349" aria-hidden="true" tabindex="-1"></a><span class="fu">int_shift</span>(course_interval, <span class="at">by =</span> <span class="fu">weeks</span>(<span class="dv">3</span>))</span>
-<span id="cb98-350"><a href="#cb98-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-351"><a href="#cb98-351" aria-hidden="true" tabindex="-1"></a><span class="co"># shift course_interval by 1 year</span></span>
-<span id="cb98-352"><a href="#cb98-352" aria-hidden="true" tabindex="-1"></a><span class="fu">int_shift</span>(course_interval, <span class="at">by =</span> <span class="fu">years</span>(<span class="dv">1</span>))</span>
-<span id="cb98-353"><a href="#cb98-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-354"><a href="#cb98-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-355"><a href="#cb98-355" aria-hidden="true" tabindex="-1"></a><span class="fu">### Within</span></span>
-<span id="cb98-356"><a href="#cb98-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-357"><a href="#cb98-357" aria-hidden="true" tabindex="-1"></a>Let us assume that we have to attend a conference in April 2017. Does it occur</span>
-<span id="cb98-358"><a href="#cb98-358" aria-hidden="true" tabindex="-1"></a>during the course duration? We can answer this using <span class="in">`%within%`</span> which will</span>
-<span id="cb98-359"><a href="#cb98-359" aria-hidden="true" tabindex="-1"></a>return <span class="in">`TRUE`</span> if a date falls within an interval.</span>
-<span id="cb98-360"><a href="#cb98-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-361"><a href="#cb98-361" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-362"><a href="#cb98-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-363"><a href="#cb98-363" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_within, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-364"><a href="#cb98-364" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/within.png"</span>)</span>
-<span id="cb98-365"><a href="#cb98-365" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-366"><a href="#cb98-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-367"><a href="#cb98-367" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-368"><a href="#cb98-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-369"><a href="#cb98-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub30, collapse = TRUE}</span></span>
-<span id="cb98-370"><a href="#cb98-370" aria-hidden="true" tabindex="-1"></a>conference <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-15'</span>)</span>
-<span id="cb98-371"><a href="#cb98-371" aria-hidden="true" tabindex="-1"></a>conference <span class="sc">%within%</span> course_interval</span>
-<span id="cb98-372"><a href="#cb98-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-373"><a href="#cb98-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-374"><a href="#cb98-374" aria-hidden="true" tabindex="-1"></a><span class="fu">#### How many invoices were settled within due date?</span></span>
-<span id="cb98-375"><a href="#cb98-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-376"><a href="#cb98-376" aria-hidden="true" tabindex="-1"></a>Let us use <span class="in">`%within%`</span> to count the number of invoices that were settled within </span>
-<span id="cb98-377"><a href="#cb98-377" aria-hidden="true" tabindex="-1"></a>the due date. We will do this by:</span>
-<span id="cb98-378"><a href="#cb98-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-379"><a href="#cb98-379" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>creating an interval for the invoice and due date</span>
-<span id="cb98-380"><a href="#cb98-380" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>check if the payment date falls within the above interval</span>
-<span id="cb98-381"><a href="#cb98-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-382"><a href="#cb98-382" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub13}</span></span>
-<span id="cb98-383"><a href="#cb98-383" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
-<span id="cb98-384"><a href="#cb98-384" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb98-385"><a href="#cb98-385" aria-hidden="true" tabindex="-1"></a>    <span class="at">inv_due_interval =</span> <span class="fu">interval</span>(Invoice, Due),</span>
-<span id="cb98-386"><a href="#cb98-386" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlaps         =</span> Payment <span class="sc">%within%</span> inv_due_interval</span>
-<span id="cb98-387"><a href="#cb98-387" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb98-388"><a href="#cb98-388" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Due, Payment, overlaps)</span>
-<span id="cb98-389"><a href="#cb98-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-390"><a href="#cb98-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-391"><a href="#cb98-391" aria-hidden="true" tabindex="-1"></a><span class="fu">### Duration</span></span>
-<span id="cb98-392"><a href="#cb98-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-393"><a href="#cb98-393" aria-hidden="true" tabindex="-1"></a>Duration is timespan measured in seconds. To create a duration object, use</span>
-<span id="cb98-394"><a href="#cb98-394" aria-hidden="true" tabindex="-1"></a><span class="in">`duration()`</span>. The timespan can be anything from seconds to years but it will be</span>
-<span id="cb98-395"><a href="#cb98-395" aria-hidden="true" tabindex="-1"></a>represented as seconds. Let us begin by creating a duration object where the timespan is in seconds.</span>
-<span id="cb98-396"><a href="#cb98-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-397"><a href="#cb98-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_1}</span></span>
-<span id="cb98-398"><a href="#cb98-398" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="dv">50</span>, <span class="st">"seconds"</span>)</span>
-<span id="cb98-399"><a href="#cb98-399" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-400"><a href="#cb98-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-401"><a href="#cb98-401" aria-hidden="true" tabindex="-1"></a>Another way to specify the above timespan is shown below:</span>
-<span id="cb98-402"><a href="#cb98-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-403"><a href="#cb98-403" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_2}</span></span>
-<span id="cb98-404"><a href="#cb98-404" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">second =</span> <span class="dv">50</span>)</span>
-<span id="cb98-405"><a href="#cb98-405" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-406"><a href="#cb98-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-407"><a href="#cb98-407" aria-hidden="true" tabindex="-1"></a>As you can see, the output is same in both the cases. Let us increase the timespan to 60 seconds and see what happens.</span>
-<span id="cb98-408"><a href="#cb98-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-409"><a href="#cb98-409" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_3}</span></span>
-<span id="cb98-410"><a href="#cb98-410" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">second =</span> <span class="dv">60</span>)</span>
-<span id="cb98-411"><a href="#cb98-411" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-412"><a href="#cb98-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-413"><a href="#cb98-413" aria-hidden="true" tabindex="-1"></a>Although the timespan is primarily measured in seconds, it also shows <span class="in">`~1 minutes`</span> in the brackets. As the length of the timespan increases i.e. the number becomes large, it is represented using larger units such as hours and days. In the below examples, as the number of seconds increases, you can observe larger units being used to represent the timespan.</span>
-<span id="cb98-414"><a href="#cb98-414" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-415"><a href="#cb98-415" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-416"><a href="#cb98-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_4}</span></span>
-<span id="cb98-417"><a href="#cb98-417" aria-hidden="true" tabindex="-1"></a><span class="co"># minutes</span></span>
-<span id="cb98-418"><a href="#cb98-418" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">minute =</span> <span class="dv">50</span>)</span>
-<span id="cb98-419"><a href="#cb98-419" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">minute =</span> <span class="dv">60</span>)</span>
-<span id="cb98-420"><a href="#cb98-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-421"><a href="#cb98-421" aria-hidden="true" tabindex="-1"></a><span class="co"># hours</span></span>
-<span id="cb98-422"><a href="#cb98-422" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">hour =</span> <span class="dv">23</span>)</span>
-<span id="cb98-423"><a href="#cb98-423" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">hour =</span> <span class="dv">24</span>)</span>
-<span id="cb98-424"><a href="#cb98-424" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-425"><a href="#cb98-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-426"><a href="#cb98-426" aria-hidden="true" tabindex="-1"></a>The following helper functions can be used to create duration objects as well.</span>
-<span id="cb98-427"><a href="#cb98-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-428"><a href="#cb98-428" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_5}</span></span>
-<span id="cb98-429"><a href="#cb98-429" aria-hidden="true" tabindex="-1"></a><span class="co"># default</span></span>
-<span id="cb98-430"><a href="#cb98-430" aria-hidden="true" tabindex="-1"></a><span class="fu">dseconds</span>()</span>
-<span id="cb98-431"><a href="#cb98-431" aria-hidden="true" tabindex="-1"></a><span class="fu">dminutes</span>()</span>
-<span id="cb98-432"><a href="#cb98-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-433"><a href="#cb98-433" aria-hidden="true" tabindex="-1"></a><span class="co"># seconds</span></span>
-<span id="cb98-434"><a href="#cb98-434" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">second =</span> <span class="dv">59</span>)</span>
-<span id="cb98-435"><a href="#cb98-435" aria-hidden="true" tabindex="-1"></a><span class="fu">dseconds</span>(<span class="dv">59</span>)</span>
-<span id="cb98-436"><a href="#cb98-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-437"><a href="#cb98-437" aria-hidden="true" tabindex="-1"></a><span class="co"># minutes</span></span>
-<span id="cb98-438"><a href="#cb98-438" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">minute =</span> <span class="dv">50</span>)</span>
-<span id="cb98-439"><a href="#cb98-439" aria-hidden="true" tabindex="-1"></a><span class="fu">dminutes</span>(<span class="dv">50</span>)</span>
-<span id="cb98-440"><a href="#cb98-440" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-441"><a href="#cb98-441" aria-hidden="true" tabindex="-1"></a><span class="co"># hours</span></span>
-<span id="cb98-442"><a href="#cb98-442" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">hour =</span> <span class="dv">36</span>)</span>
-<span id="cb98-443"><a href="#cb98-443" aria-hidden="true" tabindex="-1"></a><span class="fu">dhours</span>(<span class="dv">36</span>)</span>
-<span id="cb98-444"><a href="#cb98-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-445"><a href="#cb98-445" aria-hidden="true" tabindex="-1"></a><span class="co"># weeks</span></span>
-<span id="cb98-446"><a href="#cb98-446" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">week =</span> <span class="dv">56</span>)</span>
-<span id="cb98-447"><a href="#cb98-447" aria-hidden="true" tabindex="-1"></a><span class="fu">dweeks</span>(<span class="dv">56</span>)</span>
-<span id="cb98-448"><a href="#cb98-448" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-449"><a href="#cb98-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-450"><a href="#cb98-450" aria-hidden="true" tabindex="-1"></a>Let us use the above helper functions to get the course length in different units.</span>
-<span id="cb98-451"><a href="#cb98-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-452"><a href="#cb98-452" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_convert, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-453"><a href="#cb98-453" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/convert.png"</span>)</span>
-<span id="cb98-454"><a href="#cb98-454" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-455"><a href="#cb98-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-456"><a href="#cb98-456" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-457"><a href="#cb98-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-458"><a href="#cb98-458" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub11, collapse = TRUE}</span></span>
-<span id="cb98-459"><a href="#cb98-459" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in seconds </span></span>
-<span id="cb98-460"><a href="#cb98-460" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dseconds</span>()</span>
-<span id="cb98-461"><a href="#cb98-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-462"><a href="#cb98-462" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in minutes</span></span>
-<span id="cb98-463"><a href="#cb98-463" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dminutes</span>()</span>
-<span id="cb98-464"><a href="#cb98-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-465"><a href="#cb98-465" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in hours</span></span>
-<span id="cb98-466"><a href="#cb98-466" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dhours</span>()</span>
-<span id="cb98-467"><a href="#cb98-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-468"><a href="#cb98-468" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in weeks</span></span>
-<span id="cb98-469"><a href="#cb98-469" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dweeks</span>()</span>
-<span id="cb98-470"><a href="#cb98-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-471"><a href="#cb98-471" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in years</span></span>
-<span id="cb98-472"><a href="#cb98-472" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dyears</span>()</span>
-<span id="cb98-473"><a href="#cb98-473" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-474"><a href="#cb98-474" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-475"><a href="#cb98-475" aria-hidden="true" tabindex="-1"></a><span class="fu">### Period</span></span>
-<span id="cb98-476"><a href="#cb98-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-477"><a href="#cb98-477" aria-hidden="true" tabindex="-1"></a>A <span class="in">`period`</span> is a timespan defined in units such as years, months, and days. In</span>
-<span id="cb98-478"><a href="#cb98-478" aria-hidden="true" tabindex="-1"></a>the below examples, we use <span class="in">`period()`</span> to represent timespan using different</span>
-<span id="cb98-479"><a href="#cb98-479" aria-hidden="true" tabindex="-1"></a>units.</span>
-<span id="cb98-480"><a href="#cb98-480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-481"><a href="#cb98-481" aria-hidden="true" tabindex="-1"></a><span class="in">```{r period_examples}</span></span>
-<span id="cb98-482"><a href="#cb98-482" aria-hidden="true" tabindex="-1"></a><span class="co"># second</span></span>
-<span id="cb98-483"><a href="#cb98-483" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="dv">5</span>, <span class="st">"second"</span>)</span>
-<span id="cb98-484"><a href="#cb98-484" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="at">second =</span> <span class="dv">5</span>)</span>
-<span id="cb98-485"><a href="#cb98-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-486"><a href="#cb98-486" aria-hidden="true" tabindex="-1"></a><span class="co"># minute &amp; second</span></span>
-<span id="cb98-487"><a href="#cb98-487" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>), <span class="fu">c</span>(<span class="st">"minute"</span>, <span class="st">"second"</span>))</span>
-<span id="cb98-488"><a href="#cb98-488" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="at">minute =</span> <span class="dv">3</span>, <span class="at">second =</span> <span class="dv">5</span>)</span>
-<span id="cb98-489"><a href="#cb98-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-490"><a href="#cb98-490" aria-hidden="true" tabindex="-1"></a><span class="co"># hour, minte &amp; second</span></span>
-<span id="cb98-491"><a href="#cb98-491" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), <span class="fu">c</span>(<span class="st">"hour"</span>, <span class="st">"minute"</span>, <span class="st">"second"</span>))</span>
-<span id="cb98-492"><a href="#cb98-492" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="at">hour =</span> <span class="dv">1</span>, <span class="at">minute =</span> <span class="dv">3</span>, <span class="at">second =</span> <span class="dv">5</span>)</span>
-<span id="cb98-493"><a href="#cb98-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-494"><a href="#cb98-494" aria-hidden="true" tabindex="-1"></a><span class="co"># day, hour, minute &amp; second</span></span>
-<span id="cb98-495"><a href="#cb98-495" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), <span class="fu">c</span>(<span class="st">"day"</span>, <span class="st">"hour"</span>, <span class="st">"minute"</span>, <span class="st">"second"</span>))</span>
-<span id="cb98-496"><a href="#cb98-496" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="at">day =</span> <span class="dv">3</span>, <span class="at">hour =</span> <span class="dv">1</span>, <span class="at">minute =</span> <span class="dv">3</span>, <span class="at">second =</span> <span class="dv">5</span>)</span>
-<span id="cb98-497"><a href="#cb98-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-498"><a href="#cb98-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-499"><a href="#cb98-499" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-500"><a href="#cb98-500" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-501"><a href="#cb98-501" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_as_period, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-502"><a href="#cb98-502" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/as_period.png"</span>)</span>
-<span id="cb98-503"><a href="#cb98-503" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-504"><a href="#cb98-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-505"><a href="#cb98-505" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-506"><a href="#cb98-506" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-507"><a href="#cb98-507" aria-hidden="true" tabindex="-1"></a>Let us get the course length in different units using <span class="in">`as.period()`</span>.</span>
-<span id="cb98-508"><a href="#cb98-508" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-509"><a href="#cb98-509" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub17, collapse = TRUE}</span></span>
-<span id="cb98-510"><a href="#cb98-510" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in second</span></span>
-<span id="cb98-511"><a href="#cb98-511" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(course_interval, <span class="at">unit =</span> <span class="st">"seconds"</span>)</span>
-<span id="cb98-512"><a href="#cb98-512" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-513"><a href="#cb98-513" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in hours and minutes</span></span>
-<span id="cb98-514"><a href="#cb98-514" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(course_interval, <span class="at">unit =</span> <span class="st">"minutes"</span>)</span>
-<span id="cb98-515"><a href="#cb98-515" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-516"><a href="#cb98-516" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in hours, minutes and seconds</span></span>
-<span id="cb98-517"><a href="#cb98-517" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(course_interval, <span class="at">unit =</span> <span class="st">"hours"</span>)</span>
-<span id="cb98-518"><a href="#cb98-518" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-519"><a href="#cb98-519" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-520"><a href="#cb98-520" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-521"><a href="#cb98-521" aria-hidden="true" tabindex="-1"></a><span class="in">`time_length()`</span> computes the exact length of a timespan i.e. <span class="in">`duration`</span>, <span class="in">`interval`</span> or <span class="in">`period`</span>. Let us use <span class="in">`time_length()`</span> to compute the length of the</span>
-<span id="cb98-522"><a href="#cb98-522" aria-hidden="true" tabindex="-1"></a>course in different units.</span>
-<span id="cb98-523"><a href="#cb98-523" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-524"><a href="#cb98-524" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-525"><a href="#cb98-525" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-526"><a href="#cb98-526" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_time_length, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb98-527"><a href="#cb98-527" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/time_length.png"</span>)</span>
-<span id="cb98-528"><a href="#cb98-528" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-529"><a href="#cb98-529" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-530"><a href="#cb98-530" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
-<span id="cb98-531"><a href="#cb98-531" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-532"><a href="#cb98-532" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub16, collapse = TRUE}</span></span>
-<span id="cb98-533"><a href="#cb98-533" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in seconds</span></span>
-<span id="cb98-534"><a href="#cb98-534" aria-hidden="true" tabindex="-1"></a><span class="fu">time_length</span>(course_interval, <span class="at">unit =</span> <span class="st">"seconds"</span>)</span>
-<span id="cb98-535"><a href="#cb98-535" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-536"><a href="#cb98-536" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in minutes</span></span>
-<span id="cb98-537"><a href="#cb98-537" aria-hidden="true" tabindex="-1"></a><span class="fu">time_length</span>(course_interval, <span class="at">unit =</span> <span class="st">"minutes"</span>)</span>
-<span id="cb98-538"><a href="#cb98-538" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-539"><a href="#cb98-539" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in hours</span></span>
-<span id="cb98-540"><a href="#cb98-540" aria-hidden="true" tabindex="-1"></a><span class="fu">time_length</span>(course_interval, <span class="at">unit =</span> <span class="st">"hours"</span>)</span>
-<span id="cb98-541"><a href="#cb98-541" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-542"><a href="#cb98-542" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-543"><a href="#cb98-543" aria-hidden="true" tabindex="-1"></a><span class="fu">## Others </span></span>
-<span id="cb98-544"><a href="#cb98-544" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-545"><a href="#cb98-545" aria-hidden="true" tabindex="-1"></a>In this section, we will learn to round date/time to the nearest unit and roll </span>
-<span id="cb98-546"><a href="#cb98-546" aria-hidden="true" tabindex="-1"></a>back dates. </span>
-<span id="cb98-547"><a href="#cb98-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-548"><a href="#cb98-548" aria-hidden="true" tabindex="-1"></a><span class="fu">### Rounding Dates</span></span>
-<span id="cb98-549"><a href="#cb98-549" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-550"><a href="#cb98-550" aria-hidden="true" tabindex="-1"></a>We will explore functions for rounding dates</span>
-<span id="cb98-551"><a href="#cb98-551" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-552"><a href="#cb98-552" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>to the nearest value using <span class="in">`round_dates()`</span></span>
-<span id="cb98-553"><a href="#cb98-553" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>down using <span class="in">`floor_date()`</span></span>
-<span id="cb98-554"><a href="#cb98-554" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>up using <span class="in">`ceiling_date()`</span></span>
-<span id="cb98-555"><a href="#cb98-555" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-556"><a href="#cb98-556" aria-hidden="true" tabindex="-1"></a>The unit for rounding can be any of the following:</span>
-<span id="cb98-557"><a href="#cb98-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-558"><a href="#cb98-558" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>second</span>
-<span id="cb98-559"><a href="#cb98-559" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>minute</span>
-<span id="cb98-560"><a href="#cb98-560" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>hour</span>
-<span id="cb98-561"><a href="#cb98-561" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>day</span>
-<span id="cb98-562"><a href="#cb98-562" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>week</span>
-<span id="cb98-563"><a href="#cb98-563" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>month</span>
-<span id="cb98-564"><a href="#cb98-564" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>bimonth</span>
-<span id="cb98-565"><a href="#cb98-565" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>quarter</span>
-<span id="cb98-566"><a href="#cb98-566" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>season</span>
-<span id="cb98-567"><a href="#cb98-567" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>halfyear</span>
-<span id="cb98-568"><a href="#cb98-568" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>and year</span>
-<span id="cb98-569"><a href="#cb98-569" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-570"><a href="#cb98-570" aria-hidden="true" tabindex="-1"></a>We will look at a few examples using <span class="in">`round_date()`</span> and you will then practice </span>
-<span id="cb98-571"><a href="#cb98-571" aria-hidden="true" tabindex="-1"></a>using the other two functions.</span>
-<span id="cb98-572"><a href="#cb98-572" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-573"><a href="#cb98-573" aria-hidden="true" tabindex="-1"></a><span class="in">```{r round_dates}</span></span>
-<span id="cb98-574"><a href="#cb98-574" aria-hidden="true" tabindex="-1"></a><span class="co"># minute</span></span>
-<span id="cb98-575"><a href="#cb98-575" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"minute"</span>)</span>
-<span id="cb98-576"><a href="#cb98-576" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"mins"</span>)</span>
-<span id="cb98-577"><a href="#cb98-577" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"5 mins"</span>)</span>
-<span id="cb98-578"><a href="#cb98-578" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-579"><a href="#cb98-579" aria-hidden="true" tabindex="-1"></a><span class="co"># hour</span></span>
-<span id="cb98-580"><a href="#cb98-580" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"hour"</span>)</span>
-<span id="cb98-581"><a href="#cb98-581" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-582"><a href="#cb98-582" aria-hidden="true" tabindex="-1"></a><span class="co"># day</span></span>
-<span id="cb98-583"><a href="#cb98-583" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"day"</span>)</span>
-<span id="cb98-584"><a href="#cb98-584" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-585"><a href="#cb98-585" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-586"><a href="#cb98-586" aria-hidden="true" tabindex="-1"></a><span class="fu">### Rollback </span></span>
-<span id="cb98-587"><a href="#cb98-587" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-588"><a href="#cb98-588" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`rollback()`</span> if you want to change the date to the last day of the previous </span>
-<span id="cb98-589"><a href="#cb98-589" aria-hidden="true" tabindex="-1"></a>month or the first day of the month.</span>
-<span id="cb98-590"><a href="#cb98-590" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-591"><a href="#cb98-591" aria-hidden="true" tabindex="-1"></a><span class="in">```{r rollback_1}</span></span>
-<span id="cb98-592"><a href="#cb98-592" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(release_date)</span>
-<span id="cb98-593"><a href="#cb98-593" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-594"><a href="#cb98-594" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-595"><a href="#cb98-595" aria-hidden="true" tabindex="-1"></a>To change the date to the first day of the month, use the <span class="in">`roll_to_first`</span> </span>
-<span id="cb98-596"><a href="#cb98-596" aria-hidden="true" tabindex="-1"></a>argument and set it to <span class="in">`TRUE`</span>.</span>
-<span id="cb98-597"><a href="#cb98-597" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-598"><a href="#cb98-598" aria-hidden="true" tabindex="-1"></a><span class="in">```{r rollback_2}</span></span>
-<span id="cb98-599"><a href="#cb98-599" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(release_date, <span class="at">roll_to_first =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb98-600"><a href="#cb98-600" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb98-601"><a href="#cb98-601" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-602"><a href="#cb98-602" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your Turn</span></span>
-<span id="cb98-603"><a href="#cb98-603" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-604"><a href="#cb98-604" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>round up the <span class="in">`transact`</span> due dates to weeks</span>
-<span id="cb98-605"><a href="#cb98-605" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>round down the <span class="in">`transact`</span> due dates to days</span>
-<span id="cb98-606"><a href="#cb98-606" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>rollback the <span class="in">`transact`</span> due dates to the beginning of the month</span>
-<span id="cb98-607"><a href="#cb98-607" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-608"><a href="#cb98-608" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try it live {.unnumbered}</span></span>
-<span id="cb98-609"><a href="#cb98-609" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-610"><a href="#cb98-610" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
-<span id="cb98-611"><a href="#cb98-611" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try it in your browser</span></span>
-<span id="cb98-612"><a href="#cb98-612" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-613"><a href="#cb98-613" aria-hidden="true" tabindex="-1"></a>Edit the code below and press **Run**. It executes entirely in your browser</span>
-<span id="cb98-614"><a href="#cb98-614" aria-hidden="true" tabindex="-1"></a>via <span class="co">[</span><span class="ot">WebR</span><span class="co">](https://docs.r-wasm.org/webr/latest/)</span> — no R installation needed.</span>
-<span id="cb98-615"><a href="#cb98-615" aria-hidden="true" tabindex="-1"></a>The runtime downloads once, on this page only.</span>
-<span id="cb98-616"><a href="#cb98-616" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb98-617"><a href="#cb98-617" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-618"><a href="#cb98-618" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr-r}</span></span>
-<span id="cb98-619"><a href="#cb98-619" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
-<span id="cb98-620"><a href="#cb98-620" aria-hidden="true" tabindex="-1"></a><span class="in">library(lubridate)</span></span>
-<span id="cb98-621"><a href="#cb98-621" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb98-622"><a href="#cb98-622" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("transact_sample.csv")) {</span></span>
-<span id="cb98-623"><a href="#cb98-623" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
-<span id="cb98-624"><a href="#cb98-624" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/transact_sample.csv",</span></span>
-<span id="cb98-625"><a href="#cb98-625" aria-hidden="true" tabindex="-1"></a><span class="in">    "transact_sample.csv"</span></span>
-<span id="cb98-626"><a href="#cb98-626" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb98-627"><a href="#cb98-627" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb98-628"><a href="#cb98-628" aria-hidden="true" tabindex="-1"></a><span class="in">transact &lt;- read_csv("transact_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb98-629"><a href="#cb98-629" aria-hidden="true" tabindex="-1"></a><span class="in">transact |&gt;</span></span>
-<span id="cb98-630"><a href="#cb98-630" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(days_to_pay = Payment - Invoice) |&gt;</span></span>
-<span id="cb98-631"><a href="#cb98-631" aria-hidden="true" tabindex="-1"></a><span class="in">  select(Invoice, Due, Payment, days_to_pay) |&gt;</span></span>
-<span id="cb98-632"><a href="#cb98-632" aria-hidden="true" tabindex="-1"></a><span class="in">  head()</span></span>
-<span id="cb98-633"><a href="#cb98-633" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb102" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Data Wrangling in R: durations vs periods vs intervals, time zones, DST, rounding and rollback."</span></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="fu"># Date &amp; Time: Arithmetic and Time Zones {#date-arithmetic-time-zones}</span></span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>This chapter continues @date-and-time-in-r. We do arithmetic with dates,</span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a>compare durations, periods and intervals, handle time zones and DST, and</span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a>round and roll back dates — including the receivables overdue case study.</span>
+<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-11"><a href="#cb102-11" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub_setup_b, echo=FALSE, message=FALSE, warning=FALSE}</span></span>
+<span id="cb102-12"><a href="#cb102-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb102-13"><a href="#cb102-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb102-14"><a href="#cb102-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb102-15"><a href="#cb102-15" aria-hidden="true" tabindex="-1"></a>release_date <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>(<span class="st">"2019-12-12 08:05:03"</span>)</span>
+<span id="cb102-16"><a href="#cb102-16" aria-hidden="true" tabindex="-1"></a>transact <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv'</span>)</span>
+<span id="cb102-17"><a href="#cb102-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-18"><a href="#cb102-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-19"><a href="#cb102-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Date Arithmetic </span></span>
+<span id="cb102-20"><a href="#cb102-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-21"><a href="#cb102-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction </span></span>
+<span id="cb102-22"><a href="#cb102-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-23"><a href="#cb102-23" aria-hidden="true" tabindex="-1"></a>Time to do some arithmetic with the dates. Let us calculate the length of a </span>
+<span id="cb102-24"><a href="#cb102-24" aria-hidden="true" tabindex="-1"></a>course you have enrolled for (Become a Rock Star Data Scientist in 10 Days) by subtracting the course start date from the course end date.</span>
+<span id="cb102-25"><a href="#cb102-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-26"><a href="#cb102-26" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-27"><a href="#cb102-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-28"><a href="#cb102-28" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img2lub, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-29"><a href="#cb102-29" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/course_duration.png"</span>)</span>
+<span id="cb102-30"><a href="#cb102-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-31"><a href="#cb102-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-32"><a href="#cb102-32" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-33"><a href="#cb102-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-34"><a href="#cb102-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub19, collapse = TRUE}</span></span>
+<span id="cb102-35"><a href="#cb102-35" aria-hidden="true" tabindex="-1"></a>course_start    <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-12'</span>)</span>
+<span id="cb102-36"><a href="#cb102-36" aria-hidden="true" tabindex="-1"></a>course_end      <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-21'</span>)</span>
+<span id="cb102-37"><a href="#cb102-37" aria-hidden="true" tabindex="-1"></a>course_duration <span class="ot">&lt;-</span> course_end <span class="sc">-</span> course_start</span>
+<span id="cb102-38"><a href="#cb102-38" aria-hidden="true" tabindex="-1"></a>course_duration</span>
+<span id="cb102-39"><a href="#cb102-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-40"><a href="#cb102-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-41"><a href="#cb102-41" aria-hidden="true" tabindex="-1"></a><span class="fu">### Shift Date</span></span>
+<span id="cb102-42"><a href="#cb102-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-43"><a href="#cb102-43" aria-hidden="true" tabindex="-1"></a>Time to shift the course dates. We can shift a date by days, weeks or months. Let us shift the course start date by:</span>
+<span id="cb102-44"><a href="#cb102-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-45"><a href="#cb102-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>2 days</span>
+<span id="cb102-46"><a href="#cb102-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3 weeks</span>
+<span id="cb102-47"><a href="#cb102-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>1 year</span>
+<span id="cb102-48"><a href="#cb102-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-49"><a href="#cb102-49" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-50"><a href="#cb102-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-51"><a href="#cb102-51" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img3lub, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-52"><a href="#cb102-52" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/shift_dates.png"</span>)</span>
+<span id="cb102-53"><a href="#cb102-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-54"><a href="#cb102-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-55"><a href="#cb102-55" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-56"><a href="#cb102-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-57"><a href="#cb102-57" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lab40, collapse = TRUE}</span></span>
+<span id="cb102-58"><a href="#cb102-58" aria-hidden="true" tabindex="-1"></a>course_start <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">2</span>)</span>
+<span id="cb102-59"><a href="#cb102-59" aria-hidden="true" tabindex="-1"></a>course_start <span class="sc">+</span> <span class="fu">weeks</span>(<span class="dv">3</span>)</span>
+<span id="cb102-60"><a href="#cb102-60" aria-hidden="true" tabindex="-1"></a>course_start <span class="sc">+</span> <span class="fu">years</span>(<span class="dv">1</span>)</span>
+<span id="cb102-61"><a href="#cb102-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-62"><a href="#cb102-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-63"><a href="#cb102-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Case Study</span></span>
+<span id="cb102-64"><a href="#cb102-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-65"><a href="#cb102-65" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Compute days to settle invoice</span></span>
+<span id="cb102-66"><a href="#cb102-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-67"><a href="#cb102-67" aria-hidden="true" tabindex="-1"></a>Let us estimate the number of days to settle the invoice by subtracting the</span>
+<span id="cb102-68"><a href="#cb102-68" aria-hidden="true" tabindex="-1"></a>date of invoice from the date of payment.</span>
+<span id="cb102-69"><a href="#cb102-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-70"><a href="#cb102-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub3}</span></span>
+<span id="cb102-71"><a href="#cb102-71" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
+<span id="cb102-72"><a href="#cb102-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb102-73"><a href="#cb102-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">days_to_pay =</span> Payment <span class="sc">-</span> Invoice</span>
+<span id="cb102-74"><a href="#cb102-74" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb102-75"><a href="#cb102-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-76"><a href="#cb102-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-77"><a href="#cb102-77" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Compute days over due</span></span>
+<span id="cb102-78"><a href="#cb102-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-79"><a href="#cb102-79" aria-hidden="true" tabindex="-1"></a>How many of the invoices were settled post the due date? We can find this by:</span>
+<span id="cb102-80"><a href="#cb102-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-81"><a href="#cb102-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>subtracting the due date from the payment date</span>
+<span id="cb102-82"><a href="#cb102-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>counting the number of rows where delay &lt; 0 </span>
+<span id="cb102-83"><a href="#cb102-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-84"><a href="#cb102-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub4}</span></span>
+<span id="cb102-85"><a href="#cb102-85" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
+<span id="cb102-86"><a href="#cb102-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb102-87"><a href="#cb102-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay =</span> Due <span class="sc">-</span> Payment</span>
+<span id="cb102-88"><a href="#cb102-88" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb102-89"><a href="#cb102-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(delay <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb102-90"><a href="#cb102-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb102-91"><a href="#cb102-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay =</span> delay <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb102-92"><a href="#cb102-92" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb102-93"><a href="#cb102-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(delay)</span>
+<span id="cb102-94"><a href="#cb102-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-95"><a href="#cb102-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-96"><a href="#cb102-96" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your Turn</span></span>
+<span id="cb102-97"><a href="#cb102-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-98"><a href="#cb102-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compute the length of a vacation which begins on <span class="in">`2020-04-19`</span> and ends on <span class="in">`2020-04-25`</span></span>
+<span id="cb102-99"><a href="#cb102-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>recompute the length of the vacation after shifting the vacation start and end date by <span class="in">`10`</span> days and <span class="in">`2`</span> weeks</span>
+<span id="cb102-100"><a href="#cb102-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compute the days to settle invoice and days overdue from the <span class="in">`receivables.csv`</span> data set</span>
+<span id="cb102-101"><a href="#cb102-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compute the length of employment (only for those employees who have been terminated) from the <span class="in">`hr-data.csv`</span> data set (use date of hire and termination)</span>
+<span id="cb102-102"><a href="#cb102-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-103"><a href="#cb102-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Time Zones </span></span>
+<span id="cb102-104"><a href="#cb102-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-105"><a href="#cb102-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction</span></span>
+<span id="cb102-106"><a href="#cb102-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-107"><a href="#cb102-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_timezones, fig.align='center', out.width="200%", echo=FALSE}</span></span>
+<span id="cb102-108"><a href="#cb102-108" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'img/lub_timezones.jpg'</span>)</span>
+<span id="cb102-109"><a href="#cb102-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-110"><a href="#cb102-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-111"><a href="#cb102-111" aria-hidden="true" tabindex="-1"></a>In the previous section, <span class="in">`POSIXlt`</span> stored date/time components as a list. Among </span>
+<span id="cb102-112"><a href="#cb102-112" aria-hidden="true" tabindex="-1"></a>the different components it returned were</span>
+<span id="cb102-113"><a href="#cb102-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-114"><a href="#cb102-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`gmtoff`</span></span>
+<span id="cb102-115"><a href="#cb102-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`zone`</span></span>
+<span id="cb102-116"><a href="#cb102-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-117"><a href="#cb102-117" aria-hidden="true" tabindex="-1"></a><span class="in">`gmtoff`</span> is offset in seconds from GMT i.e. difference in hours and minutes from </span>
+<span id="cb102-118"><a href="#cb102-118" aria-hidden="true" tabindex="-1"></a>UTC. Wait.. What do UTC and GMT stand for?</span>
+<span id="cb102-119"><a href="#cb102-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-120"><a href="#cb102-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Coordinated Universal Time (UTC)</span>
+<span id="cb102-121"><a href="#cb102-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Greenwich Meridian Time (GMT)</span>
+<span id="cb102-122"><a href="#cb102-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-123"><a href="#cb102-123" aria-hidden="true" tabindex="-1"></a>Since we are talking about UTC, GMT etc., let us spend a little time on </span>
+<span id="cb102-124"><a href="#cb102-124" aria-hidden="true" tabindex="-1"></a>understanding the basics of time zones and daylight savings.</span>
+<span id="cb102-125"><a href="#cb102-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-126"><a href="#cb102-126" aria-hidden="true" tabindex="-1"></a><span class="fu">### Time Zones</span></span>
+<span id="cb102-127"><a href="#cb102-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-128"><a href="#cb102-128" aria-hidden="true" tabindex="-1"></a>Timezones exist because different parts of the Earth receive sun light at </span>
+<span id="cb102-129"><a href="#cb102-129" aria-hidden="true" tabindex="-1"></a>different times. If there was a single timezone, noon or morning would mean </span>
+<span id="cb102-130"><a href="#cb102-130" aria-hidden="true" tabindex="-1"></a>different things in different parts of the world. The timezones are based on </span>
+<span id="cb102-131"><a href="#cb102-131" aria-hidden="true" tabindex="-1"></a>Earth's rotation. The Earth moves ~15 degrees every 60 minutes i.e. 360 degrees </span>
+<span id="cb102-132"><a href="#cb102-132" aria-hidden="true" tabindex="-1"></a>in 24 hours. The planet is divided into 24 timezones each 15 degrees of </span>
+<span id="cb102-133"><a href="#cb102-133" aria-hidden="true" tabindex="-1"></a>longitude width. </span>
+<span id="cb102-134"><a href="#cb102-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-135"><a href="#cb102-135" aria-hidden="true" tabindex="-1"></a>Now, you have heard of Greenwich Meridian Time (GMT) right? We just saw GMT off </span>
+<span id="cb102-136"><a href="#cb102-136" aria-hidden="true" tabindex="-1"></a>set in <span class="in">`POSIXlt`</span> and you would have come across it in other time formats as </span>
+<span id="cb102-137"><a href="#cb102-137" aria-hidden="true" tabindex="-1"></a>well. For example, India timezone is given as GMT +5:30. Let us explore GMT in a </span>
+<span id="cb102-138"><a href="#cb102-138" aria-hidden="true" tabindex="-1"></a>little more detail. Greenwich is a suburb of London and the time at Greenwich </span>
+<span id="cb102-139"><a href="#cb102-139" aria-hidden="true" tabindex="-1"></a>is **G**reenwich **M**ean **T**ime. As you move West from Greenwich, every 15 </span>
+<span id="cb102-140"><a href="#cb102-140" aria-hidden="true" tabindex="-1"></a>degree section is one hour earlier than GMT and every 15 degree section to the </span>
+<span id="cb102-141"><a href="#cb102-141" aria-hidden="true" tabindex="-1"></a>East is an hour later. </span>
+<span id="cb102-142"><a href="#cb102-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-143"><a href="#cb102-143" aria-hidden="true" tabindex="-1"></a>Alright! What is **UTC** then? **C**oordinated **U**niversal **T**ime (UTC) , </span>
+<span id="cb102-144"><a href="#cb102-144" aria-hidden="true" tabindex="-1"></a>on the other hand, is the time standard commonly used across the world. Even </span>
+<span id="cb102-145"><a href="#cb102-145" aria-hidden="true" tabindex="-1"></a>though they share the same current time, **GMT** is a **timezone** while </span>
+<span id="cb102-146"><a href="#cb102-146" aria-hidden="true" tabindex="-1"></a>**UTC** is a **time standard**.</span>
+<span id="cb102-147"><a href="#cb102-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-148"><a href="#cb102-148" aria-hidden="true" tabindex="-1"></a>So how do we check the timezone in R? When you run <span class="in">`Sys.timezone()`</span>, you should </span>
+<span id="cb102-149"><a href="#cb102-149" aria-hidden="true" tabindex="-1"></a>be able to see the timezone you are in. </span>
+<span id="cb102-150"><a href="#cb102-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-151"><a href="#cb102-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sys_time_zones}</span></span>
+<span id="cb102-152"><a href="#cb102-152" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.timezone</span>()</span>
+<span id="cb102-153"><a href="#cb102-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-154"><a href="#cb102-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-155"><a href="#cb102-155" aria-hidden="true" tabindex="-1"></a>If you do not see the timezone, use <span class="in">`Sys.getenv()`</span> to get the value of the </span>
+<span id="cb102-156"><a href="#cb102-156" aria-hidden="true" tabindex="-1"></a>**TZ** environment variable.</span>
+<span id="cb102-157"><a href="#cb102-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-158"><a href="#cb102-158" aria-hidden="true" tabindex="-1"></a><span class="in">```{r get_time_zone}</span></span>
+<span id="cb102-159"><a href="#cb102-159" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"TZ"</span>)</span>
+<span id="cb102-160"><a href="#cb102-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-161"><a href="#cb102-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-162"><a href="#cb102-162" aria-hidden="true" tabindex="-1"></a>If nothing is returned, it means we have to set the timezone. Use <span class="in">`Sys.setenv()`</span> </span>
+<span id="cb102-163"><a href="#cb102-163" aria-hidden="true" tabindex="-1"></a>to set the timezone as shown below. The author resides in India and hence the </span>
+<span id="cb102-164"><a href="#cb102-164" aria-hidden="true" tabindex="-1"></a>timezone is set to <span class="in">`Asia/Calcutta`</span>. You need to set the timezone in which you </span>
+<span id="cb102-165"><a href="#cb102-165" aria-hidden="true" tabindex="-1"></a>reside or work.</span>
+<span id="cb102-166"><a href="#cb102-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-167"><a href="#cb102-167" aria-hidden="true" tabindex="-1"></a><span class="in">```{r set_time_zone}</span></span>
+<span id="cb102-168"><a href="#cb102-168" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">TZ =</span> <span class="st">"Asia/Calcutta"</span>)</span>
+<span id="cb102-169"><a href="#cb102-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-170"><a href="#cb102-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-171"><a href="#cb102-171" aria-hidden="true" tabindex="-1"></a>Another way to get the timezone is through <span class="in">`tz()`</span> from the lubridate package.</span>
+<span id="cb102-172"><a href="#cb102-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-173"><a href="#cb102-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tz_release_date}</span></span>
+<span id="cb102-174"><a href="#cb102-174" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">tz</span>(<span class="fu">Sys.time</span>())</span>
+<span id="cb102-175"><a href="#cb102-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-176"><a href="#cb102-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-177"><a href="#cb102-177" aria-hidden="true" tabindex="-1"></a>If you want to view the time in a different timezone, use <span class="in">`with_tz()`</span>. Let us </span>
+<span id="cb102-178"><a href="#cb102-178" aria-hidden="true" tabindex="-1"></a>look at the current time in **UTC** instead of **Indian Standard Time**.</span>
+<span id="cb102-179"><a href="#cb102-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-180"><a href="#cb102-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r with_tz}</span></span>
+<span id="cb102-181"><a href="#cb102-181" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">with_tz</span>(<span class="fu">Sys.time</span>(), <span class="st">"UTC"</span>)</span>
+<span id="cb102-182"><a href="#cb102-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-183"><a href="#cb102-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-184"><a href="#cb102-184" aria-hidden="true" tabindex="-1"></a><span class="fu">### Daylight Savings</span></span>
+<span id="cb102-185"><a href="#cb102-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-186"><a href="#cb102-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_daylight, fig.align='center', out.width="200%", echo=FALSE}</span></span>
+<span id="cb102-187"><a href="#cb102-187" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'img/lub_daylight_savings.png'</span>)</span>
+<span id="cb102-188"><a href="#cb102-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-189"><a href="#cb102-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-190"><a href="#cb102-190" aria-hidden="true" tabindex="-1"></a>Daylight savings also known as </span>
+<span id="cb102-191"><a href="#cb102-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-192"><a href="#cb102-192" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>daylight saving time</span>
+<span id="cb102-193"><a href="#cb102-193" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>daylight savings time</span>
+<span id="cb102-194"><a href="#cb102-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>daylight time</span>
+<span id="cb102-195"><a href="#cb102-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>summer time</span>
+<span id="cb102-196"><a href="#cb102-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-197"><a href="#cb102-197" aria-hidden="true" tabindex="-1"></a>is the practice of advancing clocks during summer months so that darkness falls </span>
+<span id="cb102-198"><a href="#cb102-198" aria-hidden="true" tabindex="-1"></a>later each day according to the clock. In other words</span>
+<span id="cb102-199"><a href="#cb102-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-200"><a href="#cb102-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>advance clock by one hour in spring (spring forward)</span>
+<span id="cb102-201"><a href="#cb102-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>retard clocks by one hour in autumn (fall back)</span>
+<span id="cb102-202"><a href="#cb102-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-203"><a href="#cb102-203" aria-hidden="true" tabindex="-1"></a>In R, the <span class="in">`dst()`</span> function is an indicator for daylight savings. It returns </span>
+<span id="cb102-204"><a href="#cb102-204" aria-hidden="true" tabindex="-1"></a><span class="in">`TRUE`</span> if daylight saving is in force, <span class="in">`FALSE`</span> if not and <span class="in">`NA`</span> if unknown.</span>
+<span id="cb102-205"><a href="#cb102-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-206"><a href="#cb102-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dst}</span></span>
+<span id="cb102-207"><a href="#cb102-207" aria-hidden="true" tabindex="-1"></a><span class="fu">dst</span>(<span class="fu">Sys.Date</span>()) </span>
+<span id="cb102-208"><a href="#cb102-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-209"><a href="#cb102-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-210"><a href="#cb102-210" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your Turn</span></span>
+<span id="cb102-211"><a href="#cb102-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-212"><a href="#cb102-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>check the timezone you live in</span>
+<span id="cb102-213"><a href="#cb102-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>check if daylight savings in on</span>
+<span id="cb102-214"><a href="#cb102-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>check the current time in **UTC** or a different time zone </span>
+<span id="cb102-215"><a href="#cb102-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-216"><a href="#cb102-216" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intervals, Duration &amp; Period </span></span>
+<span id="cb102-217"><a href="#cb102-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-218"><a href="#cb102-218" aria-hidden="true" tabindex="-1"></a>In this chapter, we will learn about </span>
+<span id="cb102-219"><a href="#cb102-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-220"><a href="#cb102-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>intervals</span>
+<span id="cb102-221"><a href="#cb102-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>duration</span>
+<span id="cb102-222"><a href="#cb102-222" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>and period</span>
+<span id="cb102-223"><a href="#cb102-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-224"><a href="#cb102-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interval</span></span>
+<span id="cb102-225"><a href="#cb102-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-226"><a href="#cb102-226" aria-hidden="true" tabindex="-1"></a>An interval is a timespan defined by two date-times. Let us represent the length</span>
+<span id="cb102-227"><a href="#cb102-227" aria-hidden="true" tabindex="-1"></a>of the course using <span class="in">`interval`</span>. </span>
+<span id="cb102-228"><a href="#cb102-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-229"><a href="#cb102-229" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-230"><a href="#cb102-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-231"><a href="#cb102-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_course_interval, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-232"><a href="#cb102-232" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/course_interval.png"</span>)</span>
+<span id="cb102-233"><a href="#cb102-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-234"><a href="#cb102-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-235"><a href="#cb102-235" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-236"><a href="#cb102-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-237"><a href="#cb102-237" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub10}</span></span>
+<span id="cb102-238"><a href="#cb102-238" aria-hidden="true" tabindex="-1"></a>course_start    <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-12'</span>)</span>
+<span id="cb102-239"><a href="#cb102-239" aria-hidden="true" tabindex="-1"></a>course_end      <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-21'</span>)</span>
+<span id="cb102-240"><a href="#cb102-240" aria-hidden="true" tabindex="-1"></a><span class="fu">interval</span>(course_start, course_end)</span>
+<span id="cb102-241"><a href="#cb102-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-242"><a href="#cb102-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-243"><a href="#cb102-243" aria-hidden="true" tabindex="-1"></a>If you observe carefully, the interval is represented by the course start and</span>
+<span id="cb102-244"><a href="#cb102-244" aria-hidden="true" tabindex="-1"></a>end dates. We will learn how to use intervals in the case study.</span>
+<span id="cb102-245"><a href="#cb102-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-246"><a href="#cb102-246" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Overlapping Intervals</span></span>
+<span id="cb102-247"><a href="#cb102-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-248"><a href="#cb102-248" aria-hidden="true" tabindex="-1"></a>Let us say you are planning a vacation and want to check if the vacation</span>
+<span id="cb102-249"><a href="#cb102-249" aria-hidden="true" tabindex="-1"></a>dates overlap with the course dates. You can do this by:</span>
+<span id="cb102-250"><a href="#cb102-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-251"><a href="#cb102-251" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>creating vacation and course intervals</span>
+<span id="cb102-252"><a href="#cb102-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>use <span class="in">`int_overlaps()`</span> to check if two intervals overlap. It returns <span class="in">`TRUE`</span></span>
+<span id="cb102-253"><a href="#cb102-253" aria-hidden="true" tabindex="-1"></a>if the intervals overlap else <span class="in">`FALSE`</span>.</span>
+<span id="cb102-254"><a href="#cb102-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-255"><a href="#cb102-255" aria-hidden="true" tabindex="-1"></a>Let us use the vacation start and end dates to create <span class="in">`vacation_interval`</span></span>
+<span id="cb102-256"><a href="#cb102-256" aria-hidden="true" tabindex="-1"></a>and then check if it overlaps with <span class="in">`course_interval`</span>. </span>
+<span id="cb102-257"><a href="#cb102-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-258"><a href="#cb102-258" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-259"><a href="#cb102-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-260"><a href="#cb102-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_intervals_overlap, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-261"><a href="#cb102-261" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/interval_overlap.png"</span>)</span>
+<span id="cb102-262"><a href="#cb102-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-263"><a href="#cb102-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-264"><a href="#cb102-264" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-265"><a href="#cb102-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-266"><a href="#cb102-266" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub60, collapse = TRUE}</span></span>
+<span id="cb102-267"><a href="#cb102-267" aria-hidden="true" tabindex="-1"></a>vacation_start    <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-19'</span>)</span>
+<span id="cb102-268"><a href="#cb102-268" aria-hidden="true" tabindex="-1"></a>vacation_end      <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-25'</span>)</span>
+<span id="cb102-269"><a href="#cb102-269" aria-hidden="true" tabindex="-1"></a>course_interval   <span class="ot">&lt;-</span> <span class="fu">interval</span>(course_start, course_end)</span>
+<span id="cb102-270"><a href="#cb102-270" aria-hidden="true" tabindex="-1"></a>vacation_interval <span class="ot">&lt;-</span> <span class="fu">interval</span>(vacation_start, vacation_end)</span>
+<span id="cb102-271"><a href="#cb102-271" aria-hidden="true" tabindex="-1"></a><span class="fu">int_overlaps</span>(course_interval, vacation_interval)</span>
+<span id="cb102-272"><a href="#cb102-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-273"><a href="#cb102-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-274"><a href="#cb102-274" aria-hidden="true" tabindex="-1"></a><span class="fu">#### How many invoices were settled within due date?</span></span>
+<span id="cb102-275"><a href="#cb102-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-276"><a href="#cb102-276" aria-hidden="true" tabindex="-1"></a>Let us use intervals to count the number of invoices that were settled within</span>
+<span id="cb102-277"><a href="#cb102-277" aria-hidden="true" tabindex="-1"></a>the due date. To do this, we will:</span>
+<span id="cb102-278"><a href="#cb102-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-279"><a href="#cb102-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>create an interval for the invoice and due date</span>
+<span id="cb102-280"><a href="#cb102-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>create a new column <span class="in">`due_next`</span> by incrementing the due date by 1 day</span>
+<span id="cb102-281"><a href="#cb102-281" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>another interval for <span class="in">`due_next`</span> and the payment date</span>
+<span id="cb102-282"><a href="#cb102-282" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>if the intervals overlap, the payment was made within the due date </span>
+<span id="cb102-283"><a href="#cb102-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-284"><a href="#cb102-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub7}</span></span>
+<span id="cb102-285"><a href="#cb102-285" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
+<span id="cb102-286"><a href="#cb102-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb102-287"><a href="#cb102-287" aria-hidden="true" tabindex="-1"></a>    <span class="at">inv_due_interval =</span> <span class="fu">interval</span>(Invoice, Due),</span>
+<span id="cb102-288"><a href="#cb102-288" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_next         =</span> Due <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">1</span>),</span>
+<span id="cb102-289"><a href="#cb102-289" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_pay_interval =</span> <span class="fu">interval</span>(due_next, Payment),</span>
+<span id="cb102-290"><a href="#cb102-290" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlaps         =</span> <span class="fu">int_overlaps</span>(inv_due_interval, due_pay_interval)</span>
+<span id="cb102-291"><a href="#cb102-291" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb102-292"><a href="#cb102-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Invoice, Due, Payment, overlaps)</span>
+<span id="cb102-293"><a href="#cb102-293" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-294"><a href="#cb102-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-295"><a href="#cb102-295" aria-hidden="true" tabindex="-1"></a>Below we show another method to count the number of invoices paid within the</span>
+<span id="cb102-296"><a href="#cb102-296" aria-hidden="true" tabindex="-1"></a>due date. Instead of using <span class="in">`days`</span> to change the due date, we use <span class="in">`int_shift`</span></span>
+<span id="cb102-297"><a href="#cb102-297" aria-hidden="true" tabindex="-1"></a>to shift it by 1 day.</span>
+<span id="cb102-298"><a href="#cb102-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-299"><a href="#cb102-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub12}</span></span>
+<span id="cb102-300"><a href="#cb102-300" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
+<span id="cb102-301"><a href="#cb102-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb102-302"><a href="#cb102-302" aria-hidden="true" tabindex="-1"></a>    <span class="at">inv_due_interval =</span> <span class="fu">interval</span>(Invoice, Due),</span>
+<span id="cb102-303"><a href="#cb102-303" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_pay_interval =</span> <span class="fu">interval</span>(Due, Payment),  </span>
+<span id="cb102-304"><a href="#cb102-304" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_pay_next     =</span> <span class="fu">int_shift</span>(due_pay_interval, <span class="at">by =</span> <span class="fu">days</span>(<span class="dv">1</span>)),</span>
+<span id="cb102-305"><a href="#cb102-305" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlaps         =</span> <span class="fu">int_overlaps</span>(inv_due_interval, due_pay_next)</span>
+<span id="cb102-306"><a href="#cb102-306" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb102-307"><a href="#cb102-307" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Invoice, Due, Payment, overlaps)</span>
+<span id="cb102-308"><a href="#cb102-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-309"><a href="#cb102-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-310"><a href="#cb102-310" aria-hidden="true" tabindex="-1"></a>You might be thinking why we incremented the due date by a day before creating</span>
+<span id="cb102-311"><a href="#cb102-311" aria-hidden="true" tabindex="-1"></a>the interval between the due day and the payment day. If we do not increment, </span>
+<span id="cb102-312"><a href="#cb102-312" aria-hidden="true" tabindex="-1"></a>both the intervals will share a common date i.e. the due date and they will</span>
+<span id="cb102-313"><a href="#cb102-313" aria-hidden="true" tabindex="-1"></a>always overlap as shown below:</span>
+<span id="cb102-314"><a href="#cb102-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-315"><a href="#cb102-315" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub7a}</span></span>
+<span id="cb102-316"><a href="#cb102-316" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
+<span id="cb102-317"><a href="#cb102-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb102-318"><a href="#cb102-318" aria-hidden="true" tabindex="-1"></a>    <span class="at">inv_due_interval =</span> <span class="fu">interval</span>(Invoice, Due),</span>
+<span id="cb102-319"><a href="#cb102-319" aria-hidden="true" tabindex="-1"></a>    <span class="at">due_pay_interval =</span> <span class="fu">interval</span>(Due, Payment),</span>
+<span id="cb102-320"><a href="#cb102-320" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlaps         =</span> <span class="fu">int_overlaps</span>(inv_due_interval, due_pay_interval)</span>
+<span id="cb102-321"><a href="#cb102-321" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb102-322"><a href="#cb102-322" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Invoice, Due, Payment, overlaps)</span>
+<span id="cb102-323"><a href="#cb102-323" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-324"><a href="#cb102-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-325"><a href="#cb102-325" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Shift Interval</span></span>
+<span id="cb102-326"><a href="#cb102-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-327"><a href="#cb102-327" aria-hidden="true" tabindex="-1"></a>Intervals can be shifted too. In the below example, we shift the course </span>
+<span id="cb102-328"><a href="#cb102-328" aria-hidden="true" tabindex="-1"></a>interval by:</span>
+<span id="cb102-329"><a href="#cb102-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-330"><a href="#cb102-330" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>1 day</span>
+<span id="cb102-331"><a href="#cb102-331" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3 weeks</span>
+<span id="cb102-332"><a href="#cb102-332" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>1 year </span>
+<span id="cb102-333"><a href="#cb102-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-334"><a href="#cb102-334" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-335"><a href="#cb102-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-336"><a href="#cb102-336" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_shift_interval, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-337"><a href="#cb102-337" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/shift_interval.png"</span>)</span>
+<span id="cb102-338"><a href="#cb102-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-339"><a href="#cb102-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-340"><a href="#cb102-340" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-341"><a href="#cb102-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-342"><a href="#cb102-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lab50, collapse = TRUE}</span></span>
+<span id="cb102-343"><a href="#cb102-343" aria-hidden="true" tabindex="-1"></a>course_interval <span class="ot">&lt;-</span> <span class="fu">interval</span>(course_start, course_end)</span>
+<span id="cb102-344"><a href="#cb102-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-345"><a href="#cb102-345" aria-hidden="true" tabindex="-1"></a><span class="co"># shift course_interval by 1 day </span></span>
+<span id="cb102-346"><a href="#cb102-346" aria-hidden="true" tabindex="-1"></a><span class="fu">int_shift</span>(course_interval, <span class="at">by =</span> <span class="fu">days</span>(<span class="dv">1</span>))</span>
+<span id="cb102-347"><a href="#cb102-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-348"><a href="#cb102-348" aria-hidden="true" tabindex="-1"></a><span class="co"># shift course_interval by 3 weeks</span></span>
+<span id="cb102-349"><a href="#cb102-349" aria-hidden="true" tabindex="-1"></a><span class="fu">int_shift</span>(course_interval, <span class="at">by =</span> <span class="fu">weeks</span>(<span class="dv">3</span>))</span>
+<span id="cb102-350"><a href="#cb102-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-351"><a href="#cb102-351" aria-hidden="true" tabindex="-1"></a><span class="co"># shift course_interval by 1 year</span></span>
+<span id="cb102-352"><a href="#cb102-352" aria-hidden="true" tabindex="-1"></a><span class="fu">int_shift</span>(course_interval, <span class="at">by =</span> <span class="fu">years</span>(<span class="dv">1</span>))</span>
+<span id="cb102-353"><a href="#cb102-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-354"><a href="#cb102-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-355"><a href="#cb102-355" aria-hidden="true" tabindex="-1"></a><span class="fu">### Within</span></span>
+<span id="cb102-356"><a href="#cb102-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-357"><a href="#cb102-357" aria-hidden="true" tabindex="-1"></a>Let us assume that we have to attend a conference in April 2017. Does it occur</span>
+<span id="cb102-358"><a href="#cb102-358" aria-hidden="true" tabindex="-1"></a>during the course duration? We can answer this using <span class="in">`%within%`</span> which will</span>
+<span id="cb102-359"><a href="#cb102-359" aria-hidden="true" tabindex="-1"></a>return <span class="in">`TRUE`</span> if a date falls within an interval.</span>
+<span id="cb102-360"><a href="#cb102-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-361"><a href="#cb102-361" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-362"><a href="#cb102-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-363"><a href="#cb102-363" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_within, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-364"><a href="#cb102-364" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/within.png"</span>)</span>
+<span id="cb102-365"><a href="#cb102-365" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-366"><a href="#cb102-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-367"><a href="#cb102-367" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-368"><a href="#cb102-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-369"><a href="#cb102-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub30, collapse = TRUE}</span></span>
+<span id="cb102-370"><a href="#cb102-370" aria-hidden="true" tabindex="-1"></a>conference <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">'2017-04-15'</span>)</span>
+<span id="cb102-371"><a href="#cb102-371" aria-hidden="true" tabindex="-1"></a>conference <span class="sc">%within%</span> course_interval</span>
+<span id="cb102-372"><a href="#cb102-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-373"><a href="#cb102-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-374"><a href="#cb102-374" aria-hidden="true" tabindex="-1"></a><span class="fu">#### How many invoices were settled within due date?</span></span>
+<span id="cb102-375"><a href="#cb102-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-376"><a href="#cb102-376" aria-hidden="true" tabindex="-1"></a>Let us use <span class="in">`%within%`</span> to count the number of invoices that were settled within </span>
+<span id="cb102-377"><a href="#cb102-377" aria-hidden="true" tabindex="-1"></a>the due date. We will do this by:</span>
+<span id="cb102-378"><a href="#cb102-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-379"><a href="#cb102-379" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>creating an interval for the invoice and due date</span>
+<span id="cb102-380"><a href="#cb102-380" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>check if the payment date falls within the above interval</span>
+<span id="cb102-381"><a href="#cb102-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-382"><a href="#cb102-382" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub13}</span></span>
+<span id="cb102-383"><a href="#cb102-383" aria-hidden="true" tabindex="-1"></a>transact <span class="sc">|&gt;</span></span>
+<span id="cb102-384"><a href="#cb102-384" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb102-385"><a href="#cb102-385" aria-hidden="true" tabindex="-1"></a>    <span class="at">inv_due_interval =</span> <span class="fu">interval</span>(Invoice, Due),</span>
+<span id="cb102-386"><a href="#cb102-386" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlaps         =</span> Payment <span class="sc">%within%</span> inv_due_interval</span>
+<span id="cb102-387"><a href="#cb102-387" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb102-388"><a href="#cb102-388" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Due, Payment, overlaps)</span>
+<span id="cb102-389"><a href="#cb102-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-390"><a href="#cb102-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-391"><a href="#cb102-391" aria-hidden="true" tabindex="-1"></a><span class="fu">### Duration</span></span>
+<span id="cb102-392"><a href="#cb102-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-393"><a href="#cb102-393" aria-hidden="true" tabindex="-1"></a>Duration is timespan measured in seconds. To create a duration object, use</span>
+<span id="cb102-394"><a href="#cb102-394" aria-hidden="true" tabindex="-1"></a><span class="in">`duration()`</span>. The timespan can be anything from seconds to years but it will be</span>
+<span id="cb102-395"><a href="#cb102-395" aria-hidden="true" tabindex="-1"></a>represented as seconds. Let us begin by creating a duration object where the timespan is in seconds.</span>
+<span id="cb102-396"><a href="#cb102-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-397"><a href="#cb102-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_1}</span></span>
+<span id="cb102-398"><a href="#cb102-398" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="dv">50</span>, <span class="st">"seconds"</span>)</span>
+<span id="cb102-399"><a href="#cb102-399" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-400"><a href="#cb102-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-401"><a href="#cb102-401" aria-hidden="true" tabindex="-1"></a>Another way to specify the above timespan is shown below:</span>
+<span id="cb102-402"><a href="#cb102-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-403"><a href="#cb102-403" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_2}</span></span>
+<span id="cb102-404"><a href="#cb102-404" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">second =</span> <span class="dv">50</span>)</span>
+<span id="cb102-405"><a href="#cb102-405" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-406"><a href="#cb102-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-407"><a href="#cb102-407" aria-hidden="true" tabindex="-1"></a>As you can see, the output is same in both the cases. Let us increase the timespan to 60 seconds and see what happens.</span>
+<span id="cb102-408"><a href="#cb102-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-409"><a href="#cb102-409" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_3}</span></span>
+<span id="cb102-410"><a href="#cb102-410" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">second =</span> <span class="dv">60</span>)</span>
+<span id="cb102-411"><a href="#cb102-411" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-412"><a href="#cb102-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-413"><a href="#cb102-413" aria-hidden="true" tabindex="-1"></a>Although the timespan is primarily measured in seconds, it also shows <span class="in">`~1 minutes`</span> in the brackets. As the length of the timespan increases i.e. the number becomes large, it is represented using larger units such as hours and days. In the below examples, as the number of seconds increases, you can observe larger units being used to represent the timespan.</span>
+<span id="cb102-414"><a href="#cb102-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-415"><a href="#cb102-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-416"><a href="#cb102-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_4}</span></span>
+<span id="cb102-417"><a href="#cb102-417" aria-hidden="true" tabindex="-1"></a><span class="co"># minutes</span></span>
+<span id="cb102-418"><a href="#cb102-418" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">minute =</span> <span class="dv">50</span>)</span>
+<span id="cb102-419"><a href="#cb102-419" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">minute =</span> <span class="dv">60</span>)</span>
+<span id="cb102-420"><a href="#cb102-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-421"><a href="#cb102-421" aria-hidden="true" tabindex="-1"></a><span class="co"># hours</span></span>
+<span id="cb102-422"><a href="#cb102-422" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">hour =</span> <span class="dv">23</span>)</span>
+<span id="cb102-423"><a href="#cb102-423" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">hour =</span> <span class="dv">24</span>)</span>
+<span id="cb102-424"><a href="#cb102-424" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-425"><a href="#cb102-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-426"><a href="#cb102-426" aria-hidden="true" tabindex="-1"></a>The following helper functions can be used to create duration objects as well.</span>
+<span id="cb102-427"><a href="#cb102-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-428"><a href="#cb102-428" aria-hidden="true" tabindex="-1"></a><span class="in">```{r duration_5}</span></span>
+<span id="cb102-429"><a href="#cb102-429" aria-hidden="true" tabindex="-1"></a><span class="co"># default</span></span>
+<span id="cb102-430"><a href="#cb102-430" aria-hidden="true" tabindex="-1"></a><span class="fu">dseconds</span>()</span>
+<span id="cb102-431"><a href="#cb102-431" aria-hidden="true" tabindex="-1"></a><span class="fu">dminutes</span>()</span>
+<span id="cb102-432"><a href="#cb102-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-433"><a href="#cb102-433" aria-hidden="true" tabindex="-1"></a><span class="co"># seconds</span></span>
+<span id="cb102-434"><a href="#cb102-434" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">second =</span> <span class="dv">59</span>)</span>
+<span id="cb102-435"><a href="#cb102-435" aria-hidden="true" tabindex="-1"></a><span class="fu">dseconds</span>(<span class="dv">59</span>)</span>
+<span id="cb102-436"><a href="#cb102-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-437"><a href="#cb102-437" aria-hidden="true" tabindex="-1"></a><span class="co"># minutes</span></span>
+<span id="cb102-438"><a href="#cb102-438" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">minute =</span> <span class="dv">50</span>)</span>
+<span id="cb102-439"><a href="#cb102-439" aria-hidden="true" tabindex="-1"></a><span class="fu">dminutes</span>(<span class="dv">50</span>)</span>
+<span id="cb102-440"><a href="#cb102-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-441"><a href="#cb102-441" aria-hidden="true" tabindex="-1"></a><span class="co"># hours</span></span>
+<span id="cb102-442"><a href="#cb102-442" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">hour =</span> <span class="dv">36</span>)</span>
+<span id="cb102-443"><a href="#cb102-443" aria-hidden="true" tabindex="-1"></a><span class="fu">dhours</span>(<span class="dv">36</span>)</span>
+<span id="cb102-444"><a href="#cb102-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-445"><a href="#cb102-445" aria-hidden="true" tabindex="-1"></a><span class="co"># weeks</span></span>
+<span id="cb102-446"><a href="#cb102-446" aria-hidden="true" tabindex="-1"></a><span class="fu">duration</span>(<span class="at">week =</span> <span class="dv">56</span>)</span>
+<span id="cb102-447"><a href="#cb102-447" aria-hidden="true" tabindex="-1"></a><span class="fu">dweeks</span>(<span class="dv">56</span>)</span>
+<span id="cb102-448"><a href="#cb102-448" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-449"><a href="#cb102-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-450"><a href="#cb102-450" aria-hidden="true" tabindex="-1"></a>Let us use the above helper functions to get the course length in different units.</span>
+<span id="cb102-451"><a href="#cb102-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-452"><a href="#cb102-452" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_convert, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-453"><a href="#cb102-453" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/convert.png"</span>)</span>
+<span id="cb102-454"><a href="#cb102-454" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-455"><a href="#cb102-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-456"><a href="#cb102-456" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-457"><a href="#cb102-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-458"><a href="#cb102-458" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub11, collapse = TRUE}</span></span>
+<span id="cb102-459"><a href="#cb102-459" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in seconds </span></span>
+<span id="cb102-460"><a href="#cb102-460" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dseconds</span>()</span>
+<span id="cb102-461"><a href="#cb102-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-462"><a href="#cb102-462" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in minutes</span></span>
+<span id="cb102-463"><a href="#cb102-463" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dminutes</span>()</span>
+<span id="cb102-464"><a href="#cb102-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-465"><a href="#cb102-465" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in hours</span></span>
+<span id="cb102-466"><a href="#cb102-466" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dhours</span>()</span>
+<span id="cb102-467"><a href="#cb102-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-468"><a href="#cb102-468" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in weeks</span></span>
+<span id="cb102-469"><a href="#cb102-469" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dweeks</span>()</span>
+<span id="cb102-470"><a href="#cb102-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-471"><a href="#cb102-471" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in years</span></span>
+<span id="cb102-472"><a href="#cb102-472" aria-hidden="true" tabindex="-1"></a>course_interval <span class="sc">/</span> <span class="fu">dyears</span>()</span>
+<span id="cb102-473"><a href="#cb102-473" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-474"><a href="#cb102-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-475"><a href="#cb102-475" aria-hidden="true" tabindex="-1"></a><span class="fu">### Period</span></span>
+<span id="cb102-476"><a href="#cb102-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-477"><a href="#cb102-477" aria-hidden="true" tabindex="-1"></a>A <span class="in">`period`</span> is a timespan defined in units such as years, months, and days. In</span>
+<span id="cb102-478"><a href="#cb102-478" aria-hidden="true" tabindex="-1"></a>the below examples, we use <span class="in">`period()`</span> to represent timespan using different</span>
+<span id="cb102-479"><a href="#cb102-479" aria-hidden="true" tabindex="-1"></a>units.</span>
+<span id="cb102-480"><a href="#cb102-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-481"><a href="#cb102-481" aria-hidden="true" tabindex="-1"></a><span class="in">```{r period_examples}</span></span>
+<span id="cb102-482"><a href="#cb102-482" aria-hidden="true" tabindex="-1"></a><span class="co"># second</span></span>
+<span id="cb102-483"><a href="#cb102-483" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="dv">5</span>, <span class="st">"second"</span>)</span>
+<span id="cb102-484"><a href="#cb102-484" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="at">second =</span> <span class="dv">5</span>)</span>
+<span id="cb102-485"><a href="#cb102-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-486"><a href="#cb102-486" aria-hidden="true" tabindex="-1"></a><span class="co"># minute &amp; second</span></span>
+<span id="cb102-487"><a href="#cb102-487" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>), <span class="fu">c</span>(<span class="st">"minute"</span>, <span class="st">"second"</span>))</span>
+<span id="cb102-488"><a href="#cb102-488" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="at">minute =</span> <span class="dv">3</span>, <span class="at">second =</span> <span class="dv">5</span>)</span>
+<span id="cb102-489"><a href="#cb102-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-490"><a href="#cb102-490" aria-hidden="true" tabindex="-1"></a><span class="co"># hour, minte &amp; second</span></span>
+<span id="cb102-491"><a href="#cb102-491" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), <span class="fu">c</span>(<span class="st">"hour"</span>, <span class="st">"minute"</span>, <span class="st">"second"</span>))</span>
+<span id="cb102-492"><a href="#cb102-492" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="at">hour =</span> <span class="dv">1</span>, <span class="at">minute =</span> <span class="dv">3</span>, <span class="at">second =</span> <span class="dv">5</span>)</span>
+<span id="cb102-493"><a href="#cb102-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-494"><a href="#cb102-494" aria-hidden="true" tabindex="-1"></a><span class="co"># day, hour, minute &amp; second</span></span>
+<span id="cb102-495"><a href="#cb102-495" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), <span class="fu">c</span>(<span class="st">"day"</span>, <span class="st">"hour"</span>, <span class="st">"minute"</span>, <span class="st">"second"</span>))</span>
+<span id="cb102-496"><a href="#cb102-496" aria-hidden="true" tabindex="-1"></a><span class="fu">period</span>(<span class="at">day =</span> <span class="dv">3</span>, <span class="at">hour =</span> <span class="dv">1</span>, <span class="at">minute =</span> <span class="dv">3</span>, <span class="at">second =</span> <span class="dv">5</span>)</span>
+<span id="cb102-497"><a href="#cb102-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-498"><a href="#cb102-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-499"><a href="#cb102-499" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-500"><a href="#cb102-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-501"><a href="#cb102-501" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_as_period, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-502"><a href="#cb102-502" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/as_period.png"</span>)</span>
+<span id="cb102-503"><a href="#cb102-503" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-504"><a href="#cb102-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-505"><a href="#cb102-505" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-506"><a href="#cb102-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-507"><a href="#cb102-507" aria-hidden="true" tabindex="-1"></a>Let us get the course length in different units using <span class="in">`as.period()`</span>.</span>
+<span id="cb102-508"><a href="#cb102-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-509"><a href="#cb102-509" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub17, collapse = TRUE}</span></span>
+<span id="cb102-510"><a href="#cb102-510" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in second</span></span>
+<span id="cb102-511"><a href="#cb102-511" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(course_interval, <span class="at">unit =</span> <span class="st">"seconds"</span>)</span>
+<span id="cb102-512"><a href="#cb102-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-513"><a href="#cb102-513" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in hours and minutes</span></span>
+<span id="cb102-514"><a href="#cb102-514" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(course_interval, <span class="at">unit =</span> <span class="st">"minutes"</span>)</span>
+<span id="cb102-515"><a href="#cb102-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-516"><a href="#cb102-516" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in hours, minutes and seconds</span></span>
+<span id="cb102-517"><a href="#cb102-517" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(course_interval, <span class="at">unit =</span> <span class="st">"hours"</span>)</span>
+<span id="cb102-518"><a href="#cb102-518" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-519"><a href="#cb102-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-520"><a href="#cb102-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-521"><a href="#cb102-521" aria-hidden="true" tabindex="-1"></a><span class="in">`time_length()`</span> computes the exact length of a timespan i.e. <span class="in">`duration`</span>, <span class="in">`interval`</span> or <span class="in">`period`</span>. Let us use <span class="in">`time_length()`</span> to compute the length of the</span>
+<span id="cb102-522"><a href="#cb102-522" aria-hidden="true" tabindex="-1"></a>course in different units.</span>
+<span id="cb102-523"><a href="#cb102-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-524"><a href="#cb102-524" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-525"><a href="#cb102-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-526"><a href="#cb102-526" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img_time_length, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
+<span id="cb102-527"><a href="#cb102-527" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"img/time_length.png"</span>)</span>
+<span id="cb102-528"><a href="#cb102-528" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-529"><a href="#cb102-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-530"><a href="#cb102-530" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
+<span id="cb102-531"><a href="#cb102-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-532"><a href="#cb102-532" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub16, collapse = TRUE}</span></span>
+<span id="cb102-533"><a href="#cb102-533" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in seconds</span></span>
+<span id="cb102-534"><a href="#cb102-534" aria-hidden="true" tabindex="-1"></a><span class="fu">time_length</span>(course_interval, <span class="at">unit =</span> <span class="st">"seconds"</span>)</span>
+<span id="cb102-535"><a href="#cb102-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-536"><a href="#cb102-536" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in minutes</span></span>
+<span id="cb102-537"><a href="#cb102-537" aria-hidden="true" tabindex="-1"></a><span class="fu">time_length</span>(course_interval, <span class="at">unit =</span> <span class="st">"minutes"</span>)</span>
+<span id="cb102-538"><a href="#cb102-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-539"><a href="#cb102-539" aria-hidden="true" tabindex="-1"></a><span class="co"># course length in hours</span></span>
+<span id="cb102-540"><a href="#cb102-540" aria-hidden="true" tabindex="-1"></a><span class="fu">time_length</span>(course_interval, <span class="at">unit =</span> <span class="st">"hours"</span>)</span>
+<span id="cb102-541"><a href="#cb102-541" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-542"><a href="#cb102-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-543"><a href="#cb102-543" aria-hidden="true" tabindex="-1"></a><span class="fu">### lubridate interval vs duration vs period</span></span>
+<span id="cb102-544"><a href="#cb102-544" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-545"><a href="#cb102-545" aria-hidden="true" tabindex="-1"></a>The three timespans answer different questions:</span>
+<span id="cb102-546"><a href="#cb102-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-547"><a href="#cb102-547" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Timespan <span class="pp">|</span> Answers <span class="pp">|</span> Clock behavior <span class="pp">|</span></span>
+<span id="cb102-548"><a href="#cb102-548" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb102-549"><a href="#cb102-549" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`interval`</span> (<span class="in">`%--%`</span>) <span class="pp">|</span> When did it start and end? <span class="pp">|</span> Anchored to two endpoints <span class="pp">|</span></span>
+<span id="cb102-550"><a href="#cb102-550" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`duration`</span> (<span class="in">`ddays()`</span>, <span class="in">`dyears()`</span>) <span class="pp">|</span> How many exact seconds? <span class="pp">|</span> Fixed 86,400 s/day, DST-blind <span class="pp">|</span></span>
+<span id="cb102-551"><a href="#cb102-551" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`period`</span> (<span class="in">`days()`</span>, <span class="in">`years()`</span>) <span class="pp">|</span> How does the clock read? <span class="pp">|</span> Calendar-aware, follows DST <span class="pp">|</span></span>
+<span id="cb102-552"><a href="#cb102-552" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-553"><a href="#cb102-553" aria-hidden="true" tabindex="-1"></a>The difference bites across daylight-saving boundaries. US clocks sprang</span>
+<span id="cb102-554"><a href="#cb102-554" aria-hidden="true" tabindex="-1"></a>forward on 2020-03-08, so that Sunday lasted 23 hours:</span>
+<span id="cb102-555"><a href="#cb102-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-556"><a href="#cb102-556" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lub_interval_vs_duration}</span></span>
+<span id="cb102-557"><a href="#cb102-557" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2020-03-07 12:00:00"</span>, <span class="at">tz =</span> <span class="st">"America/New_York"</span>)</span>
+<span id="cb102-558"><a href="#cb102-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-559"><a href="#cb102-559" aria-hidden="true" tabindex="-1"></a><span class="co"># period: same wall-clock time next day (noon stays noon)</span></span>
+<span id="cb102-560"><a href="#cb102-560" aria-hidden="true" tabindex="-1"></a>t <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">1</span>)</span>
+<span id="cb102-561"><a href="#cb102-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-562"><a href="#cb102-562" aria-hidden="true" tabindex="-1"></a><span class="co"># duration: exactly 86,400 seconds later (lands at 1pm)</span></span>
+<span id="cb102-563"><a href="#cb102-563" aria-hidden="true" tabindex="-1"></a>t <span class="sc">+</span> <span class="fu">ddays</span>(<span class="dv">1</span>)</span>
+<span id="cb102-564"><a href="#cb102-564" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-565"><a href="#cb102-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-566"><a href="#cb102-566" aria-hidden="true" tabindex="-1"></a>Rule of thumb: scheduling and human arithmetic (invoice due in 30 days,</span>
+<span id="cb102-567"><a href="#cb102-567" aria-hidden="true" tabindex="-1"></a><span class="in">`days_to_pay`</span> in <span class="in">`transact`</span>) → <span class="in">`period`</span>; elapsed-time measurement and</span>
+<span id="cb102-568"><a href="#cb102-568" aria-hidden="true" tabindex="-1"></a>benchmarks → <span class="in">`duration`</span>; anchoring and testing overlap (<span class="in">`%within%`</span>,</span>
+<span id="cb102-569"><a href="#cb102-569" aria-hidden="true" tabindex="-1"></a><span class="in">`int_overlaps()`</span>) → <span class="in">`interval`</span>.</span>
+<span id="cb102-570"><a href="#cb102-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-571"><a href="#cb102-571" aria-hidden="true" tabindex="-1"></a><span class="fu">## Others </span></span>
+<span id="cb102-572"><a href="#cb102-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-573"><a href="#cb102-573" aria-hidden="true" tabindex="-1"></a>In this section, we will learn to round date/time to the nearest unit and roll </span>
+<span id="cb102-574"><a href="#cb102-574" aria-hidden="true" tabindex="-1"></a>back dates. </span>
+<span id="cb102-575"><a href="#cb102-575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-576"><a href="#cb102-576" aria-hidden="true" tabindex="-1"></a><span class="fu">### Rounding Dates</span></span>
+<span id="cb102-577"><a href="#cb102-577" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-578"><a href="#cb102-578" aria-hidden="true" tabindex="-1"></a>We will explore functions for rounding dates</span>
+<span id="cb102-579"><a href="#cb102-579" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-580"><a href="#cb102-580" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>to the nearest value using <span class="in">`round_dates()`</span></span>
+<span id="cb102-581"><a href="#cb102-581" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>down using <span class="in">`floor_date()`</span></span>
+<span id="cb102-582"><a href="#cb102-582" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>up using <span class="in">`ceiling_date()`</span></span>
+<span id="cb102-583"><a href="#cb102-583" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-584"><a href="#cb102-584" aria-hidden="true" tabindex="-1"></a>The unit for rounding can be any of the following:</span>
+<span id="cb102-585"><a href="#cb102-585" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-586"><a href="#cb102-586" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>second</span>
+<span id="cb102-587"><a href="#cb102-587" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>minute</span>
+<span id="cb102-588"><a href="#cb102-588" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>hour</span>
+<span id="cb102-589"><a href="#cb102-589" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>day</span>
+<span id="cb102-590"><a href="#cb102-590" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>week</span>
+<span id="cb102-591"><a href="#cb102-591" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>month</span>
+<span id="cb102-592"><a href="#cb102-592" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>bimonth</span>
+<span id="cb102-593"><a href="#cb102-593" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>quarter</span>
+<span id="cb102-594"><a href="#cb102-594" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>season</span>
+<span id="cb102-595"><a href="#cb102-595" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>halfyear</span>
+<span id="cb102-596"><a href="#cb102-596" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>and year</span>
+<span id="cb102-597"><a href="#cb102-597" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-598"><a href="#cb102-598" aria-hidden="true" tabindex="-1"></a>We will look at a few examples using <span class="in">`round_date()`</span> and you will then practice </span>
+<span id="cb102-599"><a href="#cb102-599" aria-hidden="true" tabindex="-1"></a>using the other two functions.</span>
+<span id="cb102-600"><a href="#cb102-600" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-601"><a href="#cb102-601" aria-hidden="true" tabindex="-1"></a><span class="in">```{r round_dates}</span></span>
+<span id="cb102-602"><a href="#cb102-602" aria-hidden="true" tabindex="-1"></a><span class="co"># minute</span></span>
+<span id="cb102-603"><a href="#cb102-603" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"minute"</span>)</span>
+<span id="cb102-604"><a href="#cb102-604" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"mins"</span>)</span>
+<span id="cb102-605"><a href="#cb102-605" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"5 mins"</span>)</span>
+<span id="cb102-606"><a href="#cb102-606" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-607"><a href="#cb102-607" aria-hidden="true" tabindex="-1"></a><span class="co"># hour</span></span>
+<span id="cb102-608"><a href="#cb102-608" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"hour"</span>)</span>
+<span id="cb102-609"><a href="#cb102-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-610"><a href="#cb102-610" aria-hidden="true" tabindex="-1"></a><span class="co"># day</span></span>
+<span id="cb102-611"><a href="#cb102-611" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(release_date, <span class="at">unit =</span> <span class="st">"day"</span>)</span>
+<span id="cb102-612"><a href="#cb102-612" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-613"><a href="#cb102-613" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-614"><a href="#cb102-614" aria-hidden="true" tabindex="-1"></a><span class="fu">### Rollback </span></span>
+<span id="cb102-615"><a href="#cb102-615" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-616"><a href="#cb102-616" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`rollback()`</span> if you want to change the date to the last day of the previous </span>
+<span id="cb102-617"><a href="#cb102-617" aria-hidden="true" tabindex="-1"></a>month or the first day of the month.</span>
+<span id="cb102-618"><a href="#cb102-618" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-619"><a href="#cb102-619" aria-hidden="true" tabindex="-1"></a><span class="in">```{r rollback_1}</span></span>
+<span id="cb102-620"><a href="#cb102-620" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(release_date)</span>
+<span id="cb102-621"><a href="#cb102-621" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-622"><a href="#cb102-622" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-623"><a href="#cb102-623" aria-hidden="true" tabindex="-1"></a>To change the date to the first day of the month, use the <span class="in">`roll_to_first`</span> </span>
+<span id="cb102-624"><a href="#cb102-624" aria-hidden="true" tabindex="-1"></a>argument and set it to <span class="in">`TRUE`</span>.</span>
+<span id="cb102-625"><a href="#cb102-625" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-626"><a href="#cb102-626" aria-hidden="true" tabindex="-1"></a><span class="in">```{r rollback_2}</span></span>
+<span id="cb102-627"><a href="#cb102-627" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(release_date, <span class="at">roll_to_first =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb102-628"><a href="#cb102-628" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb102-629"><a href="#cb102-629" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-630"><a href="#cb102-630" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your Turn</span></span>
+<span id="cb102-631"><a href="#cb102-631" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-632"><a href="#cb102-632" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>round up the <span class="in">`transact`</span> due dates to weeks</span>
+<span id="cb102-633"><a href="#cb102-633" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>round down the <span class="in">`transact`</span> due dates to days</span>
+<span id="cb102-634"><a href="#cb102-634" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>rollback the <span class="in">`transact`</span> due dates to the beginning of the month</span>
+<span id="cb102-635"><a href="#cb102-635" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-636"><a href="#cb102-636" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try it live {.unnumbered}</span></span>
+<span id="cb102-637"><a href="#cb102-637" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-638"><a href="#cb102-638" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb102-639"><a href="#cb102-639" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try it in your browser</span></span>
+<span id="cb102-640"><a href="#cb102-640" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-641"><a href="#cb102-641" aria-hidden="true" tabindex="-1"></a>Edit the code below and press **Run**. It executes entirely in your browser</span>
+<span id="cb102-642"><a href="#cb102-642" aria-hidden="true" tabindex="-1"></a>via <span class="co">[</span><span class="ot">WebR</span><span class="co">](https://docs.r-wasm.org/webr/latest/)</span> — no R installation needed.</span>
+<span id="cb102-643"><a href="#cb102-643" aria-hidden="true" tabindex="-1"></a>The runtime downloads once, on this page only.</span>
+<span id="cb102-644"><a href="#cb102-644" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb102-645"><a href="#cb102-645" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-646"><a href="#cb102-646" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr-r}</span></span>
+<span id="cb102-647"><a href="#cb102-647" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
+<span id="cb102-648"><a href="#cb102-648" aria-hidden="true" tabindex="-1"></a><span class="in">library(lubridate)</span></span>
+<span id="cb102-649"><a href="#cb102-649" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
+<span id="cb102-650"><a href="#cb102-650" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("transact_sample.csv")) {</span></span>
+<span id="cb102-651"><a href="#cb102-651" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb102-652"><a href="#cb102-652" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/transact_sample.csv",</span></span>
+<span id="cb102-653"><a href="#cb102-653" aria-hidden="true" tabindex="-1"></a><span class="in">    "transact_sample.csv"</span></span>
+<span id="cb102-654"><a href="#cb102-654" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb102-655"><a href="#cb102-655" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb102-656"><a href="#cb102-656" aria-hidden="true" tabindex="-1"></a><span class="in">transact &lt;- read_csv("transact_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb102-657"><a href="#cb102-657" aria-hidden="true" tabindex="-1"></a><span class="in">transact |&gt;</span></span>
+<span id="cb102-658"><a href="#cb102-658" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(days_to_pay = Payment - Invoice) |&gt;</span></span>
+<span id="cb102-659"><a href="#cb102-659" aria-hidden="true" tabindex="-1"></a><span class="in">  select(Invoice, Due, Payment, days_to_pay) |&gt;</span></span>
+<span id="cb102-660"><a href="#cb102-660" aria-hidden="true" tabindex="-1"></a><span class="in">  head()</span></span>
+<span id="cb102-661"><a href="#cb102-661" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">
