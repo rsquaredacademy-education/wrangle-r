@@ -25,6 +25,11 @@ jobs:
           r-version: "4.5"
           use-public-rspm: true
 
+      # System libs for R `magick` (pulled in via summarytools): RSPM binary
+      # links libMagick++-6.Q16.so.9, absent from the base runner image.
+      - name: Install system libs
+        run: sudo apt-get update && sudo apt-get install -y libmagick++-6.q16-9t64
+
       # Direct binary install from RSPM (no pak resolution): duckplyr's
       # Suggested `constructive` was archived on CRAN (2026-09-27) and breaks
       # setup-r-dependencies' full resolution on fresh runners.
