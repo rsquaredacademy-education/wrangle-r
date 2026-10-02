@@ -61,7 +61,7 @@ jobs:
 
       - name: Verify preserved slugs
         run: |
-          for f in index 00-author 02-import-1 03-import-2 07-pipes 04-dplyr-1 05-dplyr-2 06-dplyr-3 08-tibbles 08b-tidyr 09-stringr 10a-lubridate-parsing 10b-lubridate-arithmetic 11a-factors-fundamentals 11b-forcats-manipulation solutions; do
+          for f in index 00-author 01-import-1 02-import-2 03-pipes 04-dplyr-1 05-dplyr-2 06-dplyr-3 07-tibbles 08-tidyr 09-stringr 10-lubridate-parsing 11-lubridate-arithmetic 12-factors-fundamentals 13-forcats-manipulation 14-solutions; do
             test -f "/tmp/stage-html/$f.html" || { echo "MISSING SLUG: /tmp/stage-html/$f.html"; exit 1; }
           done
           for f in appendices/arrow-duckdb appendices/legacy-magrittr appendices/rosetta-pandas; do

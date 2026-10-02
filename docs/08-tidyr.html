@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Data Wrangling in R: sampling, slicing, ranking and conditional recoding with dplyr helpers.">
+<meta name="description" content="Data Wrangling in R: pivot longer and wider, separate and unite columns, handle missing values.">
 
-<title>6&nbsp; dplyr Helpers – Data Wrangling with R</title>
+<title>8&nbsp; Tidying Data with tidyr – Data Wrangling with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./07-tibbles.html" rel="next">
-<link href="./05-dplyr-2.html" rel="prev">
+<link href="./09-stringr.html" rel="next">
+<link href="./07-tibbles.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -109,12 +109,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="canonical" href="https://wrangle-r.rsquaredacademy.com/">
 <meta property="og:site_name" content="Data Wrangling with R">
 <meta property="og:type" content="book">
-<meta property="og:title" content="6&nbsp; dplyr Helpers – Data Wrangling with R">
+<meta property="og:title" content="8&nbsp; Tidying Data with tidyr – Data Wrangling with R">
 <meta property="og:description" content="R for Data Science teaches the whole game. Data Wrangling with R drills the hardest 20%: joins, grouped summaries, messy strings, datetimes, and factors — on one realistic ecommerce dataset, runnable in your browser.">
 <meta property="og:url" content="https://wrangle-r.rsquaredacademy.com/">
 <meta property="og:image" content="https://wrangle-r.rsquaredacademy.com/img/wrangle-r.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="6&nbsp; dplyr Helpers – Data Wrangling with R">
+<meta name="twitter:title" content="8&nbsp; Tidying Data with tidyr – Data Wrangling with R">
 <meta name="twitter:description" content="R for Data Science teaches the whole game. Data Wrangling with R drills the hardest 20%: joins, grouped summaries, messy strings, datetimes, and factors — on one realistic ecommerce dataset, runnable in your browser.">
 <meta name="twitter:image" content="https://wrangle-r.rsquaredacademy.com/img/wrangle-r.png">
 <meta name="citation_title" content="Data Wrangling with R">
@@ -430,7 +430,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(readr)\necom <- read_csv(\"data-webr/ecom_sample.csv\", show_col_types = FALSE)\nslice_sample(ecom, n = 10)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(tidyr)\nlibrary(readr)\necom <- read_csv(\"data-webr/ecom_sample.csv\", show_col_types = FALSE)\necom |>\n  summarise(across(c(n_pages, duration, order_value), \\(x) mean(x, na.rm = TRUE)), .by = device) |>\n  pivot_longer(-device, names_to = \"metric\", values_to = \"mean_value\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1696,7 +1696,7 @@ globalThis.qwebrExecuteCode = async function (
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-dplyr-3.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">dplyr Helpers</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-tidyr.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidying Data with tidyr</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1785,7 +1785,7 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-dplyr-3.html" class="sidebar-item-text sidebar-link active">
+  <a href="./06-dplyr-3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">dplyr Helpers</span></span></a>
   </div>
 </li>
@@ -1797,7 +1797,7 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-tidyr.html" class="sidebar-item-text sidebar-link">
+  <a href="./08-tidyr.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidying Data with tidyr</span></span></a>
   </div>
 </li>
@@ -1876,22 +1876,16 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">6.1</span> Introduction</a></li>
-  <li><a href="#case-study" id="toc-case-study" class="nav-link" data-scroll-target="#case-study"><span class="header-section-number">6.2</span> Case Study</a>
-  <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">6.2.1</span> Data</a></li>
-  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary"><span class="header-section-number">6.2.2</span> Data Dictionary</a></li>
-  </ul></li>
-  <li><a href="#data-sanitization" id="toc-data-sanitization" class="nav-link" data-scroll-target="#data-sanitization"><span class="header-section-number">6.3</span> Data Sanitization</a></li>
-  <li><a href="#rename-columns" id="toc-rename-columns" class="nav-link" data-scroll-target="#rename-columns"><span class="header-section-number">6.4</span> Rename Columns</a></li>
-  <li><a href="#data-tabulation" id="toc-data-tabulation" class="nav-link" data-scroll-target="#data-tabulation"><span class="header-section-number">6.5</span> Data Tabulation</a></li>
-  <li><a href="#sampling-data" id="toc-sampling-data" class="nav-link" data-scroll-target="#sampling-data"><span class="header-section-number">6.6</span> Sampling Data</a></li>
-  <li><a href="#data-extraction" id="toc-data-extraction" class="nav-link" data-scroll-target="#data-extraction"><span class="header-section-number">6.7</span> Data Extraction</a>
-  <ul class="collapse">
-  <li><a href="#sample-data" id="toc-sample-data" class="nav-link" data-scroll-target="#sample-data"><span class="header-section-number">6.7.1</span> Sample Data</a></li>
-  </ul></li>
-  <li><a href="#between" id="toc-between" class="nav-link" data-scroll-target="#between"><span class="header-section-number">6.8</span> Between</a></li>
-  <li><a href="#case-when" id="toc-case-when" class="nav-link" data-scroll-target="#case-when"><span class="header-section-number">6.9</span> Case When</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">8.1</span> Introduction</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">8.2</span> Data</a></li>
+  <li><a href="#long-format-with-pivot_longer" id="toc-long-format-with-pivot_longer" class="nav-link" data-scroll-target="#long-format-with-pivot_longer"><span class="header-section-number">8.3</span> Long format with <code>pivot_longer()</code></a></li>
+  <li><a href="#wide-format-with-pivot_wider" id="toc-wide-format-with-pivot_wider" class="nav-link" data-scroll-target="#wide-format-with-pivot_wider"><span class="header-section-number">8.4</span> Wide format with <code>pivot_wider()</code></a></li>
+  <li><a href="#split-columns-with-separate_wider_delim" id="toc-split-columns-with-separate_wider_delim" class="nav-link" data-scroll-target="#split-columns-with-separate_wider_delim"><span class="header-section-number">8.5</span> Split columns with <code>separate_wider_delim()</code></a></li>
+  <li><a href="#combine-columns-with-unite" id="toc-combine-columns-with-unite" class="nav-link" data-scroll-target="#combine-columns-with-unite"><span class="header-section-number">8.6</span> Combine columns with <code>unite()</code></a></li>
+  <li><a href="#drop-missing-values-with-drop_na" id="toc-drop-missing-values-with-drop_na" class="nav-link" data-scroll-target="#drop-missing-values-with-drop_na"><span class="header-section-number">8.7</span> Drop missing values with <code>drop_na()</code></a></li>
+  <li><a href="#complete-combinations-with-complete" id="toc-complete-combinations-with-complete" class="nav-link" data-scroll-target="#complete-combinations-with-complete"><span class="header-section-number">8.8</span> Complete combinations with <code>complete()</code></a></li>
+  <li><a href="#fill-down-labels-with-fill" id="toc-fill-down-labels-with-fill" class="nav-link" data-scroll-target="#fill-down-labels-with-fill"><span class="header-section-number">8.9</span> Fill down labels with <code>fill()</code></a></li>
+  <li><a href="#your-turn" id="toc-your-turn" class="nav-link" data-scroll-target="#your-turn"><span class="header-section-number">8.10</span> Your Turn</a></li>
   <li><a href="#try-it-live" id="toc-try-it-live" class="nav-link" data-scroll-target="#try-it-live">Try it live</a></li>
   </ul>
 </nav>
@@ -2185,7 +2179,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="dplyr-helper-functions" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">dplyr Helpers</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="tidying-data-with-tidyr" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidying Data with tidyr</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -2202,201 +2196,210 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="introduction" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
-<p>In this chapter, we will explore a set of helper functions in order to:</p>
+<section id="introduction" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
+<p>Tidy data has one row per observation and one column per variable. Real data rarely arrives that way: metrics sprawl across columns, several values share one column, and combinations go missing. In this chapter we reshape data with <strong>tidyr</strong>:</p>
 <ul>
-<li>extract unique rows</li>
-<li>rename columns</li>
-<li>sample data</li>
-<li>extract columns</li>
-<li>slice rows</li>
-<li>arrange rows</li>
-<li>compare tables</li>
-<li>extract/mutate data using predicate functions</li>
-<li>count observations for different levels of a variable</li>
+<li><code>pivot_longer()</code> / <code>pivot_wider()</code> — move between long and wide layouts</li>
+<li><code>separate_wider_delim()</code> / <code>unite()</code> — split one column into several and back</li>
+<li><code>drop_na()</code> / <code>complete()</code> / <code>fill()</code> — handle missing values and combinations</li>
 </ul>
 <p>We will use the following R packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="case-study" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="case-study"><span class="header-section-number">6.2</span> Case Study</h2>
-<p>Let us look at a case study (e-commerce data) and see how we can use dplyr helper functions to answer questions we have about and to modify/transform the underlying data set.</p>
-<section id="data" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="data"><span class="header-section-number">6.2.1</span> Data</h3>
+<section id="data" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="data"><span class="header-section-number">8.2</span> Data</h2>
+<p>We reuse the ecommerce data from <span class="citation" data-cites="dplyr-basics">@dplyr-basics</span>, so no new data to learn. The URL and date examples borrow the <code>mock_strings</code> and <code>transact</code> data sets already used in <span class="citation" data-cites="strings-in-r">@strings-in-r</span> and <span class="citation" data-cites="date-and-time-in-r">@date-and-time-in-r</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="ot">&lt;-</span> </span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="ot">&lt;-</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv'</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols_only</span>(<span class="at">device =</span> <span class="fu">col_factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"laptop"</span>, <span class="st">"tablet"</span>, <span class="st">"mobile"</span>)),</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">referrer =</span> <span class="fu">col_factor</span>(<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"bing"</span>, <span class="st">"direct"</span>, <span class="st">"social"</span>, <span class="st">"yahoo"</span>, <span class="st">"google"</span>)),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">purchase =</span> <span class="fu">col_logical</span>(), <span class="at">bouncers =</span> <span class="fu">col_logical</span>(), <span class="at">duration =</span> <span class="fu">col_double</span>(),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_visit =</span> <span class="fu">col_double</span>(), <span class="at">n_pages =</span> <span class="fu">col_double</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">purchase =</span> <span class="fu">col_logical</span>(), <span class="at">n_pages =</span> <span class="fu">col_double</span>(), <span class="at">n_visit =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">duration =</span> <span class="fu">col_double</span>(), <span class="at">order_value =</span> <span class="fu">col_double</span>(), <span class="at">order_items =</span> <span class="fu">col_double</span>()</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ecom</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,000 × 7
-   referrer device bouncers n_visit n_pages duration purchase
-   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 google   laptop TRUE          10       1      693 FALSE   
- 2 yahoo    tablet TRUE           9       1      459 FALSE   
- 3 direct   laptop TRUE           0       1      996 FALSE   
- 4 bing     tablet FALSE          3      18      468 TRUE    
- 5 yahoo    mobile TRUE           9       1      955 FALSE   
- 6 yahoo    laptop FALSE          5       5      135 FALSE   
- 7 yahoo    mobile TRUE          10       1       75 FALSE   
- 8 direct   mobile TRUE          10       1      908 FALSE   
- 9 bing     mobile FALSE          3      19      209 FALSE   
-10 google   mobile TRUE           6       1      208 FALSE   
+<pre><code># A tibble: 1,000 × 8
+   referrer device n_visit n_pages duration purchase order_items order_value
+   &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+ 1 google   laptop      10       1      693 FALSE              0           0
+ 2 yahoo    tablet       9       1      459 FALSE              0           0
+ 3 direct   laptop       0       1      996 FALSE              0           0
+ 4 bing     tablet       3      18      468 TRUE               6         434
+ 5 yahoo    mobile       9       1      955 FALSE              0           0
+ 6 yahoo    laptop       5       5      135 FALSE              0           0
+ 7 yahoo    mobile      10       1       75 FALSE              0           0
+ 8 direct   mobile      10       1      908 FALSE              0           0
+ 9 bing     mobile       3      19      209 FALSE              0           0
+10 google   mobile       6       1      208 FALSE              0           0
 # ℹ 990 more rows</code></pre>
 </div>
 </div>
 </section>
-<section id="data-dictionary" class="level3" data-number="6.2.2">
-<h3 data-number="6.2.2" class="anchored" data-anchor-id="data-dictionary"><span class="header-section-number">6.2.2</span> Data Dictionary</h3>
-<ul>
-<li>referrer: referrer website/search engine</li>
-<li>device: device used to visit the website</li>
-<li>bouncers: whether a visit bounced (exited from landing page)</li>
-<li>duration: time spent on the website (in seconds)</li>
-<li>purchase: whether visitor purchased</li>
-<li>n_visit: number of visits</li>
-<li>n_pages: number of pages visited/browsed</li>
-</ul>
-</section>
-</section>
-<section id="data-sanitization" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="data-sanitization"><span class="header-section-number">6.3</span> Data Sanitization</h2>
-<p>Let us ensure that the data is sanitized by checking the sources of traffic and devices used to visit the site. We will use <code>distinct</code> to examine the values in the <code>referrer</code> column</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/distinct_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
+<section id="long-format-with-pivot_longer" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="long-format-with-pivot_longer"><span class="header-section-number">8.3</span> Long format with <code>pivot_longer()</code></h2>
+<p>Suppose we average three metrics by device. The result is <em>wide</em>: one column per metric, which is awkward to plot or rank.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distinct</span>(ecom, referrer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>wide <span class="ot">&lt;-</span> ecom <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(n_pages, duration, order_value), \(x) <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)), <span class="at">.by =</span> device)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 1
-  referrer
-  &lt;fct&gt;   
-1 google  
-2 yahoo   
-3 direct  
-4 bing    
-5 social  </code></pre>
+<pre><code># A tibble: 3 × 4
+  device n_pages duration order_value
+  &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+1 laptop    5.36     376.        441.
+2 tablet    6.23     354.        352.
+3 mobile    6.17     337.        370.</code></pre>
 </div>
 </div>
-<p>and the <code>device</code> column as well.</p>
+<p><code>pivot_longer()</code> stacks the metric columns into <code>metric</code>/<code>mean_value</code> pairs — one row per device-metric observation:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distinct</span>(ecom, device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">&lt;-</span> wide <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>device, <span class="at">names_to =</span> <span class="st">"metric"</span>, <span class="at">values_to =</span> <span class="st">"mean_value"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 1
-  device
-  &lt;fct&gt; 
-1 laptop
-2 tablet
-3 mobile</code></pre>
+<pre><code># A tibble: 9 × 3
+  device metric      mean_value
+  &lt;fct&gt;  &lt;chr&gt;            &lt;dbl&gt;
+1 laptop n_pages           5.36
+2 laptop duration        376.  
+3 laptop order_value     441.  
+4 tablet n_pages           6.23
+5 tablet duration        354.  
+6 tablet order_value     352.  
+7 mobile n_pages           6.17
+8 mobile duration        337.  
+9 mobile order_value     370.  </code></pre>
 </div>
 </div>
 </section>
-<section id="rename-columns" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="rename-columns"><span class="header-section-number">6.4</span> Rename Columns</h2>
-<p>Columns can be renamed using <code>rename()</code>.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/rename_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
+<section id="wide-format-with-pivot_wider" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="wide-format-with-pivot_wider"><span class="header-section-number">8.4</span> Wide format with <code>pivot_wider()</code></h2>
+<p>The reverse trip is just as common. Counts by device and purchase come out long (one row per combination):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(ecom, <span class="at">time_on_site =</span> duration)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> ecom <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(device, purchase)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,000 × 7
-   referrer device bouncers n_visit n_pages time_on_site purchase
-   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt; &lt;lgl&gt;   
- 1 google   laptop TRUE          10       1          693 FALSE   
- 2 yahoo    tablet TRUE           9       1          459 FALSE   
- 3 direct   laptop TRUE           0       1          996 FALSE   
- 4 bing     tablet FALSE          3      18          468 TRUE    
- 5 yahoo    mobile TRUE           9       1          955 FALSE   
- 6 yahoo    laptop FALSE          5       5          135 FALSE   
- 7 yahoo    mobile TRUE          10       1           75 FALSE   
- 8 direct   mobile TRUE          10       1          908 FALSE   
- 9 bing     mobile FALSE          3      19          209 FALSE   
-10 google   mobile TRUE           6       1          208 FALSE   
-# ℹ 990 more rows</code></pre>
+<pre><code># A tibble: 6 × 3
+  device purchase     n
+  &lt;fct&gt;  &lt;lgl&gt;    &lt;int&gt;
+1 laptop FALSE      294
+2 laptop TRUE        31
+3 tablet FALSE      295
+4 tablet TRUE        36
+5 mobile FALSE      308
+6 mobile TRUE        36</code></pre>
 </div>
 </div>
-</section>
-<section id="data-tabulation" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="data-tabulation"><span class="header-section-number">6.5</span> Data Tabulation</h2>
-<p>Let us now look at the proportion or share of visits driven by different sources of traffic.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/tally_count.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><code>pivot_wider()</code> spreads <code>purchase</code> into columns so each device occupies a single row — the layout managers usually want in a report:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(referrer) <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 2
-  referrer     n
-  &lt;fct&gt;    &lt;int&gt;
-1 bing       194
-2 direct     191
-3 social     200
-4 yahoo      207
-5 google     208</code></pre>
-</div>
-</div>
-<p>We would also like to know the number of bouncers driven by the different sources of traffic.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(referrer, bouncers) <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 3
-# Groups:   referrer [5]
-   referrer bouncers     n
-   &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
- 1 bing     FALSE      104
- 2 bing     TRUE        90
- 3 direct   FALSE       98
- 4 direct   TRUE        93
- 5 social   FALSE       93
- 6 social   TRUE       107
- 7 yahoo    FALSE      110
- 8 yahoo    TRUE        97
- 9 google   FALSE      101
-10 google   TRUE       107</code></pre>
-</div>
-</div>
-<p>Let us look at how many conversions happen across different devices.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(device, purchase) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>() <span class="sc">|&gt;</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(purchase)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>counts <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> purchase, <span class="at">values_from =</span> n, <span class="at">names_prefix =</span> <span class="st">"purchase_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
-# Groups:   device [3]
+  device purchase_FALSE purchase_TRUE
+  &lt;fct&gt;           &lt;int&gt;         &lt;int&gt;
+1 laptop            294            31
+2 tablet            295            36
+3 mobile            308            36</code></pre>
+</div>
+</div>
+</section>
+<section id="split-columns-with-separate_wider_delim" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="split-columns-with-separate_wider_delim"><span class="header-section-number">8.5</span> Split columns with <code>separate_wider_delim()</code></h2>
+<p>The <code>url</code> column of <code>mock_strings</code> packs the protocol and the address into one string, separated by <code>://</code>. <code>separate_wider_delim()</code> splits it into two columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mockstring <span class="ot">&lt;-</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rsquaredacademy/datasets/master/mock_strings.csv'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">url =</span> <span class="fu">head</span>(mockstring<span class="sc">$</span>url, <span class="dv">3</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_wider_delim</span>(url, <span class="at">delim =</span> <span class="st">"://"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"protocol"</span>, <span class="st">"rest"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(protocol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  protocol
+  &lt;chr&gt;   
+1 https   
+2 http    
+3 https   </code></pre>
+</div>
+</div>
+<p>The same verb splits calendar dates. The <code>Due</code> column of <code>transact</code> is <code>YYYY-MM-DD</code>; splitting on <code>"-"</code> recovers the components:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>transact <span class="ot">&lt;-</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">due_iso =</span> <span class="fu">as.character</span>(<span class="fu">head</span>(transact<span class="sc">$</span>Due, <span class="dv">5</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_wider_delim</span>(due_iso, <span class="at">delim =</span> <span class="st">"-"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"due_year"</span>, <span class="st">"due_month"</span>, <span class="st">"due_day"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  due_year due_month due_day
+  &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;  
+1 2013     02        01     
+2 2013     02        25     
+3 2013     08        02     
+4 2013     03        12     
+5 2012     11        24     </code></pre>
+</div>
+</div>
+</section>
+<section id="combine-columns-with-unite" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="combine-columns-with-unite"><span class="header-section-number">8.6</span> Combine columns with <code>unite()</code></h2>
+<p><code>unite()</code> is the inverse: it pastes several columns back into one. Splitting the ISO date and reuniting it returns the input exactly — a useful check that a separate/unite round-trip loses nothing:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">due_iso =</span> <span class="fu">as.character</span>(<span class="fu">head</span>(transact<span class="sc">$</span>Due, <span class="dv">5</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_wider_delim</span>(due_iso, <span class="at">delim =</span> <span class="st">"-"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"due_year"</span>, <span class="st">"due_month"</span>, <span class="st">"due_day"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(<span class="st">"due_rebuilt"</span>, due_year, due_month, due_day, <span class="at">sep =</span> <span class="st">"-"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 1
+  due_rebuilt
+  &lt;chr&gt;      
+1 2013-02-01 
+2 2013-02-25 
+3 2013-08-02 
+4 2013-03-12 
+5 2012-11-24 </code></pre>
+</div>
+</div>
+</section>
+<section id="drop-missing-values-with-drop_na" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="drop-missing-values-with-drop_na"><span class="header-section-number">8.7</span> Drop missing values with <code>drop_na()</code></h2>
+<p><code>ecom</code> itself has no missing values, but joins create them: the full join of <code>customer</code> and <code>order</code> from <span class="citation" data-cites="joining-tables-in-r-dplyr">@joining-tables-in-r-dplyr</span> carries <code>NA</code>s for every unmatched row. <code>drop_na()</code> keeps only complete rows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>order <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">'https://raw.githubusercontent.com/rsquaredacademy/datasets/master/order.csv'</span>, <span class="at">delim =</span> <span class="st">';'</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>customer <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">'https://raw.githubusercontent.com/rsquaredacademy/datasets/master/customer.csv'</span>, <span class="at">delim =</span> <span class="st">';'</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>joined <span class="ot">&lt;-</span> <span class="fu">full_join</span>(customer, order, <span class="at">by =</span> <span class="fu">join_by</span>(id))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(joined)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 349</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">drop_na</span>(joined))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 55</code></pre>
+</div>
+</div>
+<p>Only the 55 fully matched rows survive — the same rows <code>inner_join()</code> returns. Use <code>drop_na()</code> when a downstream step needs complete cases, and prefer it over filtering each column by hand.</p>
+</section>
+<section id="complete-combinations-with-complete" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="complete-combinations-with-complete"><span class="header-section-number">8.8</span> Complete combinations with <code>complete()</code></h2>
+<p>Counts over a filtered subset can silently omit combinations. Purchasers only span <code>purchase == TRUE</code>, so the <code>FALSE</code> rows are missing rather than zero:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>purchasers <span class="ot">&lt;-</span> ecom <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(purchase) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(device, purchase)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>purchasers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
   device purchase     n
   &lt;fct&gt;  &lt;lgl&gt;    &lt;int&gt;
 1 laptop TRUE        31
@@ -2404,262 +2407,49 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 3 mobile TRUE        36</code></pre>
 </div>
 </div>
-<p>Another way to extract the above information is by using <code>count</code></p>
+<p><code>complete()</code> adds the missing combinations and fills the count with 0, so plots and tables show every device × purchase cell:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(referrer, purchase) <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(purchase)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>purchasers <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(device, <span class="at">purchase =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">0</span>L))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 3
-  referrer purchase     n
-  &lt;fct&gt;    &lt;lgl&gt;    &lt;int&gt;
-1 bing     TRUE        17
-2 direct   TRUE        25
-3 social   TRUE        20
-4 yahoo    TRUE        22
-5 google   TRUE        19</code></pre>
+<pre><code># A tibble: 6 × 3
+  device purchase     n
+  &lt;fct&gt;  &lt;lgl&gt;    &lt;int&gt;
+1 laptop FALSE        0
+2 laptop TRUE        31
+3 tablet FALSE        0
+4 tablet TRUE        36
+5 mobile FALSE        0
+6 mobile TRUE        36</code></pre>
 </div>
 </div>
-<p>The <code>group_by()</code> + <code>tally()</code> pairs above can also be written with the <code>.by</code> argument, which groups only for that verb and leaves the data ungrouped afterwards:</p>
+</section>
+<section id="fill-down-labels-with-fill" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="fill-down-labels-with-fill"><span class="header-section-number">8.9</span> Fill down labels with <code>fill()</code></h2>
+<p>Spreadsheet exports often write a group label once and leave the rest blank. <code>fill()</code> carries the last non-missing value down (or up with <code>.direction = "up"</code>):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> referrer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 2
-  referrer     n
-  &lt;fct&gt;    &lt;int&gt;
-1 google     208
-2 yahoo      207
-3 direct     191
-4 bing       194
-5 social     200</code></pre>
-</div>
-</div>
-<p>Two more helpers round out grouped work. <code>summarise()</code> must return a single row per group; when a summary needs several rows, use <code>reframe()</code> instead:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">|&gt;</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">quartile =</span> <span class="fu">quantile</span>(n_pages, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)), <span class="at">.by =</span> purchase)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">device =</span> <span class="fu">c</span>(<span class="st">"laptop"</span>, <span class="cn">NA</span>, <span class="st">"tablet"</span>, <span class="cn">NA</span>),</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">metric =</span> <span class="fu">c</span>(<span class="st">"aov"</span>, <span class="st">"orders"</span>, <span class="st">"aov"</span>, <span class="st">"orders"</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>report <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
-  purchase quartile
-  &lt;lgl&gt;       &lt;dbl&gt;
-1 FALSE           1
-2 FALSE           8
-3 TRUE           13
-4 TRUE           18</code></pre>
-</div>
-</div>
-<p>And <code>pick()</code> bundles columns into a data frame inside a verb, so a computation needing several columns at once does not repeat the data name:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">with</span>(<span class="fu">pick</span>(n_pages, duration), <span class="fu">cor</span>(n_pages, duration)), <span class="at">.by =</span> purchase)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
-  purchase    cor
-  &lt;lgl&gt;     &lt;dbl&gt;
-1 FALSE    -0.251
-2 TRUE      0.429</code></pre>
+  device metric
+  &lt;chr&gt;  &lt;chr&gt; 
+1 laptop aov   
+2 laptop orders
+3 tablet aov   
+4 tablet orders</code></pre>
 </div>
 </div>
 </section>
-<section id="sampling-data" class="level2" data-number="6.6">
-<h2 data-number="6.6" class="anchored" data-anchor-id="sampling-data"><span class="header-section-number">6.6</span> Sampling Data</h2>
-<p>dplyr offers a sampling function which allows us to specify either the number or percentage of observations. <code>slice_sample()</code> allows sampling a specific number of observations.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/sample_frac_n.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_sample</span>(ecom, <span class="at">n =</span> <span class="dv">700</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 700 × 7
-   referrer device bouncers n_visit n_pages duration purchase
-   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 bing     mobile FALSE         10       7      119 FALSE   
- 2 bing     mobile TRUE           3       1      479 FALSE   
- 3 yahoo    mobile FALSE          7       6      102 FALSE   
- 4 yahoo    tablet TRUE          10       1      668 FALSE   
- 5 google   tablet TRUE           6       1       45 FALSE   
- 6 yahoo    laptop FALSE          7      15      150 FALSE   
- 7 social   tablet TRUE           8       1      502 FALSE   
- 8 direct   laptop TRUE           6       1      178 FALSE   
- 9 direct   laptop FALSE          1      20      320 TRUE    
-10 social   tablet TRUE           4       1      403 FALSE   
-# ℹ 690 more rows</code></pre>
-</div>
-</div>
-<p>We can combine the sampling function with grouping as shown below where we sample observations after grouping them according to the source of traffic.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_sample</span>(ecom, <span class="at">n =</span> <span class="dv">100</span>, <span class="at">by =</span> referrer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 500 × 7
-   referrer device bouncers n_visit n_pages duration purchase
-   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 google   tablet FALSE          7       5       60 FALSE   
- 2 google   mobile FALSE         10       8       88 FALSE   
- 3 google   mobile FALSE          7      12      288 TRUE    
- 4 google   tablet FALSE          9       3       57 FALSE   
- 5 google   tablet FALSE          8      10      210 FALSE   
- 6 google   laptop TRUE           5       1      951 FALSE   
- 7 google   tablet FALSE          7      12      156 FALSE   
- 8 google   laptop TRUE           6       1      402 FALSE   
- 9 google   tablet FALSE          5      10      180 FALSE   
-10 google   tablet FALSE          7      12      324 TRUE    
-# ℹ 490 more rows</code></pre>
-</div>
-</div>
-<p><code>slice_sample()</code> with the <code>prop</code> argument allows sampling a specific percentage of observations.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice_sample</span>(ecom, <span class="at">prop =</span> <span class="fl">0.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 700 × 7
-   referrer device bouncers n_visit n_pages duration purchase
-   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 bing     mobile FALSE         10      20      560 FALSE   
- 2 social   tablet TRUE           4       1      118 FALSE   
- 3 yahoo    mobile FALSE         10       7      140 FALSE   
- 4 direct   laptop FALSE          1      10      120 FALSE   
- 5 google   mobile TRUE           5       1      147 FALSE   
- 6 yahoo    mobile TRUE           3       1      700 FALSE   
- 7 direct   laptop FALSE          8      10      210 FALSE   
- 8 bing     mobile FALSE          9       1       22 FALSE   
- 9 google   mobile TRUE          10       1      256 FALSE   
-10 yahoo    mobile FALSE          6       3       39 FALSE   
-# ℹ 690 more rows</code></pre>
-</div>
-</div>
-</section>
-<section id="data-extraction" class="level2" data-number="6.7">
-<h2 data-number="6.7" class="anchored" data-anchor-id="data-extraction"><span class="header-section-number">6.7</span> Data Extraction</h2>
-<p>In the first <a href="https://blog.aravindhebbali.com/2017/12/25/data-wrangling-with-dplyr-part-1/">chapter</a>, we had observed that dplyr verbs always returned a tibble. What if you want to extract a specific column or a bunch of rows but not as a tibble?</p>
-<p>Use <code>pull</code> to extract columns either by name or position. It will return a vector. In the below example, we extract the <code>device</code> column as a vector. I am using <code>head</code> in addition to limit the output printed.</p>
-<section id="sample-data" class="level3" data-number="6.7.1">
-<h3 data-number="6.7.1" class="anchored" data-anchor-id="sample-data"><span class="header-section-number">6.7.1</span> Sample Data</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ecom_mini <span class="ot">&lt;-</span> <span class="fu">slice_sample</span>(ecom, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/pull_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] tablet mobile tablet mobile mobile laptop mobile laptop laptop mobile
-Levels: laptop tablet mobile</code></pre>
-</div>
-</div>
-<p>Let us extract the first column from <code>ecom</code> using column position instead of name.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] google direct social google google social google direct social direct
-Levels: bing direct social yahoo google</code></pre>
-</div>
-</div>
-<p>You can use <code>-</code> before the column position to indicate the position in reverse. The below example extracts data from the last column.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="sc">-</span><span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
-</div>
-</div>
-<p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we extract data starting from the 5th row and upto the 15th row.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/slice_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice</span>(ecom, <span class="dv">5</span><span class="sc">:</span><span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11 × 7
-   referrer device bouncers n_visit n_pages duration purchase
-   &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 yahoo    mobile TRUE           9       1      955 FALSE   
- 2 yahoo    laptop FALSE          5       5      135 FALSE   
- 3 yahoo    mobile TRUE          10       1       75 FALSE   
- 4 direct   mobile TRUE          10       1      908 FALSE   
- 5 bing     mobile FALSE          3      19      209 FALSE   
- 6 google   mobile TRUE           6       1      208 FALSE   
- 7 direct   laptop TRUE           9       1      738 FALSE   
- 8 direct   tablet FALSE          6      12      132 FALSE   
- 9 direct   mobile FALSE          9      14      406 TRUE    
-10 yahoo    tablet FALSE          5       8       80 FALSE   
-11 yahoo    mobile FALSE          7       1       19 FALSE   </code></pre>
-</div>
-</div>
-<p>Use <code>n()</code> inside <code>slice()</code> to extract the last row.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice</span>(ecom, <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 7
-  referrer device bouncers n_visit n_pages duration purchase
-  &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
-1 google   mobile TRUE           9       1      269 FALSE   </code></pre>
-</div>
-</div>
-</section>
-</section>
-<section id="between" class="level2" data-number="6.8">
-<h2 data-number="6.8" class="anchored" data-anchor-id="between"><span class="header-section-number">6.8</span> Between</h2>
-<p><code>between()</code> allows us to test if the values in a column lie between two specific values. In the below example, we check how many visits browsed pages between 5 and 15.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>ecom_sample <span class="ot">&lt;-</span> <span class="fu">slice_sample</span>(ecom, <span class="at">n =</span> <span class="dv">30</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>ecom_sample <span class="sc">|&gt;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n_pages) <span class="sc">|&gt;</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE
-[13] FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
-[25] FALSE FALSE FALSE  TRUE FALSE  TRUE</code></pre>
-</div>
-</div>
-</section>
-<section id="case-when" class="level2" data-number="6.9">
-<h2 data-number="6.9" class="anchored" data-anchor-id="case-when"><span class="header-section-number">6.9</span> Case When</h2>
-<p><code>case_when()</code> is an alternative to <code>if else</code>. It allows us to lay down the conditions clearly and makes the code more readable. In the below example, we create a new column <code>repeat_visit</code> from <code>n_visit</code> (the number of previous visits).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ecom <span class="sc">|&gt;</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">repeat_visit =</span> <span class="fu">case_when</span>(</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>      n_visit <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="cn">TRUE</span>,</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">FALSE</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(n_visit, repeat_visit) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,000 × 2
-   n_visit repeat_visit
-     &lt;dbl&gt; &lt;lgl&gt;       
- 1      10 TRUE        
- 2       9 TRUE        
- 3       0 FALSE       
- 4       3 TRUE        
- 5       9 TRUE        
- 6       5 TRUE        
- 7      10 TRUE        
- 8      10 TRUE        
- 9       3 TRUE        
-10       6 TRUE        
-# ℹ 990 more rows</code></pre>
-</div>
-</div>
+<section id="your-turn" class="level2" data-number="8.10">
+<h2 data-number="8.10" class="anchored" data-anchor-id="your-turn"><span class="header-section-number">8.10</span> Your Turn</h2>
+<ul>
+<li>reshape the mean of <code>n_visit</code> and <code>order_items</code> by <code>referrer</code> from wide to long</li>
+<li>split the <code>email</code> column of <code>mockstring</code> at <code>"@"</code> and reunite it — does the round-trip hold?</li>
+<li>run the <code>complete()</code> example without <code>fill</code>: what does the missing count become, and why?</li>
+</ul>
 </section>
 <section id="try-it-live" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="try-it-live">Try it live</h2>
@@ -3299,302 +3089,216 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05-dplyr-2.html" class="pagination-link" aria-label="Joining Tables using dplyr">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Joining Tables using dplyr</span></span>
+      <a href="./07-tibbles.html" class="pagination-link" aria-label="tibbles">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">tibbles</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./07-tibbles.html" class="pagination-link" aria-label="tibbles">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">tibbles</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./09-stringr.html" class="pagination-link" aria-label="Hacking Strings">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hacking Strings</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb45" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Data Wrangling in R: sampling, slicing, ranking and conditional recoding with dplyr helpers."</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu"># dplyr Helpers {#dplyr-helper-functions}</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>In this chapter, we will explore a set of helper functions in order to:</span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>extract unique rows </span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>rename columns</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>sample data</span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>extract columns</span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>slice rows</span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>arrange rows</span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compare tables</span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>extract/mutate data using predicate functions</span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>count observations for different levels of a variable</span>
-<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>We will use the following R packages:</span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr1c, message=FALSE}</span></span>
-<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
-<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Case Study</span></span>
-<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>Let us look at a case study (e-commerce data) and see how we can use dplyr </span>
-<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>helper functions to answer questions we have about and to modify/transform the </span>
-<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>underlying data set. </span>
-<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data</span></span>
-<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r showc, message=FALSE}</span></span>
-<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- </span></span>
-<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a><span class="in">  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',</span></span>
-<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a><span class="in">    col_types = cols_only(device = col_factor(levels = c("laptop", "tablet", "mobile")),</span></span>
-<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a><span class="in">      referrer = col_factor(levels = c("bing", "direct", "social", "yahoo", "google")),</span></span>
-<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a><span class="in">      purchase = col_logical(), bouncers = col_logical(), duration = col_double(),</span></span>
-<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a><span class="in">      n_visit = col_double(), n_pages = col_double()</span></span>
-<span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a><span class="in">    )</span></span>
-<span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-46"><a href="#cb45-46" aria-hidden="true" tabindex="-1"></a><span class="in">ecom</span></span>
-<span id="cb45-47"><a href="#cb45-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-48"><a href="#cb45-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-49"><a href="#cb45-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data Dictionary</span></span>
-<span id="cb45-50"><a href="#cb45-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-51"><a href="#cb45-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>referrer: referrer website/search engine</span>
-<span id="cb45-52"><a href="#cb45-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>device: device used to visit the website</span>
-<span id="cb45-53"><a href="#cb45-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>bouncers: whether a visit bounced (exited from landing page)</span>
-<span id="cb45-54"><a href="#cb45-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>duration: time spent on the website (in seconds)</span>
-<span id="cb45-55"><a href="#cb45-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>purchase: whether visitor purchased</span>
-<span id="cb45-56"><a href="#cb45-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>n_visit: number of visits</span>
-<span id="cb45-57"><a href="#cb45-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>n_pages: number of pages visited/browsed</span>
-<span id="cb45-58"><a href="#cb45-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-59"><a href="#cb45-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Sanitization</span></span>
-<span id="cb45-60"><a href="#cb45-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-61"><a href="#cb45-61" aria-hidden="true" tabindex="-1"></a>Let us ensure that the data is sanitized by checking the sources of traffic</span>
-<span id="cb45-62"><a href="#cb45-62" aria-hidden="true" tabindex="-1"></a>and devices used to visit the site. We will use <span class="in">`distinct`</span> to examine the</span>
-<span id="cb45-63"><a href="#cb45-63" aria-hidden="true" tabindex="-1"></a>values in the <span class="in">`referrer`</span> column</span>
-<span id="cb45-64"><a href="#cb45-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-65"><a href="#cb45-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img1c, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb45-66"><a href="#cb45-66" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/distinct_1.png")</span></span>
-<span id="cb45-67"><a href="#cb45-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-68"><a href="#cb45-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-69"><a href="#cb45-69" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr2c}</span></span>
-<span id="cb45-70"><a href="#cb45-70" aria-hidden="true" tabindex="-1"></a><span class="in">distinct(ecom, referrer)</span></span>
-<span id="cb45-71"><a href="#cb45-71" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-72"><a href="#cb45-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-73"><a href="#cb45-73" aria-hidden="true" tabindex="-1"></a>and the <span class="in">`device`</span> column as well.</span>
-<span id="cb45-74"><a href="#cb45-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-75"><a href="#cb45-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr30c}</span></span>
-<span id="cb45-76"><a href="#cb45-76" aria-hidden="true" tabindex="-1"></a><span class="in">distinct(ecom, device)</span></span>
-<span id="cb45-77"><a href="#cb45-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-78"><a href="#cb45-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-79"><a href="#cb45-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## Rename Columns</span></span>
-<span id="cb45-80"><a href="#cb45-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-81"><a href="#cb45-81" aria-hidden="true" tabindex="-1"></a>Columns can be renamed using <span class="in">`rename()`</span>. </span>
-<span id="cb45-82"><a href="#cb45-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-83"><a href="#cb45-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img2c, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb45-84"><a href="#cb45-84" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/rename_1.png")</span></span>
-<span id="cb45-85"><a href="#cb45-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-86"><a href="#cb45-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-87"><a href="#cb45-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr3c}</span></span>
-<span id="cb45-88"><a href="#cb45-88" aria-hidden="true" tabindex="-1"></a><span class="in">rename(ecom, time_on_site = duration)</span></span>
-<span id="cb45-89"><a href="#cb45-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-90"><a href="#cb45-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-91"><a href="#cb45-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Tabulation</span></span>
-<span id="cb45-92"><a href="#cb45-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-93"><a href="#cb45-93" aria-hidden="true" tabindex="-1"></a>Let us now look at the proportion or share of visits driven by different sources</span>
-<span id="cb45-94"><a href="#cb45-94" aria-hidden="true" tabindex="-1"></a>of traffic. </span>
-<span id="cb45-95"><a href="#cb45-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-96"><a href="#cb45-96" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img6c, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb45-97"><a href="#cb45-97" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/tally_count.png")</span></span>
-<span id="cb45-98"><a href="#cb45-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-99"><a href="#cb45-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-100"><a href="#cb45-100" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr14c}</span></span>
-<span id="cb45-101"><a href="#cb45-101" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb45-102"><a href="#cb45-102" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(referrer) |&gt;</span></span>
-<span id="cb45-103"><a href="#cb45-103" aria-hidden="true" tabindex="-1"></a><span class="in">  tally()</span></span>
-<span id="cb45-104"><a href="#cb45-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-105"><a href="#cb45-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-106"><a href="#cb45-106" aria-hidden="true" tabindex="-1"></a>We would also like to know the number of bouncers driven by the different </span>
-<span id="cb45-107"><a href="#cb45-107" aria-hidden="true" tabindex="-1"></a>sources of traffic.</span>
-<span id="cb45-108"><a href="#cb45-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-109"><a href="#cb45-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr15c}</span></span>
-<span id="cb45-110"><a href="#cb45-110" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb45-111"><a href="#cb45-111" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(referrer, bouncers) |&gt;</span></span>
-<span id="cb45-112"><a href="#cb45-112" aria-hidden="true" tabindex="-1"></a><span class="in">  tally()</span></span>
-<span id="cb45-113"><a href="#cb45-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-114"><a href="#cb45-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-115"><a href="#cb45-115" aria-hidden="true" tabindex="-1"></a>Let us look at how many conversions happen across different devices.</span>
-<span id="cb45-116"><a href="#cb45-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-117"><a href="#cb45-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr25c}</span></span>
-<span id="cb45-118"><a href="#cb45-118" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb45-119"><a href="#cb45-119" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(device, purchase) |&gt;</span></span>
-<span id="cb45-120"><a href="#cb45-120" aria-hidden="true" tabindex="-1"></a><span class="in">  tally() |&gt;</span></span>
-<span id="cb45-121"><a href="#cb45-121" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(purchase)</span></span>
-<span id="cb45-122"><a href="#cb45-122" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-123"><a href="#cb45-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-124"><a href="#cb45-124" aria-hidden="true" tabindex="-1"></a>Another way to extract the above information is by using <span class="in">`count`</span></span>
-<span id="cb45-125"><a href="#cb45-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-126"><a href="#cb45-126" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr17c}</span></span>
-<span id="cb45-127"><a href="#cb45-127" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb45-128"><a href="#cb45-128" aria-hidden="true" tabindex="-1"></a><span class="in">  count(referrer, purchase) |&gt;</span></span>
-<span id="cb45-129"><a href="#cb45-129" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(purchase)</span></span>
-<span id="cb45-130"><a href="#cb45-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-131"><a href="#cb45-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-132"><a href="#cb45-132" aria-hidden="true" tabindex="-1"></a>The <span class="in">`group_by()`</span> + <span class="in">`tally()`</span> pairs above can also be written with the <span class="in">`.by`</span></span>
-<span id="cb45-133"><a href="#cb45-133" aria-hidden="true" tabindex="-1"></a>argument, which groups only for that verb and leaves the data ungrouped</span>
-<span id="cb45-134"><a href="#cb45-134" aria-hidden="true" tabindex="-1"></a>afterwards:</span>
-<span id="cb45-135"><a href="#cb45-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-136"><a href="#cb45-136" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr17by}</span></span>
-<span id="cb45-137"><a href="#cb45-137" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb45-138"><a href="#cb45-138" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(n = n(), .by = referrer)</span></span>
-<span id="cb45-139"><a href="#cb45-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-140"><a href="#cb45-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-141"><a href="#cb45-141" aria-hidden="true" tabindex="-1"></a>Two more helpers round out grouped work. <span class="in">`summarise()`</span> must return a single</span>
-<span id="cb45-142"><a href="#cb45-142" aria-hidden="true" tabindex="-1"></a>row per group; when a summary needs several rows, use <span class="in">`reframe()`</span> instead:</span>
-<span id="cb45-143"><a href="#cb45-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-144"><a href="#cb45-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr21c}</span></span>
-<span id="cb45-145"><a href="#cb45-145" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb45-146"><a href="#cb45-146" aria-hidden="true" tabindex="-1"></a><span class="in">  reframe(quartile = quantile(n_pages, c(0.25, 0.75)), .by = purchase)</span></span>
-<span id="cb45-147"><a href="#cb45-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-148"><a href="#cb45-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-149"><a href="#cb45-149" aria-hidden="true" tabindex="-1"></a>And <span class="in">`pick()`</span> bundles columns into a data frame inside a verb, so a computation</span>
-<span id="cb45-150"><a href="#cb45-150" aria-hidden="true" tabindex="-1"></a>needing several columns at once does not repeat the data name:</span>
-<span id="cb45-151"><a href="#cb45-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-152"><a href="#cb45-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr22c}</span></span>
-<span id="cb45-153"><a href="#cb45-153" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb45-154"><a href="#cb45-154" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(cor = with(pick(n_pages, duration), cor(n_pages, duration)), .by = purchase)</span></span>
-<span id="cb45-155"><a href="#cb45-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-156"><a href="#cb45-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-157"><a href="#cb45-157" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sampling Data</span></span>
-<span id="cb45-158"><a href="#cb45-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-159"><a href="#cb45-159" aria-hidden="true" tabindex="-1"></a>dplyr offers a sampling function which allows us to specify either the</span>
-<span id="cb45-160"><a href="#cb45-160" aria-hidden="true" tabindex="-1"></a>number or percentage of observations. <span class="in">`slice_sample()`</span> allows sampling a specific</span>
-<span id="cb45-161"><a href="#cb45-161" aria-hidden="true" tabindex="-1"></a>number of observations.  </span>
-<span id="cb45-162"><a href="#cb45-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-163"><a href="#cb45-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img3c, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb45-164"><a href="#cb45-164" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/sample_frac_n.png")</span></span>
-<span id="cb45-165"><a href="#cb45-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-166"><a href="#cb45-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-167"><a href="#cb45-167" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr4cc}</span></span>
-<span id="cb45-168"><a href="#cb45-168" aria-hidden="true" tabindex="-1"></a><span class="in">slice_sample(ecom, n = 700)</span></span>
-<span id="cb45-169"><a href="#cb45-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-170"><a href="#cb45-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-171"><a href="#cb45-171" aria-hidden="true" tabindex="-1"></a>We can combine the sampling function with grouping as shown below</span>
-<span id="cb45-172"><a href="#cb45-172" aria-hidden="true" tabindex="-1"></a>where we sample observations after grouping them according to the source of</span>
-<span id="cb45-173"><a href="#cb45-173" aria-hidden="true" tabindex="-1"></a>traffic.</span>
-<span id="cb45-174"><a href="#cb45-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-175"><a href="#cb45-175" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr5c}</span></span>
-<span id="cb45-176"><a href="#cb45-176" aria-hidden="true" tabindex="-1"></a><span class="in">slice_sample(ecom, n = 100, by = referrer)</span></span>
-<span id="cb45-177"><a href="#cb45-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-178"><a href="#cb45-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-179"><a href="#cb45-179" aria-hidden="true" tabindex="-1"></a><span class="in">`slice_sample()`</span> with the <span class="in">`prop`</span> argument allows sampling a specific percentage of observations.</span>
-<span id="cb45-180"><a href="#cb45-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-181"><a href="#cb45-181" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr6c}</span></span>
-<span id="cb45-182"><a href="#cb45-182" aria-hidden="true" tabindex="-1"></a><span class="in">slice_sample(ecom, prop = 0.7)</span></span>
-<span id="cb45-183"><a href="#cb45-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-184"><a href="#cb45-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-185"><a href="#cb45-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Extraction</span></span>
-<span id="cb45-186"><a href="#cb45-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-187"><a href="#cb45-187" aria-hidden="true" tabindex="-1"></a>In the first <span class="co">[</span><span class="ot">chapter</span><span class="co">](https://blog.aravindhebbali.com/2017/12/25/data-wrangling-with-dplyr-part-1/)</span>,</span>
-<span id="cb45-188"><a href="#cb45-188" aria-hidden="true" tabindex="-1"></a>we had observed that dplyr verbs always returned a tibble. What if you want to</span>
-<span id="cb45-189"><a href="#cb45-189" aria-hidden="true" tabindex="-1"></a>extract a specific column or a bunch of rows but not as a tibble? </span>
-<span id="cb45-190"><a href="#cb45-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-191"><a href="#cb45-191" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`pull`</span> to extract columns either by name or position. It will return a </span>
-<span id="cb45-192"><a href="#cb45-192" aria-hidden="true" tabindex="-1"></a>vector. In the below example, we extract the <span class="in">`device`</span> column as a vector. I am </span>
-<span id="cb45-193"><a href="#cb45-193" aria-hidden="true" tabindex="-1"></a>using <span class="in">`head`</span> in addition to limit the output printed.</span>
-<span id="cb45-194"><a href="#cb45-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-195"><a href="#cb45-195" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sample Data</span></span>
-<span id="cb45-196"><a href="#cb45-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-197"><a href="#cb45-197" aria-hidden="true" tabindex="-1"></a><span class="in">```{r ecom_mini}</span></span>
-<span id="cb45-198"><a href="#cb45-198" aria-hidden="true" tabindex="-1"></a><span class="in">ecom_mini &lt;- slice_sample(ecom, n = 10)</span></span>
-<span id="cb45-199"><a href="#cb45-199" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-200"><a href="#cb45-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-201"><a href="#cb45-201" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img4c, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb45-202"><a href="#cb45-202" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/pull_1.png")</span></span>
-<span id="cb45-203"><a href="#cb45-203" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-204"><a href="#cb45-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-205"><a href="#cb45-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr8c}</span></span>
-<span id="cb45-206"><a href="#cb45-206" aria-hidden="true" tabindex="-1"></a><span class="in">pull(ecom_mini, device)</span></span>
-<span id="cb45-207"><a href="#cb45-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-208"><a href="#cb45-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-209"><a href="#cb45-209" aria-hidden="true" tabindex="-1"></a>Let us extract the first column from <span class="in">`ecom`</span> using column position instead of </span>
-<span id="cb45-210"><a href="#cb45-210" aria-hidden="true" tabindex="-1"></a>name.</span>
-<span id="cb45-211"><a href="#cb45-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-212"><a href="#cb45-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr9c}</span></span>
-<span id="cb45-213"><a href="#cb45-213" aria-hidden="true" tabindex="-1"></a><span class="in">pull(ecom_mini, 1) </span></span>
-<span id="cb45-214"><a href="#cb45-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-215"><a href="#cb45-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-216"><a href="#cb45-216" aria-hidden="true" tabindex="-1"></a>You can use <span class="in">`-`</span> before the column position to indicate the position in reverse.</span>
-<span id="cb45-217"><a href="#cb45-217" aria-hidden="true" tabindex="-1"></a>The below example extracts data from the last column.</span>
-<span id="cb45-218"><a href="#cb45-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-219"><a href="#cb45-219" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr10c}</span></span>
-<span id="cb45-220"><a href="#cb45-220" aria-hidden="true" tabindex="-1"></a><span class="in">pull(ecom_mini, -1) </span></span>
-<span id="cb45-221"><a href="#cb45-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-222"><a href="#cb45-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-223"><a href="#cb45-223" aria-hidden="true" tabindex="-1"></a>Let us now look at extracting rows using <span class="in">`slice()`</span>. In the below example, we </span>
-<span id="cb45-224"><a href="#cb45-224" aria-hidden="true" tabindex="-1"></a>extract data starting from the 5th row and upto the 15th row.</span>
-<span id="cb45-225"><a href="#cb45-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-226"><a href="#cb45-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r img5c, echo=FALSE, out.width="100%", fig.align="center"}</span></span>
-<span id="cb45-227"><a href="#cb45-227" aria-hidden="true" tabindex="-1"></a><span class="in">knitr::include_graphics("img/slice_1.png")</span></span>
-<span id="cb45-228"><a href="#cb45-228" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-229"><a href="#cb45-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-230"><a href="#cb45-230" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr11c}</span></span>
-<span id="cb45-231"><a href="#cb45-231" aria-hidden="true" tabindex="-1"></a><span class="in">slice(ecom, 5:15)</span></span>
-<span id="cb45-232"><a href="#cb45-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-233"><a href="#cb45-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-234"><a href="#cb45-234" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`n()`</span> inside <span class="in">`slice()`</span> to extract the last row.</span>
-<span id="cb45-235"><a href="#cb45-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-236"><a href="#cb45-236" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr12c}</span></span>
-<span id="cb45-237"><a href="#cb45-237" aria-hidden="true" tabindex="-1"></a><span class="in">slice(ecom, n())</span></span>
-<span id="cb45-238"><a href="#cb45-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-239"><a href="#cb45-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-240"><a href="#cb45-240" aria-hidden="true" tabindex="-1"></a><span class="fu">## Between</span></span>
-<span id="cb45-241"><a href="#cb45-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-242"><a href="#cb45-242" aria-hidden="true" tabindex="-1"></a><span class="in">`between()`</span> allows us to test if the values in a column lie between two specific</span>
-<span id="cb45-243"><a href="#cb45-243" aria-hidden="true" tabindex="-1"></a>values. In the below example, we check how many visits browsed pages between 5 </span>
-<span id="cb45-244"><a href="#cb45-244" aria-hidden="true" tabindex="-1"></a>and 15.</span>
-<span id="cb45-245"><a href="#cb45-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-246"><a href="#cb45-246" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr19c}</span></span>
-<span id="cb45-247"><a href="#cb45-247" aria-hidden="true" tabindex="-1"></a><span class="in">ecom_sample &lt;- slice_sample(ecom, n = 30)</span></span>
-<span id="cb45-248"><a href="#cb45-248" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb45-249"><a href="#cb45-249" aria-hidden="true" tabindex="-1"></a><span class="in">ecom_sample |&gt;</span></span>
-<span id="cb45-250"><a href="#cb45-250" aria-hidden="true" tabindex="-1"></a><span class="in">  pull(n_pages) |&gt;</span></span>
-<span id="cb45-251"><a href="#cb45-251" aria-hidden="true" tabindex="-1"></a><span class="in">  between(5, 15) </span></span>
-<span id="cb45-252"><a href="#cb45-252" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-253"><a href="#cb45-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-254"><a href="#cb45-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## Case When</span></span>
-<span id="cb45-255"><a href="#cb45-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-256"><a href="#cb45-256" aria-hidden="true" tabindex="-1"></a><span class="in">`case_when()`</span> is an alternative to <span class="in">`if else`</span>. It allows us to lay down the </span>
-<span id="cb45-257"><a href="#cb45-257" aria-hidden="true" tabindex="-1"></a>conditions clearly and makes the code more readable. In the below example, we</span>
-<span id="cb45-258"><a href="#cb45-258" aria-hidden="true" tabindex="-1"></a>create a new column <span class="in">`repeat_visit`</span> from <span class="in">`n_visit`</span> (the number of previous visits).</span>
-<span id="cb45-259"><a href="#cb45-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-260"><a href="#cb45-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r dplyr20c}</span></span>
-<span id="cb45-261"><a href="#cb45-261" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb45-262"><a href="#cb45-262" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(</span></span>
-<span id="cb45-263"><a href="#cb45-263" aria-hidden="true" tabindex="-1"></a><span class="in">    repeat_visit = case_when(</span></span>
-<span id="cb45-264"><a href="#cb45-264" aria-hidden="true" tabindex="-1"></a><span class="in">      n_visit &gt; 0 ~ TRUE,</span></span>
-<span id="cb45-265"><a href="#cb45-265" aria-hidden="true" tabindex="-1"></a><span class="in">      TRUE ~ FALSE</span></span>
-<span id="cb45-266"><a href="#cb45-266" aria-hidden="true" tabindex="-1"></a><span class="in">    )</span></span>
-<span id="cb45-267"><a href="#cb45-267" aria-hidden="true" tabindex="-1"></a><span class="in">  ) |&gt;</span></span>
-<span id="cb45-268"><a href="#cb45-268" aria-hidden="true" tabindex="-1"></a><span class="in">  select(n_visit, repeat_visit) </span></span>
-<span id="cb45-269"><a href="#cb45-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-270"><a href="#cb45-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-271"><a href="#cb45-271" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try it live {.unnumbered}</span></span>
-<span id="cb45-272"><a href="#cb45-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-273"><a href="#cb45-273" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
-<span id="cb45-274"><a href="#cb45-274" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try it in your browser</span></span>
-<span id="cb45-275"><a href="#cb45-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-276"><a href="#cb45-276" aria-hidden="true" tabindex="-1"></a>Edit the code below and press **Run**. It executes entirely in your browser</span>
-<span id="cb45-277"><a href="#cb45-277" aria-hidden="true" tabindex="-1"></a>via <span class="co">[</span><span class="ot">WebR</span><span class="co">](https://docs.r-wasm.org/webr/latest/)</span> — no R installation needed.</span>
-<span id="cb45-278"><a href="#cb45-278" aria-hidden="true" tabindex="-1"></a>The runtime downloads once, on this page only.</span>
-<span id="cb45-279"><a href="#cb45-279" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb45-280"><a href="#cb45-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-281"><a href="#cb45-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr-r}</span></span>
-<span id="cb45-282"><a href="#cb45-282" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
-<span id="cb45-283"><a href="#cb45-283" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb45-284"><a href="#cb45-284" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb45-285"><a href="#cb45-285" aria-hidden="true" tabindex="-1"></a><span class="in">slice_sample(ecom, n = 10)</span></span>
-<span id="cb45-286"><a href="#cb45-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Data Wrangling in R: pivot longer and wider, separate and unite columns, handle missing values."</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu"># Tidying Data with tidyr {#tidying-data-with-tidyr}</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>Tidy data has one row per observation and one column per variable. Real data</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>rarely arrives that way: metrics sprawl across columns, several values share</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>one column, and combinations go missing. In this chapter we reshape data with</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>**tidyr**:</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`pivot_longer()`</span> / <span class="in">`pivot_wider()`</span> — move between long and wide layouts</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`separate_wider_delim()`</span> / <span class="in">`unite()`</span> — split one column into several and back</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`drop_na()`</span> / <span class="in">`complete()`</span> / <span class="in">`fill()`</span> — handle missing values and combinations</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>We will use the following R packages:</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_libs, message=FALSE}</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyr)</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="in">library(lubridate)</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>We reuse the ecommerce data from @dplyr-basics, so no new data to learn.</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>The URL and date examples borrow the <span class="in">`mock_strings`</span> and <span class="in">`transact`</span> data sets</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>already used in @strings-in-r and @date-and-time-in-r.</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_data, message=FALSE}</span></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;-</span></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a><span class="in">  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/web.csv',</span></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a><span class="in">    col_types = cols_only(device = col_factor(levels = c("laptop", "tablet", "mobile")),</span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a><span class="in">      referrer = col_factor(levels = c("bing", "direct", "social", "yahoo", "google")),</span></span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a><span class="in">      purchase = col_logical(), n_pages = col_double(), n_visit = col_double(),</span></span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a><span class="in">      duration = col_double(), order_value = col_double(), order_items = col_double()</span></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a><span class="in">    )</span></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a><span class="in">ecom</span></span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## Long format with `pivot_longer()`</span></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>Suppose we average three metrics by device. The result is *wide*: one column</span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>per metric, which is awkward to plot or rank.</span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_wide}</span></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a><span class="in">wide &lt;- ecom |&gt;</span></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(across(c(n_pages, duration, order_value), \(x) mean(x, na.rm = TRUE)), .by = device)</span></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a><span class="in">wide</span></span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a><span class="in">`pivot_longer()`</span> stacks the metric columns into <span class="in">`metric`</span>/<span class="in">`mean_value`</span> pairs —</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>one row per device-metric observation:</span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_long}</span></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a><span class="in">long &lt;- wide |&gt;</span></span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a><span class="in">  pivot_longer(-device, names_to = "metric", values_to = "mean_value")</span></span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a><span class="in">long</span></span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wide format with `pivot_wider()`</span></span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a>The reverse trip is just as common. Counts by device and purchase come out</span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a>long (one row per combination):</span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_counts}</span></span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a><span class="in">counts &lt;- ecom |&gt;</span></span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a><span class="in">  count(device, purchase)</span></span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a><span class="in">counts</span></span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a><span class="in">`pivot_wider()`</span> spreads <span class="in">`purchase`</span> into columns so each device occupies a</span>
+<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a>single row — the layout managers usually want in a report:</span>
+<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_wider}</span></span>
+<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a><span class="in">counts |&gt;</span></span>
+<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a><span class="in">  pivot_wider(names_from = purchase, values_from = n, names_prefix = "purchase_")</span></span>
+<span id="cb28-83"><a href="#cb28-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-84"><a href="#cb28-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-85"><a href="#cb28-85" aria-hidden="true" tabindex="-1"></a><span class="fu">## Split columns with `separate_wider_delim()`</span></span>
+<span id="cb28-86"><a href="#cb28-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-87"><a href="#cb28-87" aria-hidden="true" tabindex="-1"></a>The <span class="in">`url`</span> column of <span class="in">`mock_strings`</span> packs the protocol and the address into one</span>
+<span id="cb28-88"><a href="#cb28-88" aria-hidden="true" tabindex="-1"></a>string, separated by <span class="in">`://`</span>. <span class="in">`separate_wider_delim()`</span> splits it into two</span>
+<span id="cb28-89"><a href="#cb28-89" aria-hidden="true" tabindex="-1"></a>columns:</span>
+<span id="cb28-90"><a href="#cb28-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-91"><a href="#cb28-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_separate_url, message=FALSE}</span></span>
+<span id="cb28-92"><a href="#cb28-92" aria-hidden="true" tabindex="-1"></a><span class="in">mockstring &lt;-</span></span>
+<span id="cb28-93"><a href="#cb28-93" aria-hidden="true" tabindex="-1"></a><span class="in">  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/mock_strings.csv')</span></span>
+<span id="cb28-94"><a href="#cb28-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-95"><a href="#cb28-95" aria-hidden="true" tabindex="-1"></a><span class="in">tibble(url = head(mockstring$url, 3)) |&gt;</span></span>
+<span id="cb28-96"><a href="#cb28-96" aria-hidden="true" tabindex="-1"></a><span class="in">  separate_wider_delim(url, delim = "://", names = c("protocol", "rest")) |&gt;</span></span>
+<span id="cb28-97"><a href="#cb28-97" aria-hidden="true" tabindex="-1"></a><span class="in">  select(protocol)</span></span>
+<span id="cb28-98"><a href="#cb28-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-99"><a href="#cb28-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-100"><a href="#cb28-100" aria-hidden="true" tabindex="-1"></a>The same verb splits calendar dates. The <span class="in">`Due`</span> column of <span class="in">`transact`</span> is</span>
+<span id="cb28-101"><a href="#cb28-101" aria-hidden="true" tabindex="-1"></a><span class="in">`YYYY-MM-DD`</span>; splitting on <span class="in">`"-"`</span> recovers the components:</span>
+<span id="cb28-102"><a href="#cb28-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-103"><a href="#cb28-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_separate_date, message=FALSE}</span></span>
+<span id="cb28-104"><a href="#cb28-104" aria-hidden="true" tabindex="-1"></a><span class="in">transact &lt;-</span></span>
+<span id="cb28-105"><a href="#cb28-105" aria-hidden="true" tabindex="-1"></a><span class="in">  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv')</span></span>
+<span id="cb28-106"><a href="#cb28-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-107"><a href="#cb28-107" aria-hidden="true" tabindex="-1"></a><span class="in">tibble(due_iso = as.character(head(transact$Due, 5))) |&gt;</span></span>
+<span id="cb28-108"><a href="#cb28-108" aria-hidden="true" tabindex="-1"></a><span class="in">  separate_wider_delim(due_iso, delim = "-", names = c("due_year", "due_month", "due_day"))</span></span>
+<span id="cb28-109"><a href="#cb28-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-110"><a href="#cb28-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-111"><a href="#cb28-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Combine columns with `unite()`</span></span>
+<span id="cb28-112"><a href="#cb28-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-113"><a href="#cb28-113" aria-hidden="true" tabindex="-1"></a><span class="in">`unite()`</span> is the inverse: it pastes several columns back into one. Splitting</span>
+<span id="cb28-114"><a href="#cb28-114" aria-hidden="true" tabindex="-1"></a>the ISO date and reuniting it returns the input exactly — a useful check that</span>
+<span id="cb28-115"><a href="#cb28-115" aria-hidden="true" tabindex="-1"></a>a separate/unite round-trip loses nothing:</span>
+<span id="cb28-116"><a href="#cb28-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-117"><a href="#cb28-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_unite}</span></span>
+<span id="cb28-118"><a href="#cb28-118" aria-hidden="true" tabindex="-1"></a><span class="in">tibble(due_iso = as.character(head(transact$Due, 5))) |&gt;</span></span>
+<span id="cb28-119"><a href="#cb28-119" aria-hidden="true" tabindex="-1"></a><span class="in">  separate_wider_delim(due_iso, delim = "-", names = c("due_year", "due_month", "due_day")) |&gt;</span></span>
+<span id="cb28-120"><a href="#cb28-120" aria-hidden="true" tabindex="-1"></a><span class="in">  unite("due_rebuilt", due_year, due_month, due_day, sep = "-")</span></span>
+<span id="cb28-121"><a href="#cb28-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-122"><a href="#cb28-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-123"><a href="#cb28-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Drop missing values with `drop_na()`</span></span>
+<span id="cb28-124"><a href="#cb28-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-125"><a href="#cb28-125" aria-hidden="true" tabindex="-1"></a><span class="in">`ecom`</span> itself has no missing values, but joins create them: the full join of</span>
+<span id="cb28-126"><a href="#cb28-126" aria-hidden="true" tabindex="-1"></a><span class="in">`customer`</span> and <span class="in">`order`</span> from @joining-tables-in-r-dplyr carries <span class="in">`NA`</span>s for</span>
+<span id="cb28-127"><a href="#cb28-127" aria-hidden="true" tabindex="-1"></a>every unmatched row. <span class="in">`drop_na()`</span> keeps only complete rows:</span>
+<span id="cb28-128"><a href="#cb28-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-129"><a href="#cb28-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_dropna, message=FALSE}</span></span>
+<span id="cb28-130"><a href="#cb28-130" aria-hidden="true" tabindex="-1"></a><span class="in">order &lt;- read_delim('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/order.csv', delim = ';')</span></span>
+<span id="cb28-131"><a href="#cb28-131" aria-hidden="true" tabindex="-1"></a><span class="in">customer &lt;- read_delim('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/customer.csv', delim = ';')</span></span>
+<span id="cb28-132"><a href="#cb28-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-133"><a href="#cb28-133" aria-hidden="true" tabindex="-1"></a><span class="in">joined &lt;- full_join(customer, order, by = join_by(id))</span></span>
+<span id="cb28-134"><a href="#cb28-134" aria-hidden="true" tabindex="-1"></a><span class="in">nrow(joined)</span></span>
+<span id="cb28-135"><a href="#cb28-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-136"><a href="#cb28-136" aria-hidden="true" tabindex="-1"></a><span class="in">nrow(drop_na(joined))</span></span>
+<span id="cb28-137"><a href="#cb28-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-138"><a href="#cb28-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-139"><a href="#cb28-139" aria-hidden="true" tabindex="-1"></a>Only the 55 fully matched rows survive — the same rows <span class="in">`inner_join()`</span> returns.</span>
+<span id="cb28-140"><a href="#cb28-140" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`drop_na()`</span> when a downstream step needs complete cases, and prefer it over</span>
+<span id="cb28-141"><a href="#cb28-141" aria-hidden="true" tabindex="-1"></a>filtering each column by hand.</span>
+<span id="cb28-142"><a href="#cb28-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-143"><a href="#cb28-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## Complete combinations with `complete()`</span></span>
+<span id="cb28-144"><a href="#cb28-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-145"><a href="#cb28-145" aria-hidden="true" tabindex="-1"></a>Counts over a filtered subset can silently omit combinations. Purchasers only</span>
+<span id="cb28-146"><a href="#cb28-146" aria-hidden="true" tabindex="-1"></a>span <span class="in">`purchase == TRUE`</span>, so the <span class="in">`FALSE`</span> rows are missing rather than zero:</span>
+<span id="cb28-147"><a href="#cb28-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-148"><a href="#cb28-148" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_complete}</span></span>
+<span id="cb28-149"><a href="#cb28-149" aria-hidden="true" tabindex="-1"></a><span class="in">purchasers &lt;- ecom |&gt;</span></span>
+<span id="cb28-150"><a href="#cb28-150" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(purchase) |&gt;</span></span>
+<span id="cb28-151"><a href="#cb28-151" aria-hidden="true" tabindex="-1"></a><span class="in">  count(device, purchase)</span></span>
+<span id="cb28-152"><a href="#cb28-152" aria-hidden="true" tabindex="-1"></a><span class="in">purchasers</span></span>
+<span id="cb28-153"><a href="#cb28-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-154"><a href="#cb28-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-155"><a href="#cb28-155" aria-hidden="true" tabindex="-1"></a><span class="in">`complete()`</span> adds the missing combinations and fills the count with 0, so</span>
+<span id="cb28-156"><a href="#cb28-156" aria-hidden="true" tabindex="-1"></a>plots and tables show every device × purchase cell:</span>
+<span id="cb28-157"><a href="#cb28-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-158"><a href="#cb28-158" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_complete_fill}</span></span>
+<span id="cb28-159"><a href="#cb28-159" aria-hidden="true" tabindex="-1"></a><span class="in">purchasers |&gt;</span></span>
+<span id="cb28-160"><a href="#cb28-160" aria-hidden="true" tabindex="-1"></a><span class="in">  complete(device, purchase = c(TRUE, FALSE), fill = list(n = 0L))</span></span>
+<span id="cb28-161"><a href="#cb28-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-162"><a href="#cb28-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-163"><a href="#cb28-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Fill down labels with `fill()`</span></span>
+<span id="cb28-164"><a href="#cb28-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-165"><a href="#cb28-165" aria-hidden="true" tabindex="-1"></a>Spreadsheet exports often write a group label once and leave the rest blank.</span>
+<span id="cb28-166"><a href="#cb28-166" aria-hidden="true" tabindex="-1"></a><span class="in">`fill()`</span> carries the last non-missing value down (or up with</span>
+<span id="cb28-167"><a href="#cb28-167" aria-hidden="true" tabindex="-1"></a><span class="in">`.direction = "up"`</span>):</span>
+<span id="cb28-168"><a href="#cb28-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-169"><a href="#cb28-169" aria-hidden="true" tabindex="-1"></a><span class="in">```{r tidyr_fill}</span></span>
+<span id="cb28-170"><a href="#cb28-170" aria-hidden="true" tabindex="-1"></a><span class="in">report &lt;- tibble(device = c("laptop", NA, "tablet", NA),</span></span>
+<span id="cb28-171"><a href="#cb28-171" aria-hidden="true" tabindex="-1"></a><span class="in">                 metric = c("aov", "orders", "aov", "orders"))</span></span>
+<span id="cb28-172"><a href="#cb28-172" aria-hidden="true" tabindex="-1"></a><span class="in">report |&gt;</span></span>
+<span id="cb28-173"><a href="#cb28-173" aria-hidden="true" tabindex="-1"></a><span class="in">  fill(device)</span></span>
+<span id="cb28-174"><a href="#cb28-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-175"><a href="#cb28-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-176"><a href="#cb28-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## Your Turn</span></span>
+<span id="cb28-177"><a href="#cb28-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-178"><a href="#cb28-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>reshape the mean of <span class="in">`n_visit`</span> and <span class="in">`order_items`</span> by <span class="in">`referrer`</span> from wide to long</span>
+<span id="cb28-179"><a href="#cb28-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>split the <span class="in">`email`</span> column of <span class="in">`mockstring`</span> at <span class="in">`"@"`</span> and reunite it — does the round-trip hold?</span>
+<span id="cb28-180"><a href="#cb28-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>run the <span class="in">`complete()`</span> example without <span class="in">`fill`</span>: what does the missing count become, and why?</span>
+<span id="cb28-181"><a href="#cb28-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-182"><a href="#cb28-182" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try it live {.unnumbered}</span></span>
+<span id="cb28-183"><a href="#cb28-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-184"><a href="#cb28-184" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb28-185"><a href="#cb28-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Try it in your browser</span></span>
+<span id="cb28-186"><a href="#cb28-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-187"><a href="#cb28-187" aria-hidden="true" tabindex="-1"></a>Edit the code below and press **Run**. It executes entirely in your browser</span>
+<span id="cb28-188"><a href="#cb28-188" aria-hidden="true" tabindex="-1"></a>via <span class="co">[</span><span class="ot">WebR</span><span class="co">](https://docs.r-wasm.org/webr/latest/)</span> — no R installation needed.</span>
+<span id="cb28-189"><a href="#cb28-189" aria-hidden="true" tabindex="-1"></a>The runtime downloads once, on this page only.</span>
+<span id="cb28-190"><a href="#cb28-190" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb28-191"><a href="#cb28-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-192"><a href="#cb28-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr-r}</span></span>
+<span id="cb28-193"><a href="#cb28-193" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
+<span id="cb28-194"><a href="#cb28-194" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyr)</span></span>
+<span id="cb28-195"><a href="#cb28-195" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
+<span id="cb28-196"><a href="#cb28-196" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb28-197"><a href="#cb28-197" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
+<span id="cb28-198"><a href="#cb28-198" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(across(c(n_pages, duration, order_value), \(x) mean(x, na.rm = TRUE)), .by = device) |&gt;</span></span>
+<span id="cb28-199"><a href="#cb28-199" aria-hidden="true" tabindex="-1"></a><span class="in">  pivot_longer(-device, names_to = "metric", values_to = "mean_value")</span></span>
+<span id="cb28-200"><a href="#cb28-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">

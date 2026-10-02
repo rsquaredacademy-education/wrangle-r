@@ -21,20 +21,20 @@ book:
   chapters:
     - index.qmd
     - 00-author.qmd
-    - 02-import-1.qmd
-    - 03-import-2.qmd
-    - 07-pipes.qmd
+    - 01-import-1.qmd
+    - 02-import-2.qmd
+    - 03-pipes.qmd
     - 04-dplyr-1.qmd
     - 05-dplyr-2.qmd
     - 06-dplyr-3.qmd
-    - 08-tibbles.qmd
-    - 08b-tidyr.qmd
+    - 07-tibbles.qmd
+    - 08-tidyr.qmd
     - 09-stringr.qmd
-    - 10a-lubridate-parsing.qmd
-    - 10b-lubridate-arithmetic.qmd
-    - 11a-factors-fundamentals.qmd
-    - 11b-forcats-manipulation.qmd
-    - solutions.qmd
+    - 10-lubridate-parsing.qmd
+    - 11-lubridate-arithmetic.qmd
+    - 12-factors-fundamentals.qmd
+    - 13-forcats-manipulation.qmd
+    - 14-solutions.qmd
   appendices:
     - appendices/arrow-duckdb.qmd
     - appendices/legacy-magrittr.qmd
