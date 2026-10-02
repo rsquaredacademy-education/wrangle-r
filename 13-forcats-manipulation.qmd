@@ -793,7 +793,13 @@ The runtime downloads once, on this page only.
 library(dplyr)
 library(forcats)
 library(readr)
-ecom <- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)
+if (!file.exists("ecom_sample.csv")) {
+  download.file(
+    "https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv",
+    "ecom_sample.csv"
+  )
+}
+ecom <- read_csv("ecom_sample.csv", show_col_types = FALSE)
 ecom |>
   mutate(referrer = fct_infreq(referrer)) |>
   count(referrer)

@@ -21,9 +21,16 @@ for (f in qmds) {
     code <- paste(lines[(s + 1):(e - 1)], collapse = "\n")
     invisible(parse(text = code)) # fails loudly on syntax errors
     cells <- cells + 1L
-    # every data-webr/ reference must exist on disk (deployed via resources)
+    # every download.file() URL must point at the deployed site and the
+    # file must exist on disk under data-webr/ (deployed via resources);
+    # every read_csv/read_delim of a bare sample file must have a matching
+    # download.file() guard in the same cell (webR FS starts empty)
     for (m in regmatches(code, gregexpr("data-webr/[A-Za-z0-9_.-]+", code))[[1]]) {
       if (!file.exists(m)) stop("missing live data file: ", m, " (from ", f, ")")
+    }
+    for (u in regmatches(code, gregexpr("https://wrangle-r\\.rsquaredacademy\\.com/data-webr/[A-Za-z0-9_.-]+", code))[[1]]) {
+      local <- file.path("data-webr", basename(u))
+      if (!file.exists(local)) stop("missing live data file: ", local, " (from ", f, ")")
     }
     # every library() call must be in the live set
     for (p in regmatches(code, gregexpr("(?<=library\\()[A-Za-z0-9.]+(?=\\))", code, perl = TRUE))[[1]]) {

@@ -602,6 +602,12 @@ The runtime downloads once, on this page only.
 ```{webr-r}
 library(stringr)
 library(readr)
-mock <- read_csv("data-webr/mockstrings_sample.csv", show_col_types = FALSE)
+if (!file.exists("mockstrings_sample.csv")) {
+  download.file(
+    "https://wrangle-r.rsquaredacademy.com/data-webr/mockstrings_sample.csv",
+    "mockstrings_sample.csv"
+  )
+}
+mock <- read_csv("mockstrings_sample.csv", show_col_types = FALSE)
 str_detect(mock$email, pattern = "@")
 ```

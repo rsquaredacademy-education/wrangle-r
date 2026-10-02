@@ -619,7 +619,13 @@ The runtime downloads once, on this page only.
 library(dplyr)
 library(lubridate)
 library(readr)
-transact <- read_csv("data-webr/transact_sample.csv", show_col_types = FALSE)
+if (!file.exists("transact_sample.csv")) {
+  download.file(
+    "https://wrangle-r.rsquaredacademy.com/data-webr/transact_sample.csv",
+    "transact_sample.csv"
+  )
+}
+transact <- read_csv("transact_sample.csv", show_col_types = FALSE)
 transact |>
   mutate(days_to_pay = Payment - Invoice) |>
   select(Invoice, Due, Payment, days_to_pay) |>
