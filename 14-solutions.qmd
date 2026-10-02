@@ -7,10 +7,11 @@ description: "Data Wrangling in R: worked solutions to chapter exercises, plus o
 ## Introduction
 
 Try every **Your Turn** before reading its solution — the struggle is the
-lesson. Worked solutions below are seeded for @dplyr-basics; solutions
-for the remaining chapters are open stubs. To contribute one, open an issue or
-pull request with the chapter, the question, and a runnable chunk in this
-book's style (`|>`-first, same data as the chapter).
+lesson. Worked solutions below cover @dplyr-basics, @tidying-data-with-tidyr,
+@date-and-time-in-r, @date-arithmetic-time-zones, @categorical-data-in-r and
+@forcats-manipulation. Remaining chapters are open stubs — to contribute one,
+open an issue or pull request with the chapter, the question, and a runnable
+chunk in this book's style (`|>`-first, same data as the chapter).
 
 We will use the following R packages:
 
@@ -62,16 +63,419 @@ ecom |>
   summarise(mean_pages = mean(n_pages), .by = purchase)
 ```
 
+## Tidying Data with tidyr
+
+```{r sol_tidyr_data, message=FALSE}
+library(tidyr)
+mockstring <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/mock_strings.csv',
+    show_col_types = FALSE)
+```
+
+**Q1. Reshape the mean of `n_visit` and `order_items` by `referrer` from wide
+to long.**
+
+```{r sol_tidyr1}
+ecom |>
+  summarise(across(c(n_visit, order_items), \(x) mean(x, na.rm = TRUE)),
+    .by = referrer) |>
+  pivot_longer(-referrer, names_to = "metric", values_to = "mean_value")
+```
+
+**Q2. Split the `email` column of `mockstring` at `"@"` and reunite it — does
+the round-trip hold?**
+
+```{r sol_tidyr2}
+split <- mockstring |>
+  select(email) |>
+  separate(email, into = c("user", "domain"), sep = "@", remove = FALSE)
+reunited <- split |>
+  unite("rejoined", user, domain, sep = "@", remove = TRUE)
+identical(reunited$rejoined, mockstring$email)
+```
+
+Yes — every row round-trips (`TRUE`), since each address holds exactly one
+`"@"`.
+
+**Q3. Run the `complete()` example without `fill`: what does the missing count
+become, and why?**
+
+```{r sol_tidyr3}
+ecom |>
+  filter(purchase) |>
+  count(device, purchase) |>
+  complete(device, purchase = c(TRUE, FALSE))
+```
+
+The missing cells become `NA`, not 0: with no `fill`, `complete()` adds the
+absent combinations but has no value to put in `n`, so the count is unknown
+(`NA`). Pass `fill = list(n = 0L)` when a missing combination genuinely means
+"zero events".
+
+## Date & Time: Parsing and Components
+
+```{r sol_lub10_libs, message=FALSE}
+library(lubridate)
+transact <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/transact.csv',
+    show_col_types = FALSE)
+```
+
+**Q1. Current date, current time, AM or PM, and leap years.**
+
+```{r sol_lub10a}
+today()
+now()
+pm(now())
+leap_year(c(2018, 2016))
+```
+
+2018 was not a leap year (`FALSE`); 2016 was (`TRUE`).
+
+**Q2. R 1.0.0 was released on `2000-02-29 08:55:23 UTC`. Save it as a `Date`
+from character, a `Date` from origin + number, `POSIXct`, `POSIXlt`
+(extracting month day, day of year, month, zone) and `ISODate`.**
+
+```{r sol_lub10b}
+as.Date("2000-02-29")
+as.Date(11016, origin = "1970-01-01")
+as.POSIXct("2000-02-29 08:55:23", tz = "UTC")
+lt <- as.POSIXlt("2000-02-29 08:55:23", tz = "UTC")
+c(month_day = lt$mday, day_of_year = lt$yday, month = lt$mon + 1L, zone = lt$zone)
+ISOdate(2000, 2, 29, 8, 55, 23, tz = "UTC")
+```
+
+`$mon` is zero-indexed, hence `+ 1L`; `$yday` is 59 (zero-indexed — the 60th
+day of the leap year).
+
+**Q3. Create `July 5th, 2019` from each spelling with `as.Date()` and the
+correct format.**
+
+```{r sol_lub10c}
+as.Date("July-05-19", format = "%B-%d-%y")
+as.Date("JUL-05-19", format = "%b-%d-%y")
+as.Date("05.07.19", format = "%d.%m.%y")
+as.Date("5-July 2019", format = "%d-%B %Y")
+as.Date("July 5th, 2019", format = "July %dth, %Y")
+as.Date("July 05, 2019", format = "%B %d, %Y")
+as.Date("2019-July- 05", format = "%Y-%B- %d")
+as.Date("05/07/2019", format = "%d/%m/%Y")
+as.Date("07/05/2019", format = "%m/%d/%Y")
+as.Date("7/5/2019", format = "%m/%d/%Y")
+as.Date("07/5/19", format = "%m/%d/%y")
+as.Date("2019-07-05")
+```
+
+Note the ambiguous pairs: `05/07/2019` vs `07/05/2019` is day-first vs
+month-first — the format string, not the data, decides. `as.Date()` matches
+literals (`"July "`, `"th"`, `", "`) character-for-character.
+
+**Q4. Parse the same spellings with `strptime()` / `parse_date_time()` /
+helpers.**
+
+```{r sol_lub10d}
+dates <- c("July-05-19", "JUL-05-19", "05.07.19", "5-July 2019",
+  "July 5th, 2019", "July 05, 2019", "2019-July- 05", "05/07/2019",
+  "07/05/2019", "7/5/2019", "07/5/19", "2019-07-05")
+parse_date_time(dates, orders = c("Bdy", "bdy", "dmy", "dBY", "BYd",
+  "dmy", "mdy", "mdy", "mdy", "mdy", "ymd"))
+mdy("July 05, 2019")
+dmy("05.07.19")
+ymd("2019-07-05")
+```
+
+One `parse_date_time()` call with several `orders` handles the whole mixed
+vector — prefer helpers (`mdy()`/`dmy()`/`ymd()`) when a column uses a single
+convention.
+
+**Q5. From the `Due` column of `transact`, tabulate year, labelled month,
+labelled weekday, hour and quarter.**
+
+```{r sol_lub10e}
+transact |>
+  mutate(due_year = year(Due),
+    due_month = month(Due, label = TRUE),
+    due_wday = wday(Due, label = TRUE),
+    due_hour = hour(Due),
+    due_quarter = quarter(Due)) |>
+  count(due_year, due_month, due_wday, due_hour, due_quarter)
+```
+
+`due_hour` is 0 everywhere: `Due` is a `Date` (midnight, no time component) —
+`hour()` on dates is always 0.
+
+**Q6. R 2.0.0 (`2004-10-04 14:24:38`) with `make_date()` and `make_datetime()`;
+R 3.0.0 (`2013-04-03 07:12:36`) via `update()`.**
+
+```{r sol_lub10f}
+r200 <- make_datetime(2004, 10, 4, 14, 24, 38)
+r200_date <- make_date(2004, 10, 4)
+update(r200, year = 2013, month = 4, mday = 3, hour = 7, min = 12, sec = 36)
+```
+
+## Date & Time: Arithmetic and Time Zones
+
+**Q1. Vacation length, shifted vacation, invoice settlement and employment
+length.**
+
+```{r sol_lub11a, message=FALSE}
+vac_start <- ymd("2020-04-19")
+vac_end <- ymd("2020-04-25")
+vac_start %--% vac_end
+as.period(vac_start %--% vac_end)
+
+# shift the start by 10 days and the end by 2 weeks, then recompute
+vac_start2 <- vac_start + days(10)
+vac_end2 <- vac_end + weeks(2)
+as.period(vac_start2 %--% vac_end2)
+
+receivables <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/receivables.csv',
+    show_col_types = FALSE)
+receivables |>
+  mutate(invoice_date = mdy(invoice_date), due_date = mdy(due_date),
+    settled_date = mdy(settled_date),
+    days_to_settle = settled_date - invoice_date,
+    days_overdue = settled_date - due_date) |>
+  select(invoice_number, days_to_settle, days_overdue) |>
+  head()
+
+hr <-
+  read_csv('https://raw.githubusercontent.com/rsquaredacademy/datasets/master/hr-data.csv',
+    show_col_types = FALSE)
+hr |>
+  filter(Termd == 1, !is.na(DateofTermination)) |>
+  mutate(hire = mdy(DateofHire), term = mdy(DateofTermination),
+    employed = term - hire) |>
+  select(Employee_Name, hire, term, employed) |>
+  head()
+```
+
+The base vacation is 6 days; after shifting it spans 10 days. Positive
+`days_overdue` means the customer paid late; filter `Termd == 1` (plus a
+non-missing termination date) so only terminated employees count.
+
+**Q2. Your timezone, daylight savings and the current UTC time.**
+
+```{r sol_lub11b}
+Sys.timezone()
+dst(now())
+now("UTC")
+```
+
+**Q3. Round `transact` due dates: up to weeks, down to days, back to the start
+of the month.**
+
+```{r sol_lub11c}
+transact |>
+  mutate(due_week_up = ceiling_date(Due, "week"),
+    due_day_down = floor_date(Due, "day"),
+    due_month_start = rollback(Due, roll_to_first = TRUE)) |>
+  select(Due, due_week_up, due_day_down, due_month_start) |>
+  head()
+```
+
+`Due` values are whole dates, so rounding down to days is a no-op (midnight
+already); `ceiling_date()` moves each due date forward to its week boundary.
+
+## Categorical Data Fundamentals
+
+```{r sol_fct12_data, message=FALSE}
+analytics_raw <- readRDS("analytics_raw.rds")
+```
+
+**Q1. Quantitative or qualitative?** Quantitative: Age, Annual Sales, Weight,
+Height, Job/Work Experience. Qualitative: Gender, Education Level, Vehicle
+Type, Ice Cream Flavor, Blood Group, Color, Mode of Payment. (Education Level
+is qualitative but *ordered* — see ordered factors below.)
+
+**Q2. Dichotomous or polychotomous?** Dichotomous (exactly two outcomes):
+Heads / Tails, Rich / Poor, Democrat / Republican. Polychotomous (three or
+more): Blood Group, Transportation Mode, Education Level.
+
+**Q3–Q9. Factor checks, coercion and level control on `analytics_raw`.**
+
+```{r sol_fct12a}
+# Q3: which of these are already factors? (raw file: none — all character)
+sapply(analytics_raw[c("device", "page_depth", "landing_page")], is.factor)
+
+# Q4: coerce the categorical columns (page_depth stays numeric;
+# `city` is not in this file, so it is skipped)
+cat_vars <- c("device", "os", "browser", "user_type", "channel",
+  "gender", "landing_page", "exit_page", "country")
+analytics_raw[cat_vars] <- lapply(analytics_raw[cat_vars], factor)
+
+# Q5: keep only male/female levels in gender
+gender <- factor(analytics_raw$gender, levels = c("male", "female"))
+levels(gender)
+
+# Q6: admit NA as a level (no-op here — this file has no missing gender,
+# but the call is what makes unseen NAs explicit downstream)
+library(forcats)
+gender <- fct_na_value_to_level(gender, level = NA)
+levels(gender)
+
+# Q7: label that NA level "missing"
+gender <- fct_na_value_to_level(gender, level = "(Missing)")
+levels(gender)
+
+# Q8: relabel user_type levels
+user_type <- fct_recode(factor(analytics_raw$user_type),
+  "New" = "New Visitor", "Returning" = "Returning Visitor")
+levels(user_type)
+
+# Q9: is user_rating ordered? coerce if not
+is.ordered(analytics_raw$user_rating)
+user_rating <- ordered(analytics_raw$user_rating)
+is.ordered(user_rating)
+```
+
+**Q10–Q13. Level counts, categories, frequencies and a two-way summary.**
+
+```{r sol_fct12b}
+# Q10: number of levels
+sapply(analytics_raw[c("browser", "channel", "landing_page", "exit_page")],
+  \(x) nlevels(factor(x)))
+
+# Q11: the categories themselves
+lapply(analytics_raw[c("os", "channel", "browser", "gender", "user_type")],
+  \(x) levels(factor(x)))
+
+# Q12: frequencies
+fct_count(factor(analytics_raw$channel))
+fct_count(factor(analytics_raw$user_type))
+
+# Q13: channel by user_type — counts and column shares
+table(factor(analytics_raw$channel), factor(analytics_raw$user_type))
+proportions(table(factor(analytics_raw$channel),
+  factor(analytics_raw$user_type)), margin = 2)
+```
+
+## Factor Manipulation with forcats
+
+```{r sol_fc13_data, message=FALSE}
+library(forcats)
+data <- readRDS("analytics.rds")
+```
+
+**Q1–Q2. Frequencies in descending order; is `laptop` a `device` level?**
+
+```{r sol_fc13a}
+data |> pull(device) |> fct_count()
+data |> pull(landing_page) |> fct_count()
+data |> pull(exit_page) |> fct_count()
+"laptop" %in% levels(data$device)
+```
+
+`fct_count()` sorts most-frequent-first. (`device` here holds
+Desktop/Mobile/Tablet, so `"laptop"` is not a level — it belongs to the
+`ecom` schema, not `analytics`.)
+
+**Q3–Q8. Collapsing, lumping, keeping and anonymizing levels.**
+
+```{r sol_fc13b}
+# Q3: collapse account-related pages
+data |> pull(landing_page) |>
+  fct_collapse(Account = c("My Account", "Register", "Sign In", "Your Info")) |>
+  fct_count() |> head(6)
+
+# Q4: lump landing pages behind fewer than 1000 visits into "Other"
+data |> pull(landing_page) |> fct_lump_min(min = 1000) |> fct_count()
+
+# Q5: top 10 landing and exit pages
+data |> pull(landing_page) |> fct_lump_n(n = 10) |> fct_count()
+data |> pull(exit_page) |> fct_lump_n(n = 10) |> fct_count()
+
+# Q6: landing pages with at least 5% of traffic
+data |> pull(landing_page) |> fct_lump_prop(prop = 0.05) |> fct_count()
+
+# Q7: keep only the big-four browsers
+data |> pull(browser) |>
+  fct_other(keep = c("Chrome", "Firefox", "Safari", "Edge")) |>
+  fct_count()
+
+# Q8: anonymize page levels (stable within a session via seed)
+set.seed(42)
+data |> pull(landing_page) |> fct_anon() |> head()
+```
+
+**Q9–Q15. Reordering, shuffling and reversing levels.**
+
+```{r sol_fc13c}
+set.seed(42)
+landing_page <- data$landing_page
+browser <- data$browser
+
+# Q9/Q10/Q11: Home first, Apparel second, Specials last
+landing_page |> fct_relevel("Home") |> levels() |> head(4)
+landing_page |> fct_relevel("Apparel", after = 1L) |> levels() |> head(4)
+landing_page |> fct_relevel("Specials", after = Inf) |> levels() |> tail(3)
+
+# Q12: browsers by frequency
+browser |> fct_infreq() |> levels()
+
+# Q13: landing pages in order of appearance
+landing_page |> fct_inorder() |> levels() |> head(6)
+
+# Q14: shuffled os levels
+data |> pull(os) |> fct_shuffle() |> levels()
+
+# Q15: reversed browser levels
+browser |> fct_rev() |> levels()
+```
+
+**Q16. The plots.**
+
+```{r sol_fc13d1, fig.height=5, fig.width=7}
+library(ggplot2)
+# 1: bar plot of channel
+ggplot(data) +
+  geom_bar(aes(x = channel), fill = "blue") +
+  ggtitle("Source of Traffic") + xlab("Channel") + ylab("Count")
+# 2: grouped bars, user_type by channel
+ggplot(data) +
+  geom_bar(aes(x = channel, fill = user_type), position = "dodge") +
+  ggtitle("User Type by Channel") + xlab("Channel") + ylab("User Type")
+```
+
+```{r sol_fc13d2, fig.height=5, fig.width=7}
+# 3: stacked bars, channel by gender
+ggplot(data) +
+  geom_bar(aes(x = gender, fill = channel)) +
+  ggtitle("Channel by Gender") + xlab("Gender") + ylab("Channel")
+# 4: proportional bars, channel by device
+data |>
+  select(device, channel) |>
+  table() |>
+  tibble::as_tibble() |>
+  ggplot(aes(x = device, y = n, fill = channel)) +
+  geom_bar(stat = "identity", position = "fill") +
+  ggtitle("Channel by Device") + xlab("Device") + ylab("Channel")
+```
+
+```{r sol_fc13d3, fig.height=5, fig.width=7}
+# 5: mosaic plots need ggmosaic (archived on CRAN) — out of scope;
+# see the ggplot2 ebook instead.
+# 6: pie and donut of channel
+data |> pull(channel) |> table() |> pie()
+data |>
+  pull(channel) |>
+  fct_count() |>
+  rename(channel = f, count = n) |>
+  ggplot() +
+  geom_bar(aes(x = "", y = count, fill = channel), width = 1,
+    stat = "identity") +
+  coord_polar("y", start = 0)
+```
+
 ## Open stubs
 
-Solutions for these chapters are not yet written — contributions welcome
-(see above):
+Chapters without **Your Turn** blocks still need proposed drills + solutions —
+contributions welcome (see above):
 
-- @joining-tables-in-r-dplyr: no **Your Turn** block; propose join puzzles on `customer`/`order`
+- @joining-tables-in-r-dplyr: join puzzles on `customer`/`order`
 - @dplyr-helper-functions: sampling/slicing drills on `ecom`
 - @r-pipe-magrittr: rewrite-a-chain exercises (`%>%` → `|>`, `_`, `\(x)`)
 - @tibbles-in-r: tibble vs data.frame edge cases
-- @tidying-data-with-tidyr: the three **Your Turn** prompts in that chapter
 - @strings-in-r: URL/email parsing variants on `mockstring`
-- @date-and-time-in-r: the nine **Your Turn** blocks (intervals, TZ/DST, formats)
-- @categorical-data-in-r: the seven **Your Turn** blocks (lumping, reordering, recoding)
+- @import-data-in-r-basics and @import-data-in-r-advanced: import-parameter drills
