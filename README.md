@@ -13,11 +13,16 @@ companion drill book after or alongside R4DS.
 
 ## Build
 
-Requires R >= 4.1 (native pipe `|>`) and dplyr >= 1.1.0 (`.by`, `slice_*()`).
+Requires R >= 4.1 (native pipe `|>`) and dplyr >= 1.1.0 (`.by`, `slice_*()`),
+plus Quarto >= 1.6. Pinned package versions live in `renv.lock`:
 
 ```r
 renv::restore()             # install pinned package versions
-bookdown::render_book("index.Rmd")
+```
+
+```sh
+quarto render                # build the book into docs/
+Rscript scripts/webr-smoke.R # static check of live {webr-r} cells (<30s)
 ```
 
 ## License
