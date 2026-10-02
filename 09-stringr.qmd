@@ -328,6 +328,37 @@ emails |>
   (\(m) m[, 2])()
 ```
 
+## Extract email domains with str_extract() in one step
+
+The four-step split above teaches the mechanics, but in practice a single
+`str_extract()` with a lookbehind does the same job — verified identical on
+all 1001 addresses:
+
+```{r str20b}
+# domain name only (fastcompany, digg, altervista, ...)
+mockstring |>
+  pull(email) |>
+  str_extract("(?<=@)[^.]+") |>
+  head()
+
+# full domain (fastcompany.com, altervista.org, ...)
+mockstring |>
+  pull(email) |>
+  str_extract("(?<=@).+") |>
+  head()
+
+# extension only (com, org, ...)
+mockstring |>
+  pull(email) |>
+  str_extract("[^.]+$") |>
+  head()
+```
+
+`(?<=@)` matches the position right after `@` without consuming it, and
+`[^.]+` takes everything up to the first dot. Reach for the one-step regex
+when the pattern is regular; keep the split-then-pick pipeline for messier
+strings where each step deserves inspection.
+
 ## Extract image type from URL
 
 ### Steps
