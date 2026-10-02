@@ -2653,16 +2653,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 700 × 7
    referrer device bouncers n_visit n_pages duration purchase
    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 direct   mobile FALSE          5       5       55 FALSE   
- 2 direct   mobile FALSE          1       9      135 FALSE   
- 3 direct   laptop FALSE          4       5       65 FALSE   
- 4 direct   tablet TRUE           3       1      632 FALSE   
- 5 bing     tablet FALSE          1      18      180 FALSE   
- 6 google   mobile TRUE           0       1      851 FALSE   
- 7 direct   tablet FALSE          2      17      391 TRUE    
- 8 google   laptop TRUE           0       1      887 FALSE   
- 9 social   mobile FALSE          2      10      190 FALSE   
-10 social   tablet TRUE          10       1      674 FALSE   
+ 1 social   mobile TRUE           2       1       12 FALSE   
+ 2 yahoo    laptop FALSE          1       2       30 FALSE   
+ 3 social   tablet FALSE          1      19      399 TRUE    
+ 4 google   laptop TRUE          10       1      693 FALSE   
+ 5 direct   tablet FALSE          3      10      260 TRUE    
+ 6 yahoo    tablet TRUE           6       1      297 FALSE   
+ 7 direct   mobile TRUE           2       1      338 FALSE   
+ 8 direct   mobile FALSE          9      15      210 FALSE   
+ 9 bing     laptop TRUE           4       1      857 FALSE   
+10 direct   tablet FALSE          6      13      338 TRUE    
 # ℹ 690 more rows</code></pre>
 </div>
 </div>
@@ -2673,16 +2673,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 500 × 7
    referrer device bouncers n_visit n_pages duration purchase
    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 google   tablet TRUE           6       1      551 FALSE   
- 2 google   laptop TRUE           6       1      235 FALSE   
- 3 google   laptop FALSE          2      17      391 FALSE   
- 4 google   tablet FALSE          8      10      210 FALSE   
- 5 google   mobile TRUE           7       1      301 FALSE   
- 6 google   mobile FALSE          3      18      270 TRUE    
- 7 google   tablet TRUE           8       1      249 FALSE   
- 8 google   laptop FALSE          6       9      135 FALSE   
- 9 google   laptop FALSE          5       5      125 FALSE   
-10 google   laptop TRUE           2       1      863 FALSE   
+ 1 google   laptop TRUE          10       1      579 FALSE   
+ 2 google   laptop TRUE           0       1       75 FALSE   
+ 3 google   mobile TRUE           7       1      726 FALSE   
+ 4 google   tablet FALSE          5       2       54 FALSE   
+ 5 google   tablet TRUE           5       1      391 FALSE   
+ 6 google   laptop TRUE           5       1      304 FALSE   
+ 7 google   mobile FALSE          8      20      300 TRUE    
+ 8 google   tablet FALSE          8       3       33 FALSE   
+ 9 google   tablet FALSE          1       5       75 FALSE   
+10 google   laptop TRUE           9       1      673 FALSE   
 # ℹ 490 more rows</code></pre>
 </div>
 </div>
@@ -2693,16 +2693,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 700 × 7
    referrer device bouncers n_visit n_pages duration purchase
    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 bing     mobile FALSE          6       5       55 FALSE   
- 2 social   laptop FALSE          8       3       30 FALSE   
- 3 bing     tablet FALSE          7       3       42 FALSE   
- 4 bing     laptop TRUE          10       1      947 FALSE   
- 5 social   tablet TRUE           5       1      387 FALSE   
- 6 bing     tablet TRUE           0       1      352 FALSE   
- 7 bing     tablet FALSE          1      18      180 FALSE   
- 8 direct   laptop TRUE           3       1      700 FALSE   
- 9 direct   mobile TRUE           7       1      912 FALSE   
-10 social   laptop FALSE          8       2       60 FALSE   
+ 1 google   tablet FALSE          8       3       69 FALSE   
+ 2 google   mobile FALSE          4      16      416 FALSE   
+ 3 bing     mobile FALSE          3       8      120 FALSE   
+ 4 google   mobile TRUE           6       1      965 FALSE   
+ 5 social   laptop TRUE           5       1      553 FALSE   
+ 6 google   mobile FALSE          2      15      210 FALSE   
+ 7 direct   laptop FALSE          6      14      336 TRUE    
+ 8 bing     mobile FALSE          4       9      261 FALSE   
+ 9 bing     laptop TRUE           5       1      135 FALSE   
+10 bing     mobile FALSE          3      15      450 FALSE   
 # ℹ 690 more rows</code></pre>
 </div>
 </div>
@@ -2728,7 +2728,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, device)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] laptop tablet tablet mobile laptop mobile mobile mobile mobile laptop
+<pre><code> [1] tablet laptop mobile mobile tablet mobile laptop mobile laptop tablet
 Levels: laptop tablet mobile</code></pre>
 </div>
 </div>
@@ -2736,7 +2736,7 @@ Levels: laptop tablet mobile</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] google yahoo  direct direct google google direct social social google
+<pre><code> [1] yahoo  direct google google bing   direct yahoo  social yahoo  google
 Levels: bing direct social yahoo google</code></pre>
 </div>
 </div>
@@ -2744,7 +2744,7 @@ Levels: bing direct social yahoo google</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="sc">-</span><span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE</code></pre>
+<pre><code> [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 </div>
 </div>
 <p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we extract data starting from the 5th row and upto the 15th row.</p>
@@ -2798,9 +2798,9 @@ Levels: bing direct social yahoo google</code></pre>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n_pages) <span class="sc">|&gt;</span></span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE
-[13] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE
-[25] FALSE FALSE  TRUE FALSE FALSE  TRUE</code></pre>
+<pre><code> [1] FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+[13]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[25] FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
 </div>
 </div>
 </section>
