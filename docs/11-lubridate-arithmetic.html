@@ -440,7 +440,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(lubridate)\nlibrary(readr)\ntransact <- read_csv(\"data-webr/transact_sample.csv\", show_col_types = FALSE)\ntransact |>\n  mutate(days_to_pay = Payment - Invoice) |>\n  select(Invoice, Due, Payment, days_to_pay) |>\n  head()","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(lubridate)\nlibrary(readr)\nif (!file.exists(\"transact_sample.csv\")) {\n  download.file(\n    \"https://wrangle-r.rsquaredacademy.com/data-webr/transact_sample.csv\",\n    \"transact_sample.csv\"\n  )\n}\ntransact <- read_csv(\"transact_sample.csv\", show_col_types = FALSE)\ntransact |>\n  mutate(days_to_pay = Payment - Invoice) |>\n  select(Invoice, Due, Payment, days_to_pay) |>\n  head()","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2547,14 +2547,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.timezone</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Asia/Calcutta"</code></pre>
+<pre><code>[1] "UTC"</code></pre>
 </div>
 </div>
 <p>If you do not see the timezone, use <code>Sys.getenv()</code> to get the value of the <strong>TZ</strong> environment variable.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"TZ"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] ""</code></pre>
+<pre><code>[1] "UTC"</code></pre>
 </div>
 </div>
 <p>If nothing is returned, it means we have to set the timezone. Use <code>Sys.setenv()</code> to set the timezone as shown below. The author resides in India and hence the timezone is set to <code>Asia/Calcutta</code>. You need to set the timezone in which you reside or work.</p>
@@ -2572,7 +2572,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">with_tz</span>(<span class="fu">Sys.time</span>(), <span class="st">"UTC"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-10-01 16:29:59 UTC"</code></pre>
+<pre><code>[1] "2026-10-02 07:26:36 UTC"</code></pre>
 </div>
 </div>
 </section>
@@ -4269,12 +4269,18 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb98-619"><a href="#cb98-619" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
 <span id="cb98-620"><a href="#cb98-620" aria-hidden="true" tabindex="-1"></a><span class="in">library(lubridate)</span></span>
 <span id="cb98-621"><a href="#cb98-621" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb98-622"><a href="#cb98-622" aria-hidden="true" tabindex="-1"></a><span class="in">transact &lt;- read_csv("data-webr/transact_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb98-623"><a href="#cb98-623" aria-hidden="true" tabindex="-1"></a><span class="in">transact |&gt;</span></span>
-<span id="cb98-624"><a href="#cb98-624" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(days_to_pay = Payment - Invoice) |&gt;</span></span>
-<span id="cb98-625"><a href="#cb98-625" aria-hidden="true" tabindex="-1"></a><span class="in">  select(Invoice, Due, Payment, days_to_pay) |&gt;</span></span>
-<span id="cb98-626"><a href="#cb98-626" aria-hidden="true" tabindex="-1"></a><span class="in">  head()</span></span>
-<span id="cb98-627"><a href="#cb98-627" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb98-622"><a href="#cb98-622" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("transact_sample.csv")) {</span></span>
+<span id="cb98-623"><a href="#cb98-623" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb98-624"><a href="#cb98-624" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/transact_sample.csv",</span></span>
+<span id="cb98-625"><a href="#cb98-625" aria-hidden="true" tabindex="-1"></a><span class="in">    "transact_sample.csv"</span></span>
+<span id="cb98-626"><a href="#cb98-626" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb98-627"><a href="#cb98-627" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb98-628"><a href="#cb98-628" aria-hidden="true" tabindex="-1"></a><span class="in">transact &lt;- read_csv("transact_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb98-629"><a href="#cb98-629" aria-hidden="true" tabindex="-1"></a><span class="in">transact |&gt;</span></span>
+<span id="cb98-630"><a href="#cb98-630" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(days_to_pay = Payment - Invoice) |&gt;</span></span>
+<span id="cb98-631"><a href="#cb98-631" aria-hidden="true" tabindex="-1"></a><span class="in">  select(Invoice, Due, Payment, days_to_pay) |&gt;</span></span>
+<span id="cb98-632"><a href="#cb98-632" aria-hidden="true" tabindex="-1"></a><span class="in">  head()</span></span>
+<span id="cb98-633"><a href="#cb98-633" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">

@@ -440,7 +440,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(stringr)\nlibrary(readr)\nmock <- read_csv(\"data-webr/mockstrings_sample.csv\", show_col_types = FALSE)\nstr_detect(mock$email, pattern = \"@\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(stringr)\nlibrary(readr)\nif (!file.exists(\"mockstrings_sample.csv\")) {\n  download.file(\n    \"https://wrangle-r.rsquaredacademy.com/data-webr/mockstrings_sample.csv\",\n    \"mockstrings_sample.csv\"\n  )\n}\nmock <- read_csv(\"mockstrings_sample.csv\", show_col_types = FALSE)\nstr_detect(mock$email, pattern = \"@\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -4369,9 +4369,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb95-602"><a href="#cb95-602" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr-r}</span></span>
 <span id="cb95-603"><a href="#cb95-603" aria-hidden="true" tabindex="-1"></a><span class="in">library(stringr)</span></span>
 <span id="cb95-604"><a href="#cb95-604" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb95-605"><a href="#cb95-605" aria-hidden="true" tabindex="-1"></a><span class="in">mock &lt;- read_csv("data-webr/mockstrings_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb95-606"><a href="#cb95-606" aria-hidden="true" tabindex="-1"></a><span class="in">str_detect(mock$email, pattern = "@")</span></span>
-<span id="cb95-607"><a href="#cb95-607" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb95-605"><a href="#cb95-605" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("mockstrings_sample.csv")) {</span></span>
+<span id="cb95-606"><a href="#cb95-606" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb95-607"><a href="#cb95-607" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/mockstrings_sample.csv",</span></span>
+<span id="cb95-608"><a href="#cb95-608" aria-hidden="true" tabindex="-1"></a><span class="in">    "mockstrings_sample.csv"</span></span>
+<span id="cb95-609"><a href="#cb95-609" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb95-610"><a href="#cb95-610" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb95-611"><a href="#cb95-611" aria-hidden="true" tabindex="-1"></a><span class="in">mock &lt;- read_csv("mockstrings_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb95-612"><a href="#cb95-612" aria-hidden="true" tabindex="-1"></a><span class="in">str_detect(mock$email, pattern = "@")</span></span>
+<span id="cb95-613"><a href="#cb95-613" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">

@@ -440,7 +440,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(readr)\necom <- read_csv(\"data-webr/ecom_sample.csv\", show_col_types = FALSE)\nslice_sample(ecom, n = 10)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(readr)\nif (!file.exists(\"ecom_sample.csv\")) {\n  download.file(\n    \"https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv\",\n    \"ecom_sample.csv\"\n  )\n}\necom <- read_csv(\"ecom_sample.csv\", show_col_types = FALSE)\nslice_sample(ecom, n = 10)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2653,16 +2653,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 700 × 7
    referrer device bouncers n_visit n_pages duration purchase
    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 bing     mobile FALSE         10       7      119 FALSE   
- 2 bing     mobile TRUE           3       1      479 FALSE   
- 3 yahoo    mobile FALSE          7       6      102 FALSE   
- 4 yahoo    tablet TRUE          10       1      668 FALSE   
- 5 google   tablet TRUE           6       1       45 FALSE   
- 6 yahoo    laptop FALSE          7      15      150 FALSE   
- 7 social   tablet TRUE           8       1      502 FALSE   
- 8 direct   laptop TRUE           6       1      178 FALSE   
- 9 direct   laptop FALSE          1      20      320 TRUE    
-10 social   tablet TRUE           4       1      403 FALSE   
+ 1 bing     laptop TRUE           6       1      199 FALSE   
+ 2 direct   laptop FALSE          1      20      320 TRUE    
+ 3 social   laptop FALSE          8       2       60 FALSE   
+ 4 social   tablet FALSE          5      10      200 FALSE   
+ 5 bing     mobile FALSE         10       1       26 FALSE   
+ 6 direct   laptop FALSE          7       4       52 FALSE   
+ 7 yahoo    laptop FALSE          7      15      150 FALSE   
+ 8 bing     tablet TRUE           0       1      352 FALSE   
+ 9 yahoo    laptop TRUE           2       1      506 FALSE   
+10 social   tablet FALSE          7      10      290 TRUE    
 # ℹ 690 more rows</code></pre>
 </div>
 </div>
@@ -2673,16 +2673,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 500 × 7
    referrer device bouncers n_visit n_pages duration purchase
    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 google   tablet FALSE          7       5       60 FALSE   
- 2 google   mobile FALSE         10       8       88 FALSE   
- 3 google   mobile FALSE          7      12      288 TRUE    
- 4 google   tablet FALSE          9       3       57 FALSE   
- 5 google   tablet FALSE          8      10      210 FALSE   
- 6 google   laptop TRUE           5       1      951 FALSE   
- 7 google   tablet FALSE          7      12      156 FALSE   
- 8 google   laptop TRUE           6       1      402 FALSE   
- 9 google   tablet FALSE          5      10      180 FALSE   
-10 google   tablet FALSE          7      12      324 TRUE    
+ 1 google   mobile FALSE          9      17      221 FALSE   
+ 2 google   mobile TRUE          10       1      338 FALSE   
+ 3 google   laptop TRUE           7       1      928 FALSE   
+ 4 google   laptop FALSE          0      19      418 TRUE    
+ 5 google   mobile TRUE          10       1      256 FALSE   
+ 6 google   tablet FALSE          9       3       48 FALSE   
+ 7 google   mobile FALSE          3      18      270 TRUE    
+ 8 google   tablet TRUE           9       1      382 FALSE   
+ 9 google   laptop FALSE          1       7      126 FALSE   
+10 google   laptop TRUE           2       1      731 FALSE   
 # ℹ 490 more rows</code></pre>
 </div>
 </div>
@@ -2693,16 +2693,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 700 × 7
    referrer device bouncers n_visit n_pages duration purchase
    &lt;fct&gt;    &lt;fct&gt;  &lt;lgl&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   
- 1 bing     mobile FALSE         10      20      560 FALSE   
- 2 social   tablet TRUE           4       1      118 FALSE   
- 3 yahoo    mobile FALSE         10       7      140 FALSE   
- 4 direct   laptop FALSE          1      10      120 FALSE   
- 5 google   mobile TRUE           5       1      147 FALSE   
- 6 yahoo    mobile TRUE           3       1      700 FALSE   
- 7 direct   laptop FALSE          8      10      210 FALSE   
- 8 bing     mobile FALSE          9       1       22 FALSE   
- 9 google   mobile TRUE          10       1      256 FALSE   
-10 yahoo    mobile FALSE          6       3       39 FALSE   
+ 1 google   mobile TRUE           3       1      229 FALSE   
+ 2 google   laptop TRUE           9       1      174 FALSE   
+ 3 direct   tablet FALSE          1       3       69 FALSE   
+ 4 social   mobile FALSE          3       8      184 FALSE   
+ 5 direct   laptop FALSE          2       4       80 FALSE   
+ 6 google   mobile TRUE           8       1      849 FALSE   
+ 7 google   laptop FALSE          9      19      228 FALSE   
+ 8 social   mobile TRUE           9       1      803 FALSE   
+ 9 bing     tablet FALSE          3      15      195 FALSE   
+10 bing     laptop TRUE           0       1      973 FALSE   
 # ℹ 690 more rows</code></pre>
 </div>
 </div>
@@ -2728,7 +2728,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, device)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] tablet mobile tablet mobile mobile laptop mobile laptop laptop mobile
+<pre><code> [1] mobile tablet laptop mobile mobile mobile mobile tablet mobile tablet
 Levels: laptop tablet mobile</code></pre>
 </div>
 </div>
@@ -2736,7 +2736,7 @@ Levels: laptop tablet mobile</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] google direct social google google social google direct social direct
+<pre><code> [1] yahoo  bing   bing   direct direct yahoo  google direct social bing  
 Levels: bing direct social yahoo google</code></pre>
 </div>
 </div>
@@ -2744,7 +2744,7 @@ Levels: bing direct social yahoo google</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ecom_mini, <span class="sc">-</span><span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<pre><code> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
 </div>
 </div>
 <p>Let us now look at extracting rows using <code>slice()</code>. In the below example, we extract data starting from the 5th row and upto the 15th row.</p>
@@ -2798,9 +2798,9 @@ Levels: bing direct social yahoo google</code></pre>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n_pages) <span class="sc">|&gt;</span></span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">between</span>(<span class="dv">5</span>, <span class="dv">15</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE
-[13] FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
-[25] FALSE FALSE FALSE  TRUE FALSE  TRUE</code></pre>
+<pre><code> [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE
+[13] FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+[25] FALSE FALSE  TRUE  TRUE FALSE FALSE</code></pre>
 </div>
 </div>
 </section>
@@ -3617,9 +3617,15 @@ Levels: bing direct social yahoo google</code></pre>
 <span id="cb45-281"><a href="#cb45-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr-r}</span></span>
 <span id="cb45-282"><a href="#cb45-282" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
 <span id="cb45-283"><a href="#cb45-283" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb45-284"><a href="#cb45-284" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb45-285"><a href="#cb45-285" aria-hidden="true" tabindex="-1"></a><span class="in">slice_sample(ecom, n = 10)</span></span>
-<span id="cb45-286"><a href="#cb45-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb45-284"><a href="#cb45-284" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("ecom_sample.csv")) {</span></span>
+<span id="cb45-285"><a href="#cb45-285" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb45-286"><a href="#cb45-286" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv",</span></span>
+<span id="cb45-287"><a href="#cb45-287" aria-hidden="true" tabindex="-1"></a><span class="in">    "ecom_sample.csv"</span></span>
+<span id="cb45-288"><a href="#cb45-288" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb45-289"><a href="#cb45-289" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb45-290"><a href="#cb45-290" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("ecom_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb45-291"><a href="#cb45-291" aria-hidden="true" tabindex="-1"></a><span class="in">slice_sample(ecom, n = 10)</span></span>
+<span id="cb45-292"><a href="#cb45-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">

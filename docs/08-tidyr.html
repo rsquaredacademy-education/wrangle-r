@@ -440,7 +440,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(tidyr)\nlibrary(readr)\necom <- read_csv(\"data-webr/ecom_sample.csv\", show_col_types = FALSE)\necom |>\n  summarise(across(c(n_pages, duration, order_value), \\(x) mean(x, na.rm = TRUE)), .by = device) |>\n  pivot_longer(-device, names_to = \"metric\", values_to = \"mean_value\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(tidyr)\nlibrary(readr)\nif (!file.exists(\"ecom_sample.csv\")) {\n  download.file(\n    \"https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv\",\n    \"ecom_sample.csv\"\n  )\n}\necom <- read_csv(\"ecom_sample.csv\", show_col_types = FALSE)\necom |>\n  summarise(across(c(n_pages, duration, order_value), \\(x) mean(x, na.rm = TRUE)), .by = device) |>\n  pivot_longer(-device, names_to = \"metric\", values_to = \"mean_value\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -3319,11 +3319,17 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb28-193"><a href="#cb28-193" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
 <span id="cb28-194"><a href="#cb28-194" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyr)</span></span>
 <span id="cb28-195"><a href="#cb28-195" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb28-196"><a href="#cb28-196" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb28-197"><a href="#cb28-197" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb28-198"><a href="#cb28-198" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(across(c(n_pages, duration, order_value), \(x) mean(x, na.rm = TRUE)), .by = device) |&gt;</span></span>
-<span id="cb28-199"><a href="#cb28-199" aria-hidden="true" tabindex="-1"></a><span class="in">  pivot_longer(-device, names_to = "metric", values_to = "mean_value")</span></span>
-<span id="cb28-200"><a href="#cb28-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb28-196"><a href="#cb28-196" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("ecom_sample.csv")) {</span></span>
+<span id="cb28-197"><a href="#cb28-197" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb28-198"><a href="#cb28-198" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv",</span></span>
+<span id="cb28-199"><a href="#cb28-199" aria-hidden="true" tabindex="-1"></a><span class="in">    "ecom_sample.csv"</span></span>
+<span id="cb28-200"><a href="#cb28-200" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb28-201"><a href="#cb28-201" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb28-202"><a href="#cb28-202" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("ecom_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb28-203"><a href="#cb28-203" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
+<span id="cb28-204"><a href="#cb28-204" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(across(c(n_pages, duration, order_value), \(x) mean(x, na.rm = TRUE)), .by = device) |&gt;</span></span>
+<span id="cb28-205"><a href="#cb28-205" aria-hidden="true" tabindex="-1"></a><span class="in">  pivot_longer(-device, names_to = "metric", values_to = "mean_value")</span></span>
+<span id="cb28-206"><a href="#cb28-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">

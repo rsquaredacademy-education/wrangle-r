@@ -440,7 +440,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(readr)\necom <- read_csv(\"data-webr/ecom_sample.csv\", show_col_types = FALSE)\necom |>\n  filter(purchase) |>\n  summarise(revenue = sum(order_value), orders = n(), .by = device) |>\n  mutate(aov = revenue / orders) |>\n  arrange(desc(aov))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(readr)\nif (!file.exists(\"ecom_sample.csv\")) {\n  download.file(\n    \"https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv\",\n    \"ecom_sample.csv\"\n  )\n}\necom <- read_csv(\"ecom_sample.csv\", show_col_types = FALSE)\necom |>\n  filter(purchase) |>\n  summarise(revenue = sum(order_value), orders = n(), .by = device) |>\n  mutate(aov = revenue / orders) |>\n  arrange(desc(aov))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -4247,13 +4247,19 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb62-522"><a href="#cb62-522" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr-r}</span></span>
 <span id="cb62-523"><a href="#cb62-523" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
 <span id="cb62-524"><a href="#cb62-524" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb62-525"><a href="#cb62-525" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb62-526"><a href="#cb62-526" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb62-527"><a href="#cb62-527" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(purchase) |&gt;</span></span>
-<span id="cb62-528"><a href="#cb62-528" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(revenue = sum(order_value), orders = n(), .by = device) |&gt;</span></span>
-<span id="cb62-529"><a href="#cb62-529" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(aov = revenue / orders) |&gt;</span></span>
-<span id="cb62-530"><a href="#cb62-530" aria-hidden="true" tabindex="-1"></a><span class="in">  arrange(desc(aov))</span></span>
-<span id="cb62-531"><a href="#cb62-531" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb62-525"><a href="#cb62-525" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("ecom_sample.csv")) {</span></span>
+<span id="cb62-526"><a href="#cb62-526" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb62-527"><a href="#cb62-527" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv",</span></span>
+<span id="cb62-528"><a href="#cb62-528" aria-hidden="true" tabindex="-1"></a><span class="in">    "ecom_sample.csv"</span></span>
+<span id="cb62-529"><a href="#cb62-529" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb62-530"><a href="#cb62-530" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb62-531"><a href="#cb62-531" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("ecom_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb62-532"><a href="#cb62-532" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
+<span id="cb62-533"><a href="#cb62-533" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(purchase) |&gt;</span></span>
+<span id="cb62-534"><a href="#cb62-534" aria-hidden="true" tabindex="-1"></a><span class="in">  summarise(revenue = sum(order_value), orders = n(), .by = device) |&gt;</span></span>
+<span id="cb62-535"><a href="#cb62-535" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(aov = revenue / orders) |&gt;</span></span>
+<span id="cb62-536"><a href="#cb62-536" aria-hidden="true" tabindex="-1"></a><span class="in">  arrange(desc(aov))</span></span>
+<span id="cb62-537"><a href="#cb62-537" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">

@@ -440,7 +440,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(tibble)\nlibrary(readr)\necom <- read_csv(\"data-webr/ecom_sample.csv\", show_col_types = FALSE)\nas_tibble(ecom) |> glimpse()","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(tibble)\nlibrary(readr)\nif (!file.exists(\"ecom_sample.csv\")) {\n  download.file(\n    \"https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv\",\n    \"ecom_sample.csv\"\n  )\n}\necom <- read_csv(\"ecom_sample.csv\", show_col_types = FALSE)\nas_tibble(ecom) |> glimpse()","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2422,15 +2422,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 26 × 3
    x         y     z
    &lt;chr&gt; &lt;int&gt; &lt;int&gt;
- 1 a         1    88
- 2 b         2    82
- 3 c         3    21
- 4 d         4    27
- 5 e         5    46
- 6 f         6     2
- 7 g         7    77
- 8 h         8    80
- 9 i         9     4
+ 1 a         1    33
+ 2 b         2    45
+ 3 c         3    62
+ 4 d         4    71
+ 5 e         5     6
+ 6 f         6    29
+ 7 g         7    69
+ 8 h         8    22
+ 9 i         9    70
 10 j        10    34
 # ℹ 16 more rows</code></pre>
 </div>
@@ -2450,16 +2450,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 26 × 3
    x         y     z
    &lt;chr&gt; &lt;int&gt; &lt;int&gt;
- 1 a         1    57
- 2 b         2    12
- 3 c         3    78
- 4 d         4     5
- 5 e         5    84
- 6 f         6    98
- 7 g         7     7
- 8 h         8     8
- 9 i         9    92
-10 j        10     9
+ 1 a         1    10
+ 2 b         2    40
+ 3 c         3    38
+ 4 d         4    28
+ 5 e         5    89
+ 6 f         6    41
+ 7 g         7    14
+ 8 h         8    72
+ 9 i         9    94
+10 j        10    54
 # ℹ 16 more rows</code></pre>
 </div>
 </div>
@@ -2494,10 +2494,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
  2     2 a     FALSE
  3     3 a     FALSE
  4     4 a     FALSE
- 5     5 a     FALSE
- 6     6 a     TRUE 
+ 5     5 a     TRUE 
+ 6     6 a     FALSE
  7     7 a     TRUE 
- 8     8 a     FALSE
+ 8     8 a     TRUE 
  9     9 a     TRUE 
 10    10 a     TRUE 
 # ℹ 90 more rows</code></pre>
@@ -3561,9 +3561,15 @@ $ carb &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1
 <span id="cb43-253"><a href="#cb43-253" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr-r}</span></span>
 <span id="cb43-254"><a href="#cb43-254" aria-hidden="true" tabindex="-1"></a><span class="in">library(tibble)</span></span>
 <span id="cb43-255"><a href="#cb43-255" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb43-256"><a href="#cb43-256" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb43-257"><a href="#cb43-257" aria-hidden="true" tabindex="-1"></a><span class="in">as_tibble(ecom) |&gt; glimpse()</span></span>
-<span id="cb43-258"><a href="#cb43-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb43-256"><a href="#cb43-256" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("ecom_sample.csv")) {</span></span>
+<span id="cb43-257"><a href="#cb43-257" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb43-258"><a href="#cb43-258" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv",</span></span>
+<span id="cb43-259"><a href="#cb43-259" aria-hidden="true" tabindex="-1"></a><span class="in">    "ecom_sample.csv"</span></span>
+<span id="cb43-260"><a href="#cb43-260" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb43-261"><a href="#cb43-261" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb43-262"><a href="#cb43-262" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("ecom_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb43-263"><a href="#cb43-263" aria-hidden="true" tabindex="-1"></a><span class="in">as_tibble(ecom) |&gt; glimpse()</span></span>
+<span id="cb43-264"><a href="#cb43-264" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">

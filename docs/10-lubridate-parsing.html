@@ -442,7 +442,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(lubridate)\nlibrary(readr)\ntransact <- read_csv(\"data-webr/transact_sample.csv\", show_col_types = FALSE)\ntransact |>\n  mutate(due_year = year(Due), due_month = month(Due, label = TRUE)) |>\n  head()","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(lubridate)\nlibrary(readr)\nif (!file.exists(\"transact_sample.csv\")) {\n  download.file(\n    \"https://wrangle-r.rsquaredacademy.com/data-webr/transact_sample.csv\",\n    \"transact_sample.csv\"\n  )\n}\ntransact <- read_csv(\"transact_sample.csv\", show_col_types = FALSE)\ntransact |>\n  mutate(due_year = year(Due), due_month = month(Due, label = TRUE)) |>\n  head()","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2437,11 +2437,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.Date</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-10-01"</code></pre>
+<pre><code>[1] "2026-10-02"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">today</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-10-01"</code></pre>
+<pre><code>[1] "2026-10-02"</code></pre>
 </div>
 </div>
 </section>
@@ -2451,15 +2451,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-10-01 21:58:25 IST"</code></pre>
+<pre><code>[1] "2026-10-02 07:26:31 UTC"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">now</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-10-01 21:58:25 IST"</code></pre>
+<pre><code>[1] "2026-10-02 07:26:31 UTC"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">now</span>(<span class="at">tzone =</span> <span class="st">"UTC"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-10-01 16:28:25 UTC"</code></pre>
+<pre><code>[1] "2026-10-02 07:26:31 UTC"</code></pre>
 </div>
 </div>
 </section>
@@ -2469,11 +2469,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">am</span>(<span class="fu">now</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
+<pre><code>[1] TRUE</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>lubridate<span class="sc">::</span><span class="fu">pm</span>(<span class="fu">now</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
+<pre><code>[1] FALSE</code></pre>
 </div>
 </div>
 </section>
@@ -2682,7 +2682,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unclass</span>(<span class="fu">Sys.Date</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 20727</code></pre>
+<pre><code>[1] 20728</code></pre>
 </div>
 </div>
 <p>What does this integer represent? Why has R stored the date as an integer? Before we answer this question, we need to know something else. In R, dates are represented as the number of days since <code>1970-01-01</code>. All the dates in R are internally stored in this way. Before we explore this concept further, let us learn to create <code>Date</code> objects in R. We will continue to use the latest R release date, <code>2019-12-12</code>.</p>
@@ -2759,7 +2759,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/iso.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="415"></p>
+<p><img src="img/iso.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2798,7 +2798,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unclass</span>(lubridate<span class="sc">::</span><span class="fu">now</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1790872122
+<pre><code>[1] 1790925992
 attr(,"tzone")
 [1] ""</code></pre>
 </div>
@@ -2815,7 +2815,7 @@ attr(,"tzone")
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unclass</span>(release_date) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1576118103
+<pre><code>[1] 1576137903
 attr(,"tzone")
 [1] ""</code></pre>
 </div>
@@ -2842,7 +2842,7 @@ attr(,"tzone")
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>release_date <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(<span class="st">"2019-12-12 08:05:03"</span>)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>release_date</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2019-12-12 08:05:03 IST"</code></pre>
+<pre><code>[1] "2019-12-12 08:05:03 UTC"</code></pre>
 </div>
 </div>
 <p>As we said earlier, <code>POSIXlt</code> stores date/time components in a list and these can be extracted. Let us look at the date/time components returned by <code>POSIXlt</code> using <code>unclass()</code>.</p>
@@ -2878,13 +2878,13 @@ $isdst
 [1] 0
 
 $zone
-[1] "IST"
+[1] "UTC"
 
 $gmtoff
-[1] NA
+[1] 0
 
 attr(,"tzone")
-[1] ""      "IST"   "+0630"
+[1] "UTC"
 attr(,"balanced")
 [1] TRUE</code></pre>
 </div>
@@ -2895,7 +2895,7 @@ attr(,"balanced")
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unlist</span>(release_date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   sec    min   hour   mday    mon   year   wday   yday  isdst   zone gmtoff 
-   "3"    "5"    "8"   "12"   "11"  "119"    "4"  "345"    "0"  "IST"     NA </code></pre>
+   "3"    "5"    "8"   "12"   "11"  "119"    "4"  "345"    "0"  "UTC"    "0" </code></pre>
 </div>
 </div>
 <p>To extract specific components, use <code>$</code>.</p>
@@ -2911,7 +2911,7 @@ attr(,"balanced")
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>release_date<span class="sc">$</span>zone</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "IST"</code></pre>
+<pre><code>[1] "UTC"</code></pre>
 </div>
 </div>
 <p>Now, let us look at the components returned by <code>POSIXlt</code>. Some of them are intuitive</p>
@@ -3293,7 +3293,7 @@ attr(,"balanced")
 </tr>
 <tr class="odd">
 <td style="text-align: left;">`%u`</td>
-<td style="text-align: left;">Weekday [1 - 7](Monday is 1</td>
+<td style="text-align: left;">Weekday [1 - 7](Monday is 1)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">`%U`</td>
@@ -3305,7 +3305,7 @@ attr(,"balanced")
 </tr>
 <tr class="even">
 <td style="text-align: left;">`%w`</td>
-<td style="text-align: left;">Weekday [0 - 6](sunday is 0</td>
+<td style="text-align: left;">Weekday [0 - 6](sunday is 0)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">`%W`</td>
@@ -3552,7 +3552,7 @@ attr(,"balanced")
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/day_week_month.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="327"></p>
+<p><img src="img/day_week_month.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -3824,7 +3824,7 @@ Levels: Sun &lt; Mon &lt; Tue &lt; Wed &lt; Thu &lt; Fri &lt; Sat</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/quarter_semester.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="248"></p>
+<p><img src="img/quarter_semester.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -5957,11 +5957,17 @@ Levels: Sun &lt; Mon &lt; Tue &lt; Wed &lt; Thu &lt; Fri &lt; Sat</code></pre>
 <span id="cb193-1254"><a href="#cb193-1254" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
 <span id="cb193-1255"><a href="#cb193-1255" aria-hidden="true" tabindex="-1"></a><span class="in">library(lubridate)</span></span>
 <span id="cb193-1256"><a href="#cb193-1256" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb193-1257"><a href="#cb193-1257" aria-hidden="true" tabindex="-1"></a><span class="in">transact &lt;- read_csv("data-webr/transact_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb193-1258"><a href="#cb193-1258" aria-hidden="true" tabindex="-1"></a><span class="in">transact |&gt;</span></span>
-<span id="cb193-1259"><a href="#cb193-1259" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(due_year = year(Due), due_month = month(Due, label = TRUE)) |&gt;</span></span>
-<span id="cb193-1260"><a href="#cb193-1260" aria-hidden="true" tabindex="-1"></a><span class="in">  head()</span></span>
-<span id="cb193-1261"><a href="#cb193-1261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb193-1257"><a href="#cb193-1257" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("transact_sample.csv")) {</span></span>
+<span id="cb193-1258"><a href="#cb193-1258" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb193-1259"><a href="#cb193-1259" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/transact_sample.csv",</span></span>
+<span id="cb193-1260"><a href="#cb193-1260" aria-hidden="true" tabindex="-1"></a><span class="in">    "transact_sample.csv"</span></span>
+<span id="cb193-1261"><a href="#cb193-1261" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb193-1262"><a href="#cb193-1262" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb193-1263"><a href="#cb193-1263" aria-hidden="true" tabindex="-1"></a><span class="in">transact &lt;- read_csv("transact_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb193-1264"><a href="#cb193-1264" aria-hidden="true" tabindex="-1"></a><span class="in">transact |&gt;</span></span>
+<span id="cb193-1265"><a href="#cb193-1265" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(due_year = year(Due), due_month = month(Due, label = TRUE)) |&gt;</span></span>
+<span id="cb193-1266"><a href="#cb193-1266" aria-hidden="true" tabindex="-1"></a><span class="in">  head()</span></span>
+<span id="cb193-1267"><a href="#cb193-1267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

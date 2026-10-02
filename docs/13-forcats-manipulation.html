@@ -442,7 +442,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(forcats)\nlibrary(readr)\necom <- read_csv(\"data-webr/ecom_sample.csv\", show_col_types = FALSE)\necom |>\n  mutate(referrer = fct_infreq(referrer)) |>\n  count(referrer)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(dplyr)\nlibrary(forcats)\nlibrary(readr)\nif (!file.exists(\"ecom_sample.csv\")) {\n  download.file(\n    \"https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv\",\n    \"ecom_sample.csv\"\n  )\n}\necom <- read_csv(\"ecom_sample.csv\", show_col_types = FALSE)\necom |>\n  mutate(referrer = fct_infreq(referrer)) |>\n  count(referrer)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -2429,7 +2429,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_sort.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="318"></p>
+<p><img src="img/fct_sort.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2499,7 +2499,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_collapse.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="318"></p>
+<p><img src="img/fct_collapse.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2532,7 +2532,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_recode.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="318"></p>
+<p><img src="img/fct_recode.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2563,7 +2563,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_lump_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="318"></p>
+<p><img src="img/fct_lump_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2591,7 +2591,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_lump_2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="317"></p>
+<p><img src="img/fct_lump_2.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2617,7 +2617,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_lump_3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="318"></p>
+<p><img src="img/fct_lump_3.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2652,7 +2652,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_others.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="317"></p>
+<p><img src="img/fct_others.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2684,7 +2684,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_others_drop.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="316"></p>
+<p><img src="img/fct_others_drop.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2753,7 +2753,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_anonymize.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="318"></p>
+<p><img src="img/fct_anonymize.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2767,14 +2767,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <pre><code># A tibble: 8 × 2
   f          n
   &lt;fct&gt;  &lt;int&gt;
-1 ch_1    7388
-2 ch_2    3375
-3 ch_3    4395
-4 ch_4    6073
-5 ch_5   39853
-6 ch_6    8031
-7 ch_7   35615
-8 ch_8  139668</code></pre>
+1 ch_1   35615
+2 ch_2    7388
+3 ch_3    8031
+4 ch_4    4395
+5 ch_5  139668
+6 ch_6   39853
+7 ch_7    6073
+8 ch_8    3375</code></pre>
 </div>
 </div>
 </section>
@@ -2865,7 +2865,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_expand.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="319"></p>
+<p><img src="img/fct_expand.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2886,7 +2886,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_drop.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="316"></p>
+<p><img src="img/fct_drop.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2907,7 +2907,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_explicit_na.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="316"></p>
+<p><img src="img/fct_explicit_na.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2973,7 +2973,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_relevel_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="326"></p>
+<p><img src="img/fct_relevel_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2998,7 +2998,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_relevel_2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="327"></p>
+<p><img src="img/fct_relevel_2.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -3023,7 +3023,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_relevel_3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="324"></p>
+<p><img src="img/fct_relevel_3.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -3053,7 +3053,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_infreq.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="329"></p>
+<p><img src="img/fct_infreq.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -3079,7 +3079,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_inorder.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="330"></p>
+<p><img src="img/fct_inorder.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -3105,7 +3105,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_rev.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="314"></p>
+<p><img src="img/fct_rev.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -3131,7 +3131,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/fct_shuffle.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="318"></p>
+<p><img src="img/fct_shuffle.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -3148,8 +3148,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_shuffle</span>() <span class="sc">|&gt;</span> <span class="co">#&lt;&lt;</span></span>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">levels</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Direct"         "Social"         "Referral"       "Organic Search"
-[5] "Paid Search"    "Affiliates"     "Display"        "(Other)"       </code></pre>
+<pre><code>[1] "Social"         "Referral"       "Paid Search"    "(Other)"       
+[5] "Affiliates"     "Display"        "Organic Search" "Direct"        </code></pre>
 </div>
 </div>
 </section>
@@ -3238,7 +3238,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/bar_plot-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/bar_plot-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3255,7 +3255,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/grouped_bar_plot-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/grouped_bar_plot-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3271,7 +3271,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/stacked_bar_plot-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/stacked_bar_plot-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3291,7 +3291,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/prop_bar_plot-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/prop_bar_plot-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3314,7 +3314,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/pie_chart-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/pie_chart-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3328,7 +3328,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/pie_chart_3d-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/pie_chart_3d-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3345,7 +3345,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/gg_pie_chart-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/gg_pie_chart-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3364,7 +3364,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/gg_donut_chart-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/gg_donut_chart-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3391,7 +3391,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/plot_1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/plot_1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3403,7 +3403,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/plot_2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/plot_2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3415,7 +3415,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/plot_3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/plot_3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3427,7 +3427,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/plot_4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/plot_4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3444,7 +3444,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/plot_6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/plot_6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3454,7 +3454,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/plot_7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/plot_7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3464,7 +3464,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/plot_8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/plot_8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -3474,7 +3474,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/plot_9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1920"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/plot_9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1920"></p>
 </figure>
 </div>
 </div>
@@ -3508,7 +3508,7 @@ Proportion   0.725   0.260   0.015</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11b-forcats-manipulation_files/figure-html/appendix_1-1.png" class="img-fluid figure-img" width="1344"></p>
+<p><img src="13-forcats-manipulation_files/figure-html/appendix_1-1.png" class="img-fluid figure-img" width="1344"></p>
 </figure>
 </div>
 </div>
@@ -5076,11 +5076,17 @@ No   Variable   Stats / Values          Freqs (% of Valid)   Graph              
 <span id="cb93-793"><a href="#cb93-793" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
 <span id="cb93-794"><a href="#cb93-794" aria-hidden="true" tabindex="-1"></a><span class="in">library(forcats)</span></span>
 <span id="cb93-795"><a href="#cb93-795" aria-hidden="true" tabindex="-1"></a><span class="in">library(readr)</span></span>
-<span id="cb93-796"><a href="#cb93-796" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("data-webr/ecom_sample.csv", show_col_types = FALSE)</span></span>
-<span id="cb93-797"><a href="#cb93-797" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
-<span id="cb93-798"><a href="#cb93-798" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(referrer = fct_infreq(referrer)) |&gt;</span></span>
-<span id="cb93-799"><a href="#cb93-799" aria-hidden="true" tabindex="-1"></a><span class="in">  count(referrer)</span></span>
-<span id="cb93-800"><a href="#cb93-800" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb93-796"><a href="#cb93-796" aria-hidden="true" tabindex="-1"></a><span class="in">if (!file.exists("ecom_sample.csv")) {</span></span>
+<span id="cb93-797"><a href="#cb93-797" aria-hidden="true" tabindex="-1"></a><span class="in">  download.file(</span></span>
+<span id="cb93-798"><a href="#cb93-798" aria-hidden="true" tabindex="-1"></a><span class="in">    "https://wrangle-r.rsquaredacademy.com/data-webr/ecom_sample.csv",</span></span>
+<span id="cb93-799"><a href="#cb93-799" aria-hidden="true" tabindex="-1"></a><span class="in">    "ecom_sample.csv"</span></span>
+<span id="cb93-800"><a href="#cb93-800" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb93-801"><a href="#cb93-801" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb93-802"><a href="#cb93-802" aria-hidden="true" tabindex="-1"></a><span class="in">ecom &lt;- read_csv("ecom_sample.csv", show_col_types = FALSE)</span></span>
+<span id="cb93-803"><a href="#cb93-803" aria-hidden="true" tabindex="-1"></a><span class="in">ecom |&gt;</span></span>
+<span id="cb93-804"><a href="#cb93-804" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(referrer = fct_infreq(referrer)) |&gt;</span></span>
+<span id="cb93-805"><a href="#cb93-805" aria-hidden="true" tabindex="-1"></a><span class="in">  count(referrer)</span></span>
+<span id="cb93-806"><a href="#cb93-806" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script type="module">
