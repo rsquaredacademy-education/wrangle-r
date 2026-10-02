@@ -199,6 +199,36 @@ mismatched customer data upstream), not a join mistake: an `inner_join()` will
 silently drop them, and a `left_join()`/`right_join()` will carry them with
 `NA`s. Decide deliberately which behavior the analysis needs.
 
+## semi_join vs anti_join: which filter join to use?
+
+`semi_join()` and `anti_join()` are *filter* joins: they filter rows of `x`
+by match status in `y` and never add columns from `y`.
+
+| Question | Filter join |
+|---|---|
+| Which customers placed orders? (keep matches) | `semi_join(customer, order, by = join_by(id))` |
+| Which customers placed no orders? (keep misses) | `anti_join(customer, order, by = join_by(id))` |
+| Which orders have no customer record? (audit the other side) | `anti_join(order, customer, by = join_by(id))` |
+
+### When to use semi_join instead of inner_join
+
+Use `semi_join()` when you want the *customers* (or *orders*) themselves, not
+the combined rows. An `inner_join()` duplicates the left row once per match —
+here 42 customers with orders explode to 55 joined rows — while `semi_join()`
+returns each matching customer exactly once (42 rows, customer columns only):
+
+```{r dplyr_semi_vs_inner}
+# one row per customer with orders — no duplication, no order columns
+semi_join(customer, order, by = join_by(id))
+
+# one row per order — customers repeat, order columns attached
+inner_join(customer, order, by = join_by(id))
+```
+
+Rule of thumb: filtering rows → `semi_join()` / `anti_join()`; combining
+columns → `inner_join()` / `left_join()` / `full_join()`; diagnosing coverage
+→ `anti_join()` in both directions.
+
 ## Full Join
 
 Full join return all rows and all columns from both `Age` and `Height`. Where 
