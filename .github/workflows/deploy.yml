@@ -14,7 +14,10 @@ jobs:
 
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
-          version: "release"
+          # Pinned exactly, never "release". An unpinned Quarto breaks this book
+          # with no commit to bisect, and the lualatex PDF path is the most
+          # sensitive to upstream change. Verified locally against 1.10.18.
+          version: "1.10.18"
 
       # PDF uses lualatex (callouts via tcolorbox); install TinyTeX.
       - name: Setup TinyTeX
@@ -58,11 +61,14 @@ jobs:
       - name: Install static sitemap (Quarto reserves the path)
         run: cp sitemap.xml /tmp/stage-html/sitemap.xml
 
+      # Fatal, not advisory. These were previously `|| echo "PDF_FAILED=1"`,
+      # which let a green build ship with no PDF while the landing page still
+      # advertised one. Same reasoning as viz-base's render.yml.
       - name: Render PDF
-        run: quarto render --to pdf --output-dir /tmp/stage-pdf || echo "PDF_FAILED=1" >> $GITHUB_ENV
+        run: quarto render --to pdf --output-dir /tmp/stage-pdf
 
       - name: Render ePub
-        run: quarto render --to epub --output-dir /tmp/stage-epub || echo "EPUB_FAILED=1" >> $GITHUB_ENV
+        run: quarto render --to epub --output-dir /tmp/stage-epub
 
       - name: Verify preserved slugs
         run: |
@@ -79,12 +85,17 @@ jobs:
         run: |
           rm -rf docs && mkdir -p docs
           cp -r /tmp/stage-html/. docs/
-          cp /tmp/stage-pdf/*.pdf docs/ 2>/dev/null || echo "No PDF staged (PDF_FAILED=${PDF_FAILED:-0})"
-          cp /tmp/stage-epub/*.epub docs/ 2>/dev/null || echo "No ePub staged (EPUB_FAILED=${EPUB_FAILED:-0})"
+          cp /tmp/stage-pdf/*.pdf docs/
+          cp /tmp/stage-epub/*.epub docs/
           cp netlify.toml robots.txt sitemap.xml google02e424888b5e2def.html 404.html docs/ 2>/dev/null || true
           rm -rf docs/docs
           test -f docs/sitemap.xml || { echo "sitemap.xml missing after assemble"; exit 1; }
           ls docs/
+
+      - name: Verify downloads are present
+        run: |
+          ls /tmp/stage-pdf/*.pdf || { echo "PDF MISSING"; exit 1; }
+          ls /tmp/stage-epub/*.epub || { echo "EPUB MISSING"; exit 1; }
 
       - name: Verify redirects
         run: bash scripts/test-redirects.sh docs
