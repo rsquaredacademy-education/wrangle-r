@@ -135,7 +135,7 @@ Categorical data are sometimes coded with numbers, with those numbers replacing 
     - categories can be ordered or ranked
     - the difference between the categories cannot be determined
 
-### Your Turn...
+### Your Turn
 
 1. State whether the following are quantitative or qualitative
 
@@ -443,7 +443,7 @@ knitr::include_graphics('img/fct_module_3_functions.png')
     - specify order of levels
 - Use `ordered()` to create ordered factors.
 
-### Your Turn...
+### Your Turn
 
 Use `analytics_raw.rds` data set to answer the below questions.
 
@@ -779,7 +779,7 @@ We list and explore different R packages for summarizing categorical data in the
 knitr::include_graphics('img/fct_module_4_functions.png')
 ```
 
-### Your Turn...
+### Your Turn
 
 1. Display the number of levels in 
 

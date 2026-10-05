@@ -66,7 +66,7 @@ channel |>
   table()
 ```
 
-### Your Turn...
+### Your Turn
 
 1. Display the count/frequency of the following variables in the descending order
 
@@ -276,7 +276,7 @@ data.frame(Function = fname, Description = descrip) |>
   )
 ```
 
-### Your Turn..
+### Your Turn
 
 3. Combine the following levels in `landing_page` into `Account`
 
@@ -517,7 +517,7 @@ data.frame(Function = fname, Description = descrip) |>
   )
 ```
 
-### Your Turn...
+### Your Turn
 
 9. Make `Home` first level in the `landing_page` column.
  
@@ -661,7 +661,7 @@ data |>
 - Use pie chart and donut chart when comparing each group’s contribution to the whole.    
   
 
-### Your Turn...
+### Your Turn
 
 Generate all the below plots:
 
