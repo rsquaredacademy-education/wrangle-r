@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Hand-maintained: Quarto book sitemap generation is unreliable here.
-     Keep in sync with book.chapters in _quarto.yml (filenames never change). -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://wrangle-r.rsquaredacademy.com/</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/index.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/00-author.html</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/01-import-1.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/02-import-2.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/03-pipes.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/04-dplyr-1.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/05-dplyr-2.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/06-dplyr-3.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/07-tibbles.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/08-tidyr.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/09-stringr.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/10-lubridate-parsing.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/11-lubridate-arithmetic.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/12-factors-fundamentals.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/13-forcats-manipulation.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/14-solutions.html</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/appendices/arrow-duckdb.html</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/appendices/legacy-magrittr.html</loc><changefreq>monthly</changefreq></url>
-  <url><loc>https://wrangle-r.rsquaredacademy.com/appendices/rosetta-pandas.html</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/00-author.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/01-import-1.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/02-import-2.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/03-pipes.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/04-dplyr-1.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/05-dplyr-2.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/06-dplyr-3.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/07-tibbles.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/08-tidyr.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/09-stringr.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/10-lubridate-parsing.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/11-lubridate-arithmetic.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/12-factors-fundamentals.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/13-forcats-manipulation.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/14-solutions.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/appendices/arrow-duckdb.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/appendices/legacy-magrittr.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/appendices/rosetta-pandas.html</loc></url>
+  <url><loc>https://wrangle-r.rsquaredacademy.com/index.html</loc></url>
 </urlset>

@@ -1,10 +1,11 @@
 project:
   type: book
   output-dir: docs
+  # sitemap.xml is deliberately NOT a resource: it is generated after the HTML
+  # render by scripts/make-sitemap.sh, so there is no root copy to copy in.
   resources:
     - "data-webr/*.csv"
     - "robots.txt"
-    - "sitemap.xml"
     - "netlify.toml"
     - "google02e424888b5e2def.html"
     - "404.html"

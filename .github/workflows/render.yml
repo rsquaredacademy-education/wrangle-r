@@ -58,8 +58,11 @@ jobs:
       - name: Render HTML
         run: quarto render --to html --output-dir /tmp/stage-html
 
-      - name: Install static sitemap (Quarto reserves the path)
-        run: cp sitemap.xml /tmp/stage-html/sitemap.xml
+      # Generated, not copied from a root file. The hand-maintained sitemap this
+      # replaces was verified correct, but it could not stay correct: nothing
+      # compared it against the pages actually built.
+      - name: Generate sitemap
+        run: bash scripts/make-sitemap.sh /tmp/stage-html https://wrangle-r.rsquaredacademy.com
 
       # Fatal, not advisory. These were previously `|| echo "PDF_FAILED=1"`,
       # which let a green build ship with no PDF while the landing page still
@@ -70,16 +73,23 @@ jobs:
       - name: Render ePub
         run: quarto render --to epub --output-dir /tmp/stage-epub
 
-      - name: Verify preserved slugs
+      # Slug list derived from _quarto.yml, replacing a hand-maintained copy
+      # that had to be split across two loops and updated by hand.
+      - name: Verify slugs rendered
+        run: sh scripts/verify-slugs.sh /tmp/stage-html
+
+      - name: Verify sitemap covers every page
+        run: sh scripts/verify-sitemap.sh /tmp/stage-html /tmp/stage-html/sitemap.xml
+
+      - name: Verify no unresolved cross-references
         run: |
-          for f in index 00-author 01-import-1 02-import-2 03-pipes 04-dplyr-1 05-dplyr-2 06-dplyr-3 07-tibbles 08-tidyr 09-stringr 10-lubridate-parsing 11-lubridate-arithmetic 12-factors-fundamentals 13-forcats-manipulation 14-solutions; do
-            test -f "/tmp/stage-html/$f.html" || { echo "MISSING SLUG: /tmp/stage-html/$f.html"; exit 1; }
-          done
-          for f in appendices/arrow-duckdb appendices/legacy-magrittr appendices/rosetta-pandas; do
-            test -f "/tmp/stage-html/$f.html" || { echo "MISSING SLUG: /tmp/stage-html/$f.html"; exit 1; }
-          done
-          test -f /tmp/stage-html/sitemap.xml || { echo "sitemap.xml missing from staged output"; exit 1; }
-          test -d /tmp/stage-html/data-webr || { echo "data-webr missing from staged output"; exit 1; }
+          if grep -r '??</strong>' /tmp/stage-html/*.html; then
+            echo "FAIL: unresolved cross-references (??) found"; exit 1
+          fi
+          echo "OK: no unresolved cross-references"
+
+      - name: Verify data-webr was copied
+        run: test -d /tmp/stage-html/data-webr || { echo "data-webr missing from staged output"; exit 1; }
 
       - name: Assemble docs
         run: |
@@ -87,7 +97,7 @@ jobs:
           cp -r /tmp/stage-html/. docs/
           cp /tmp/stage-pdf/*.pdf docs/
           cp /tmp/stage-epub/*.epub docs/
-          cp netlify.toml robots.txt sitemap.xml google02e424888b5e2def.html 404.html docs/ 2>/dev/null || true
+          cp netlify.toml robots.txt google02e424888b5e2def.html 404.html docs/ 2>/dev/null || true
           rm -rf docs/docs
           test -f docs/sitemap.xml || { echo "sitemap.xml missing after assemble"; exit 1; }
           ls docs/
