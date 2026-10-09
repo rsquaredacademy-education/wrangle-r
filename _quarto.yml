@@ -47,11 +47,11 @@ website:
   description: "R for Data Science teaches the whole game. Data Wrangling with R drills the hardest 20%: joins, grouped summaries, messy strings, datetimes, and factors — on one realistic ecommerce dataset, runnable in your browser."
   open-graph: true
   twitter-card: true
-  repo-url: https://github.com/rsquaredacademy-education/wrangle-r
+  repo-url: https://github.com/rsquaredacademy-publications/wrangle-r
   navbar:
     right:
       - text: "GitHub"
-        href: https://github.com/rsquaredacademy-education/wrangle-r
+        href: https://github.com/rsquaredacademy-publications/wrangle-r
 
 execute:
   freeze: auto
